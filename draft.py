@@ -23,17 +23,39 @@ typedefDict = cppheader.getTypedefDict('include/ThostFtdcUserApiDataType.h')
 enumDict = cppheader.getEnumDict('include/ThostFtdcUserApiDataType.h')	
 SpiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderSpi')
 ApiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderApi')
-#%% 生成各类相关函数集合
-apiMethodDict = cppheader.getClassMethods(ApiClass,'public')
-spiMethodDict = cppheader.getClassMethods(SpiClass,'public')
-#set(SpiMethods.keys()).intersection(ApiMethods.keys())   # API类和SPI类中没有重名的函数
+#%% 读取api和spi类中的所有函数
+apiMethodInfoDict = cppheader.getClassMethods(ApiClass,'public')
+spiMethodInfoDict = cppheader.getClassMethods(SpiClass,'public')
+#合并api和spi函数，形成完整函数集
+#这里之所以可能讲所有函数合并，在于api和spi方法没有重复，请看下面语句：
+#set(spiMethodInfoDict.keys()).intersection(apiMethodInfoDict.keys())   
+methodInfoDict = {}
+methodInfoDict.update(apiMethodInfoDict)
+methodInfoDict.update(spiMethodInfoDict)
+#%% 简化函数信息保留我们需要信息，并对未解决类型进行处理
 methodDict = {}
-methodDict.update(apiMethodDict)
-methodDict.update(spiMethodDict)
-reqMethodDict = {name:apiMethodDict[name] for name in apiMethodDict.keys() if name.startswith('Req')}
-onRspMethodDict = {name:spiMethodDict[name] for name in spiMethodDict.keys() if name.startswith('OnRsp')}
-onRtnMethodDict = {name:spiMethodDict[name] for name in spiMethodDict.keys() if name.startswith('OnRtn')}
-onErrRtnMethodDict = {name:spiMethodDict[name] for name in spiMethodDict.keys() if name.startswith('OnErrRtn')}
+for mi in methodInfoDict.itervalues() :
+    method = {}    
+    method['name'] = mi['name']
+    method['returns'] = mi['returns']
+    parameters=[]    
+    for pi in mi['parameters'] :
+        parameter = {}
+        parameter['name'] = pi['name']
+        parameter['type'] = pi['type']
+        parameter['raw_type'] = pi['raw_type']
+        parameter['pointer'] = pi['pointer']
+        parameter['unresolved'] = pi['unresolved']        
+        parameters.append(parameter)
+    method['parameters'] = parameters
+    methodDict[method['name']] = method
+
+#%% 将函数分成：Req,OnRsp,OnRtn,OnErrRtn四个大类
+reqMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('Req')}
+onRspMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRsp')}
+onRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRtn')}
+onErrRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnErrRtn')}
+
 #%% 查看所有函数的数量
 print 'len(reqMethodDict.keys())=',len(reqMethodDict.keys())
 print 'len(onRspMethodDict.keys())=',len(onRspMethodDict.keys())
@@ -72,7 +94,17 @@ for p in parameters:
     print p['type'],p['name']+',',
 print ')'
 
+#%%
+
+
+print methodInfoDict
 #%% 根据类型找定义
+
+
+
+
+
+
 
 
 
