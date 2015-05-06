@@ -8,9 +8,13 @@ class CTraderHandler : public CThostFtdcTraderSpi{
 
 public:
 
+/**********************************************************
+*                   onRsp开头的方法                         *
+***********************************************************/
 
 {% for method in onRspMethodDict.itervalues() %}
-virtual {{method['returns']}} {{method['name']}}(
+	{{ method['remark'] }}
+	virtual {{method['returns']}} {{method['name']}}(
 	{% for parameter in method['parameters'] -%}
 	    {{ parameter['type'] }} {{parameter['name'] -}}
 		{%- if not loop.last %},
@@ -21,8 +25,40 @@ virtual {{method['returns']}} {{method['name']}}(
 }
 {% endfor %}
 
+/**********************************************************
+*                   onRtn开头的方法                         *
+***********************************************************/
 
 
+{% for method in onRtnMethodDict.itervalues() %}
+	{{ method['remark'] }}
+	virtual {{method['returns']}} {{method['name']}}(
+	{% for parameter in method['parameters'] -%}
+	    {{ parameter['type'] }} {{parameter['name'] -}}
+		{%- if not loop.last %},
+		{% endif -%}
+	{%- endfor %}
+){
+
+}
+{% endfor %}
+
+/**********************************************************
+*                   onErrRtn开头的方法                      *
+***********************************************************/
+
+{% for method in onErrRtnMethodDict.itervalues() %}
+	{{ method['remark'] }}
+	virtual {{method['returns']}} {{method['name']}}(
+	{% for parameter in method['parameters'] -%}
+	    {{ parameter['type'] }} {{parameter['name'] -}}
+		{%- if not loop.last %},
+		{% endif -%}
+	{%- endfor %}
+){
+
+}
+{% endfor %}
 
 
 };

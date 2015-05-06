@@ -38,6 +38,7 @@ for mi in methodInfoDict.itervalues() :
     method = {}    
     method['name'] = mi['name']
     method['returns'] = mi['returns']
+    method['remark'] = mi['doxygen'].decode('utf8')
     parameters=[]    
     for pi in mi['parameters'] :
         parameter = {}
@@ -130,7 +131,8 @@ for template in templates:
 ### 将返回参数打包成一个json接口然后发送到队列中 
 
 
-
+for name,method in onRspMethodDict.iteritems():
+    print name
 
 
 

@@ -40,6 +40,7 @@ def loadCtpHeaderData():
         method = {}
         method['name'] = mi['name']
         method['returns'] = mi['returns']
+        method['remark'] = mi['doxygen'].decode('utf8')
         parameters=[]
         for pi in mi['parameters'] :
             parameter = {}
