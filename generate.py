@@ -84,7 +84,7 @@ def renderTemplate(filename,data,outdir='.'):
 		# 模板生成到文件
 		f.write(template.render(**data).encode('utf-8'))
 		# 对生成的代码进行格式化
-		os.system('astyle -q %s' % output)
+    os.system('astyle -q %s' % output)
 
 
 def main():
