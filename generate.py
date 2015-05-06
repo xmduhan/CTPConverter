@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import cppheader
+import os
 from pandas import DataFrame
+from jinja2 import Environment, FileSystemLoader
 
 # 模板目录
 templateDir = 'template'
@@ -27,7 +29,7 @@ def loadCtpHeaderData():
     onRspMethodDict = {name:spiMethodDict[name] for name in spiMethodDict.keys() if name.startswith('OnRsp')}
     onRtnMethodDict = {name:spiMethodDict[name] for name in spiMethodDict.keys() if name.startswith('OnRtn')}
     onErrRtnMethodDict = {name:spiMethodDict[name] for name in spiMethodDict.keys() if name.startswith('OnErrRtn')}
-    //TODO:OnRspError这个函数比较特殊没有对应的req方法,这个函数是否可以和其他函数相同的处理方法还需要进一步确认.
+    #TODO:OnRspError这个函数比较特殊没有对应的req方法,这个函数是否可以和其他函数相同的处理方法还需要进一步确认.
 
     # 合并生成一个API和SPI的函数全集,这样可以方便我们用名称类获取函数信息
     # API类和SPI类中没有重名的函数,所以可以这么做.
@@ -47,20 +49,23 @@ def loadCtpHeaderData():
     return data
 
 
-def renderTemplate(template):
+def renderTemplate(template,data):
     '''
     将一个模板文件转化对应的cpp文件
     template 模板名称
     注意：这里假设所有模板文件的的后缀都是".cpp.tpl"
     '''
-    # 初始化模板系统目录
+	# 初始化模板系统目录
     env = Environment(loader=FileSystemLoader(templateDir))
+    source = env.get_template(template)
     outputFileName = '.'.join(template.split('.')[:-1])
     with open(outputFileName, 'w') as f :
-        # 模板生成到文件
-        f.write(source.render(**data).encode('utf-8'))
-        # 对生成的代码进行格式化
-        os.system('astyle %s' % outputFileName)
+		# 模板生成到文件
+		f.write(source.render(**data).encode('utf-8'))
+		# 对生成的代码进行格式化
+		os.system('astyle %s' % outputFileName)
+	# TODO: source 和 template 命名对掉了需要修改回来
+
 
 
 def main():
@@ -75,7 +80,7 @@ def main():
 
     # 遍历所有cpp.tpl模板文件,并生成.cpp文件
     for template in templates:
-        renderTemplate(template)
+        renderTemplate(template,data)
 
 
 
