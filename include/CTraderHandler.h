@@ -1,8 +1,10 @@
-
+#include <ThostFtdcTraderApi.h>
 
 class CTraderHandler : public CThostFtdcTraderSpi {
 
 public:
+
+    CTraderHandler();
 
     /**********************************************************
     *                   onRsp开头的方法                         *
@@ -100,13 +102,6 @@ public:
     ///请求查询合约保证金率响应
     virtual void OnRspQryInstrumentMarginRate(
         CThostFtdcInstrumentMarginRateField * pInstrumentMarginRate,
-        CThostFtdcRspInfoField * pRspInfo,
-        int nRequestID,
-        bool bIsLast
-    );
-
-    ///错误应答
-    virtual void OnRspError(
         CThostFtdcRspInfoField * pRspInfo,
         int nRequestID,
         bool bIsLast
@@ -571,6 +566,18 @@ public:
         CThostFtdcRspInfoField * pRspInfo
     );
 
+
+
+    /**********************************************************
+    *                     onRspError方法                       *
+    ***********************************************************/
+
+    ///错误应答
+    virtual void OnRspError(
+        CThostFtdcRspInfoField * pRspInfo,
+        int nRequestID,
+        bool bIsLast
+    );
 
 
 };

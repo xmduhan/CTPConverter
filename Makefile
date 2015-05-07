@@ -5,7 +5,7 @@ CFLAGS=-I$(IDIR) $(LIBS)
 
 
 
-all : generate compile 
+all : generate compile
 
 generate: template/*tpl
 	python generate.py
@@ -14,4 +14,4 @@ compile : *.cpp include/*.h
 	$(CC) *.cpp  $(CFLAGS) -o converter
 
 clean:
-	rm -f *.o *.orig converter
+	rm -f *.o *.orig include/*.orig converter

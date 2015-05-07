@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 #%% 代码实线路径
-#1、先将相关的函数列在列在ctpapi.cpp和ctpspi.cpp中。
+#1、先将相关的函数列在列在CTraderHandler.cpp（ok）
+#2、ctpapi.cpp中数据
+# (1) ctpapi.cpp改为CApiWrapper 封装所有Req开头的函数，参数：（1）api实例 （2）原始json数据包
+
 #2、在converter中增加登录和退出的代码。
-#3、监听代码框架编写
+#3、监听代码框架编写(使用CTRL+C退出程序)
 #4、生成zmq套接字连接代码。
 #5、json的处理（含打包和拆包）
 
@@ -51,11 +54,12 @@ for mi in methodInfoDict.itervalues() :
     method['parameters'] = parameters
     methodDict[method['name']] = method
 
-#%% 将函数分成：Req,OnRsp,OnRtn,OnErrRtn四个大类
+#%% 将函数分成：Req,OnRsp,OnRtn,OnErrRtn,OnRspError四个大类
 reqMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('Req')}
-onRspMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRsp')}
+onRspMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRsp') and k != 'OnRspError'}
 onRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRtn')}
 onErrRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnErrRtn')}
+onRspErrorMethodDict = {k:v for k,v in methodDict.iteritems() if k == 'OnRspError'}
 
 #%% 查看所有函数的数量
 print 'len(reqMethodDict.keys())=',len(reqMethodDict.keys())

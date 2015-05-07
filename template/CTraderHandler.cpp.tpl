@@ -1,12 +1,11 @@
-
+#include <stdio.h>
 #include <ThostFtdcTraderApi.h>
+#include <CTraderHandler.h>
 
 
-
-
-class CTraderHandler : public CThostFtdcTraderSpi{
-
-public:
+CTraderHandler::CTraderHandler() {
+	printf("CTraderHandler():被执行...\n");
+}
 
 /**********************************************************
 *                   onRsp开头的方法                         *
@@ -14,14 +13,14 @@ public:
 
 {% for method in onRspMethodDict.itervalues() %}
 	{{ method['remark'] }}
-	virtual {{method['returns']}} {{method['name']}}(
+	{{method['returns']}} CTraderHandler::{{method['name']}}(
 	{% for parameter in method['parameters'] -%}
 	    {{ parameter['type'] }} {{parameter['name'] -}}
 		{%- if not loop.last %},
 		{% endif -%}
 	{%- endfor %}
 ){
-
+	printf("{{method['name']}}():被执行...\n");
 }
 {% endfor %}
 
@@ -32,14 +31,14 @@ public:
 
 {% for method in onRtnMethodDict.itervalues() %}
 	{{ method['remark'] }}
-	virtual {{method['returns']}} {{method['name']}}(
+	{{method['returns']}} CTraderHandler::{{method['name']}}(
 	{% for parameter in method['parameters'] -%}
 	    {{ parameter['type'] }} {{parameter['name'] -}}
 		{%- if not loop.last %},
 		{% endif -%}
 	{%- endfor %}
 ){
-
+	printf("{{method['name']}}():被执行...\n");
 }
 {% endfor %}
 
@@ -49,16 +48,30 @@ public:
 
 {% for method in onErrRtnMethodDict.itervalues() %}
 	{{ method['remark'] }}
-	virtual {{method['returns']}} {{method['name']}}(
+	{{method['returns']}} CTraderHandler::{{method['name']}}(
 	{% for parameter in method['parameters'] -%}
 	    {{ parameter['type'] }} {{parameter['name'] -}}
 		{%- if not loop.last %},
 		{% endif -%}
 	{%- endfor %}
 ){
-
+	printf("{{method['name']}}():被执行...\n");
 }
 {% endfor %}
 
 
-};
+/**********************************************************
+*                     onRspError方法                       *
+***********************************************************/
+{% for method in onRspErrorMethodDict.itervalues() %}
+	{{ method['remark'] }}
+	{{method['returns']}} CTraderHandler::{{method['name']}}(
+	{% for parameter in method['parameters'] -%}
+	    {{ parameter['type'] }} {{parameter['name'] -}}
+		{%- if not loop.last %},
+		{% endif -%}
+	{%- endfor %}
+){
+	printf("{{method['name']}}():被执行...\n");
+}
+{% endfor %}

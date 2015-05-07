@@ -23,7 +23,7 @@ def loadCtpHeaderData():
     ApiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderApi')
     SpiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderSpi')
 
-    #%% 读取api和spi类中的所有函数
+    # 读取api和spi类中的所有函数
     apiMethodInfoDict = cppheader.getClassMethods(ApiClass,'public')
     spiMethodInfoDict = cppheader.getClassMethods(SpiClass,'public')
 
@@ -34,7 +34,7 @@ def loadCtpHeaderData():
     methodInfoDict.update(apiMethodInfoDict)
     methodInfoDict.update(spiMethodInfoDict)
 
-    #%% 简化函数信息保留我们需要信息，并对未解决类型进行处理
+    # 简化函数信息保留我们需要信息，并对未解决类型进行处理
     methodDict = {}
     for mi in methodInfoDict.itervalues() :
         method = {}
@@ -53,12 +53,13 @@ def loadCtpHeaderData():
         method['parameters'] = parameters
         methodDict[method['name']] = method
 
-    #%% 将函数分成：Req,OnRsp,OnRtn,OnErrRtn四个大类
-    #TODO:OnRspError这个函数比较特殊没有对应的req方法,这个函数是否可以和其他函数相同的处理方法还需要进一步确认.
+    # 将函数分成：Req,OnRsp,OnRtn,OnErrRtn,OnRspError五个大类
+    # 每一类函数的参数结构都是相同的
     reqMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('Req')}
-    onRspMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRsp')}
+    onRspMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRsp') and k != 'OnRspError'}
     onRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRtn')}
     onErrRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnErrRtn')}
+    onRspErrorMethodDict = {k:v for k,v in methodDict.iteritems() if k == 'OnRspError'}
 
     # 数据打包到字典中
     data = {
@@ -66,6 +67,7 @@ def loadCtpHeaderData():
         'onRspMethodDict':onRspMethodDict,
         'onRtnMethodDict':onRtnMethodDict,
         'onErrRtnMethodDict':onErrRtnMethodDict,
+        'onRspErrorMethodDict':onRspErrorMethodDict,
     }
 
     return data
