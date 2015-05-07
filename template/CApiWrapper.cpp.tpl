@@ -2,17 +2,16 @@
 #include <stdio.h>
 
 
+
+
+
+
+
 /*
 1、重载CTraderHander(实现登录操作部分，或者直接在CTraderHander实现)
 2、创建TraderApi实例
 3、登录ReqUserLogin（管理CTP_FrontAddress，CTP_BrokerId，CTP_UserId，CTP_Password）
 4、
-
-
-
-
-
-
 
 // 创建TraderAPI和回调响应控制器的实例
 CThostFtdcTraderApi *pTraderApi = CThostFtdcTraderApi::CreateFtdcTraderApi();
