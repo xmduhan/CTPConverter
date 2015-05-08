@@ -2,11 +2,27 @@
 
 #%% 代码实线路径
 #1、先将相关的函数列在列在CTraderHandler.cpp（ok）
-#2、ctpapi.cpp中数据
-# (0) ctp api 的初始化操作(含登录，涉及和spi类的交互) 
-# (1) ctpapi.cpp改为CApiWrapper 封装所有Req开头的函数，参数：（1）原始json数据包
-# (2) req函数返回RequestId这个id由这个wrapper维护
-# (3) 如果req函数返回-1表示出错，可以通过getLastError机制获取信息。
+#2、CApiWrapper类
+# (0) 类的接口设计(头文件定义)
+
+
+CApiWrapper 手工编写部分（基本ok）
+-- 登录过程(ok)
+-- requestId(ok)
+CApiWrapper 自动编写部分（）
+
+防止头文件重定义问题（Configure.h马上就有这个问题）
+
+
+在CTraderHandler类中实现：
+virtual void OnFrontConnected() 
+virtual void OnRspUserLogin()
+
+
+# (1) ctp api 的初始化操作(含登录，涉及和spi类的交互) 
+# (2) ctpapi.cpp改为CApiWrapper 封装所有Req开头的函数，参数：（1）原始json数据包
+# (3) req函数返回RequestId这个id由这个wrapper维护
+# (4) 如果req函数返回-1表示出错，可以通过getLastError机制获取信息。
 
 
 #2、在converter中增加登录和退出的代码。
