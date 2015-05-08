@@ -36,4 +36,10 @@ public:
     /// 获取上次错误信息
     char * getLastErrorMessage();
 
+    ////////////// API方法的wrapper ///////////////
+    {% for method in reqMethodDict.itervalues() %}
+    	{{ method['remark'] }}
+    	int {{method['name']}}(char * pJsonData );
+    {% endfor %}
+
 };
