@@ -1,3 +1,4 @@
+#pragma once 
 #include <ThostFtdcUserApiDataType.h>
 
 class Configure {

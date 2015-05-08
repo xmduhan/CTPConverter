@@ -1,3 +1,4 @@
+#pragma once
 
 #include <ThostFtdcTraderApi.h>
 #include <ThostFtdcUserApiStruct.h>

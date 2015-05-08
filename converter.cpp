@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <CTraderHandler.h>
 #include <Configure.h>
-
+#include <CApiWrapper.h>
 
 // 配置数据
 Configure config;
