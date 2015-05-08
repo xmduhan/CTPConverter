@@ -3,9 +3,16 @@
 #include <CTraderHandler.h>
 
 
+/// 构造函数
 CTraderHandler::CTraderHandler() {
     printf("CTraderHandler():被执行...\n");
 }
+
+/// 成功连接服务器消息
+void CTraderHandler::OnFrontConnected() {
+    printf("OnFrontConnected():被执行...\n");
+}
+
 
 /**********************************************************
 *                   onRsp开头的方法                         *

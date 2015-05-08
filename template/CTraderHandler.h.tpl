@@ -6,7 +6,10 @@ class CTraderHandler : public CThostFtdcTraderSpi{
 
 public:
 
+	/// 构造函数
 	CTraderHandler();
+	/// 成功连接回调
+	virtual void OnFrontConnected();
 
 /**********************************************************
 *                   onRsp开头的方法                         *

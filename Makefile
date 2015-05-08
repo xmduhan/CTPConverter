@@ -14,4 +14,4 @@ compile : *.cpp include/*.h
 	$(CC) *.cpp  $(CFLAGS) -o converter
 
 clean:
-	rm -f *.o *.orig include/*.orig *.pyc converter
+	rm -f *.o *.orig include/*.orig *.pyc *.con converter

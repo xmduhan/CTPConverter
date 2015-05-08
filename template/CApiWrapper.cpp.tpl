@@ -45,9 +45,11 @@ void CApiWrapper::init(){
 	pTraderApi->RegisterFront(pConfigure->FrontAddress);
 
 	// 连接交易系统
+	printf("尝试连接服务器\n");
 	pTraderApi->Init();
 	// TODO : 这里需要等待工作线程收到OnFrontConnected回调
 	// ... ...
+	printf("Init():执行完毕\n");
 
 	// 发出登陆请求
 	CThostFtdcReqUserLoginField userLoginField;
@@ -132,7 +134,7 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 		{%- endfor %}
 	);
 
-	// TODO:检查API调用是否失败
+	// TODO:检查API调用是否失败,并设置LastError信息
 
 	return 0;
 }

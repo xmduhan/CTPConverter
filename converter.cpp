@@ -3,6 +3,7 @@
 #include <CTraderHandler.h>
 #include <Configure.h>
 #include <CApiWrapper.h>
+#include <unistd.h>
 
 // 配置数据
 Configure config;
@@ -27,7 +28,9 @@ int main() {
     //CTraderHandler traderHandler = CTraderHandler();
     //traderHandler.OnRspQryInstrument(0,0,0,0);
 
+    CApiWrapper api(&config);
+    api.init();
 
-
+    sleep(5);
     return 0;
 }

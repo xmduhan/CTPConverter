@@ -14,7 +14,7 @@ CApiWrapper 自动编写部分（ok）
 
 
 在CTraderHandler类中实现：
-virtual void OnFrontConnected() 
+virtual void OnFrontConnected()  (ok)
 virtual void OnRspUserLogin()
 
 

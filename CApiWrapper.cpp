@@ -45,9 +45,11 @@ void CApiWrapper::init() {
     pTraderApi->RegisterFront(pConfigure->FrontAddress);
 
     // 连接交易系统
+    printf("尝试连接服务器\n");
     pTraderApi->Init();
     // TODO : 这里需要等待工作线程收到OnFrontConnected回调
     // ... ...
+    printf("Init():执行完毕\n");
 
     // 发出登陆请求
     CThostFtdcReqUserLoginField userLoginField;
@@ -128,7 +130,7 @@ int CApiWrapper::ReqQryTradingAccount(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -152,7 +154,7 @@ int CApiWrapper::ReqQryCFMMCTradingAccountKey(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -176,7 +178,7 @@ int CApiWrapper::ReqUserPasswordUpdate(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -200,7 +202,7 @@ int CApiWrapper::ReqParkedOrderAction(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -224,7 +226,7 @@ int CApiWrapper::ReqQryTradingNotice(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -248,7 +250,7 @@ int CApiWrapper::ReqQryTrade(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -272,7 +274,7 @@ int CApiWrapper::ReqQueryMaxOrderVolume(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -296,7 +298,7 @@ int CApiWrapper::ReqSettlementInfoConfirm(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -320,7 +322,7 @@ int CApiWrapper::ReqQryInvestorPosition(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -344,7 +346,7 @@ int CApiWrapper::ReqQryBrokerTradingAlgos(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -368,7 +370,7 @@ int CApiWrapper::ReqQryOrder(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -392,7 +394,7 @@ int CApiWrapper::ReqQryExchange(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -416,7 +418,7 @@ int CApiWrapper::ReqUserLogin(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -440,7 +442,7 @@ int CApiWrapper::ReqFromFutureToBankByFuture(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -464,7 +466,7 @@ int CApiWrapper::ReqFromBankToFutureByFuture(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -488,7 +490,7 @@ int CApiWrapper::ReqQrySettlementInfoConfirm(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -512,7 +514,7 @@ int CApiWrapper::ReqQryBrokerTradingParams(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -536,7 +538,7 @@ int CApiWrapper::ReqQueryCFMMCTradingAccountToken(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -560,7 +562,7 @@ int CApiWrapper::ReqQryNotice(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -584,7 +586,7 @@ int CApiWrapper::ReqQryExchangeRate(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -608,7 +610,7 @@ int CApiWrapper::ReqParkedOrderInsert(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -632,7 +634,7 @@ int CApiWrapper::ReqQryContractBank(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -656,7 +658,7 @@ int CApiWrapper::ReqQryInvestorPositionCombineDetail(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -680,7 +682,7 @@ int CApiWrapper::ReqQryExchangeMarginRate(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -704,7 +706,7 @@ int CApiWrapper::ReqQrySecAgentACIDMap(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -728,7 +730,7 @@ int CApiWrapper::ReqQryTransferSerial(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -752,7 +754,7 @@ int CApiWrapper::ReqQueryBankAccountMoneyByFuture(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -776,7 +778,7 @@ int CApiWrapper::ReqQryParkedOrderAction(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -800,7 +802,7 @@ int CApiWrapper::ReqAuthenticate(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -824,7 +826,7 @@ int CApiWrapper::ReqOrderInsert(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -848,7 +850,7 @@ int CApiWrapper::ReqQrySettlementInfo(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -872,7 +874,7 @@ int CApiWrapper::ReqUserLogout(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -896,7 +898,7 @@ int CApiWrapper::ReqQryInstrument(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -920,7 +922,7 @@ int CApiWrapper::ReqOrderAction(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -944,7 +946,7 @@ int CApiWrapper::ReqQryInstrumentCommissionRate(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -968,7 +970,7 @@ int CApiWrapper::ReqQryInstrumentMarginRate(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -992,7 +994,7 @@ int CApiWrapper::ReqQryInvestor(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1016,7 +1018,7 @@ int CApiWrapper::ReqQryParkedOrder(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1040,7 +1042,7 @@ int CApiWrapper::ReqQryInvestorProductGroupMargin(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1064,7 +1066,7 @@ int CApiWrapper::ReqQryDepthMarketData(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1088,7 +1090,7 @@ int CApiWrapper::ReqQryTransferBank(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1112,7 +1114,7 @@ int CApiWrapper::ReqRemoveParkedOrderAction(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1136,7 +1138,7 @@ int CApiWrapper::ReqQryProduct(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1160,7 +1162,7 @@ int CApiWrapper::ReqQryTradingCode(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1184,7 +1186,7 @@ int CApiWrapper::ReqTradingAccountPasswordUpdate(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1208,7 +1210,7 @@ int CApiWrapper::ReqQryAccountregister(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1232,7 +1234,7 @@ int CApiWrapper::ReqQryExchangeMarginRateAdjust(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1256,7 +1258,7 @@ int CApiWrapper::ReqQryEWarrantOffset(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1280,7 +1282,7 @@ int CApiWrapper::ReqQryInvestorPositionDetail(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
@@ -1304,7 +1306,7 @@ int CApiWrapper::ReqRemoveParkedOrder(char * pJsonData )
             nRequestID
         );
 
-    // TODO:检查API调用是否失败
+    // TODO:检查API调用是否失败,并设置LastError信息
 
     return 0;
 }
