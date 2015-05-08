@@ -11,14 +11,18 @@ CApiWrapper::CApiWrapper(Configure * pConfigure) {
     this->pConfigure = pConfigure;
 
     // 创建CTP API工作对象
-    this->pTraderApi = CThostFtdcTraderApi::CreateFtdcTraderApi();
+    pTraderApi = CThostFtdcTraderApi::CreateFtdcTraderApi();
 
     // 创建SPI工作对象并让其和API关联
-    this->pTraderHandler = new CTraderHandler();
+    pTraderHandler = new CTraderHandler();
     pTraderApi->RegisterSpi(pTraderHandler);
 
     // 初始化RequestID序列
-    this->RequestID = 0;
+    RequestID = 0;
+
+    // 初始化上次出错代码和出错信息
+    lastErrorCode = 0;
+    strcpy(lastErrorMessage,"");
 }
 
 /// 启动CTP连接
@@ -66,6 +70,17 @@ int CApiWrapper::getNextRequestID() {
 int CApiWrapper::getCurrentRequestID() {
     return 	this->RequestID;
 }
+
+/// 获取上次出错代码
+int CApiWrapper::getLastErrorCode() {
+    return lastErrorCode;
+}
+
+/// 获取上次错误信息
+char * CApiWrapper::getLastErrorMessage() {
+    return lastErrorMessage;
+}
+
 
 /*
 
