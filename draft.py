@@ -9,9 +9,8 @@
 CApiWrapper 手工编写部分（基本ok）
 -- 登录过程(ok)
 -- requestId(ok)
-CApiWrapper 自动编写部分（）
-
-防止头文件重定义问题（Configure.h马上就有这个问题）
+CApiWrapper 自动编写部分（ok）
+防止头文件重定义问题（Configure.h马上就有这个问题）(ok)
 
 
 在CTraderHandler类中实现：
