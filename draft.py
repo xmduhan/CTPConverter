@@ -5,37 +5,33 @@
 #2、CApiWrapper类
 # (0) 类的接口设计(头文件定义)
 
-
 CApiWrapper 手工编写部分（基本ok）
 -- 登录过程(ok)
 -- requestId(ok)
 CApiWrapper 自动编写部分（ok）
 防止头文件重定义问题（Configure.h马上就有这个问题）(ok)
 在CTraderHandler类中实现：
-virtual void OnFrontConnected()  (ok)
+重载virtual void OnFrontConnected()  (ok)
+#2、在converter中增加登录和退出的代码。(已封装到CApiWrapper中)
+
+#3、生成zmq套接字连接代码。
 连接zmq环境成功(ok)
 接受初步消息 (ok)
-按消息格式接受多段消息
-禁止pushback管道使用tcp配置，而应使用inpc或者ipc
+**按消息格式接受多段消息
+**禁止pushback管道使用tcp配置，而应使用inpc或者ipc
+**OnFrontConnected中可以返回消息
+**OnRspUserLogin()中可以返回消息()
 
-CTraderHandler CApiWrapper 和主程序的协作结构 
-
-
-
-
-virtual void OnRspUserLogin()
+#4、json的处理（含打包和拆包）
 
 
+#5、监听代码框架编写(使用CTRL+C退出程序)
+
+# 其他备注：
 # (1) ctp api 的初始化操作(含登录，涉及和spi类的交互) 
 # (2) ctpapi.cpp改为CApiWrapper 封装所有Req开头的函数，参数：（1）原始json数据包
 # (3) req函数返回RequestId这个id由这个wrapper维护
 # (4) 如果req函数返回-1表示出错，可以通过getLastError机制获取信息。
-
-
-#2、在converter中增加登录和退出的代码。
-#3、监听代码框架编写(使用CTRL+C退出程序)
-#4、生成zmq套接字连接代码。
-#5、json的处理（含打包和拆包）
 
 #%% 修改到项目目录
 import os 
