@@ -11,10 +11,17 @@ CApiWrapper 手工编写部分（基本ok）
 -- requestId(ok)
 CApiWrapper 自动编写部分（ok）
 防止头文件重定义问题（Configure.h马上就有这个问题）(ok)
-
-
 在CTraderHandler类中实现：
 virtual void OnFrontConnected()  (ok)
+连接zmq环境成功(ok)
+接受初步消息 (ok)
+按消息格式接受多段消息
+
+CTraderHandler CApiWrapper 和主程序的协作结构 
+
+
+
+
 virtual void OnRspUserLogin()
 
 

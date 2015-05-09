@@ -2,6 +2,7 @@
 #include <CApiWrapper.h>
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 
 
 /// 构造函数
@@ -23,12 +24,15 @@ CApiWrapper::CApiWrapper(Configure * pConfigure){
 	// 初始化上次出错代码和出错信息
 	lastErrorCode = 0;
 	strcpy(lastErrorMessage,"");
+
+	// 创建zmq通讯环境
+	pContext = new zmq::context_t(1);
+	pReceiver = new zmq::socket_t(*pContext, ZMQ_PULL);
 }
 
 /// 启动CTP连接
 void CApiWrapper::init(){
 
-	//Configure * pConfigure = this->pConfigure;
 	//设置服务信息推送信息
 	// 订阅相关信息推送
 	//// THOST_TERT_RESTART:从本交易日开始重传
@@ -44,11 +48,31 @@ void CApiWrapper::init(){
 	/// 设置服务器地址
 	pTraderApi->RegisterFront(pConfigure->FrontAddress);
 
+
+	// 连接spi的Pushback管道
+	printf("pConfigure->PushbackPipe=%s\n",pConfigure->PushbackPipe);
+	pReceiver->connect(pConfigure->PushbackPipe);
+	zmq::message_t message;
+
 	// 连接交易系统
 	printf("尝试连接服务器\n");
 	pTraderApi->Init();
 	// TODO : 这里需要等待工作线程收到OnFrontConnected回调
 	// ... ...
+	// 等待服务器发出OnFrontConnected事件
+	pReceiver->recv(&message);
+	std::string mString (static_cast<char*>(message.data()), message.size());
+	std::cout << "接收到来自Pushback的消息:" << mString << std::endl;
+	/* 对应的python测试代码
+	import time
+	import zmq
+	context = zmq.Context()
+	socket = context.socket(zmq.PUSH)
+	socket.bind("tcp://*:10002")
+	socket.send('hello')
+	#socket.send_multipart(['0','OnFrontConnected',''])
+	*/
+
 	printf("Init():执行完毕\n");
 
 	// 发出登陆请求

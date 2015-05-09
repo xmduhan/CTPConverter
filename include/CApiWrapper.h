@@ -5,6 +5,7 @@
 #include <ThostFtdcUserApiDataType.h>
 #include <Configure.h>
 #include <CTraderHandler.h>
+#include <zmq.hpp>
 
 
 class CApiWrapper {
@@ -25,6 +26,14 @@ public:
     int lastErrorCode;
     /// 上次出错信息
     char lastErrorMessage[1024];
+    /////////////// zmq通讯环境相关  ///////////////
+    // 这里的zmq通信只是需要在连接服务器和登录时用来和spi做同步,主要是以下工作:
+    // 1. 连接服务器后需要等待服务器响应才能发出登录请求
+    // 2. 发出登录请求后需要等待服务器返回登录结果
+    /// zmq通讯环境
+    zmq::context_t * pContext;
+    /// 通讯套接字
+    zmq::socket_t * pReceiver;
     ////////////////// 方法定义 ///////////////////
     /// 启动CTP连接
     void init();

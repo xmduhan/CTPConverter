@@ -1,7 +1,7 @@
 IDIR =include
 LIBS =lib/*.so
 CC=g++
-CFLAGS=-I$(IDIR) $(LIBS)
+CFLAGS=-I$(IDIR) $(LIBS) -lzmq
 
 
 
