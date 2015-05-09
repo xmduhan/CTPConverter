@@ -4,6 +4,10 @@
 #include <Configure.h>
 #include <CApiWrapper.h>
 #include <unistd.h>
+#include <zmq.hpp>
+#include <zhelpers.hpp>
+
+
 
 // 配置数据
 Configure config;
@@ -23,14 +27,25 @@ void loadConfig(){
 
 int main(){
 
-    loadConfig();
+    //loadConfig();
 
     //CTraderHandler traderHandler = CTraderHandler();
     //traderHandler.OnRspQryInstrument(0,0,0,0);
 
-    CApiWrapper api(&config);
-    api.init();
+    //CApiWrapper api(&config);
+    //api.init();
 
-    sleep(5);
+    zmq::context_t * pContext = new zmq::context_t(1);
+    zmq::socket_t * pReceiver = new zmq::socket_t(*pContext, ZMQ_PULL);
+    pReceiver->connect("tcp://localhost:10000");
+
+    while(1){
+        std::cout << "-----------begin-----------" << std::endl;
+        do {
+            std::cout << "接收到来自[tcp://localhost:10000]的消息:" << s_recv(*pReceiver) << std::endl;
+        } while(s_more(*pReceiver));
+        std::cout << "------------end------------" << std::endl;
+        sleep(5);
+    }
     return 0;
 }
