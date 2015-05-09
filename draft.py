@@ -17,7 +17,10 @@ CApiWrapper 自动编写部分（ok）
 #3、生成zmq套接字连接代码。
 连接zmq环境成功(ok)
 接受初步消息 (ok)
-**按消息格式接受多段消息
+**按消息格式接受多段消息(ok)
+**需要有一个文件实现消息格式的封装。
+
+
 **禁止pushback管道使用tcp配置，而应使用inpc或者ipc
 **OnFrontConnected中可以返回消息
 **OnRspUserLogin()中可以返回消息()
