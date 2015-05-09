@@ -16,6 +16,7 @@ virtual void OnFrontConnected()  (ok)
 连接zmq环境成功(ok)
 接受初步消息 (ok)
 按消息格式接受多段消息
+禁止pushback管道使用tcp配置，而应使用inpc或者ipc
 
 CTraderHandler CApiWrapper 和主程序的协作结构 
 
