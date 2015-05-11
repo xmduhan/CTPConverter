@@ -1,12 +1,14 @@
 #include <Message.h>
 
 ///////////////////////////// RequestMessage ///////////////////////////////////
+// TODO 这里没有考虑第1帧是客户端地址
 
 // RequestMessage的接收函数
 void RequestMessage::recv(zmq::socket_t & socket){
     int n=4,i = 0;
     do {
         switch(i){
+
             case 0: header = s_recv(socket); break;
             case 1: apiName = s_recv(socket); break;
             case 2: reqInfo = s_recv(socket); break;
@@ -34,6 +36,7 @@ void RequestMessage::send(zmq::socket_t & socket){
 }
 
 //////////////////////////// RequestIDMessage //////////////////////////////////
+// TODO 这里没有考虑第1帧是客户端地址
 
 /// RequestIDMessage的接收函数
 void RequestIDMessage::recv(zmq::socket_t & socket){
@@ -69,7 +72,7 @@ void RequestIDMessage::send(zmq::socket_t & socket){
 }
 
 //////////////////////////// ResponseMessage ///////////////////////////////////
-
+// TODO 这里没有考虑第1帧是客户端地址
 /// ResponseMessage的接收函数
 void ResponseMessage::recv(zmq::socket_t & socket){
     int n=5,i = 0;
