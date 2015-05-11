@@ -1,8 +1,6 @@
 
 #include <CApiWrapper.h>
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
+
 
 
 /// 构造函数
@@ -15,7 +13,7 @@ CApiWrapper::CApiWrapper(Configure * pConfigure){
 	pTraderApi = CThostFtdcTraderApi::CreateFtdcTraderApi();
 
 	// 创建SPI工作对象并让其和API关联
-	pTraderHandler = new CTraderHandler();
+	pTraderHandler = new CTraderHandler(pConfigure);
 	pTraderApi->RegisterSpi(pTraderHandler);
 
 	// 初始化RequestID序列
@@ -25,55 +23,44 @@ CApiWrapper::CApiWrapper(Configure * pConfigure){
 	lastErrorCode = 0;
 	strcpy(lastErrorMessage,"");
 
-	// 创建zmq通讯环境
-	pContext = new zmq::context_t(1);
-	pReceiver = new zmq::socket_t(*pContext, ZMQ_PULL);
 }
 
 /// 启动CTP连接
 void CApiWrapper::init(){
+
+	// 创建zmq通讯环境
+	zmq::context_t context(1);
+	zmq::socket_t receiver(context, ZMQ_PULL);
+	PushbackMessage message;
 
 	//设置服务信息推送信息
 	// 订阅相关信息推送
 	//// THOST_TERT_RESTART:从本交易日开始重传
 	//// THOST_TERT_RESUME:从上次收到的续传
 	//// THOST_TERT_QUICK:只传送登录后私有流的内容
-	pTraderApi->SubscribePrivateTopic(THOST_TERT_RESUME);
+	pTraderApi->SubscribePrivateTopic(THOST_TERT_QUICK);
 	// 订阅公共流
 	//// THOST_TERT_RESTART:从本交易日开始重传
 	//// THOST_TERT_RESUME:从上次收到的续传
 	//// THOST_TERT_QUICK:只传送登录后公共流的内容
-	pTraderApi->SubscribePublicTopic(THOST_TERT_RESUME);
+	pTraderApi->SubscribePublicTopic(THOST_TERT_QUICK);
 
 	/// 设置服务器地址
 	pTraderApi->RegisterFront(pConfigure->FrontAddress);
 
-
 	// 连接spi的Pushback管道
 	printf("pConfigure->PushbackPipe=%s\n",pConfigure->PushbackPipe);
-	pReceiver->connect(pConfigure->PushbackPipe);
-	zmq::message_t message;
+	receiver.connect(pConfigure->PushbackPipe);
 
 	// 连接交易系统
 	printf("尝试连接服务器\n");
 	pTraderApi->Init();
-	// TODO : 这里需要等待工作线程收到OnFrontConnected回调
-	// ... ...
 	// 等待服务器发出OnFrontConnected事件
-	pReceiver->recv(&message);
-	std::string mString (static_cast<char*>(message.data()), message.size());
-	std::cout << "接收到来自Pushback的消息:" << mString << std::endl;
-	/* 对应的python测试代码
-	import time
-	import zmq
-	context = zmq.Context()
-	socket = context.socket(zmq.PUSH)
-	socket.bind("tcp://*:10002")
-	socket.send('hello')
-	#socket.send_multipart(['0','OnFrontConnected',''])
-	*/
-
-	printf("Init():执行完毕\n");
+	message.recv(receiver);
+	// 确认收到的返回信息是由OnFrontConnected发出
+	assert(message.requestID.compare("0") == 0);
+	assert(message.apiName.compare("OnFrontConnected") == 0);
+	assert(message.respInfo.compare("") == 0);
 
 	// 发出登陆请求
 	CThostFtdcReqUserLoginField userLoginField;
@@ -81,9 +68,15 @@ void CApiWrapper::init(){
 	strcpy(userLoginField.UserID,pConfigure->UserID);
 	strcpy(userLoginField.Password,pConfigure->Password);
 	pTraderApi->ReqUserLogin(&userLoginField,getNextRequestID());
-	// TODO : 这里需要等待登录成功返回信息(OnRspUserLogin)
-	// ... ...
 
+	// 等待登录成功返回信息
+	message.recv(receiver);
+	assert(message.requestID.compare("1") == 0);
+	assert(message.apiName.compare("OnRspUserLogin") == 0);
+	assert(message.respInfo.compare("") == 0);
+	// TODO : 这里需要检查登录是否成功
+
+	printf("Init():执行完毕\n");
 }
 
 

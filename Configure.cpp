@@ -30,6 +30,7 @@ void Configure::load() {
     /// 回调信息管道
     this->PushbackPipe = getenv("CTP_PushbackPipe");
     assert(this->PushbackPipe);
+
     /// 广播信息管道
     this->PublishPipe = getenv("CTP_PublishPipe");
     assert(this->PublishPipe);

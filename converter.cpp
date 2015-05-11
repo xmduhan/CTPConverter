@@ -18,22 +18,15 @@ void loadConfig() {
 }
 
 
-int main() {
-
-    //loadConfig();
-
-    //CTraderHandler traderHandler = CTraderHandler();
-    //traderHandler.OnRspQryInstrument(0,0,0,0);
-
-    //CApiWrapper api(&config);
-    //api.init();
-
+void test01() {
     zmq::context_t * pContext = new zmq::context_t(1);
     zmq::socket_t * pReceiver = new zmq::socket_t(*pContext, ZMQ_PULL);
-    pReceiver->connect("tcp://localhost:10000");
+    pReceiver->connect(config.PushbackPipe);
+    //pReceiver->connect("ipc://ipc/pushback");
 
-    zmq::socket_t * pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
-    pSender->bind("tcp://*:10000");
+    //zmq::socket_t * pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
+    ////pSender->bind("tcp://*:10000");
+    //pSender->bind("ipc://pushback");
 
     /*
     while(1){
@@ -47,8 +40,7 @@ int main() {
     */
 
     RequestMessage requestMessage;
-
-    requestMessage.send(*pSender);
+    //requestMessage.send(*pSender);
 
     while(1) {
         try {
@@ -61,5 +53,19 @@ int main() {
             std::cout << e.what() << std::endl;
         }
     }
+
+}
+
+
+
+int main() {
+
+    loadConfig();
+
+    //CTraderHandler traderHandler = CTraderHandler();
+    //traderHandler.OnRspQryInstrument(0,0,0,0);
+
+    CApiWrapper api(&config);
+    api.init();
     return 0;
 }

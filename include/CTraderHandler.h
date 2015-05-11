@@ -1,13 +1,23 @@
 #pragma once
 
 #include <ThostFtdcTraderApi.h>
+#include <Message.h>
+#include <Configure.h>
+
 
 class CTraderHandler : public CThostFtdcTraderSpi {
 
 public:
 
     /// 构造函数
-    CTraderHandler();
+    CTraderHandler(Configure * pConfigure);
+    /// 配置信息
+    Configure * pConfigure;
+    /// zmq通讯环境
+    zmq::context_t * pContext;
+    /// 通讯套接字
+    zmq::socket_t * pSender;
+
     /// 成功连接回调
     virtual void OnFrontConnected();
 

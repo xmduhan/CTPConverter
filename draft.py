@@ -18,12 +18,13 @@ CApiWrapper 自动编写部分（ok）
 连接zmq环境成功(ok)
 接受初步消息 (ok)
 **按消息格式接受多段消息(ok)
-**需要有一个文件实现消息格式的封装。
+**需要有一个文件实现消息格式的封装。(ok,基本完成，其中路由)
 
+** 将socket改为非指针定义(ok,变相实现)
 
-**禁止pushback管道使用tcp配置，而应使用inpc或者ipc
-**OnFrontConnected中可以返回消息
-**OnRspUserLogin()中可以返回消息()
+**禁止pushback管道使用tcp配置，而应使用inpc或者ipc(ok,解决了bind绑定和connect使用同一个地址问题，就不需要这么做了)
+**OnFrontConnected中可以返回消息 (ok)
+**OnRspUserLogin()中可以返回消息 (ok)
 
 #4、json的处理（含打包和拆包）
 
@@ -31,13 +32,13 @@ CApiWrapper 自动编写部分（ok）
 #5、监听代码框架编写(使用CTRL+C退出程序)
 
 # 其他备注：
-# (1) ctp api 的初始化操作(含登录，涉及和spi类的交互) 
+# (1) ctp api 的初始化操作(含登录，涉及和spi类的交互)
 # (2) ctpapi.cpp改为CApiWrapper 封装所有Req开头的函数，参数：（1）原始json数据包
 # (3) req函数返回RequestId这个id由这个wrapper维护
 # (4) 如果req函数返回-1表示出错，可以通过getLastError机制获取信息。
 
 #%% 修改到项目目录
-import os 
+import os
 os.chdir('/home/duhan/github/CTPConverter')
 import cppheader
 from pandas import DataFrame
@@ -49,7 +50,7 @@ from pandas.io.excel import ExcelWriter
 TraderApi_h = cppheader.getCppHeader('include/ThostFtdcTraderApi.h',['TRADER_API_EXPORT'])
 ApiStruct_h = cppheader.getCppHeader('include/ThostFtdcUserApiStruct.h')
 typedefDict = cppheader.getTypedefDict('include/ThostFtdcUserApiDataType.h')
-enumDict = cppheader.getEnumDict('include/ThostFtdcUserApiDataType.h')	
+enumDict = cppheader.getEnumDict('include/ThostFtdcUserApiDataType.h')
 SpiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderSpi')
 ApiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderApi')
 #%% 读取api和spi类中的所有函数
@@ -57,25 +58,25 @@ apiMethodInfoDict = cppheader.getClassMethods(ApiClass,'public')
 spiMethodInfoDict = cppheader.getClassMethods(SpiClass,'public')
 #合并api和spi函数，形成完整函数集
 #这里之所以可能讲所有函数合并，在于api和spi方法没有重复，请看下面语句：
-#set(spiMethodInfoDict.keys()).intersection(apiMethodInfoDict.keys())   
+#set(spiMethodInfoDict.keys()).intersection(apiMethodInfoDict.keys())
 methodInfoDict = {}
 methodInfoDict.update(apiMethodInfoDict)
 methodInfoDict.update(spiMethodInfoDict)
 #%% 简化函数信息保留我们需要信息，并对未解决类型进行处理
 methodDict = {}
 for mi in methodInfoDict.itervalues() :
-    method = {}    
+    method = {}
     method['name'] = mi['name']
     method['returns'] = mi['returns']
     method['remark'] = mi['doxygen'].decode('utf8')
-    parameters=[]    
+    parameters=[]
     for pi in mi['parameters'] :
         parameter = {}
         parameter['name'] = pi['name']
         parameter['type'] = pi['type']
         parameter['raw_type'] = pi['raw_type']
         parameter['pointer'] = pi['pointer']
-        parameter['unresolved'] = pi['unresolved']        
+        parameter['unresolved'] = pi['unresolved']
         parameters.append(parameter)
     method['parameters'] = parameters
     methodDict[method['name']] = method
@@ -158,14 +159,8 @@ for template in templates:
 
 
 #%% SPI 封装的基本结构
-### 将返回参数打包成一个json接口然后发送到队列中 
+### 将返回参数打包成一个json接口然后发送到队列中
 
 
 for name,method in onRspMethodDict.iteritems():
     print name
-
-
-
-
-
-

@@ -4,15 +4,28 @@
 
 
 /// 构造函数
-CTraderHandler::CTraderHandler() {
+CTraderHandler::CTraderHandler(Configure * pConfigure) {
     printf("CTraderHandler():被执行...\n");
+    // 读取配置数据信息
+    this->pConfigure = pConfigure;
+    // 创建zmq通讯环境
+    pContext = new zmq::context_t(1);
+    pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
+    pSender->bind(pConfigure->PushbackPipe);
 }
 
 /// 成功连接服务器消息
 void CTraderHandler::OnFrontConnected() {
     printf("OnFrontConnected():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnFrontConnected";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
+char buffer[1024];
 
 /**********************************************************
 *                   onRsp开头的方法                         *
@@ -27,6 +40,13 @@ void CTraderHandler::OnRspQryInstrument(
     bool bIsLast
 ) {
     printf("OnRspQryInstrument():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInstrument";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询投资者结算结果响应
@@ -37,6 +57,13 @@ void CTraderHandler::OnRspQrySettlementInfo(
     bool bIsLast
 ) {
     printf("OnRspQrySettlementInfo():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQrySettlementInfo";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///预埋单录入请求响应
@@ -47,6 +74,13 @@ void CTraderHandler::OnRspParkedOrderInsert(
     bool bIsLast
 ) {
     printf("OnRspParkedOrderInsert():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspParkedOrderInsert";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询交易所响应
@@ -57,6 +91,13 @@ void CTraderHandler::OnRspQryExchange(
     bool bIsLast
 ) {
     printf("OnRspQryExchange():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryExchange";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///报单操作请求响应
@@ -67,6 +108,13 @@ void CTraderHandler::OnRspOrderAction(
     bool bIsLast
 ) {
     printf("OnRspOrderAction():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspOrderAction";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询投资者响应
@@ -77,6 +125,13 @@ void CTraderHandler::OnRspQryInvestor(
     bool bIsLast
 ) {
     printf("OnRspQryInvestor():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInvestor";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///删除预埋单响应
@@ -87,6 +142,13 @@ void CTraderHandler::OnRspRemoveParkedOrder(
     bool bIsLast
 ) {
     printf("OnRspRemoveParkedOrder():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspRemoveParkedOrder";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询投资者品种/跨品种保证金响应
@@ -97,6 +159,13 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
     bool bIsLast
 ) {
     printf("OnRspQryInvestorProductGroupMargin():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInvestorProductGroupMargin";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询转帐银行响应
@@ -107,6 +176,13 @@ void CTraderHandler::OnRspQryTransferBank(
     bool bIsLast
 ) {
     printf("OnRspQryTransferBank():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryTransferBank";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询经纪公司交易算法响应
@@ -117,6 +193,13 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
     bool bIsLast
 ) {
     printf("OnRspQryBrokerTradingAlgos():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryBrokerTradingAlgos";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询产品响应
@@ -127,6 +210,13 @@ void CTraderHandler::OnRspQryProduct(
     bool bIsLast
 ) {
     printf("OnRspQryProduct():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryProduct";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询合约保证金率响应
@@ -137,6 +227,13 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
     bool bIsLast
 ) {
     printf("OnRspQryInstrumentMarginRate():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInstrumentMarginRate";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///查询保证金监管系统经纪公司资金账户密钥响应
@@ -147,6 +244,13 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
     bool bIsLast
 ) {
     printf("OnRspQryCFMMCTradingAccountKey():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryCFMMCTradingAccountKey";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///登录请求响应
@@ -157,6 +261,13 @@ void CTraderHandler::OnRspUserLogin(
     bool bIsLast
 ) {
     printf("OnRspUserLogin():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspUserLogin";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///期货发起期货资金转银行应答
@@ -167,6 +278,13 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
     bool bIsLast
 ) {
     printf("OnRspFromFutureToBankByFuture():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspFromFutureToBankByFuture";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询监控中心用户令牌
@@ -177,6 +295,13 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
     bool bIsLast
 ) {
     printf("OnRspQueryCFMMCTradingAccountToken():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQueryCFMMCTradingAccountToken";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询签约银行响应
@@ -187,6 +312,13 @@ void CTraderHandler::OnRspQryContractBank(
     bool bIsLast
 ) {
     printf("OnRspQryContractBank():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryContractBank";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///报单录入请求响应
@@ -197,6 +329,13 @@ void CTraderHandler::OnRspOrderInsert(
     bool bIsLast
 ) {
     printf("OnRspOrderInsert():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspOrderInsert";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询仓单折抵信息响应
@@ -207,6 +346,13 @@ void CTraderHandler::OnRspQryEWarrantOffset(
     bool bIsLast
 ) {
     printf("OnRspQryEWarrantOffset():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryEWarrantOffset";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///用户口令更新请求响应
@@ -217,6 +363,13 @@ void CTraderHandler::OnRspUserPasswordUpdate(
     bool bIsLast
 ) {
     printf("OnRspUserPasswordUpdate():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspUserPasswordUpdate";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询交易所调整保证金率响应
@@ -227,6 +380,13 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
     bool bIsLast
 ) {
     printf("OnRspQryExchangeMarginRateAdjust():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryExchangeMarginRateAdjust";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///期货发起银行资金转期货应答
@@ -237,6 +397,13 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
     bool bIsLast
 ) {
     printf("OnRspFromBankToFutureByFuture():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspFromBankToFutureByFuture";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询投资者持仓明细响应
@@ -247,6 +414,13 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
     bool bIsLast
 ) {
     printf("OnRspQryInvestorPositionCombineDetail():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInvestorPositionCombineDetail";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///投资者结算结果确认响应
@@ -257,6 +431,13 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
     bool bIsLast
 ) {
     printf("OnRspSettlementInfoConfirm():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspSettlementInfoConfirm";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询银期签约关系响应
@@ -267,6 +448,13 @@ void CTraderHandler::OnRspQryAccountregister(
     bool bIsLast
 ) {
     printf("OnRspQryAccountregister():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryAccountregister";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询二级代理操作员银期权限响应
@@ -277,6 +465,13 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
     bool bIsLast
 ) {
     printf("OnRspQrySecAgentACIDMap():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQrySecAgentACIDMap";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询交易编码响应
@@ -287,6 +482,13 @@ void CTraderHandler::OnRspQryTradingCode(
     bool bIsLast
 ) {
     printf("OnRspQryTradingCode():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryTradingCode";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询结算信息确认响应
@@ -297,6 +499,13 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
     bool bIsLast
 ) {
     printf("OnRspQrySettlementInfoConfirm():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQrySettlementInfoConfirm";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询转帐流水响应
@@ -307,6 +516,13 @@ void CTraderHandler::OnRspQryTransferSerial(
     bool bIsLast
 ) {
     printf("OnRspQryTransferSerial():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryTransferSerial";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询投资者持仓响应
@@ -317,6 +533,13 @@ void CTraderHandler::OnRspQryInvestorPosition(
     bool bIsLast
 ) {
     printf("OnRspQryInvestorPosition():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInvestorPosition";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///登出请求响应
@@ -327,6 +550,13 @@ void CTraderHandler::OnRspUserLogout(
     bool bIsLast
 ) {
     printf("OnRspUserLogout():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspUserLogout";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询投资者持仓明细响应
@@ -337,6 +567,13 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
     bool bIsLast
 ) {
     printf("OnRspQryInvestorPositionDetail():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInvestorPositionDetail";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询预埋撤单响应
@@ -347,6 +584,13 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     bool bIsLast
 ) {
     printf("OnRspQryParkedOrderAction():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryParkedOrderAction";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询经纪公司交易参数响应
@@ -357,6 +601,13 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
     bool bIsLast
 ) {
     printf("OnRspQryBrokerTradingParams():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryBrokerTradingParams";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询交易所保证金率响应
@@ -367,6 +618,13 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
     bool bIsLast
 ) {
     printf("OnRspQryExchangeMarginRate():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryExchangeMarginRate";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询预埋单响应
@@ -377,6 +635,13 @@ void CTraderHandler::OnRspQryParkedOrder(
     bool bIsLast
 ) {
     printf("OnRspQryParkedOrder():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryParkedOrder";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///期货发起查询银行余额应答
@@ -387,6 +652,13 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
     bool bIsLast
 ) {
     printf("OnRspQueryBankAccountMoneyByFuture():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQueryBankAccountMoneyByFuture";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///客户端认证响应
@@ -397,6 +669,13 @@ void CTraderHandler::OnRspAuthenticate(
     bool bIsLast
 ) {
     printf("OnRspAuthenticate():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspAuthenticate";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///查询最大报单数量响应
@@ -407,6 +686,13 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
     bool bIsLast
 ) {
     printf("OnRspQueryMaxOrderVolume():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQueryMaxOrderVolume";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询汇率响应
@@ -417,6 +703,13 @@ void CTraderHandler::OnRspQryExchangeRate(
     bool bIsLast
 ) {
     printf("OnRspQryExchangeRate():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryExchangeRate";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询交易通知响应
@@ -427,6 +720,13 @@ void CTraderHandler::OnRspQryTradingNotice(
     bool bIsLast
 ) {
     printf("OnRspQryTradingNotice():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryTradingNotice";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///预埋撤单录入请求响应
@@ -437,6 +737,13 @@ void CTraderHandler::OnRspParkedOrderAction(
     bool bIsLast
 ) {
     printf("OnRspParkedOrderAction():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspParkedOrderAction";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询客户通知响应
@@ -447,6 +754,13 @@ void CTraderHandler::OnRspQryNotice(
     bool bIsLast
 ) {
     printf("OnRspQryNotice():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryNotice";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询资金账户响应
@@ -457,6 +771,13 @@ void CTraderHandler::OnRspQryTradingAccount(
     bool bIsLast
 ) {
     printf("OnRspQryTradingAccount():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryTradingAccount";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///资金账户口令更新请求响应
@@ -467,6 +788,13 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
     bool bIsLast
 ) {
     printf("OnRspTradingAccountPasswordUpdate():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspTradingAccountPasswordUpdate";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询报单响应
@@ -477,6 +805,13 @@ void CTraderHandler::OnRspQryOrder(
     bool bIsLast
 ) {
     printf("OnRspQryOrder():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryOrder";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询行情响应
@@ -487,6 +822,13 @@ void CTraderHandler::OnRspQryDepthMarketData(
     bool bIsLast
 ) {
     printf("OnRspQryDepthMarketData():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryDepthMarketData";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询合约手续费率响应
@@ -497,6 +839,13 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
     bool bIsLast
 ) {
     printf("OnRspQryInstrumentCommissionRate():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInstrumentCommissionRate";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///删除预埋撤单响应
@@ -507,6 +856,13 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
     bool bIsLast
 ) {
     printf("OnRspRemoveParkedOrderAction():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspRemoveParkedOrderAction";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 ///请求查询成交响应
@@ -517,6 +873,13 @@ void CTraderHandler::OnRspQryTrade(
     bool bIsLast
 ) {
     printf("OnRspQryTrade():被执行...\n");
+    zmq::socket_t & sendder = *pSender;
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryTrade";
+    message.respInfo = "";
+    message.send(sendder);
 }
 
 

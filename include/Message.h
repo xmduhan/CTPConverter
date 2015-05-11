@@ -33,6 +33,7 @@ public:
 
 /// 服务器端返回RequestID消息格式
 class RequestIDMessage{
+public:
     std::string header;
     std::string requestID;
     std::string apiName;
@@ -44,6 +45,7 @@ class RequestIDMessage{
 
 /// 服务器返回请求结果的消息格式
 class ResponseMessage{
+public:
     std::string header;
     std::string requestID;
     std::string apiName;
@@ -55,6 +57,7 @@ class ResponseMessage{
 
 /// 公开发布消息
 class PublishMessage{
+public:
     std::string header;
     std::string apiName;
     std::string respInfo;
@@ -64,6 +67,7 @@ class PublishMessage{
 
 /// 回到函数返回队列消息
 class PushbackMessage{
+public:
     std::string requestID;
     std::string apiName;
     std::string respInfo;
