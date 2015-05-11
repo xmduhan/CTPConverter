@@ -1,7 +1,16 @@
 #pragma once
 #include <string>
+#include <exception>
 #include <zmq.hpp>
 #include <zhelpers.hpp>
+
+class InvalidMessageFormat : public std::exception {
+public:
+    virtual const char * what() const throw() override{
+        return (char*) "InvalidMessageFormat:消息格式不正确";
+    }
+};
+
 
 class Message {
 public:
@@ -29,6 +38,8 @@ class RequestIDMessage{
     std::string apiName;
     std::string errorInfo;
     std::string metaData;
+    virtual void recv(zmq::socket_t & socket);
+    virtual void send(zmq::socket_t & socket);
 };
 
 /// 服务器返回请求结果的消息格式
@@ -36,20 +47,26 @@ class ResponseMessage{
     std::string header;
     std::string requestID;
     std::string apiName;
-    std::string RespInfo;
+    std::string respInfo;
     std::string metaData;
+    virtual void recv(zmq::socket_t & socket);
+    virtual void send(zmq::socket_t & socket);
 };
 
 /// 公开发布消息
 class PublishMessage{
     std::string header;
     std::string apiName;
-    std::string RespInfo;
+    std::string respInfo;
+    virtual void recv(zmq::socket_t & socket);
+    virtual void send(zmq::socket_t & socket);
 };
 
 /// 回到函数返回队列消息
 class PushbackMessage{
     std::string requestID;
     std::string apiName;
-    std::string RespInfo;
+    std::string respInfo;
+    virtual void recv(zmq::socket_t & socket);
+    virtual void send(zmq::socket_t & socket);
 };

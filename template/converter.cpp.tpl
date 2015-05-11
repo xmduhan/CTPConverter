@@ -1,12 +1,5 @@
 
-#include <stdio.h>
-#include <CTraderHandler.h>
-#include <Configure.h>
-#include <CApiWrapper.h>
-#include <unistd.h>
-#include <zmq.hpp>
-#include <zhelpers.hpp>
-
+#include <converter.h>
 
 
 // 配置数据
@@ -39,6 +32,10 @@ int main(){
     zmq::socket_t * pReceiver = new zmq::socket_t(*pContext, ZMQ_PULL);
     pReceiver->connect("tcp://localhost:10000");
 
+    zmq::socket_t * pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
+    pSender->bind("tcp://*:10000");
+    
+    /*
     while(1){
         std::cout << "-----------begin-----------" << std::endl;
         do {
@@ -46,6 +43,23 @@ int main(){
         } while(s_more(*pReceiver));
         std::cout << "------------end------------" << std::endl;
         sleep(5);
+    }
+    */
+
+    RequestMessage requestMessage;
+
+    requestMessage.send(*pSender);
+
+    while(1){
+        try{
+            requestMessage.recv(*pReceiver);
+            std::cout << "requestMessage.header=" << requestMessage.header << std::endl;
+            std::cout << "requestMessage.apiName=" << requestMessage.apiName << std::endl;
+            std::cout << "requestMessage.reqInfo=" << requestMessage.reqInfo << std::endl;
+            std::cout << "requestMessage.metaData=" << requestMessage.metaData << std::endl;
+        }catch(std::exception & e){
+            std::cout << e.what() << std::endl;
+        }
     }
     return 0;
 }
