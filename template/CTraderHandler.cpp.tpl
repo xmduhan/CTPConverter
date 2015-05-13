@@ -47,17 +47,38 @@ char buffer[1024];
 
 	// 生成返回的json格式
 	Json::Value json_Response;
-	Json::Value json_Parameters;
-	Json::Value json_{{method['parameters'][0]['name']}};
+	json_Response["ResponseMethod"] = "{{method['name']}}";
+
+	/// 返回数据结构体转化json格式
+	{%- set dataVarName = method['parameters'][0]['name'] %}
+	{%- set dataTypeName = method['parameters'][0]['raw_type'] %}
+	{%- set dataType = structDict[dataTypeName] %}
+	Json::Value json_{{dataVarName}};
+	{% for field in dataType['fields'] %}
+		json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+	{%- endfor %}
+
+	/// 出错信息
 	Json::Value json_pRspInfo;
+	json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+	json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+
+	/// json_nRequestID
 	Json::Value json_nRequestID;
+	json_nRequestID = nRequestID;
+
+	/// 数据末尾标识
 	Json::Value json_bIsLast;
-	json_Response["apiName"] = "{{method['name']}}";
-	json_Parameters.append(json_{{method['parameters'][0]['name']}});
-	json_Parameters.append(json_pRspInfo);
-	json_Parameters.append(json_nRequestID);
-	json_Parameters.append(json_bIsLast);
-	json_Response["parameters"] = json_Parameters;
+	json_bIsLast = bIsLast;
+
+	// 定义参数集合
+	// TODO:参数集是用dict还是是用list需要在考虑一下
+	Json::Value json_Parameters;
+	json_Parameters["Data"] = json_{{dataVarName}};
+	json_Parameters["RspInfo"] = json_pRspInfo;
+	json_Parameters["RequestID"] = json_nRequestID;
+	json_Parameters["IsLast"] = json_bIsLast;
+	json_Response["Parameters"] = json_Parameters;
 
 	// 打包消息结构并压入Pushback管道
 	PushbackMessage message;

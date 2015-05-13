@@ -131,10 +131,30 @@ for p in parameters:
     print p['type'],p['name']+',',
 print ')'
 
+#%%类型名称查找结构体定义
+structDict = {}
+structInfoDict =  cppheader.getClasses(ApiStruct_h)
+for si in  structInfoDict.viewvalues():
+    struct = {}    
+    struct['name'] = si['name']
+    struct['remark'] = si['doxygen'].decode('utf8')
+    fields = []
+    for pi in si['properties']['public']:
+        field = {}
+        field['name'] = pi['name']
+        field['type'] = pi['type']
+        field['raw_type'] = pi['raw_type']
+        field['pointer'] = pi['pointer']
+        field['unresolved'] = pi['unresolved']
+        field['remark'] = pi['doxygen'].decode('utf8')
+        fields.append(field)
+    struct['fields'] = fields
+    structDict[si['name']] = struct
+
 #%%
+structDict['CThostFtdcExchangeField']
 
 
-print methodInfoDict
 #%% 根据类型找定义
 
 

@@ -28,6 +28,12 @@ def getClass(header,className):
 	'''
 	return header.classes[className]
 
+def getClasses(header):
+	'''
+	通过头文件获取所有类和结构体的定义
+	'''
+	return header.classes
+
 
 def getClassMethod(aclass,methodType,methodName):
 	'''

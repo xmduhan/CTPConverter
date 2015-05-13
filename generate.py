@@ -61,6 +61,27 @@ def loadCtpHeaderData():
     onErrRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnErrRtn')}
     onRspErrorMethodDict = {k:v for k,v in methodDict.iteritems() if k == 'OnRspError'}
 
+    # 生成所有结构体定义的关键信息的字典结构
+    structDict = {}
+    structInfoDict =  cppheader.getClasses(ApiStruct_h)
+    for si in  structInfoDict.viewvalues():
+        struct = {}
+        struct['name'] = si['name']
+        struct['remark'] = si['doxygen'].decode('utf8')
+        fields = []
+        for pi in si['properties']['public']:
+            field = {}
+            field['name'] = pi['name']
+            field['type'] = pi['type']
+            field['raw_type'] = pi['raw_type']
+            field['pointer'] = pi['pointer']
+            field['unresolved'] = pi['unresolved']
+            field['remark'] = pi['doxygen'].decode('utf8')
+            fields.append(field)
+        struct['fields'] = fields
+        structDict[si['name']] = struct
+
+
     # 数据打包到字典中
     data = {
         'reqMethodDict':reqMethodDict,
@@ -68,6 +89,7 @@ def loadCtpHeaderData():
         'onRtnMethodDict':onRtnMethodDict,
         'onErrRtnMethodDict':onErrRtnMethodDict,
         'onRspErrorMethodDict':onRspErrorMethodDict,
+        'structDict':structDict,
     }
 
     return data

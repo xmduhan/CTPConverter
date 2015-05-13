@@ -135,6 +135,10 @@ int main() {
     int nRequestID;
     bool bIsLast;
     CTraderHandler traderHandler = CTraderHandler(&config);
-    traderHandler.OnRspQryInstrument(&pInstrument,&pRspInfo,nRequestID,bIsLast);
+    while(1) {
+        traderHandler.OnRspQryInstrument(&pInstrument,&pRspInfo,nRequestID,bIsLast);
+        std::cout << "message send ..." << std::endl;
+        getchar();
+    }
     return 0;
 }
