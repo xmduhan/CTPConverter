@@ -27,7 +27,7 @@ CApiWrapper 自动编写部分（ok）
 **OnRspUserLogin()中可以返回消息 (ok)
 
 #4、json的处理（含打包和拆包）
-(1)jsoncpp的安装
+(1)jsoncpp的安装 (ok)
 (2)OnRsp,
 (3)OnRtn,
 (4)OnErrRtn

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ThostFtdcTraderApi.h>
 #include <CTraderHandler.h>
+#include <json/json.h>
 
 
 /// 构造函数
@@ -41,12 +42,29 @@ char buffer[1024];
 	{%- endfor %}
 ){
 	printf("{{method['name']}}():被执行...\n");
+	// 生成发送管道的引用
 	zmq::socket_t & sendder = *pSender;
+
+	// 生成返回的json格式
+	Json::Value json_Response;
+	Json::Value json_Parameters;
+	Json::Value json_{{method['parameters'][0]['name']}};
+	Json::Value json_pRspInfo;
+	Json::Value json_nRequestID;
+	Json::Value json_bIsLast;
+	json_Response["apiName"] = "{{method['name']}}";
+	json_Parameters.append(json_{{method['parameters'][0]['name']}});
+	json_Parameters.append(json_pRspInfo);
+	json_Parameters.append(json_nRequestID);
+	json_Parameters.append(json_bIsLast);
+	json_Response["parameters"] = json_Parameters;
+
+	// 打包消息结构并压入Pushback管道
 	PushbackMessage message;
 	sprintf(buffer,"%d",nRequestID);
 	message.requestID = buffer;
 	message.apiName = "{{method['name']}}";
-	message.respInfo = "";
+	message.respInfo = json_Response.toStyledString();
 	message.send(sendder);
 }
 {% endfor %}

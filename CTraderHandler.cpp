@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ThostFtdcTraderApi.h>
 #include <CTraderHandler.h>
+#include <json/json.h>
 
 
 /// 构造函数
@@ -40,12 +41,29 @@ void CTraderHandler::OnRspQryInstrument(
     bool bIsLast
 ) {
     printf("OnRspQryInstrument():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInstrument;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryInstrument";
+    json_Parameters.append(json_pInstrument);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryInstrument";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -57,12 +75,29 @@ void CTraderHandler::OnRspQrySettlementInfo(
     bool bIsLast
 ) {
     printf("OnRspQrySettlementInfo():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pSettlementInfo;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQrySettlementInfo";
+    json_Parameters.append(json_pSettlementInfo);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQrySettlementInfo";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -74,12 +109,29 @@ void CTraderHandler::OnRspParkedOrderInsert(
     bool bIsLast
 ) {
     printf("OnRspParkedOrderInsert():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pParkedOrder;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspParkedOrderInsert";
+    json_Parameters.append(json_pParkedOrder);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspParkedOrderInsert";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -91,12 +143,29 @@ void CTraderHandler::OnRspQryExchange(
     bool bIsLast
 ) {
     printf("OnRspQryExchange():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pExchange;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryExchange";
+    json_Parameters.append(json_pExchange);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryExchange";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -108,12 +177,29 @@ void CTraderHandler::OnRspOrderAction(
     bool bIsLast
 ) {
     printf("OnRspOrderAction():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInputOrderAction;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspOrderAction";
+    json_Parameters.append(json_pInputOrderAction);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspOrderAction";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -125,12 +211,29 @@ void CTraderHandler::OnRspQryInvestor(
     bool bIsLast
 ) {
     printf("OnRspQryInvestor():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInvestor;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryInvestor";
+    json_Parameters.append(json_pInvestor);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestor";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -142,12 +245,29 @@ void CTraderHandler::OnRspRemoveParkedOrder(
     bool bIsLast
 ) {
     printf("OnRspRemoveParkedOrder():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pRemoveParkedOrder;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspRemoveParkedOrder";
+    json_Parameters.append(json_pRemoveParkedOrder);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspRemoveParkedOrder";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -159,12 +279,29 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
     bool bIsLast
 ) {
     printf("OnRspQryInvestorProductGroupMargin():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInvestorProductGroupMargin;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryInvestorProductGroupMargin";
+    json_Parameters.append(json_pInvestorProductGroupMargin);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestorProductGroupMargin";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -176,12 +313,29 @@ void CTraderHandler::OnRspQryTransferBank(
     bool bIsLast
 ) {
     printf("OnRspQryTransferBank():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pTransferBank;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryTransferBank";
+    json_Parameters.append(json_pTransferBank);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryTransferBank";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -193,12 +347,29 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
     bool bIsLast
 ) {
     printf("OnRspQryBrokerTradingAlgos():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pBrokerTradingAlgos;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryBrokerTradingAlgos";
+    json_Parameters.append(json_pBrokerTradingAlgos);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryBrokerTradingAlgos";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -210,12 +381,29 @@ void CTraderHandler::OnRspQryProduct(
     bool bIsLast
 ) {
     printf("OnRspQryProduct():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pProduct;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryProduct";
+    json_Parameters.append(json_pProduct);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryProduct";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -227,12 +415,29 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
     bool bIsLast
 ) {
     printf("OnRspQryInstrumentMarginRate():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInstrumentMarginRate;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryInstrumentMarginRate";
+    json_Parameters.append(json_pInstrumentMarginRate);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryInstrumentMarginRate";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -244,12 +449,29 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
     bool bIsLast
 ) {
     printf("OnRspQryCFMMCTradingAccountKey():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pCFMMCTradingAccountKey;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryCFMMCTradingAccountKey";
+    json_Parameters.append(json_pCFMMCTradingAccountKey);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryCFMMCTradingAccountKey";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -261,12 +483,29 @@ void CTraderHandler::OnRspUserLogin(
     bool bIsLast
 ) {
     printf("OnRspUserLogin():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pRspUserLogin;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspUserLogin";
+    json_Parameters.append(json_pRspUserLogin);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspUserLogin";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -278,12 +517,29 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
     bool bIsLast
 ) {
     printf("OnRspFromFutureToBankByFuture():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pReqTransfer;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspFromFutureToBankByFuture";
+    json_Parameters.append(json_pReqTransfer);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspFromFutureToBankByFuture";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -295,12 +551,29 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
     bool bIsLast
 ) {
     printf("OnRspQueryCFMMCTradingAccountToken():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pQueryCFMMCTradingAccountToken;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQueryCFMMCTradingAccountToken";
+    json_Parameters.append(json_pQueryCFMMCTradingAccountToken);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQueryCFMMCTradingAccountToken";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -312,12 +585,29 @@ void CTraderHandler::OnRspQryContractBank(
     bool bIsLast
 ) {
     printf("OnRspQryContractBank():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pContractBank;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryContractBank";
+    json_Parameters.append(json_pContractBank);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryContractBank";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -329,12 +619,29 @@ void CTraderHandler::OnRspOrderInsert(
     bool bIsLast
 ) {
     printf("OnRspOrderInsert():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInputOrder;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspOrderInsert";
+    json_Parameters.append(json_pInputOrder);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspOrderInsert";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -346,12 +653,29 @@ void CTraderHandler::OnRspQryEWarrantOffset(
     bool bIsLast
 ) {
     printf("OnRspQryEWarrantOffset():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pEWarrantOffset;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryEWarrantOffset";
+    json_Parameters.append(json_pEWarrantOffset);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryEWarrantOffset";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -363,12 +687,29 @@ void CTraderHandler::OnRspUserPasswordUpdate(
     bool bIsLast
 ) {
     printf("OnRspUserPasswordUpdate():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pUserPasswordUpdate;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspUserPasswordUpdate";
+    json_Parameters.append(json_pUserPasswordUpdate);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspUserPasswordUpdate";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -380,12 +721,29 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
     bool bIsLast
 ) {
     printf("OnRspQryExchangeMarginRateAdjust():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pExchangeMarginRateAdjust;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryExchangeMarginRateAdjust";
+    json_Parameters.append(json_pExchangeMarginRateAdjust);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryExchangeMarginRateAdjust";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -397,12 +755,29 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
     bool bIsLast
 ) {
     printf("OnRspFromBankToFutureByFuture():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pReqTransfer;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspFromBankToFutureByFuture";
+    json_Parameters.append(json_pReqTransfer);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspFromBankToFutureByFuture";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -414,12 +789,29 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
     bool bIsLast
 ) {
     printf("OnRspQryInvestorPositionCombineDetail():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInvestorPositionCombineDetail;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryInvestorPositionCombineDetail";
+    json_Parameters.append(json_pInvestorPositionCombineDetail);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestorPositionCombineDetail";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -431,12 +823,29 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
     bool bIsLast
 ) {
     printf("OnRspSettlementInfoConfirm():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pSettlementInfoConfirm;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspSettlementInfoConfirm";
+    json_Parameters.append(json_pSettlementInfoConfirm);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspSettlementInfoConfirm";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -448,12 +857,29 @@ void CTraderHandler::OnRspQryAccountregister(
     bool bIsLast
 ) {
     printf("OnRspQryAccountregister():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pAccountregister;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryAccountregister";
+    json_Parameters.append(json_pAccountregister);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryAccountregister";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -465,12 +891,29 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
     bool bIsLast
 ) {
     printf("OnRspQrySecAgentACIDMap():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pSecAgentACIDMap;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQrySecAgentACIDMap";
+    json_Parameters.append(json_pSecAgentACIDMap);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQrySecAgentACIDMap";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -482,12 +925,29 @@ void CTraderHandler::OnRspQryTradingCode(
     bool bIsLast
 ) {
     printf("OnRspQryTradingCode():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pTradingCode;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryTradingCode";
+    json_Parameters.append(json_pTradingCode);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryTradingCode";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -499,12 +959,29 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
     bool bIsLast
 ) {
     printf("OnRspQrySettlementInfoConfirm():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pSettlementInfoConfirm;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQrySettlementInfoConfirm";
+    json_Parameters.append(json_pSettlementInfoConfirm);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQrySettlementInfoConfirm";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -516,12 +993,29 @@ void CTraderHandler::OnRspQryTransferSerial(
     bool bIsLast
 ) {
     printf("OnRspQryTransferSerial():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pTransferSerial;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryTransferSerial";
+    json_Parameters.append(json_pTransferSerial);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryTransferSerial";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -533,12 +1027,29 @@ void CTraderHandler::OnRspQryInvestorPosition(
     bool bIsLast
 ) {
     printf("OnRspQryInvestorPosition():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInvestorPosition;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryInvestorPosition";
+    json_Parameters.append(json_pInvestorPosition);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestorPosition";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -550,12 +1061,29 @@ void CTraderHandler::OnRspUserLogout(
     bool bIsLast
 ) {
     printf("OnRspUserLogout():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pUserLogout;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspUserLogout";
+    json_Parameters.append(json_pUserLogout);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspUserLogout";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -567,12 +1095,29 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
     bool bIsLast
 ) {
     printf("OnRspQryInvestorPositionDetail():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInvestorPositionDetail;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryInvestorPositionDetail";
+    json_Parameters.append(json_pInvestorPositionDetail);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestorPositionDetail";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -584,12 +1129,29 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     bool bIsLast
 ) {
     printf("OnRspQryParkedOrderAction():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pParkedOrderAction;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryParkedOrderAction";
+    json_Parameters.append(json_pParkedOrderAction);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryParkedOrderAction";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -601,12 +1163,29 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
     bool bIsLast
 ) {
     printf("OnRspQryBrokerTradingParams():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pBrokerTradingParams;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryBrokerTradingParams";
+    json_Parameters.append(json_pBrokerTradingParams);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryBrokerTradingParams";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -618,12 +1197,29 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
     bool bIsLast
 ) {
     printf("OnRspQryExchangeMarginRate():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pExchangeMarginRate;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryExchangeMarginRate";
+    json_Parameters.append(json_pExchangeMarginRate);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryExchangeMarginRate";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -635,12 +1231,29 @@ void CTraderHandler::OnRspQryParkedOrder(
     bool bIsLast
 ) {
     printf("OnRspQryParkedOrder():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pParkedOrder;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryParkedOrder";
+    json_Parameters.append(json_pParkedOrder);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryParkedOrder";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -652,12 +1265,29 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
     bool bIsLast
 ) {
     printf("OnRspQueryBankAccountMoneyByFuture():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pReqQueryAccount;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQueryBankAccountMoneyByFuture";
+    json_Parameters.append(json_pReqQueryAccount);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQueryBankAccountMoneyByFuture";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -669,12 +1299,29 @@ void CTraderHandler::OnRspAuthenticate(
     bool bIsLast
 ) {
     printf("OnRspAuthenticate():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pRspAuthenticateField;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspAuthenticate";
+    json_Parameters.append(json_pRspAuthenticateField);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspAuthenticate";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -686,12 +1333,29 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
     bool bIsLast
 ) {
     printf("OnRspQueryMaxOrderVolume():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pQueryMaxOrderVolume;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQueryMaxOrderVolume";
+    json_Parameters.append(json_pQueryMaxOrderVolume);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQueryMaxOrderVolume";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -703,12 +1367,29 @@ void CTraderHandler::OnRspQryExchangeRate(
     bool bIsLast
 ) {
     printf("OnRspQryExchangeRate():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pExchangeRate;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryExchangeRate";
+    json_Parameters.append(json_pExchangeRate);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryExchangeRate";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -720,12 +1401,29 @@ void CTraderHandler::OnRspQryTradingNotice(
     bool bIsLast
 ) {
     printf("OnRspQryTradingNotice():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pTradingNotice;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryTradingNotice";
+    json_Parameters.append(json_pTradingNotice);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryTradingNotice";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -737,12 +1435,29 @@ void CTraderHandler::OnRspParkedOrderAction(
     bool bIsLast
 ) {
     printf("OnRspParkedOrderAction():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pParkedOrderAction;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspParkedOrderAction";
+    json_Parameters.append(json_pParkedOrderAction);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspParkedOrderAction";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -754,12 +1469,29 @@ void CTraderHandler::OnRspQryNotice(
     bool bIsLast
 ) {
     printf("OnRspQryNotice():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pNotice;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryNotice";
+    json_Parameters.append(json_pNotice);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryNotice";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -771,12 +1503,29 @@ void CTraderHandler::OnRspQryTradingAccount(
     bool bIsLast
 ) {
     printf("OnRspQryTradingAccount():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pTradingAccount;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryTradingAccount";
+    json_Parameters.append(json_pTradingAccount);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryTradingAccount";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -788,12 +1537,29 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
     bool bIsLast
 ) {
     printf("OnRspTradingAccountPasswordUpdate():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pTradingAccountPasswordUpdate;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspTradingAccountPasswordUpdate";
+    json_Parameters.append(json_pTradingAccountPasswordUpdate);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspTradingAccountPasswordUpdate";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -805,12 +1571,29 @@ void CTraderHandler::OnRspQryOrder(
     bool bIsLast
 ) {
     printf("OnRspQryOrder():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pOrder;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryOrder";
+    json_Parameters.append(json_pOrder);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryOrder";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -822,12 +1605,29 @@ void CTraderHandler::OnRspQryDepthMarketData(
     bool bIsLast
 ) {
     printf("OnRspQryDepthMarketData():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pDepthMarketData;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryDepthMarketData";
+    json_Parameters.append(json_pDepthMarketData);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryDepthMarketData";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -839,12 +1639,29 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
     bool bIsLast
 ) {
     printf("OnRspQryInstrumentCommissionRate():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pInstrumentCommissionRate;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryInstrumentCommissionRate";
+    json_Parameters.append(json_pInstrumentCommissionRate);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryInstrumentCommissionRate";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -856,12 +1673,29 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
     bool bIsLast
 ) {
     printf("OnRspRemoveParkedOrderAction():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pRemoveParkedOrderAction;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspRemoveParkedOrderAction";
+    json_Parameters.append(json_pRemoveParkedOrderAction);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspRemoveParkedOrderAction";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 
@@ -873,12 +1707,29 @@ void CTraderHandler::OnRspQryTrade(
     bool bIsLast
 ) {
     printf("OnRspQryTrade():被执行...\n");
+    // 生成发送管道的引用
     zmq::socket_t & sendder = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    Json::Value json_Parameters;
+    Json::Value json_pTrade;
+    Json::Value json_pRspInfo;
+    Json::Value json_nRequestID;
+    Json::Value json_bIsLast;
+    json_Response["apiName"] = "OnRspQryTrade";
+    json_Parameters.append(json_pTrade);
+    json_Parameters.append(json_pRspInfo);
+    json_Parameters.append(json_nRequestID);
+    json_Parameters.append(json_bIsLast);
+    json_Response["parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
     message.apiName = "OnRspQryTrade";
-    message.respInfo = "";
+    message.respInfo = json_Response.toStyledString();
     message.send(sendder);
 }
 

@@ -85,7 +85,7 @@ void writeJson() {
 
 void readJson() {
     using namespace std;
-    std::string strValue = "{\"name\":\"json\",\"array\":[{\"cpp\":\"jsoncpp\"},{\"java\":\"jsoninjava\"},{\"php\":\"support\"}]}";
+    std::string strValue = "{\"name\":\"json\",\"array\":[{\"cpp\":\"jsoncpp\",\"cpp1\":\"jxx\"},{\"java\":\"jsoninjava\"},{\"php\":\"support\"}]}";
 
     Json::Reader reader;
     Json::Value value;
@@ -93,27 +93,48 @@ void readJson() {
     if (reader.parse(strValue, value))
     {
         std::string out = value["name"].asString();
-        std::cout << out << std::endl;
+        //std::cout << out << std::endl;
         const Json::Value arrayObj = value["array"];
-        for (unsigned int i = 0; i < arrayObj.size(); i++)
-        {
-            if (!arrayObj[i].isMember("cpp"))
-                continue;
-            out = arrayObj[i]["cpp"].asString();
-            std::cout << out;
-            if (i != (arrayObj.size() - 1))
-                std::cout << std::endl;
+
+        for (int i=0; i<arrayObj.size(); i++) {
+            const Json::Value::Members memberNames = arrayObj[i].getMemberNames();
+            for(int j=0; j<memberNames.size(); j++) {
+                std::cout << memberNames[j] << std::endl;
+            }
         }
+        //for (unsigned int i = 0; i < arrayObj.size(); i++)
+        //{
+        //if (!arrayObj[i].isMember("cpp"))
+        //    continue;
+        //out = arrayObj[i].asString();
+        //std::cout << out;
+        //if (i != (arrayObj.size() - 1))
+        //    std::cout << std::endl;
+        //std::cout << "1111" << std::endl;
+        //}
     }
 }
 
+void readJsonDict() {
+    std::string strValue = "{\"a\":\"1\",\"b\":\"2\",\"c\":\"3\"}";
+    Json::Reader reader;
+    Json::Value value;
+    reader.parse(strValue, value);
+    std::cout << "value.isObject=" << value.isObject() << std::endl;
+    const Json::Value::Members memberNames = value.getMemberNames();
+    for(int i=0; i<memberNames.size(); i++) {
+        std::cout << memberNames[i] << ":" << value[memberNames[i]] << std::endl;
+    }
+}
+
+
 int main() {
-    //CTraderHandler traderHandler = CTraderHandler();
-    //traderHandler.OnRspQryInstrument(0,0,0,0);
-
-    writeJson();
-    std::cout << "-----------------------------------------------" << std::endl;
-    readJson();
-
+    config.load();
+    CThostFtdcInstrumentField pInstrument;
+    CThostFtdcRspInfoField pRspInfo;
+    int nRequestID;
+    bool bIsLast;
+    CTraderHandler traderHandler = CTraderHandler(&config);
+    traderHandler.OnRspQryInstrument(&pInstrument,&pRspInfo,nRequestID,bIsLast);
     return 0;
 }
