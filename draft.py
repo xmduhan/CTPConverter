@@ -28,10 +28,13 @@ CApiWrapper 自动编写部分（ok）
 
 #4、json的处理（含打包和拆包）
 (1)jsoncpp的安装 (ok)
-(2)OnRsp,
+(2)OnRsp,(ok)
+(5)Req
+
+
 (3)OnRtn,
 (4)OnErrRtn
-(5)Req
+(6)OnRsp字符串编码转化的问题
 
 
 #5、监听代码框架编写(使用CTRL+C退出程序)
@@ -135,7 +138,7 @@ print ')'
 structDict = {}
 structInfoDict =  cppheader.getClasses(ApiStruct_h)
 for si in  structInfoDict.viewvalues():
-    struct = {}    
+    struct = {}
     struct['name'] = si['name']
     struct['remark'] = si['doxygen'].decode('utf8')
     fields = []
@@ -152,8 +155,9 @@ for si in  structInfoDict.viewvalues():
     structDict[si['name']] = struct
 
 #%%
-structDict['CThostFtdcExchangeField']
-
+structDict['CThostFtdcRspInfoField']
+ErrorID
+ErrorMsg
 
 #%% 根据类型找定义
 

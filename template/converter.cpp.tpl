@@ -137,6 +137,7 @@ int main(){
     CTraderHandler traderHandler = CTraderHandler(&config);
     while(1){
         traderHandler.OnRspQryInstrument(&pInstrument,&pRspInfo,nRequestID,bIsLast);
+        //traderHandler.OnRspQryInstrument(0,&pRspInfo,nRequestID,bIsLast);
         std::cout << "message send ..." << std::endl;
         getchar();
     }

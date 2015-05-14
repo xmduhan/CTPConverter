@@ -2,6 +2,7 @@
 #include <ThostFtdcTraderApi.h>
 #include <CTraderHandler.h>
 #include <json/json.h>
+#include <comhelper.h>
 
 
 /// 构造函数
@@ -43,7 +44,21 @@ char buffer[1024];
 ){
 	printf("{{method['name']}}():被执行...\n");
 	// 生成发送管道的引用
-	zmq::socket_t & sendder = *pSender;
+	zmq::socket_t & sender = *pSender;
+
+    // 返回结果检查
+    if ( pRspInfo )  {
+        // typedef int TThostFtdcErrorIDType;
+        // typedef char TThostFtdcErrorMsgType[81];
+		if (pRspInfo->ErrorID != 0) {
+        	char ErrorMsg[243];
+        	gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
+			std::cout << "{{method['name']}}:出错:ErrorId=" << pRspInfo->ErrorID << ","
+			<< "ErrorMsg=" << ErrorMsg << std::endl;
+		}
+    } else {
+		std::cout << "{{method['name']}}:出错:没有提供出错信息" << std::endl;
+	}
 
 	// 生成返回的json格式
 	Json::Value json_Response;
@@ -54,9 +69,12 @@ char buffer[1024];
 	{%- set dataTypeName = method['parameters'][0]['raw_type'] %}
 	{%- set dataType = structDict[dataTypeName] %}
 	Json::Value json_{{dataVarName}};
-	{% for field in dataType['fields'] %}
-		json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
-	{%- endfor %}
+	if ( {{dataVarName}} != NULL ) {
+		// TODO : 这里需要将编码转化为utf-8	
+		{% for field in dataType['fields'] %}
+			json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+		{%- endfor %}
+	}
 
 	/// 出错信息
 	Json::Value json_pRspInfo;
@@ -86,7 +104,7 @@ char buffer[1024];
 	message.requestID = buffer;
 	message.apiName = "{{method['name']}}";
 	message.respInfo = json_Response.toStyledString();
-	message.send(sendder);
+	message.send(sender);
 }
 {% endfor %}
 
