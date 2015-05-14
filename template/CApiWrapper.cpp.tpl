@@ -132,27 +132,27 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 	int CApiWrapper::{{method['name']}}(char * pJsonData )
 {
 	printf("{{method['name']}}():被执行...\n");
-	{% for parameter in method['parameters'] -%}
-	    {{ parameter['type'] }} {{parameter['name'] -}};
-	{%- endfor %}
+	{% set parameter = method['parameters'][0]  %}
+	{{ parameter['raw_type'] }} data;
+    int nRequestID;
 
 	// 获取RequestID
 	nRequestID = getNextRequestID();
 
 	// TODO:这里将pJsonData转化为对应的结构参数
+	{%- set dataTypeName = parameter['raw_type'] %}
+	{%- set dataType = structDict[dataTypeName] %}
+	{% for field in dataType['fields'] %}
+		{{field['remark']}}
+		//date.{{field['name']}} = ;
+	{%- endfor %}
 
 	// 调用对应的CTP API函数
 	{{method['returns']}} result =
-	pTraderApi->{{method['name']}}(
-		{% for parameter in method['parameters'] -%}
-		    {{-parameter['name'] -}}
-			{%- if not loop.last %},
-			{% endif -%}
-		{%- endfor %}
-	);
+	pTraderApi->{{method['name']}}(&data, nRequestID);
 
 	// TODO:检查API调用是否失败,并设置LastError信息
 
-	return 0;
+	return result;
 }
 {% endfor %}

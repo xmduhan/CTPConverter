@@ -1,0 +1,31 @@
+1、请求函数的json格式
+{
+   "ResponseMethod" : "ReqQryTradingAccount",
+   "Parameters" : {
+      "Data" : {
+         "CreateDate" : "....",
+         "DeliveryMonth" : 4,
+         ... ...
+      }
+   }   
+}
+
+
+
+2、响应函数返回的json格式
+{
+   "ResponseMethod" : "OnRspQryInstrument",
+   "Parameters" : {
+      "Data" : {
+         "CreateDate" : "....",
+         "DeliveryMonth" : 4,
+         ... ...
+      },      
+      "RspInfo" : {
+         "ErrorID" : 0,
+         "ErrorMsg" : ""
+      }
+      "RequestID" : 32759,
+      "IsLast" : true,
+   }   
+}
