@@ -1,6 +1,7 @@
 
 #include <converter.h>
 #include <json/json.h>
+#include <comhelper.h>
 
 
 // 配置数据
@@ -127,8 +128,7 @@ void readJsonDict(){
     }
 }
 
-
-int main(){
+void test03(){
     config.load();
     CThostFtdcInstrumentField pInstrument;
     CThostFtdcRspInfoField pRspInfo;
@@ -141,5 +141,88 @@ int main(){
         std::cout << "message send ..." << std::endl;
         getchar();
     }
+}
+
+
+
+
+
+int main(){
+
+    std::string jsonString = "\
+    {\
+       \"ResponseMethod\" : \"ReqQryTradingAccount\",\
+       \"Parameters\" : {\
+          \"Data\" : {\
+             \"string\" : \"1234567890\",\
+             \"char\" : \"c\",\
+             \"int\" : 123456,\
+             \"double\" : 3.1415926\
+            }\
+        }\
+    }\
+    ";
+
+    char str[10];
+    char c = '0';
+    int i = 0;
+    double d = 0.0;
+
+    try{
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)){
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        Assert<std::exception>(!Data.empty());
+
+        // TODO : 处理没有提供的字段并设置默认值
+        ////////////// 字符处理过程 ////////////////
+        if ( !Data["char"].empty()){
+            c = Data["char"].asString()[0];
+        }else{
+            c = '0';
+        }
+        ///////////// 整型处理过程 ////////////////
+        if (!Data["int"].empty()){
+            i = Data["int"].asInt();
+        }else{
+            i = 0;
+        }
+        ///////////// 浮点处理过程 ////////////////
+        if (!Data["double"].empty()){
+            d = Data["double"].asDouble();
+        }else{
+            d = 0;
+        }
+        ///////////// 字符串处理过程 ////////////////
+        if (!Data["string"].empty()){
+            str[sizeof(str)-1] = 0;
+            strncpy(str,Data["string"].asCString(),sizeof(str)-1);
+        }else{
+            strcpy(str,"");
+        }
+
+        // 查看输出结果
+        std::cout << "c=" << c << std::endl;
+        std::cout << "i=" << i << std::endl;
+        std::cout << "d=" << d << std::endl;
+        std::cout << "str=" << str << '|' << std::endl;
+
+        for(i=0; i<sizeof(str); i++){
+            printf("%d:%d\n",i,(int)str[i]);
+        }
+
+    //}catch (std::exception & e){
+    }catch (...){
+        //std::cout << "exception:" << e.what() << std::endl;
+        std::cout << "json数据格式错误" << std::endl;
+    }
+
     return 0;
 }
