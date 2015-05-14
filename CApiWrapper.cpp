@@ -141,12 +141,15 @@ int CApiWrapper::ReqQryTradingAccount(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///币种代码
-    //date.CurrencyID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///币种代码 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -170,10 +173,12 @@ int CApiWrapper::ReqQryCFMMCTradingAccountKey(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -197,14 +202,18 @@ int CApiWrapper::ReqUserPasswordUpdate(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///用户代码
-    //date.UserID = ;
-    ///原来的口令
-    //date.OldPassword = ;
-    ///新的口令
-    //date.NewPassword = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///原来的口令 char OldPassword[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///新的口令 char NewPassword[41];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -228,44 +237,63 @@ int CApiWrapper::ReqParkedOrderAction(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///报单操作引用
-    //date.OrderActionRef = ;
-    ///报单引用
-    //date.OrderRef = ;
-    ///请求编号
-    //date.RequestID = ;
-    ///前置编号
-    //date.FrontID = ;
-    ///会话编号
-    //date.SessionID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///报单编号
-    //date.OrderSysID = ;
-    ///操作标志
-    //date.ActionFlag = ;
-    ///价格
-    //date.LimitPrice = ;
-    ///数量变化
-    //date.VolumeChange = ;
-    ///用户代码
-    //date.UserID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///预埋撤单单编号
-    //date.ParkedOrderActionID = ;
-    ///用户类型
-    //date.UserType = ;
-    ///预埋撤单状态
-    //date.Status = ;
-    ///错误代码
-    //date.ErrorID = ;
-    ///错误信息
-    //date.ErrorMsg = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单操作引用 int OrderActionRef
+    ////////////// int 类型赋值处理 //////////////
+
+    ///报单引用 char OrderRef[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///请求编号 int RequestID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///前置编号 int FrontID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///会话编号 int SessionID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单编号 char OrderSysID[21];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///操作标志 char ActionFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///价格 double LimitPrice
+    ////////////// double 类型赋值处理 //////////////
+
+    ///数量变化 int VolumeChange
+    ////////////// int 类型赋值处理 //////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///预埋撤单单编号 char ParkedOrderActionID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户类型 char UserType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///预埋撤单状态 char Status
+    ////////////// char 类型赋值处理 //////////////
+
+    ///错误代码 int ErrorID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///错误信息 char ErrorMsg[81];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -289,10 +317,12 @@ int CApiWrapper::ReqQryTradingNotice(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -316,20 +346,27 @@ int CApiWrapper::ReqQryTrade(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///成交编号
-    //date.TradeID = ;
-    ///开始时间
-    //date.TradeTimeStart = ;
-    ///结束时间
-    //date.TradeTimeEnd = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///成交编号 char TradeID[21];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///开始时间 char TradeTimeStart[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///结束时间 char TradeTimeEnd[9];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -353,20 +390,27 @@ int CApiWrapper::ReqQueryMaxOrderVolume(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///买卖方向
-    //date.Direction = ;
-    ///开平标志
-    //date.OffsetFlag = ;
-    ///投机套保标志
-    //date.HedgeFlag = ;
-    ///最大允许报单数量
-    //date.MaxVolume = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///买卖方向 char Direction
+    ////////////// char 类型赋值处理 //////////////
+
+    ///开平标志 char OffsetFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///投机套保标志 char HedgeFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///最大允许报单数量 int MaxVolume
+    ////////////// int 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -390,14 +434,18 @@ int CApiWrapper::ReqSettlementInfoConfirm(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///确认日期
-    //date.ConfirmDate = ;
-    ///确认时间
-    //date.ConfirmTime = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///确认日期 char ConfirmDate[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///确认时间 char ConfirmTime[9];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -421,12 +469,15 @@ int CApiWrapper::ReqQryInvestorPosition(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -450,12 +501,15 @@ int CApiWrapper::ReqQryBrokerTradingAlgos(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///合约代码
-    //date.InstrumentID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -479,20 +533,27 @@ int CApiWrapper::ReqQryOrder(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///报单编号
-    //date.OrderSysID = ;
-    ///开始时间
-    //date.InsertTimeStart = ;
-    ///结束时间
-    //date.InsertTimeEnd = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单编号 char OrderSysID[21];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///开始时间 char InsertTimeStart[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///结束时间 char InsertTimeEnd[9];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -516,8 +577,9 @@ int CApiWrapper::ReqQryExchange(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///交易所代码
-    //date.ExchangeID = ;
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -541,26 +603,36 @@ int CApiWrapper::ReqUserLogin(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///交易日
-    //date.TradingDay = ;
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///用户代码
-    //date.UserID = ;
-    ///密码
-    //date.Password = ;
-    ///用户端产品信息
-    //date.UserProductInfo = ;
-    ///接口端产品信息
-    //date.InterfaceProductInfo = ;
-    ///协议信息
-    //date.ProtocolInfo = ;
-    ///Mac地址
-    //date.MacAddress = ;
-    ///动态密码
-    //date.OneTimePassword = ;
-    ///终端IP地址
-    //date.ClientIPAddress = ;
+    ///交易日 char TradingDay[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///密码 char Password[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户端产品信息 char UserProductInfo[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///接口端产品信息 char InterfaceProductInfo[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///协议信息 char ProtocolInfo[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///Mac地址 char MacAddress[21];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///动态密码 char OneTimePassword[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///终端IP地址 char ClientIPAddress[16];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -584,92 +656,135 @@ int CApiWrapper::ReqFromFutureToBankByFuture(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///业务功能码
-    //date.TradeCode = ;
-    ///银行代码
-    //date.BankID = ;
-    ///银行分支机构代码
-    //date.BankBranchID = ;
-    ///期商代码
-    //date.BrokerID = ;
-    ///期商分支机构代码
-    //date.BrokerBranchID = ;
-    ///交易日期
-    //date.TradeDate = ;
-    ///交易时间
-    //date.TradeTime = ;
-    ///银行流水号
-    //date.BankSerial = ;
-    ///交易系统日期
-    //date.TradingDay = ;
-    ///银期平台消息流水号
-    //date.PlateSerial = ;
-    ///最后分片标志
-    //date.LastFragment = ;
-    ///会话号
-    //date.SessionID = ;
-    ///客户姓名
-    //date.CustomerName = ;
-    ///证件类型
-    //date.IdCardType = ;
-    ///证件号码
-    //date.IdentifiedCardNo = ;
-    ///客户类型
-    //date.CustType = ;
-    ///银行帐号
-    //date.BankAccount = ;
-    ///银行密码
-    //date.BankPassWord = ;
-    ///投资者帐号
-    //date.AccountID = ;
-    ///期货密码
-    //date.Password = ;
-    ///安装编号
-    //date.InstallID = ;
-    ///期货公司流水号
-    //date.FutureSerial = ;
-    ///用户标识
-    //date.UserID = ;
-    ///验证客户证件号码标志
-    //date.VerifyCertNoFlag = ;
-    ///币种代码
-    //date.CurrencyID = ;
-    ///转帐金额
-    //date.TradeAmount = ;
-    ///期货可取金额
-    //date.FutureFetchAmount = ;
-    ///费用支付标志
-    //date.FeePayFlag = ;
-    ///应收客户费用
-    //date.CustFee = ;
-    ///应收期货公司费用
-    //date.BrokerFee = ;
-    ///发送方给接收方的消息
-    //date.Message = ;
-    ///摘要
-    //date.Digest = ;
-    ///银行帐号类型
-    //date.BankAccType = ;
-    ///渠道标志
-    //date.DeviceID = ;
-    ///期货单位帐号类型
-    //date.BankSecuAccType = ;
-    ///期货公司银行编码
-    //date.BrokerIDByBank = ;
-    ///期货单位帐号
-    //date.BankSecuAcc = ;
-    ///银行密码标志
-    //date.BankPwdFlag = ;
-    ///期货资金密码核对标志
-    //date.SecuPwdFlag = ;
-    ///交易柜员
-    //date.OperNo = ;
-    ///请求编号
-    //date.RequestID = ;
-    ///交易ID
-    //date.TID = ;
-    ///转账交易状态
-    //date.TransferStatus = ;
+    ///业务功能码 char TradeCode[7];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行代码 char BankID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行分支机构代码 char BankBranchID[5];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期商代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期商分支机构代码 char BrokerBranchID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易日期 char TradeDate[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易时间 char TradeTime[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行流水号 char BankSerial[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易系统日期 char TradingDay[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银期平台消息流水号 int PlateSerial
+    ////////////// int 类型赋值处理 //////////////
+
+    ///最后分片标志 char LastFragment
+    ////////////// char 类型赋值处理 //////////////
+
+    ///会话号 int SessionID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///客户姓名 char CustomerName[51];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///证件类型 char IdCardType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///证件号码 char IdentifiedCardNo[51];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///客户类型 char CustType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///银行帐号 char BankAccount[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行密码 char BankPassWord[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者帐号 char AccountID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货密码 char Password[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///安装编号 int InstallID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///期货公司流水号 int FutureSerial
+    ////////////// int 类型赋值处理 //////////////
+
+    ///用户标识 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///验证客户证件号码标志 char VerifyCertNoFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///币种代码 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///转帐金额 double TradeAmount
+    ////////////// double 类型赋值处理 //////////////
+
+    ///期货可取金额 double FutureFetchAmount
+    ////////////// double 类型赋值处理 //////////////
+
+    ///费用支付标志 char FeePayFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///应收客户费用 double CustFee
+    ////////////// double 类型赋值处理 //////////////
+
+    ///应收期货公司费用 double BrokerFee
+    ////////////// double 类型赋值处理 //////////////
+
+    ///发送方给接收方的消息 char Message[129];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///摘要 char Digest[36];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行帐号类型 char BankAccType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///渠道标志 char DeviceID[3];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货单位帐号类型 char BankSecuAccType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///期货公司银行编码 char BrokerIDByBank[33];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货单位帐号 char BankSecuAcc[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行密码标志 char BankPwdFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///期货资金密码核对标志 char SecuPwdFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///交易柜员 char OperNo[17];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///请求编号 int RequestID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///交易ID int TID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///转账交易状态 char TransferStatus
+    ////////////// char 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -693,92 +808,135 @@ int CApiWrapper::ReqFromBankToFutureByFuture(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///业务功能码
-    //date.TradeCode = ;
-    ///银行代码
-    //date.BankID = ;
-    ///银行分支机构代码
-    //date.BankBranchID = ;
-    ///期商代码
-    //date.BrokerID = ;
-    ///期商分支机构代码
-    //date.BrokerBranchID = ;
-    ///交易日期
-    //date.TradeDate = ;
-    ///交易时间
-    //date.TradeTime = ;
-    ///银行流水号
-    //date.BankSerial = ;
-    ///交易系统日期
-    //date.TradingDay = ;
-    ///银期平台消息流水号
-    //date.PlateSerial = ;
-    ///最后分片标志
-    //date.LastFragment = ;
-    ///会话号
-    //date.SessionID = ;
-    ///客户姓名
-    //date.CustomerName = ;
-    ///证件类型
-    //date.IdCardType = ;
-    ///证件号码
-    //date.IdentifiedCardNo = ;
-    ///客户类型
-    //date.CustType = ;
-    ///银行帐号
-    //date.BankAccount = ;
-    ///银行密码
-    //date.BankPassWord = ;
-    ///投资者帐号
-    //date.AccountID = ;
-    ///期货密码
-    //date.Password = ;
-    ///安装编号
-    //date.InstallID = ;
-    ///期货公司流水号
-    //date.FutureSerial = ;
-    ///用户标识
-    //date.UserID = ;
-    ///验证客户证件号码标志
-    //date.VerifyCertNoFlag = ;
-    ///币种代码
-    //date.CurrencyID = ;
-    ///转帐金额
-    //date.TradeAmount = ;
-    ///期货可取金额
-    //date.FutureFetchAmount = ;
-    ///费用支付标志
-    //date.FeePayFlag = ;
-    ///应收客户费用
-    //date.CustFee = ;
-    ///应收期货公司费用
-    //date.BrokerFee = ;
-    ///发送方给接收方的消息
-    //date.Message = ;
-    ///摘要
-    //date.Digest = ;
-    ///银行帐号类型
-    //date.BankAccType = ;
-    ///渠道标志
-    //date.DeviceID = ;
-    ///期货单位帐号类型
-    //date.BankSecuAccType = ;
-    ///期货公司银行编码
-    //date.BrokerIDByBank = ;
-    ///期货单位帐号
-    //date.BankSecuAcc = ;
-    ///银行密码标志
-    //date.BankPwdFlag = ;
-    ///期货资金密码核对标志
-    //date.SecuPwdFlag = ;
-    ///交易柜员
-    //date.OperNo = ;
-    ///请求编号
-    //date.RequestID = ;
-    ///交易ID
-    //date.TID = ;
-    ///转账交易状态
-    //date.TransferStatus = ;
+    ///业务功能码 char TradeCode[7];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行代码 char BankID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行分支机构代码 char BankBranchID[5];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期商代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期商分支机构代码 char BrokerBranchID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易日期 char TradeDate[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易时间 char TradeTime[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行流水号 char BankSerial[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易系统日期 char TradingDay[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银期平台消息流水号 int PlateSerial
+    ////////////// int 类型赋值处理 //////////////
+
+    ///最后分片标志 char LastFragment
+    ////////////// char 类型赋值处理 //////////////
+
+    ///会话号 int SessionID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///客户姓名 char CustomerName[51];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///证件类型 char IdCardType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///证件号码 char IdentifiedCardNo[51];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///客户类型 char CustType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///银行帐号 char BankAccount[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行密码 char BankPassWord[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者帐号 char AccountID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货密码 char Password[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///安装编号 int InstallID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///期货公司流水号 int FutureSerial
+    ////////////// int 类型赋值处理 //////////////
+
+    ///用户标识 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///验证客户证件号码标志 char VerifyCertNoFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///币种代码 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///转帐金额 double TradeAmount
+    ////////////// double 类型赋值处理 //////////////
+
+    ///期货可取金额 double FutureFetchAmount
+    ////////////// double 类型赋值处理 //////////////
+
+    ///费用支付标志 char FeePayFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///应收客户费用 double CustFee
+    ////////////// double 类型赋值处理 //////////////
+
+    ///应收期货公司费用 double BrokerFee
+    ////////////// double 类型赋值处理 //////////////
+
+    ///发送方给接收方的消息 char Message[129];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///摘要 char Digest[36];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行帐号类型 char BankAccType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///渠道标志 char DeviceID[3];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货单位帐号类型 char BankSecuAccType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///期货公司银行编码 char BrokerIDByBank[33];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货单位帐号 char BankSecuAcc[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行密码标志 char BankPwdFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///期货资金密码核对标志 char SecuPwdFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///交易柜员 char OperNo[17];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///请求编号 int RequestID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///交易ID int TID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///转账交易状态 char TransferStatus
+    ////////////// char 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -802,10 +960,12 @@ int CApiWrapper::ReqQrySettlementInfoConfirm(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -829,12 +989,15 @@ int CApiWrapper::ReqQryBrokerTradingParams(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///币种代码
-    //date.CurrencyID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///币种代码 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -858,10 +1021,12 @@ int CApiWrapper::ReqQueryCFMMCTradingAccountToken(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -885,8 +1050,9 @@ int CApiWrapper::ReqQryNotice(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -910,12 +1076,15 @@ int CApiWrapper::ReqQryExchangeRate(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///源币种
-    //date.FromCurrencyID = ;
-    ///目标币种
-    //date.ToCurrencyID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///源币种 char FromCurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///目标币种 char ToCurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -939,64 +1108,93 @@ int CApiWrapper::ReqParkedOrderInsert(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///报单引用
-    //date.OrderRef = ;
-    ///用户代码
-    //date.UserID = ;
-    ///报单价格条件
-    //date.OrderPriceType = ;
-    ///买卖方向
-    //date.Direction = ;
-    ///组合开平标志
-    //date.CombOffsetFlag = ;
-    ///组合投机套保标志
-    //date.CombHedgeFlag = ;
-    ///价格
-    //date.LimitPrice = ;
-    ///数量
-    //date.VolumeTotalOriginal = ;
-    ///有效期类型
-    //date.TimeCondition = ;
-    ///GTD日期
-    //date.GTDDate = ;
-    ///成交量类型
-    //date.VolumeCondition = ;
-    ///最小成交量
-    //date.MinVolume = ;
-    ///触发条件
-    //date.ContingentCondition = ;
-    ///止损价
-    //date.StopPrice = ;
-    ///强平原因
-    //date.ForceCloseReason = ;
-    ///自动挂起标志
-    //date.IsAutoSuspend = ;
-    ///业务单元
-    //date.BusinessUnit = ;
-    ///请求编号
-    //date.RequestID = ;
-    ///用户强评标志
-    //date.UserForceClose = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///预埋报单编号
-    //date.ParkedOrderID = ;
-    ///用户类型
-    //date.UserType = ;
-    ///预埋单状态
-    //date.Status = ;
-    ///错误代码
-    //date.ErrorID = ;
-    ///错误信息
-    //date.ErrorMsg = ;
-    ///互换单标志
-    //date.IsSwapOrder = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单引用 char OrderRef[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单价格条件 char OrderPriceType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///买卖方向 char Direction
+    ////////////// char 类型赋值处理 //////////////
+
+    ///组合开平标志 char CombOffsetFlag[5];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///组合投机套保标志 char CombHedgeFlag[5];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///价格 double LimitPrice
+    ////////////// double 类型赋值处理 //////////////
+
+    ///数量 int VolumeTotalOriginal
+    ////////////// int 类型赋值处理 //////////////
+
+    ///有效期类型 char TimeCondition
+    ////////////// char 类型赋值处理 //////////////
+
+    ///GTD日期 char GTDDate[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///成交量类型 char VolumeCondition
+    ////////////// char 类型赋值处理 //////////////
+
+    ///最小成交量 int MinVolume
+    ////////////// int 类型赋值处理 //////////////
+
+    ///触发条件 char ContingentCondition
+    ////////////// char 类型赋值处理 //////////////
+
+    ///止损价 double StopPrice
+    ////////////// double 类型赋值处理 //////////////
+
+    ///强平原因 char ForceCloseReason
+    ////////////// char 类型赋值处理 //////////////
+
+    ///自动挂起标志 int IsAutoSuspend
+    ////////////// int 类型赋值处理 //////////////
+
+    ///业务单元 char BusinessUnit[21];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///请求编号 int RequestID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///用户强评标志 int UserForceClose
+    ////////////// int 类型赋值处理 //////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///预埋报单编号 char ParkedOrderID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户类型 char UserType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///预埋单状态 char Status
+    ////////////// char 类型赋值处理 //////////////
+
+    ///错误代码 int ErrorID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///错误信息 char ErrorMsg[81];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///互换单标志 int IsSwapOrder
+    ////////////// int 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1020,12 +1218,15 @@ int CApiWrapper::ReqQryContractBank(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///银行代码
-    //date.BankID = ;
-    ///银行分中心代码
-    //date.BankBrchID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行代码 char BankID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行分中心代码 char BankBrchID[5];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1049,12 +1250,15 @@ int CApiWrapper::ReqQryInvestorPositionCombineDetail(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///组合持仓合约编码
-    //date.CombInstrumentID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///组合持仓合约编码 char CombInstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1078,12 +1282,15 @@ int CApiWrapper::ReqQryExchangeMarginRate(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///投机套保标志
-    //date.HedgeFlag = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投机套保标志 char HedgeFlag
+    ////////////// char 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1107,14 +1314,18 @@ int CApiWrapper::ReqQrySecAgentACIDMap(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///用户代码
-    //date.UserID = ;
-    ///资金账户
-    //date.AccountID = ;
-    ///币种
-    //date.CurrencyID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///资金账户 char AccountID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///币种 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1138,14 +1349,18 @@ int CApiWrapper::ReqQryTransferSerial(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者帐号
-    //date.AccountID = ;
-    ///银行编码
-    //date.BankID = ;
-    ///币种代码
-    //date.CurrencyID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者帐号 char AccountID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行编码 char BankID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///币种代码 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1169,78 +1384,114 @@ int CApiWrapper::ReqQueryBankAccountMoneyByFuture(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///业务功能码
-    //date.TradeCode = ;
-    ///银行代码
-    //date.BankID = ;
-    ///银行分支机构代码
-    //date.BankBranchID = ;
-    ///期商代码
-    //date.BrokerID = ;
-    ///期商分支机构代码
-    //date.BrokerBranchID = ;
-    ///交易日期
-    //date.TradeDate = ;
-    ///交易时间
-    //date.TradeTime = ;
-    ///银行流水号
-    //date.BankSerial = ;
-    ///交易系统日期
-    //date.TradingDay = ;
-    ///银期平台消息流水号
-    //date.PlateSerial = ;
-    ///最后分片标志
-    //date.LastFragment = ;
-    ///会话号
-    //date.SessionID = ;
-    ///客户姓名
-    //date.CustomerName = ;
-    ///证件类型
-    //date.IdCardType = ;
-    ///证件号码
-    //date.IdentifiedCardNo = ;
-    ///客户类型
-    //date.CustType = ;
-    ///银行帐号
-    //date.BankAccount = ;
-    ///银行密码
-    //date.BankPassWord = ;
-    ///投资者帐号
-    //date.AccountID = ;
-    ///期货密码
-    //date.Password = ;
-    ///期货公司流水号
-    //date.FutureSerial = ;
-    ///安装编号
-    //date.InstallID = ;
-    ///用户标识
-    //date.UserID = ;
-    ///验证客户证件号码标志
-    //date.VerifyCertNoFlag = ;
-    ///币种代码
-    //date.CurrencyID = ;
-    ///摘要
-    //date.Digest = ;
-    ///银行帐号类型
-    //date.BankAccType = ;
-    ///渠道标志
-    //date.DeviceID = ;
-    ///期货单位帐号类型
-    //date.BankSecuAccType = ;
-    ///期货公司银行编码
-    //date.BrokerIDByBank = ;
-    ///期货单位帐号
-    //date.BankSecuAcc = ;
-    ///银行密码标志
-    //date.BankPwdFlag = ;
-    ///期货资金密码核对标志
-    //date.SecuPwdFlag = ;
-    ///交易柜员
-    //date.OperNo = ;
-    ///请求编号
-    //date.RequestID = ;
-    ///交易ID
-    //date.TID = ;
+    ///业务功能码 char TradeCode[7];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行代码 char BankID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行分支机构代码 char BankBranchID[5];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期商代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期商分支机构代码 char BrokerBranchID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易日期 char TradeDate[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易时间 char TradeTime[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行流水号 char BankSerial[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易系统日期 char TradingDay[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银期平台消息流水号 int PlateSerial
+    ////////////// int 类型赋值处理 //////////////
+
+    ///最后分片标志 char LastFragment
+    ////////////// char 类型赋值处理 //////////////
+
+    ///会话号 int SessionID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///客户姓名 char CustomerName[51];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///证件类型 char IdCardType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///证件号码 char IdentifiedCardNo[51];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///客户类型 char CustType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///银行帐号 char BankAccount[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行密码 char BankPassWord[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者帐号 char AccountID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货密码 char Password[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货公司流水号 int FutureSerial
+    ////////////// int 类型赋值处理 //////////////
+
+    ///安装编号 int InstallID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///用户标识 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///验证客户证件号码标志 char VerifyCertNoFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///币种代码 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///摘要 char Digest[36];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行帐号类型 char BankAccType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///渠道标志 char DeviceID[3];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货单位帐号类型 char BankSecuAccType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///期货公司银行编码 char BrokerIDByBank[33];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///期货单位帐号 char BankSecuAcc[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行密码标志 char BankPwdFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///期货资金密码核对标志 char SecuPwdFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///交易柜员 char OperNo[17];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///请求编号 int RequestID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///交易ID int TID
+    ////////////// int 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1264,14 +1515,18 @@ int CApiWrapper::ReqQryParkedOrderAction(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1295,14 +1550,18 @@ int CApiWrapper::ReqAuthenticate(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///用户代码
-    //date.UserID = ;
-    ///用户端产品信息
-    //date.UserProductInfo = ;
-    ///认证码
-    //date.AuthCode = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户端产品信息 char UserProductInfo[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///认证码 char AuthCode[17];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1326,52 +1585,75 @@ int CApiWrapper::ReqOrderInsert(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///报单引用
-    //date.OrderRef = ;
-    ///用户代码
-    //date.UserID = ;
-    ///报单价格条件
-    //date.OrderPriceType = ;
-    ///买卖方向
-    //date.Direction = ;
-    ///组合开平标志
-    //date.CombOffsetFlag = ;
-    ///组合投机套保标志
-    //date.CombHedgeFlag = ;
-    ///价格
-    //date.LimitPrice = ;
-    ///数量
-    //date.VolumeTotalOriginal = ;
-    ///有效期类型
-    //date.TimeCondition = ;
-    ///GTD日期
-    //date.GTDDate = ;
-    ///成交量类型
-    //date.VolumeCondition = ;
-    ///最小成交量
-    //date.MinVolume = ;
-    ///触发条件
-    //date.ContingentCondition = ;
-    ///止损价
-    //date.StopPrice = ;
-    ///强平原因
-    //date.ForceCloseReason = ;
-    ///自动挂起标志
-    //date.IsAutoSuspend = ;
-    ///业务单元
-    //date.BusinessUnit = ;
-    ///请求编号
-    //date.RequestID = ;
-    ///用户强评标志
-    //date.UserForceClose = ;
-    ///互换单标志
-    //date.IsSwapOrder = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单引用 char OrderRef[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单价格条件 char OrderPriceType
+    ////////////// char 类型赋值处理 //////////////
+
+    ///买卖方向 char Direction
+    ////////////// char 类型赋值处理 //////////////
+
+    ///组合开平标志 char CombOffsetFlag[5];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///组合投机套保标志 char CombHedgeFlag[5];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///价格 double LimitPrice
+    ////////////// double 类型赋值处理 //////////////
+
+    ///数量 int VolumeTotalOriginal
+    ////////////// int 类型赋值处理 //////////////
+
+    ///有效期类型 char TimeCondition
+    ////////////// char 类型赋值处理 //////////////
+
+    ///GTD日期 char GTDDate[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///成交量类型 char VolumeCondition
+    ////////////// char 类型赋值处理 //////////////
+
+    ///最小成交量 int MinVolume
+    ////////////// int 类型赋值处理 //////////////
+
+    ///触发条件 char ContingentCondition
+    ////////////// char 类型赋值处理 //////////////
+
+    ///止损价 double StopPrice
+    ////////////// double 类型赋值处理 //////////////
+
+    ///强平原因 char ForceCloseReason
+    ////////////// char 类型赋值处理 //////////////
+
+    ///自动挂起标志 int IsAutoSuspend
+    ////////////// int 类型赋值处理 //////////////
+
+    ///业务单元 char BusinessUnit[21];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///请求编号 int RequestID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///用户强评标志 int UserForceClose
+    ////////////// int 类型赋值处理 //////////////
+
+    ///互换单标志 int IsSwapOrder
+    ////////////// int 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1395,12 +1677,15 @@ int CApiWrapper::ReqQrySettlementInfo(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///交易日
-    //date.TradingDay = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易日 char TradingDay[9];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1424,10 +1709,12 @@ int CApiWrapper::ReqUserLogout(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///用户代码
-    //date.UserID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1451,14 +1738,18 @@ int CApiWrapper::ReqQryInstrument(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///合约代码
-    //date.InstrumentID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///合约在交易所的代码
-    //date.ExchangeInstID = ;
-    ///产品代码
-    //date.ProductID = ;
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约在交易所的代码 char ExchangeInstID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///产品代码 char ProductID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1482,34 +1773,48 @@ int CApiWrapper::ReqOrderAction(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///报单操作引用
-    //date.OrderActionRef = ;
-    ///报单引用
-    //date.OrderRef = ;
-    ///请求编号
-    //date.RequestID = ;
-    ///前置编号
-    //date.FrontID = ;
-    ///会话编号
-    //date.SessionID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///报单编号
-    //date.OrderSysID = ;
-    ///操作标志
-    //date.ActionFlag = ;
-    ///价格
-    //date.LimitPrice = ;
-    ///数量变化
-    //date.VolumeChange = ;
-    ///用户代码
-    //date.UserID = ;
-    ///合约代码
-    //date.InstrumentID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单操作引用 int OrderActionRef
+    ////////////// int 类型赋值处理 //////////////
+
+    ///报单引用 char OrderRef[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///请求编号 int RequestID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///前置编号 int FrontID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///会话编号 int SessionID
+    ////////////// int 类型赋值处理 //////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///报单编号 char OrderSysID[21];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///操作标志 char ActionFlag
+    ////////////// char 类型赋值处理 //////////////
+
+    ///价格 double LimitPrice
+    ////////////// double 类型赋值处理 //////////////
+
+    ///数量变化 int VolumeChange
+    ////////////// int 类型赋值处理 //////////////
+
+    ///用户代码 char UserID[16];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1533,12 +1838,15 @@ int CApiWrapper::ReqQryInstrumentCommissionRate(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1562,14 +1870,18 @@ int CApiWrapper::ReqQryInstrumentMarginRate(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///投机套保标志
-    //date.HedgeFlag = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投机套保标志 char HedgeFlag
+    ////////////// char 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1593,10 +1905,12 @@ int CApiWrapper::ReqQryInvestor(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1620,14 +1934,18 @@ int CApiWrapper::ReqQryParkedOrder(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1651,14 +1969,18 @@ int CApiWrapper::ReqQryInvestorProductGroupMargin(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///品种/跨品种标示
-    //date.ProductGroupID = ;
-    ///投机套保标志
-    //date.HedgeFlag = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///品种/跨品种标示 char ProductGroupID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投机套保标志 char HedgeFlag
+    ////////////// char 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1682,8 +2004,9 @@ int CApiWrapper::ReqQryDepthMarketData(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///合约代码
-    //date.InstrumentID = ;
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1707,10 +2030,12 @@ int CApiWrapper::ReqQryTransferBank(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///银行代码
-    //date.BankID = ;
-    ///银行分中心代码
-    //date.BankBrchID = ;
+    ///银行代码 char BankID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行分中心代码 char BankBrchID[5];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1734,12 +2059,15 @@ int CApiWrapper::ReqRemoveParkedOrderAction(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///预埋撤单编号
-    //date.ParkedOrderActionID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///预埋撤单编号 char ParkedOrderActionID[13];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1763,8 +2091,9 @@ int CApiWrapper::ReqQryProduct(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///产品代码
-    //date.ProductID = ;
+    ///产品代码 char ProductID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1788,16 +2117,21 @@ int CApiWrapper::ReqQryTradingCode(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///客户代码
-    //date.ClientID = ;
-    ///交易编码类型
-    //date.ClientIDType = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///客户代码 char ClientID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易编码类型 char ClientIDType
+    ////////////// char 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1821,16 +2155,21 @@ int CApiWrapper::ReqTradingAccountPasswordUpdate(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者帐号
-    //date.AccountID = ;
-    ///原来的口令
-    //date.OldPassword = ;
-    ///新的口令
-    //date.NewPassword = ;
-    ///币种代码
-    //date.CurrencyID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者帐号 char AccountID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///原来的口令 char OldPassword[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///新的口令 char NewPassword[41];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///币种代码 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1854,16 +2193,21 @@ int CApiWrapper::ReqQryAccountregister(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者帐号
-    //date.AccountID = ;
-    ///银行编码
-    //date.BankID = ;
-    ///银行分支机构编码
-    //date.BankBranchID = ;
-    ///币种代码
-    //date.CurrencyID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者帐号 char AccountID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行编码 char BankID[4];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///银行分支机构编码 char BankBranchID[5];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///币种代码 char CurrencyID[4];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1887,12 +2231,15 @@ int CApiWrapper::ReqQryExchangeMarginRateAdjust(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///合约代码
-    //date.InstrumentID = ;
-    ///投机套保标志
-    //date.HedgeFlag = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投机套保标志 char HedgeFlag
+    ////////////// char 类型赋值处理 //////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1916,14 +2263,18 @@ int CApiWrapper::ReqQryEWarrantOffset(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///交易所代码
-    //date.ExchangeID = ;
-    ///合约代码
-    //date.InstrumentID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///交易所代码 char ExchangeID[9];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1947,12 +2298,15 @@ int CApiWrapper::ReqQryInvestorPositionDetail(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///合约代码
-    //date.InstrumentID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///合约代码 char InstrumentID[31];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =
@@ -1976,12 +2330,15 @@ int CApiWrapper::ReqRemoveParkedOrder(char * pJsonData )
 
     // TODO:这里将pJsonData转化为对应的结构参数
 
-    ///经纪公司代码
-    //date.BrokerID = ;
-    ///投资者代码
-    //date.InvestorID = ;
-    ///预埋报单编号
-    //date.ParkedOrderID = ;
+    ///经纪公司代码 char BrokerID[11];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///投资者代码 char InvestorID[13];
+    ////////////// 字符串类型的处理	//////////////
+
+    ///预埋报单编号 char ParkedOrderID[13];
+    ////////////// 字符串类型的处理	//////////////
+
 
     // 调用对应的CTP API函数
     int result =

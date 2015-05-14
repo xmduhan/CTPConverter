@@ -90,6 +90,7 @@ def loadCtpHeaderData():
         'onErrRtnMethodDict':onErrRtnMethodDict,
         'onRspErrorMethodDict':onRspErrorMethodDict,
         'structDict':structDict,
+        'typedefDict':typedefDict,
     }
 
     return data

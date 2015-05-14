@@ -29,7 +29,7 @@ CApiWrapper 自动编写部分（ok）
 #4、json的处理（含打包和拆包）
 (1)jsoncpp的安装 (ok)
 (2)OnRsp,(ok)
-(5)Req
+(5)Req(初步完成字段梳理)
 
 
 (3)OnRtn,

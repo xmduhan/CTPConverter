@@ -143,8 +143,26 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 	{%- set dataTypeName = parameter['raw_type'] %}
 	{%- set dataType = structDict[dataTypeName] %}
 	{% for field in dataType['fields'] %}
-		{{field['remark']}}
-		//date.{{field['name']}} = ;
+		{%- set typeInfo = typedefDict[field['type']] %}
+		{%- if typeInfo['len'] == None %}
+			{{ field['remark'] }} {{ typeInfo['type']}} {{field['name'] }}
+			{% if typeInfo['type'] == 'char' -%}
+				////////////// char 类型赋值处理 //////////////
+			{% elif typeInfo['type'] == 'int' -%}
+				////////////// int 类型赋值处理 //////////////
+			{% elif typeInfo['type'] == 'double' -%}
+				////////////// double 类型赋值处理 //////////////
+			{% else -%}
+				未知类型 {{typeInfo['type']}};
+			{%- endif %}
+		{%- else %}
+			{{ field['remark'] }} {{typeInfo['type']}} {{field['name']}}[{{typeInfo['len']}}];
+			{% if typeInfo['type'] == 'char' -%}
+				////////////// 字符串类型的处理	//////////////
+			{% else -%}
+				未知类型{{typeInfo['type']}}[{{typeInfo['len']}}];
+			{%- endif -%}
+		{%- endif %}
 	{%- endfor %}
 
 	// 调用对应的CTP API函数
