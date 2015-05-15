@@ -75,8 +75,16 @@ void CApiWrapper::init() {
     message.recv(receiver);
     assert(message.requestID.compare("1") == 0);
     assert(message.apiName.compare("OnRspUserLogin") == 0);
-    assert(message.respInfo.compare("") == 0);
-    // TODO : 这里需要检查登录是否成功
+    //assert(message.respInfo.compare("") == 0);
+    //std::cout << "message.respInfo=" << message.respInfo << std::endl;
+    // 检查是否登录成功,如果不成功将终止程序
+    Json::Reader jsonReader;
+    Json::Value jsonData;
+    if (!jsonReader.parse(message.respInfo,jsonData)) {
+        throw std::exception();
+    }
+    int ErrorID = jsonData["Parameters"]["Data"]["RspInfo"]["ErrorID"].asInt();
+    assert(ErrorID == 0);
 
     printf("Init():执行完毕\n");
 }
@@ -135,9 +143,9 @@ int CApiWrapper::ReqQryTradingAccount(std::string jsonString)
 {
     printf("ReqQryTradingAccount():被执行...\n");
 
+
     CThostFtdcQryTradingAccountField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -224,9 +232,9 @@ int CApiWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
 {
     printf("ReqQryCFMMCTradingAccountKey():被执行...\n");
 
+
     CThostFtdcQryCFMMCTradingAccountKeyField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -305,9 +313,9 @@ int CApiWrapper::ReqUserPasswordUpdate(std::string jsonString)
 {
     printf("ReqUserPasswordUpdate():被执行...\n");
 
+
     CThostFtdcUserPasswordUpdateField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -402,9 +410,9 @@ int CApiWrapper::ReqParkedOrderAction(std::string jsonString)
 {
     printf("ReqParkedOrderAction():被执行...\n");
 
+
     CThostFtdcParkedOrderActionField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -609,9 +617,9 @@ int CApiWrapper::ReqQryTradingNotice(std::string jsonString)
 {
     printf("ReqQryTradingNotice():被执行...\n");
 
+
     CThostFtdcQryTradingNoticeField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -690,9 +698,9 @@ int CApiWrapper::ReqQryTrade(std::string jsonString)
 {
     printf("ReqQryTrade():被执行...\n");
 
+
     CThostFtdcQryTradeField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -811,9 +819,9 @@ int CApiWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
 {
     printf("ReqQueryMaxOrderVolume():被执行...\n");
 
+
     CThostFtdcQueryMaxOrderVolumeField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -928,9 +936,9 @@ int CApiWrapper::ReqSettlementInfoConfirm(std::string jsonString)
 {
     printf("ReqSettlementInfoConfirm():被执行...\n");
 
+
     CThostFtdcSettlementInfoConfirmField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -1025,9 +1033,9 @@ int CApiWrapper::ReqQryInvestorPosition(std::string jsonString)
 {
     printf("ReqQryInvestorPosition():被执行...\n");
 
+
     CThostFtdcQryInvestorPositionField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -1114,9 +1122,9 @@ int CApiWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
 {
     printf("ReqQryBrokerTradingAlgos():被执行...\n");
 
+
     CThostFtdcQryBrokerTradingAlgosField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -1203,9 +1211,9 @@ int CApiWrapper::ReqQryOrder(std::string jsonString)
 {
     printf("ReqQryOrder():被执行...\n");
 
+
     CThostFtdcQryOrderField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -1324,9 +1332,9 @@ int CApiWrapper::ReqQryExchange(std::string jsonString)
 {
     printf("ReqQryExchange():被执行...\n");
 
+
     CThostFtdcQryExchangeField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -1397,9 +1405,9 @@ int CApiWrapper::ReqUserLogin(std::string jsonString)
 {
     printf("ReqUserLogin():被执行...\n");
 
+
     CThostFtdcReqUserLoginField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -1542,9 +1550,9 @@ int CApiWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
 {
     printf("ReqFromFutureToBankByFuture():被执行...\n");
 
+
     CThostFtdcReqTransferField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -1931,9 +1939,9 @@ int CApiWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
 {
     printf("ReqFromBankToFutureByFuture():被执行...\n");
 
+
     CThostFtdcReqTransferField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -2320,9 +2328,9 @@ int CApiWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
 {
     printf("ReqQrySettlementInfoConfirm():被执行...\n");
 
+
     CThostFtdcQrySettlementInfoConfirmField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -2401,9 +2409,9 @@ int CApiWrapper::ReqQryBrokerTradingParams(std::string jsonString)
 {
     printf("ReqQryBrokerTradingParams():被执行...\n");
 
+
     CThostFtdcQryBrokerTradingParamsField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -2490,9 +2498,9 @@ int CApiWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
 {
     printf("ReqQueryCFMMCTradingAccountToken():被执行...\n");
 
+
     CThostFtdcQueryCFMMCTradingAccountTokenField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -2571,9 +2579,9 @@ int CApiWrapper::ReqQryNotice(std::string jsonString)
 {
     printf("ReqQryNotice():被执行...\n");
 
+
     CThostFtdcQryNoticeField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -2644,9 +2652,9 @@ int CApiWrapper::ReqQryExchangeRate(std::string jsonString)
 {
     printf("ReqQryExchangeRate():被执行...\n");
 
+
     CThostFtdcQryExchangeRateField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -2733,9 +2741,9 @@ int CApiWrapper::ReqParkedOrderInsert(std::string jsonString)
 {
     printf("ReqParkedOrderInsert():被执行...\n");
 
+
     CThostFtdcParkedOrderField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -3013,9 +3021,9 @@ int CApiWrapper::ReqQryContractBank(std::string jsonString)
 {
     printf("ReqQryContractBank():被执行...\n");
 
+
     CThostFtdcQryContractBankField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -3102,9 +3110,9 @@ int CApiWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
 {
     printf("ReqQryInvestorPositionCombineDetail():被执行...\n");
 
+
     CThostFtdcQryInvestorPositionCombineDetailField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -3191,9 +3199,9 @@ int CApiWrapper::ReqQryExchangeMarginRate(std::string jsonString)
 {
     printf("ReqQryExchangeMarginRate():被执行...\n");
 
+
     CThostFtdcQryExchangeMarginRateField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -3279,9 +3287,9 @@ int CApiWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
 {
     printf("ReqQrySecAgentACIDMap():被执行...\n");
 
+
     CThostFtdcQrySecAgentACIDMapField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -3376,9 +3384,9 @@ int CApiWrapper::ReqQryTransferSerial(std::string jsonString)
 {
     printf("ReqQryTransferSerial():被执行...\n");
 
+
     CThostFtdcQryTransferSerialField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -3473,9 +3481,9 @@ int CApiWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
 {
     printf("ReqQueryBankAccountMoneyByFuture():被执行...\n");
 
+
     CThostFtdcReqQueryAccountField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -3812,9 +3820,9 @@ int CApiWrapper::ReqQryParkedOrderAction(std::string jsonString)
 {
     printf("ReqQryParkedOrderAction():被执行...\n");
 
+
     CThostFtdcQryParkedOrderActionField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -3909,9 +3917,9 @@ int CApiWrapper::ReqAuthenticate(std::string jsonString)
 {
     printf("ReqAuthenticate():被执行...\n");
 
+
     CThostFtdcReqAuthenticateField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4006,9 +4014,9 @@ int CApiWrapper::ReqOrderInsert(std::string jsonString)
 {
     printf("ReqOrderInsert():被执行...\n");
 
+
     CThostFtdcInputOrderField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4241,9 +4249,9 @@ int CApiWrapper::ReqQrySettlementInfo(std::string jsonString)
 {
     printf("ReqQrySettlementInfo():被执行...\n");
 
+
     CThostFtdcQrySettlementInfoField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4330,9 +4338,9 @@ int CApiWrapper::ReqUserLogout(std::string jsonString)
 {
     printf("ReqUserLogout():被执行...\n");
 
+
     CThostFtdcUserLogoutField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4411,9 +4419,9 @@ int CApiWrapper::ReqQryInstrument(std::string jsonString)
 {
     printf("ReqQryInstrument():被执行...\n");
 
+
     CThostFtdcQryInstrumentField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4508,9 +4516,9 @@ int CApiWrapper::ReqOrderAction(std::string jsonString)
 {
     printf("ReqOrderAction():被执行...\n");
 
+
     CThostFtdcInputOrderActionField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4678,9 +4686,9 @@ int CApiWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
 {
     printf("ReqQryInstrumentCommissionRate():被执行...\n");
 
+
     CThostFtdcQryInstrumentCommissionRateField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4767,9 +4775,9 @@ int CApiWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
 {
     printf("ReqQryInstrumentMarginRate():被执行...\n");
 
+
     CThostFtdcQryInstrumentMarginRateField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4863,9 +4871,9 @@ int CApiWrapper::ReqQryInvestor(std::string jsonString)
 {
     printf("ReqQryInvestor():被执行...\n");
 
+
     CThostFtdcQryInvestorField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -4944,9 +4952,9 @@ int CApiWrapper::ReqQryParkedOrder(std::string jsonString)
 {
     printf("ReqQryParkedOrder():被执行...\n");
 
+
     CThostFtdcQryParkedOrderField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5041,9 +5049,9 @@ int CApiWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
 {
     printf("ReqQryInvestorProductGroupMargin():被执行...\n");
 
+
     CThostFtdcQryInvestorProductGroupMarginField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5137,9 +5145,9 @@ int CApiWrapper::ReqQryDepthMarketData(std::string jsonString)
 {
     printf("ReqQryDepthMarketData():被执行...\n");
 
+
     CThostFtdcQryDepthMarketDataField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5210,9 +5218,9 @@ int CApiWrapper::ReqQryTransferBank(std::string jsonString)
 {
     printf("ReqQryTransferBank():被执行...\n");
 
+
     CThostFtdcQryTransferBankField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5291,9 +5299,9 @@ int CApiWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
 {
     printf("ReqRemoveParkedOrderAction():被执行...\n");
 
+
     CThostFtdcRemoveParkedOrderActionField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5380,9 +5388,9 @@ int CApiWrapper::ReqQryProduct(std::string jsonString)
 {
     printf("ReqQryProduct():被执行...\n");
 
+
     CThostFtdcQryProductField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5453,9 +5461,9 @@ int CApiWrapper::ReqQryTradingCode(std::string jsonString)
 {
     printf("ReqQryTradingCode():被执行...\n");
 
+
     CThostFtdcQryTradingCodeField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5557,9 +5565,9 @@ int CApiWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
 {
     printf("ReqTradingAccountPasswordUpdate():被执行...\n");
 
+
     CThostFtdcTradingAccountPasswordUpdateField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5662,9 +5670,9 @@ int CApiWrapper::ReqQryAccountregister(std::string jsonString)
 {
     printf("ReqQryAccountregister():被执行...\n");
 
+
     CThostFtdcQryAccountregisterField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5767,9 +5775,9 @@ int CApiWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
 {
     printf("ReqQryExchangeMarginRateAdjust():被执行...\n");
 
+
     CThostFtdcQryExchangeMarginRateAdjustField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5855,9 +5863,9 @@ int CApiWrapper::ReqQryEWarrantOffset(std::string jsonString)
 {
     printf("ReqQryEWarrantOffset():被执行...\n");
 
+
     CThostFtdcQryEWarrantOffsetField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -5952,9 +5960,9 @@ int CApiWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
 {
     printf("ReqQryInvestorPositionDetail():被执行...\n");
 
+
     CThostFtdcQryInvestorPositionDetailField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {
@@ -6041,9 +6049,9 @@ int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
 {
     printf("ReqRemoveParkedOrder():被执行...\n");
 
+
     CThostFtdcRemoveParkedOrderField data;
     int nRequestID;
-
 
     // 解析json格式数据
     try {

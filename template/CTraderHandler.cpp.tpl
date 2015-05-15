@@ -19,12 +19,12 @@ CTraderHandler::CTraderHandler(Configure * pConfigure) {
 /// 成功连接服务器消息
 void CTraderHandler::OnFrontConnected() {
     printf("OnFrontConnected():被执行...\n");
-	zmq::socket_t & sendder = *pSender;
+	zmq::socket_t & sender = *pSender;
 	PushbackMessage message;
 	message.requestID = "0";
 	message.apiName = "OnFrontConnected";
 	message.respInfo = "";
-	message.send(sendder);
+	message.send(sender);
 }
 
 char buffer[1024];
@@ -32,7 +32,6 @@ char buffer[1024];
 /**********************************************************
 *                   onRsp开头的方法                         *
 ***********************************************************/
-
 {% for method in onRspMethodDict.itervalues() %}
 	{{ method['remark'] }}
 	{{method['returns']}} CTraderHandler::{{method['name']}}(
@@ -42,22 +41,21 @@ char buffer[1024];
 		{% endif -%}
 	{%- endfor %}
 ){
-	printf("{{method['name']}}():被执行...\n");
+
+	std::cout << "{{method['name']}}():被执行..." << std::endl;
+
 	// 生成发送管道的引用
 	zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-		if (pRspInfo->ErrorID != 0) {
-        	char ErrorMsg[243];
-        	gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-			std::cout << "{{method['name']}}:出错:ErrorId=" << pRspInfo->ErrorID << ","
-			<< "ErrorMsg=" << ErrorMsg << std::endl;
-		}
-    } else {
-		std::cout << "{{method['name']}}:出错:没有提供出错信息" << std::endl;
+	// 读取处理结果信息
+	Json::Value json_pRspInfo;
+	// 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+	// 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+		json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+		json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+    }else{
+		json_pRspInfo["ErrorID"] = 0;
+		json_pRspInfo["ErrorMsg"] = "";
 	}
 
 	// 生成返回的json格式
@@ -70,16 +68,11 @@ char buffer[1024];
 	{%- set dataType = structDict[dataTypeName] %}
 	Json::Value json_{{dataVarName}};
 	if ( {{dataVarName}} != NULL ) {
-		// TODO : 这里需要将编码转化为utf-8	
+		// TODO : 这里需要将编码转化为utf-8
 		{% for field in dataType['fields'] %}
 			json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
 		{%- endfor %}
 	}
-
-	/// 出错信息
-	Json::Value json_pRspInfo;
-	json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-	json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
 	/// json_nRequestID
 	Json::Value json_nRequestID;
@@ -105,6 +98,8 @@ char buffer[1024];
 	message.apiName = "{{method['name']}}";
 	message.respInfo = json_Response.toStyledString();
 	message.send(sender);
+
+	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
 {% endfor %}
 

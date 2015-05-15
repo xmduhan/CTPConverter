@@ -75,8 +75,16 @@ void CApiWrapper::init(){
 	message.recv(receiver);
 	assert(message.requestID.compare("1") == 0);
 	assert(message.apiName.compare("OnRspUserLogin") == 0);
-	assert(message.respInfo.compare("") == 0);
-	// TODO : 这里需要检查登录是否成功
+	//assert(message.respInfo.compare("") == 0);
+	//std::cout << "message.respInfo=" << message.respInfo << std::endl;
+	// 检查是否登录成功,如果不成功将终止程序
+	Json::Reader jsonReader;
+	Json::Value jsonData;
+	if (!jsonReader.parse(message.respInfo,jsonData)){
+		throw std::exception();
+	}
+	int ErrorID = jsonData["Parameters"]["Data"]["RspInfo"]["ErrorID"].asInt();
+	assert(ErrorID == 0);
 
 	printf("Init():执行完毕\n");
 }
@@ -134,10 +142,10 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 	int CApiWrapper::{{method['name']}}(std::string jsonString)
 {
 	printf("{{method['name']}}():被执行...\n");
+
 	{% set parameter = method['parameters'][0]  %}
 	{{ parameter['raw_type'] }} data;
     int nRequestID;
-
 
 	// 解析json格式数据
 	try{

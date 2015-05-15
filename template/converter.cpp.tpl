@@ -143,12 +143,7 @@ void test03(){
     }
 }
 
-
-
-
-
-int main(){
-
+void test04(){
     std::string jsonString = "\
     {\
        \"ResponseMethod\" : \"ReqQryTradingAccount\",\
@@ -223,6 +218,32 @@ int main(){
         //std::cout << "exception:" << e.what() << std::endl;
         std::cout << "json数据格式错误" << std::endl;
     }
+}
 
+
+
+
+
+int main(){
+
+    std::string jsonString = "\
+    {\
+       \"ResponseMethod\" : \"ReqQryTradingAccount\",\
+       \"Parameters\" : {\
+          \"Data\" : {\
+              \"a\":1 \
+            }\
+        }\
+    }\
+    ";
+    loadConfig();
+    CApiWrapper api(&config);
+    api.init();
+    int result;
+    //while(1){
+        result = api.ReqQryInvestor(jsonString);
+        std::cout << "result=" << result << std::endl;
+        sleep(3);
+    //}
     return 0;
 }

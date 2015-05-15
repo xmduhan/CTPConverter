@@ -19,12 +19,12 @@ CTraderHandler::CTraderHandler(Configure * pConfigure) {
 /// 成功连接服务器消息
 void CTraderHandler::OnFrontConnected() {
     printf("OnFrontConnected():被执行...\n");
-    zmq::socket_t & sendder = *pSender;
+    zmq::socket_t & sender = *pSender;
     PushbackMessage message;
     message.requestID = "0";
     message.apiName = "OnFrontConnected";
     message.respInfo = "";
-    message.send(sendder);
+    message.send(sender);
 }
 
 char buffer[1024];
@@ -33,7 +33,6 @@ char buffer[1024];
 *                   onRsp开头的方法                         *
 ***********************************************************/
 
-
 ///请求查询合约响应
 void CTraderHandler::OnRspQryInstrument(
     CThostFtdcInstrumentField * pInstrument,
@@ -41,22 +40,21 @@ void CTraderHandler::OnRspQryInstrument(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryInstrument():被执行...\n");
+
+    std::cout << "OnRspQryInstrument():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryInstrument:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryInstrument:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -96,11 +94,6 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["MaxMarginSideAlgorithm"] = pInstrument->MaxMarginSideAlgorithm;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -125,6 +118,8 @@ void CTraderHandler::OnRspQryInstrument(
     message.apiName = "OnRspQryInstrument";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryInstrument():执行结束..." << std::endl;
 }
 
 ///请求查询投资者结算结果响应
@@ -134,22 +129,21 @@ void CTraderHandler::OnRspQrySettlementInfo(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQrySettlementInfo():被执行...\n");
+
+    std::cout << "OnRspQrySettlementInfo():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQrySettlementInfo:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQrySettlementInfo:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -168,11 +162,6 @@ void CTraderHandler::OnRspQrySettlementInfo(
         json_pSettlementInfo["SequenceNo"] = pSettlementInfo->SequenceNo;
         json_pSettlementInfo["Content"] = pSettlementInfo->Content;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -198,6 +187,8 @@ void CTraderHandler::OnRspQrySettlementInfo(
     message.apiName = "OnRspQrySettlementInfo";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQrySettlementInfo():执行结束..." << std::endl;
 }
 
 ///预埋单录入请求响应
@@ -207,22 +198,21 @@ void CTraderHandler::OnRspParkedOrderInsert(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspParkedOrderInsert():被执行...\n");
+
+    std::cout << "OnRspParkedOrderInsert():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspParkedOrderInsert:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspParkedOrderInsert:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -265,11 +255,6 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["IsSwapOrder"] = pParkedOrder->IsSwapOrder;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -294,6 +279,8 @@ void CTraderHandler::OnRspParkedOrderInsert(
     message.apiName = "OnRspParkedOrderInsert";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspParkedOrderInsert():执行结束..." << std::endl;
 }
 
 ///请求查询交易所响应
@@ -303,22 +290,21 @@ void CTraderHandler::OnRspQryExchange(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryExchange():被执行...\n");
+
+    std::cout << "OnRspQryExchange():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryExchange:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryExchange:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -334,11 +320,6 @@ void CTraderHandler::OnRspQryExchange(
         json_pExchange["ExchangeName"] = pExchange->ExchangeName;
         json_pExchange["ExchangeProperty"] = pExchange->ExchangeProperty;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -364,6 +345,8 @@ void CTraderHandler::OnRspQryExchange(
     message.apiName = "OnRspQryExchange";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryExchange():执行结束..." << std::endl;
 }
 
 ///报单操作请求响应
@@ -373,22 +356,21 @@ void CTraderHandler::OnRspOrderAction(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspOrderAction():被执行...\n");
+
+    std::cout << "OnRspOrderAction():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspOrderAction:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspOrderAction:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -416,11 +398,6 @@ void CTraderHandler::OnRspOrderAction(
         json_pInputOrderAction["InstrumentID"] = pInputOrderAction->InstrumentID;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -445,6 +422,8 @@ void CTraderHandler::OnRspOrderAction(
     message.apiName = "OnRspOrderAction";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspOrderAction():执行结束..." << std::endl;
 }
 
 ///请求查询投资者响应
@@ -454,22 +433,21 @@ void CTraderHandler::OnRspQryInvestor(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryInvestor():被执行...\n");
+
+    std::cout << "OnRspQryInvestor():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryInvestor:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryInvestor:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -496,11 +474,6 @@ void CTraderHandler::OnRspQryInvestor(
         json_pInvestor["MarginModelID"] = pInvestor->MarginModelID;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -525,6 +498,8 @@ void CTraderHandler::OnRspQryInvestor(
     message.apiName = "OnRspQryInvestor";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryInvestor():执行结束..." << std::endl;
 }
 
 ///删除预埋单响应
@@ -534,22 +509,21 @@ void CTraderHandler::OnRspRemoveParkedOrder(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspRemoveParkedOrder():被执行...\n");
+
+    std::cout << "OnRspRemoveParkedOrder():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspRemoveParkedOrder:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspRemoveParkedOrder:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -565,11 +539,6 @@ void CTraderHandler::OnRspRemoveParkedOrder(
         json_pRemoveParkedOrder["InvestorID"] = pRemoveParkedOrder->InvestorID;
         json_pRemoveParkedOrder["ParkedOrderID"] = pRemoveParkedOrder->ParkedOrderID;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -595,6 +564,8 @@ void CTraderHandler::OnRspRemoveParkedOrder(
     message.apiName = "OnRspRemoveParkedOrder";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspRemoveParkedOrder():执行结束..." << std::endl;
 }
 
 ///请求查询投资者品种/跨品种保证金响应
@@ -604,22 +575,21 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryInvestorProductGroupMargin():被执行...\n");
+
+    std::cout << "OnRspQryInvestorProductGroupMargin():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryInvestorProductGroupMargin:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryInvestorProductGroupMargin:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -660,11 +630,6 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
         json_pInvestorProductGroupMargin["HedgeFlag"] = pInvestorProductGroupMargin->HedgeFlag;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -689,6 +654,8 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
     message.apiName = "OnRspQryInvestorProductGroupMargin";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryInvestorProductGroupMargin():执行结束..." << std::endl;
 }
 
 ///请求查询转帐银行响应
@@ -698,22 +665,21 @@ void CTraderHandler::OnRspQryTransferBank(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryTransferBank():被执行...\n");
+
+    std::cout << "OnRspQryTransferBank():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryTransferBank:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryTransferBank:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -730,11 +696,6 @@ void CTraderHandler::OnRspQryTransferBank(
         json_pTransferBank["BankName"] = pTransferBank->BankName;
         json_pTransferBank["IsActive"] = pTransferBank->IsActive;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -760,6 +721,8 @@ void CTraderHandler::OnRspQryTransferBank(
     message.apiName = "OnRspQryTransferBank";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryTransferBank():执行结束..." << std::endl;
 }
 
 ///请求查询经纪公司交易算法响应
@@ -769,22 +732,21 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryBrokerTradingAlgos():被执行...\n");
+
+    std::cout << "OnRspQryBrokerTradingAlgos():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryBrokerTradingAlgos:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryBrokerTradingAlgos:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -803,11 +765,6 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
         json_pBrokerTradingAlgos["FindMarginRateAlgoID"] = pBrokerTradingAlgos->FindMarginRateAlgoID;
         json_pBrokerTradingAlgos["HandleTradingAccountAlgoID"] = pBrokerTradingAlgos->HandleTradingAccountAlgoID;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -833,6 +790,8 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
     message.apiName = "OnRspQryBrokerTradingAlgos";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryBrokerTradingAlgos():执行结束..." << std::endl;
 }
 
 ///请求查询产品响应
@@ -842,22 +801,21 @@ void CTraderHandler::OnRspQryProduct(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryProduct():被执行...\n");
+
+    std::cout << "OnRspQryProduct():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryProduct:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryProduct:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -886,11 +844,6 @@ void CTraderHandler::OnRspQryProduct(
         json_pProduct["MortgageFundUseRange"] = pProduct->MortgageFundUseRange;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -915,6 +868,8 @@ void CTraderHandler::OnRspQryProduct(
     message.apiName = "OnRspQryProduct";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryProduct():执行结束..." << std::endl;
 }
 
 ///请求查询合约保证金率响应
@@ -924,22 +879,21 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryInstrumentMarginRate():被执行...\n");
+
+    std::cout << "OnRspQryInstrumentMarginRate():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryInstrumentMarginRate:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryInstrumentMarginRate:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -962,11 +916,6 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
         json_pInstrumentMarginRate["ShortMarginRatioByVolume"] = pInstrumentMarginRate->ShortMarginRatioByVolume;
         json_pInstrumentMarginRate["IsRelative"] = pInstrumentMarginRate->IsRelative;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -992,6 +941,8 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
     message.apiName = "OnRspQryInstrumentMarginRate";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryInstrumentMarginRate():执行结束..." << std::endl;
 }
 
 ///查询保证金监管系统经纪公司资金账户密钥响应
@@ -1001,22 +952,21 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryCFMMCTradingAccountKey():被执行...\n");
+
+    std::cout << "OnRspQryCFMMCTradingAccountKey():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryCFMMCTradingAccountKey:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryCFMMCTradingAccountKey:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1034,11 +984,6 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
         json_pCFMMCTradingAccountKey["KeyID"] = pCFMMCTradingAccountKey->KeyID;
         json_pCFMMCTradingAccountKey["CurrentKey"] = pCFMMCTradingAccountKey->CurrentKey;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -1064,6 +1009,8 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
     message.apiName = "OnRspQryCFMMCTradingAccountKey";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryCFMMCTradingAccountKey():执行结束..." << std::endl;
 }
 
 ///登录请求响应
@@ -1073,22 +1020,21 @@ void CTraderHandler::OnRspUserLogin(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspUserLogin():被执行...\n");
+
+    std::cout << "OnRspUserLogin():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspUserLogin:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspUserLogin:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1115,11 +1061,6 @@ void CTraderHandler::OnRspUserLogin(
         json_pRspUserLogin["INETime"] = pRspUserLogin->INETime;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -1144,6 +1085,8 @@ void CTraderHandler::OnRspUserLogin(
     message.apiName = "OnRspUserLogin";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspUserLogin():执行结束..." << std::endl;
 }
 
 ///期货发起期货资金转银行应答
@@ -1153,22 +1096,21 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspFromFutureToBankByFuture():被执行...\n");
+
+    std::cout << "OnRspFromFutureToBankByFuture():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspFromFutureToBankByFuture:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspFromFutureToBankByFuture:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1225,11 +1167,6 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["TransferStatus"] = pReqTransfer->TransferStatus;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -1254,6 +1191,8 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
     message.apiName = "OnRspFromFutureToBankByFuture";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspFromFutureToBankByFuture():执行结束..." << std::endl;
 }
 
 ///请求查询监控中心用户令牌
@@ -1263,22 +1202,21 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQueryCFMMCTradingAccountToken():被执行...\n");
+
+    std::cout << "OnRspQueryCFMMCTradingAccountToken():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQueryCFMMCTradingAccountToken:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQueryCFMMCTradingAccountToken:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1293,11 +1231,6 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
         json_pQueryCFMMCTradingAccountToken["BrokerID"] = pQueryCFMMCTradingAccountToken->BrokerID;
         json_pQueryCFMMCTradingAccountToken["InvestorID"] = pQueryCFMMCTradingAccountToken->InvestorID;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -1323,6 +1256,8 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
     message.apiName = "OnRspQueryCFMMCTradingAccountToken";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQueryCFMMCTradingAccountToken():执行结束..." << std::endl;
 }
 
 ///请求查询签约银行响应
@@ -1332,22 +1267,21 @@ void CTraderHandler::OnRspQryContractBank(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryContractBank():被执行...\n");
+
+    std::cout << "OnRspQryContractBank():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryContractBank:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryContractBank:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1364,11 +1298,6 @@ void CTraderHandler::OnRspQryContractBank(
         json_pContractBank["BankBrchID"] = pContractBank->BankBrchID;
         json_pContractBank["BankName"] = pContractBank->BankName;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -1394,6 +1323,8 @@ void CTraderHandler::OnRspQryContractBank(
     message.apiName = "OnRspQryContractBank";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryContractBank():执行结束..." << std::endl;
 }
 
 ///报单录入请求响应
@@ -1403,22 +1334,21 @@ void CTraderHandler::OnRspOrderInsert(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspOrderInsert():被执行...\n");
+
+    std::cout << "OnRspOrderInsert():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspOrderInsert:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspOrderInsert:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1455,11 +1385,6 @@ void CTraderHandler::OnRspOrderInsert(
         json_pInputOrder["IsSwapOrder"] = pInputOrder->IsSwapOrder;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -1484,6 +1409,8 @@ void CTraderHandler::OnRspOrderInsert(
     message.apiName = "OnRspOrderInsert";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspOrderInsert():执行结束..." << std::endl;
 }
 
 ///请求查询仓单折抵信息响应
@@ -1493,22 +1420,21 @@ void CTraderHandler::OnRspQryEWarrantOffset(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryEWarrantOffset():被执行...\n");
+
+    std::cout << "OnRspQryEWarrantOffset():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryEWarrantOffset:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryEWarrantOffset:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1529,11 +1455,6 @@ void CTraderHandler::OnRspQryEWarrantOffset(
         json_pEWarrantOffset["HedgeFlag"] = pEWarrantOffset->HedgeFlag;
         json_pEWarrantOffset["Volume"] = pEWarrantOffset->Volume;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -1559,6 +1480,8 @@ void CTraderHandler::OnRspQryEWarrantOffset(
     message.apiName = "OnRspQryEWarrantOffset";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryEWarrantOffset():执行结束..." << std::endl;
 }
 
 ///用户口令更新请求响应
@@ -1568,22 +1491,21 @@ void CTraderHandler::OnRspUserPasswordUpdate(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspUserPasswordUpdate():被执行...\n");
+
+    std::cout << "OnRspUserPasswordUpdate():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspUserPasswordUpdate:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspUserPasswordUpdate:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1600,11 +1522,6 @@ void CTraderHandler::OnRspUserPasswordUpdate(
         json_pUserPasswordUpdate["OldPassword"] = pUserPasswordUpdate->OldPassword;
         json_pUserPasswordUpdate["NewPassword"] = pUserPasswordUpdate->NewPassword;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -1630,6 +1547,8 @@ void CTraderHandler::OnRspUserPasswordUpdate(
     message.apiName = "OnRspUserPasswordUpdate";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspUserPasswordUpdate():执行结束..." << std::endl;
 }
 
 ///请求查询交易所调整保证金率响应
@@ -1639,22 +1558,21 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryExchangeMarginRateAdjust():被执行...\n");
+
+    std::cout << "OnRspQryExchangeMarginRateAdjust():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryExchangeMarginRateAdjust:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryExchangeMarginRateAdjust:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1683,11 +1601,6 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
         json_pExchangeMarginRateAdjust["NoShortMarginRatioByVolume"] = pExchangeMarginRateAdjust->NoShortMarginRatioByVolume;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -1712,6 +1625,8 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
     message.apiName = "OnRspQryExchangeMarginRateAdjust";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryExchangeMarginRateAdjust():执行结束..." << std::endl;
 }
 
 ///期货发起银行资金转期货应答
@@ -1721,22 +1636,21 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspFromBankToFutureByFuture():被执行...\n");
+
+    std::cout << "OnRspFromBankToFutureByFuture():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspFromBankToFutureByFuture:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspFromBankToFutureByFuture:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1793,11 +1707,6 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["TransferStatus"] = pReqTransfer->TransferStatus;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -1822,6 +1731,8 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
     message.apiName = "OnRspFromBankToFutureByFuture";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspFromBankToFutureByFuture():执行结束..." << std::endl;
 }
 
 ///请求查询投资者持仓明细响应
@@ -1831,22 +1742,21 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryInvestorPositionCombineDetail():被执行...\n");
+
+    std::cout << "OnRspQryInvestorPositionCombineDetail():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryInvestorPositionCombineDetail:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryInvestorPositionCombineDetail:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1880,11 +1790,6 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
         json_pInvestorPositionCombineDetail["TradeGroupID"] = pInvestorPositionCombineDetail->TradeGroupID;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -1909,6 +1814,8 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
     message.apiName = "OnRspQryInvestorPositionCombineDetail";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryInvestorPositionCombineDetail():执行结束..." << std::endl;
 }
 
 ///投资者结算结果确认响应
@@ -1918,22 +1825,21 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspSettlementInfoConfirm():被执行...\n");
+
+    std::cout << "OnRspSettlementInfoConfirm():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspSettlementInfoConfirm:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspSettlementInfoConfirm:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -1950,11 +1856,6 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
         json_pSettlementInfoConfirm["ConfirmDate"] = pSettlementInfoConfirm->ConfirmDate;
         json_pSettlementInfoConfirm["ConfirmTime"] = pSettlementInfoConfirm->ConfirmTime;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -1980,6 +1881,8 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
     message.apiName = "OnRspSettlementInfoConfirm";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspSettlementInfoConfirm():执行结束..." << std::endl;
 }
 
 ///请求查询银期签约关系响应
@@ -1989,22 +1892,21 @@ void CTraderHandler::OnRspQryAccountregister(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryAccountregister():被执行...\n");
+
+    std::cout << "OnRspQryAccountregister():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryAccountregister:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryAccountregister:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2035,11 +1937,6 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["BankAccType"] = pAccountregister->BankAccType;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -2064,6 +1961,8 @@ void CTraderHandler::OnRspQryAccountregister(
     message.apiName = "OnRspQryAccountregister";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryAccountregister():执行结束..." << std::endl;
 }
 
 ///请求查询二级代理操作员银期权限响应
@@ -2073,22 +1972,21 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQrySecAgentACIDMap():被执行...\n");
+
+    std::cout << "OnRspQrySecAgentACIDMap():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQrySecAgentACIDMap:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQrySecAgentACIDMap:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2106,11 +2004,6 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
         json_pSecAgentACIDMap["CurrencyID"] = pSecAgentACIDMap->CurrencyID;
         json_pSecAgentACIDMap["BrokerSecAgentID"] = pSecAgentACIDMap->BrokerSecAgentID;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -2136,6 +2029,8 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
     message.apiName = "OnRspQrySecAgentACIDMap";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQrySecAgentACIDMap():执行结束..." << std::endl;
 }
 
 ///请求查询交易编码响应
@@ -2145,22 +2040,21 @@ void CTraderHandler::OnRspQryTradingCode(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryTradingCode():被执行...\n");
+
+    std::cout << "OnRspQryTradingCode():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryTradingCode:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryTradingCode:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2179,11 +2073,6 @@ void CTraderHandler::OnRspQryTradingCode(
         json_pTradingCode["IsActive"] = pTradingCode->IsActive;
         json_pTradingCode["ClientIDType"] = pTradingCode->ClientIDType;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -2209,6 +2098,8 @@ void CTraderHandler::OnRspQryTradingCode(
     message.apiName = "OnRspQryTradingCode";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryTradingCode():执行结束..." << std::endl;
 }
 
 ///请求查询结算信息确认响应
@@ -2218,22 +2109,21 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQrySettlementInfoConfirm():被执行...\n");
+
+    std::cout << "OnRspQrySettlementInfoConfirm():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQrySettlementInfoConfirm:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQrySettlementInfoConfirm:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2250,11 +2140,6 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
         json_pSettlementInfoConfirm["ConfirmDate"] = pSettlementInfoConfirm->ConfirmDate;
         json_pSettlementInfoConfirm["ConfirmTime"] = pSettlementInfoConfirm->ConfirmTime;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -2280,6 +2165,8 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
     message.apiName = "OnRspQrySettlementInfoConfirm";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQrySettlementInfoConfirm():执行结束..." << std::endl;
 }
 
 ///请求查询转帐流水响应
@@ -2289,22 +2176,21 @@ void CTraderHandler::OnRspQryTransferSerial(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryTransferSerial():被执行...\n");
+
+    std::cout << "OnRspQryTransferSerial():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryTransferSerial:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryTransferSerial:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2346,11 +2232,6 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["ErrorMsg"] = pTransferSerial->ErrorMsg;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -2375,6 +2256,8 @@ void CTraderHandler::OnRspQryTransferSerial(
     message.apiName = "OnRspQryTransferSerial";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryTransferSerial():执行结束..." << std::endl;
 }
 
 ///请求查询投资者持仓响应
@@ -2384,22 +2267,21 @@ void CTraderHandler::OnRspQryInvestorPosition(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryInvestorPosition():被执行...\n");
+
+    std::cout << "OnRspQryInvestorPosition():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryInvestorPosition:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryInvestorPosition:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2453,11 +2335,6 @@ void CTraderHandler::OnRspQryInvestorPosition(
         json_pInvestorPosition["MarginRateByVolume"] = pInvestorPosition->MarginRateByVolume;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -2482,6 +2359,8 @@ void CTraderHandler::OnRspQryInvestorPosition(
     message.apiName = "OnRspQryInvestorPosition";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryInvestorPosition():执行结束..." << std::endl;
 }
 
 ///登出请求响应
@@ -2491,22 +2370,21 @@ void CTraderHandler::OnRspUserLogout(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspUserLogout():被执行...\n");
+
+    std::cout << "OnRspUserLogout():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspUserLogout:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspUserLogout:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2521,11 +2399,6 @@ void CTraderHandler::OnRspUserLogout(
         json_pUserLogout["BrokerID"] = pUserLogout->BrokerID;
         json_pUserLogout["UserID"] = pUserLogout->UserID;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -2551,6 +2424,8 @@ void CTraderHandler::OnRspUserLogout(
     message.apiName = "OnRspUserLogout";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspUserLogout():执行结束..." << std::endl;
 }
 
 ///请求查询投资者持仓明细响应
@@ -2560,22 +2435,21 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryInvestorPositionDetail():被执行...\n");
+
+    std::cout << "OnRspQryInvestorPositionDetail():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryInvestorPositionDetail:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryInvestorPositionDetail:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2615,11 +2489,6 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
         json_pInvestorPositionDetail["CloseAmount"] = pInvestorPositionDetail->CloseAmount;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -2644,6 +2513,8 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
     message.apiName = "OnRspQryInvestorPositionDetail";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryInvestorPositionDetail():执行结束..." << std::endl;
 }
 
 ///请求查询预埋撤单响应
@@ -2653,22 +2524,21 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryParkedOrderAction():被执行...\n");
+
+    std::cout << "OnRspQryParkedOrderAction():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryParkedOrderAction:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryParkedOrderAction:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2701,11 +2571,6 @@ void CTraderHandler::OnRspQryParkedOrderAction(
         json_pParkedOrderAction["ErrorMsg"] = pParkedOrderAction->ErrorMsg;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -2730,6 +2595,8 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     message.apiName = "OnRspQryParkedOrderAction";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryParkedOrderAction():执行结束..." << std::endl;
 }
 
 ///请求查询经纪公司交易参数响应
@@ -2739,22 +2606,21 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryBrokerTradingParams():被执行...\n");
+
+    std::cout << "OnRspQryBrokerTradingParams():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryBrokerTradingParams:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryBrokerTradingParams:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2773,11 +2639,6 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
         json_pBrokerTradingParams["AvailIncludeCloseProfit"] = pBrokerTradingParams->AvailIncludeCloseProfit;
         json_pBrokerTradingParams["CurrencyID"] = pBrokerTradingParams->CurrencyID;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -2803,6 +2664,8 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
     message.apiName = "OnRspQryBrokerTradingParams";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryBrokerTradingParams():执行结束..." << std::endl;
 }
 
 ///请求查询交易所保证金率响应
@@ -2812,22 +2675,21 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryExchangeMarginRate():被执行...\n");
+
+    std::cout << "OnRspQryExchangeMarginRate():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryExchangeMarginRate:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryExchangeMarginRate:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2847,11 +2709,6 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
         json_pExchangeMarginRate["ShortMarginRatioByMoney"] = pExchangeMarginRate->ShortMarginRatioByMoney;
         json_pExchangeMarginRate["ShortMarginRatioByVolume"] = pExchangeMarginRate->ShortMarginRatioByVolume;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -2877,6 +2734,8 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
     message.apiName = "OnRspQryExchangeMarginRate";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryExchangeMarginRate():执行结束..." << std::endl;
 }
 
 ///请求查询预埋单响应
@@ -2886,22 +2745,21 @@ void CTraderHandler::OnRspQryParkedOrder(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryParkedOrder():被执行...\n");
+
+    std::cout << "OnRspQryParkedOrder():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryParkedOrder:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryParkedOrder:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -2944,11 +2802,6 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["IsSwapOrder"] = pParkedOrder->IsSwapOrder;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -2973,6 +2826,8 @@ void CTraderHandler::OnRspQryParkedOrder(
     message.apiName = "OnRspQryParkedOrder";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryParkedOrder():执行结束..." << std::endl;
 }
 
 ///期货发起查询银行余额应答
@@ -2982,22 +2837,21 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQueryBankAccountMoneyByFuture():被执行...\n");
+
+    std::cout << "OnRspQueryBankAccountMoneyByFuture():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQueryBankAccountMoneyByFuture:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQueryBankAccountMoneyByFuture:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3047,11 +2901,6 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["TID"] = pReqQueryAccount->TID;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -3076,6 +2925,8 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
     message.apiName = "OnRspQueryBankAccountMoneyByFuture";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQueryBankAccountMoneyByFuture():执行结束..." << std::endl;
 }
 
 ///客户端认证响应
@@ -3085,22 +2936,21 @@ void CTraderHandler::OnRspAuthenticate(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspAuthenticate():被执行...\n");
+
+    std::cout << "OnRspAuthenticate():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspAuthenticate:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspAuthenticate:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3116,11 +2966,6 @@ void CTraderHandler::OnRspAuthenticate(
         json_pRspAuthenticateField["UserID"] = pRspAuthenticateField->UserID;
         json_pRspAuthenticateField["UserProductInfo"] = pRspAuthenticateField->UserProductInfo;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -3146,6 +2991,8 @@ void CTraderHandler::OnRspAuthenticate(
     message.apiName = "OnRspAuthenticate";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspAuthenticate():执行结束..." << std::endl;
 }
 
 ///查询最大报单数量响应
@@ -3155,22 +3002,21 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQueryMaxOrderVolume():被执行...\n");
+
+    std::cout << "OnRspQueryMaxOrderVolume():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQueryMaxOrderVolume:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQueryMaxOrderVolume:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3190,11 +3036,6 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
         json_pQueryMaxOrderVolume["HedgeFlag"] = pQueryMaxOrderVolume->HedgeFlag;
         json_pQueryMaxOrderVolume["MaxVolume"] = pQueryMaxOrderVolume->MaxVolume;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -3220,6 +3061,8 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
     message.apiName = "OnRspQueryMaxOrderVolume";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQueryMaxOrderVolume():执行结束..." << std::endl;
 }
 
 ///请求查询汇率响应
@@ -3229,22 +3072,21 @@ void CTraderHandler::OnRspQryExchangeRate(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryExchangeRate():被执行...\n");
+
+    std::cout << "OnRspQryExchangeRate():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryExchangeRate:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryExchangeRate:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3262,11 +3104,6 @@ void CTraderHandler::OnRspQryExchangeRate(
         json_pExchangeRate["ToCurrencyID"] = pExchangeRate->ToCurrencyID;
         json_pExchangeRate["ExchangeRate"] = pExchangeRate->ExchangeRate;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -3292,6 +3129,8 @@ void CTraderHandler::OnRspQryExchangeRate(
     message.apiName = "OnRspQryExchangeRate";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryExchangeRate():执行结束..." << std::endl;
 }
 
 ///请求查询交易通知响应
@@ -3301,22 +3140,21 @@ void CTraderHandler::OnRspQryTradingNotice(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryTradingNotice():被执行...\n");
+
+    std::cout << "OnRspQryTradingNotice():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryTradingNotice:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryTradingNotice:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3337,11 +3175,6 @@ void CTraderHandler::OnRspQryTradingNotice(
         json_pTradingNotice["SequenceNo"] = pTradingNotice->SequenceNo;
         json_pTradingNotice["FieldContent"] = pTradingNotice->FieldContent;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -3367,6 +3200,8 @@ void CTraderHandler::OnRspQryTradingNotice(
     message.apiName = "OnRspQryTradingNotice";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryTradingNotice():执行结束..." << std::endl;
 }
 
 ///预埋撤单录入请求响应
@@ -3376,22 +3211,21 @@ void CTraderHandler::OnRspParkedOrderAction(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspParkedOrderAction():被执行...\n");
+
+    std::cout << "OnRspParkedOrderAction():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspParkedOrderAction:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspParkedOrderAction:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3424,11 +3258,6 @@ void CTraderHandler::OnRspParkedOrderAction(
         json_pParkedOrderAction["ErrorMsg"] = pParkedOrderAction->ErrorMsg;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -3453,6 +3282,8 @@ void CTraderHandler::OnRspParkedOrderAction(
     message.apiName = "OnRspParkedOrderAction";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspParkedOrderAction():执行结束..." << std::endl;
 }
 
 ///请求查询客户通知响应
@@ -3462,22 +3293,21 @@ void CTraderHandler::OnRspQryNotice(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryNotice():被执行...\n");
+
+    std::cout << "OnRspQryNotice():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryNotice:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryNotice:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3493,11 +3323,6 @@ void CTraderHandler::OnRspQryNotice(
         json_pNotice["Content"] = pNotice->Content;
         json_pNotice["SequenceLabel"] = pNotice->SequenceLabel;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -3523,6 +3348,8 @@ void CTraderHandler::OnRspQryNotice(
     message.apiName = "OnRspQryNotice";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryNotice():执行结束..." << std::endl;
 }
 
 ///请求查询资金账户响应
@@ -3532,22 +3359,21 @@ void CTraderHandler::OnRspQryTradingAccount(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryTradingAccount():被执行...\n");
+
+    std::cout << "OnRspQryTradingAccount():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryTradingAccount:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryTradingAccount:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3607,11 +3433,6 @@ void CTraderHandler::OnRspQryTradingAccount(
         json_pTradingAccount["SpecProductExchangeMargin"] = pTradingAccount->SpecProductExchangeMargin;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -3636,6 +3457,8 @@ void CTraderHandler::OnRspQryTradingAccount(
     message.apiName = "OnRspQryTradingAccount";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryTradingAccount():执行结束..." << std::endl;
 }
 
 ///资金账户口令更新请求响应
@@ -3645,22 +3468,21 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspTradingAccountPasswordUpdate():被执行...\n");
+
+    std::cout << "OnRspTradingAccountPasswordUpdate():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspTradingAccountPasswordUpdate:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspTradingAccountPasswordUpdate:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3678,11 +3500,6 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
         json_pTradingAccountPasswordUpdate["NewPassword"] = pTradingAccountPasswordUpdate->NewPassword;
         json_pTradingAccountPasswordUpdate["CurrencyID"] = pTradingAccountPasswordUpdate->CurrencyID;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -3708,6 +3525,8 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
     message.apiName = "OnRspTradingAccountPasswordUpdate";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspTradingAccountPasswordUpdate():执行结束..." << std::endl;
 }
 
 ///请求查询报单响应
@@ -3717,22 +3536,21 @@ void CTraderHandler::OnRspQryOrder(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryOrder():被执行...\n");
+
+    std::cout << "OnRspQryOrder():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryOrder:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryOrder:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3803,11 +3621,6 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["IsSwapOrder"] = pOrder->IsSwapOrder;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -3832,6 +3645,8 @@ void CTraderHandler::OnRspQryOrder(
     message.apiName = "OnRspQryOrder";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryOrder():执行结束..." << std::endl;
 }
 
 ///请求查询行情响应
@@ -3841,22 +3656,21 @@ void CTraderHandler::OnRspQryDepthMarketData(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryDepthMarketData():被执行...\n");
+
+    std::cout << "OnRspQryDepthMarketData():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryDepthMarketData:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryDepthMarketData:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3914,11 +3728,6 @@ void CTraderHandler::OnRspQryDepthMarketData(
         json_pDepthMarketData["ActionDay"] = pDepthMarketData->ActionDay;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -3943,6 +3752,8 @@ void CTraderHandler::OnRspQryDepthMarketData(
     message.apiName = "OnRspQryDepthMarketData";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryDepthMarketData():执行结束..." << std::endl;
 }
 
 ///请求查询合约手续费率响应
@@ -3952,22 +3763,21 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryInstrumentCommissionRate():被执行...\n");
+
+    std::cout << "OnRspQryInstrumentCommissionRate():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryInstrumentCommissionRate:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryInstrumentCommissionRate:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -3990,11 +3800,6 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
         json_pInstrumentCommissionRate["CloseTodayRatioByMoney"] = pInstrumentCommissionRate->CloseTodayRatioByMoney;
         json_pInstrumentCommissionRate["CloseTodayRatioByVolume"] = pInstrumentCommissionRate->CloseTodayRatioByVolume;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -4020,6 +3825,8 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
     message.apiName = "OnRspQryInstrumentCommissionRate";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryInstrumentCommissionRate():执行结束..." << std::endl;
 }
 
 ///删除预埋撤单响应
@@ -4029,22 +3836,21 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspRemoveParkedOrderAction():被执行...\n");
+
+    std::cout << "OnRspRemoveParkedOrderAction():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspRemoveParkedOrderAction:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspRemoveParkedOrderAction:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -4060,11 +3866,6 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
         json_pRemoveParkedOrderAction["InvestorID"] = pRemoveParkedOrderAction->InvestorID;
         json_pRemoveParkedOrderAction["ParkedOrderActionID"] = pRemoveParkedOrderAction->ParkedOrderActionID;
     }
-
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
 
     /// json_nRequestID
     Json::Value json_nRequestID;
@@ -4090,6 +3891,8 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
     message.apiName = "OnRspRemoveParkedOrderAction";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspRemoveParkedOrderAction():执行结束..." << std::endl;
 }
 
 ///请求查询成交响应
@@ -4099,22 +3902,21 @@ void CTraderHandler::OnRspQryTrade(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspQryTrade():被执行...\n");
+
+    std::cout << "OnRspQryTrade():被执行..." << std::endl;
+
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
-
-    // 返回结果检查
-    if ( pRspInfo )  {
-        // typedef int TThostFtdcErrorIDType;
-        // typedef char TThostFtdcErrorMsgType[81];
-        if (pRspInfo->ErrorID != 0) {
-            char ErrorMsg[243];
-            gbk2utf8(pRspInfo->ErrorMsg,ErrorMsg,sizeof(ErrorMsg));
-            std::cout << "OnRspQryTrade:出错:ErrorId=" << pRspInfo->ErrorID << ","
-                      << "ErrorMsg=" << ErrorMsg << std::endl;
-        }
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
     } else {
-        std::cout << "OnRspQryTrade:出错:没有提供出错信息" << std::endl;
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
     }
 
     // 生成返回的json格式
@@ -4158,11 +3960,6 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["TradeSource"] = pTrade->TradeSource;
     }
 
-    /// 出错信息
-    Json::Value json_pRspInfo;
-    json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-    json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-
     /// json_nRequestID
     Json::Value json_nRequestID;
     json_nRequestID = nRequestID;
@@ -4187,6 +3984,8 @@ void CTraderHandler::OnRspQryTrade(
     message.apiName = "OnRspQryTrade";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
+
+    std::cout << "OnRspQryTrade():执行结束..." << std::endl;
 }
 
 
