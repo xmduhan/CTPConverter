@@ -27,7 +27,10 @@ void CTraderHandler::OnFrontConnected() {
 	message.send(sender);
 }
 
-char buffer[1024];
+
+// 字符操作使用的临时缓冲区,由于ctp最长的字符串变量长度2049,并且需要字符串编码的转换,
+// 定义3倍长度来保证不会超出
+char buffer[6145];
 
 /**********************************************************
 *                   onRsp开头的方法                         *
@@ -70,7 +73,17 @@ char buffer[1024];
 	if ( {{dataVarName}} != NULL ) {
 		// TODO : 这里需要将编码转化为utf-8
 		{% for field in dataType['fields'] %}
-			json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+			{%- set typeInfo = typedefDict[field['type']] %}
+			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}				
+				gbk2utf8(
+					{{dataVarName}}->{{field['name']}},
+					buffer,
+					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+				);
+				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% else %}
+				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+			{% endif %}
 		{%- endfor %}
 	}
 

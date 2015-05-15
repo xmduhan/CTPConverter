@@ -30,13 +30,10 @@ CApiWrapper 自动编写部分（ok）
 (1)jsoncpp的安装 (ok)
 (2)OnRsp,(ok)
 (5)初步完成CApiWrapper代码编写 (ok)
-
 1、完成调用到响应的贯通(ok)
+1、处理返回信息的编码问题(ok)
 
-1、处理返回信息的编码问题
 1、调用信息时放入一个空的Data对象会报错的问题
-
-
 2、主程序代码结构编写
 
 (3)OnRtn,
@@ -166,15 +163,13 @@ structDict['CThostFtdcRspInfoField']
 ErrorID
 ErrorMsg
 
-#%% 根据类型找定义
-
-
-
-
-
-
-
-
+#%% 寻找ctp定义变量中最长的类型 
+maxLen = 0
+for i in typedefDict.itervalues():
+    l = int(i.get('len',0) or '0')
+    if l > maxLen :
+        maxLen = l
+print 'maxLen=',maxLen
 
 #%% 遍历模板目录中的所有模板文件
 import os
