@@ -1,5 +1,7 @@
 
 #include <CApiWrapper.h>
+#include <json/json.h>
+#include <comhelper.h>
 
 
 
@@ -21,7 +23,7 @@ CApiWrapper::CApiWrapper(Configure * pConfigure){
 
 	// 初始化上次出错代码和出错信息
 	lastErrorCode = 0;
-	strcpy(lastErrorMessage,"");
+	lastErrorMessage = "";
 
 }
 
@@ -96,7 +98,7 @@ int CApiWrapper::getLastErrorCode(){
 }
 
 /// 获取上次错误信息
-char * CApiWrapper::getLastErrorMessage(){
+std::string CApiWrapper::getLastErrorMessage(){
 	return lastErrorMessage;
 }
 
@@ -129,48 +131,100 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 
 {% for method in reqMethodDict.itervalues() %}
 	{{ method['remark'] }}
-	int CApiWrapper::{{method['name']}}(char * pJsonData )
+	int CApiWrapper::{{method['name']}}(std::string jsonString)
 {
 	printf("{{method['name']}}():被执行...\n");
 	{% set parameter = method['parameters'][0]  %}
 	{{ parameter['raw_type'] }} data;
     int nRequestID;
 
+
+	// 解析json格式数据
+	try{
+
+		Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)){
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        Assert<std::exception>(!Data.empty());
+
+		// TODO:这里将pJsonData转化为对应的结构参数
+		{%- set dataTypeName = parameter['raw_type'] %}
+		{%- set dataType = structDict[dataTypeName] %}
+		{% for field in dataType['fields'] %}
+			{%- set typeInfo = typedefDict[field['type']] %}
+			{%- if typeInfo['len'] == None %}
+				{{ field['remark'] }} {{ typeInfo['type']}} {{field['name']}}
+				{% if typeInfo['type'] == 'char' -%}
+					if ( !Data["{{field['name']}}"].empty()){
+						data.{{field['name']}} = Data["{{field['name']}}"].asString()[0];
+					}else{
+						data.{{field['name']}} = '0';
+					}
+				{% elif typeInfo['type'] == 'int' -%}
+					if (!Data["{{field['name']}}"].empty()){
+						data.{{field['name']}} = Data["{{field['name']}}"].asInt();
+					}else{
+						data.{{field['name']}} = 0;
+					}
+				{% elif typeInfo['type'] == 'double' -%}
+					if (!Data["{{field['name']}}"].empty()){
+						data.{{field['name']}} = Data["{{field['name']}}"].asDouble();
+					}else{
+						data.{{field['name']}} = 0;
+					}
+				{% else -%}
+					未知类型 {{typeInfo['type']}};
+				{%- endif %}
+			{%- else %}
+				{{ field['remark'] }} {{typeInfo['type']}} {{field['name']}}[{{typeInfo['len']}}];
+				{% if typeInfo['type'] == 'char' -%}
+					if (!Data["{{field['name']}}"].empty()){
+						data.{{field['name']}}[sizeof(data.{{field['name']}})-1] = 0;
+						strncpy(data.{{field['name']}},Data["{{field['name']}}"].asCString(),sizeof(data.{{field['name']}})-1);
+					}else{
+						strcpy(data.{{field['name']}},"");
+					}
+				{% else -%}
+					未知类型{{typeInfo['type']}}[{{typeInfo['len']}}];
+				{%- endif -%}
+			{%- endif %}
+		{%- endfor %}
+	}catch (...){
+		lastErrorCode = -1001;
+		lastErrorMessage = "json数据格式错误";
+		return lastErrorCode;
+	}
+
 	// 获取RequestID
 	nRequestID = getNextRequestID();
-
-	// TODO:这里将pJsonData转化为对应的结构参数
-	{%- set dataTypeName = parameter['raw_type'] %}
-	{%- set dataType = structDict[dataTypeName] %}
-	{% for field in dataType['fields'] %}
-		{%- set typeInfo = typedefDict[field['type']] %}
-		{%- if typeInfo['len'] == None %}
-			{{ field['remark'] }} {{ typeInfo['type']}} {{field['name'] }}
-			{% if typeInfo['type'] == 'char' -%}
-				////////////// char 类型赋值处理 //////////////
-			{% elif typeInfo['type'] == 'int' -%}
-				////////////// int 类型赋值处理 //////////////
-			{% elif typeInfo['type'] == 'double' -%}
-				////////////// double 类型赋值处理 //////////////
-			{% else -%}
-				未知类型 {{typeInfo['type']}};
-			{%- endif %}
-		{%- else %}
-			{{ field['remark'] }} {{typeInfo['type']}} {{field['name']}}[{{typeInfo['len']}}];
-			{% if typeInfo['type'] == 'char' -%}
-				////////////// 字符串类型的处理	//////////////
-			{% else -%}
-				未知类型{{typeInfo['type']}}[{{typeInfo['len']}}];
-			{%- endif -%}
-		{%- endif %}
-	{%- endfor %}
 
 	// 调用对应的CTP API函数
 	{{method['returns']}} result =
 	pTraderApi->{{method['name']}}(&data, nRequestID);
 
 	// TODO:检查API调用是否失败,并设置LastError信息
+	if ( result != 0 ){
+		lastErrorCode = result;
+		switch(result){
+			case -1 : lastErrorMessage = "网络连接失败"; break;
+			case -2 : lastErrorMessage = "未处理请求超过许可数"; break;
+			case -3 : lastErrorMessage = "每秒发送请求超过许可数"; break;
+			default : lastErrorMessage = "未知错误";
+		}
+		return result;
+	}
 
-	return result;
+	// 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+	lastErrorCode = 0;
+	lastErrorMessage = "";
+	return nRequestID;
 }
+
 {% endfor %}

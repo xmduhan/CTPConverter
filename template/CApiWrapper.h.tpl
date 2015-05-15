@@ -29,7 +29,7 @@ public:
     /// 上次出错代码
     int lastErrorCode;
     /// 上次出错信息
-    char lastErrorMessage[1024];
+    std::string lastErrorMessage;
     /// 启动CTP连接
     void init();
     /// 获取下一个RequestID序列
@@ -39,12 +39,12 @@ public:
     /// 获取上次出错代码
     int getLastErrorCode();
     /// 获取上次错误信息
-    char * getLastErrorMessage();
+    std::string getLastErrorMessage();
 
     ////////////// API方法的wrapper ///////////////
     {% for method in reqMethodDict.itervalues() %}
     	{{ method['remark'] }}
-    	int {{method['name']}}(char * pJsonData );
+    	int {{method['name']}}(std::string jsonString);
     {% endfor %}
 
 };

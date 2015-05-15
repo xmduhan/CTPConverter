@@ -149,7 +149,6 @@ void test03() {
 
 int main() {
 
-
     std::string jsonString = "\
     {\
        \"ResponseMethod\" : \"ReqQryTradingAccount\",\
@@ -203,10 +202,8 @@ int main() {
         }
         ///////////// 字符串处理过程 ////////////////
         if (!Data["string"].empty()) {
-            memset(str,1,sizeof(str));
             str[sizeof(str)-1] = 0;
             strncpy(str,Data["string"].asCString(),sizeof(str)-1);
-
         } else {
             strcpy(str,"");
         }
