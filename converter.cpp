@@ -239,11 +239,23 @@ int main() {
     loadConfig();
     CApiWrapper api(&config);
     api.init();
-    int result;
-    //while(1){
-    result = api.ReqQryInvestor(jsonString);
-    std::cout << "result=" << result << std::endl;
-    sleep(3);
-    //}
+    int result  ;
+
+    for( int i=0; i<10; i++ ) {
+        result = api.ReqQryInvestor(jsonString);
+        std::cout << "result=" << result << std::endl;
+
+        // 读取Api响应数据
+        zmq::context_t context(1);
+        zmq::socket_t receiver(context, ZMQ_PULL);
+        PushbackMessage message;
+        receiver.connect(config.PushbackPipe);
+        message.recv(receiver);
+        std::cout << "message.requestID = " << message.requestID << std::endl;
+        std::cout << "message.apiName = " << message.apiName << std::endl;
+        std::cout << "message.respInfo = " << message.respInfo << std::endl;
+        sleep(1);
+    }
+
     return 0;
 }
