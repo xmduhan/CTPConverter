@@ -11,6 +11,7 @@
 #include <string.h>
 #include <iostream>
 #include <assert.h>
+#include <map>
 
 class CApiWrapper {
 
@@ -41,10 +42,16 @@ public:
     /// 获取上次错误信息
     std::string getLastErrorMessage();
 
+    void initApiMap();
+
     ////////////// API方法的wrapper ///////////////
     {% for method in reqMethodDict.itervalues() %}
     	{{ method['remark'] }}
     	int {{method['name']}}(std::string jsonString);
     {% endfor %}
+
+    std::map<std::string,int (CApiWrapper::*) (std::string)> apiMap;
+
+    int callApiByName(std::string apiName,std::string jsonString);
 
 };

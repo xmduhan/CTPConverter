@@ -23,6 +23,7 @@ public:
 class RequestMessage : public Message {
 public:
     // 消息结构数据
+    std::string routeKey;
     std::string header;
     std::string apiName;
     std::string reqInfo;
@@ -34,6 +35,7 @@ public:
 /// 服务器端返回RequestID消息格式
 class RequestIDMessage{
 public:
+    std::string routeKey;
     std::string header;
     std::string requestID;
     std::string apiName;
@@ -46,6 +48,7 @@ public:
 /// 服务器返回请求结果的消息格式
 class ResponseMessage{
 public:
+    std::string routeKey;
     std::string header;
     std::string requestID;
     std::string apiName;

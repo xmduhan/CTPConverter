@@ -27,8 +27,166 @@ CApiWrapper::CApiWrapper(Configure * pConfigure) {
 
 }
 
+// 将所有api函数映射到名称
+void CApiWrapper::initApiMap() {
+
+    //ReqQryTradingAccount
+    apiMap["ReqQryTradingAccount"] = &CApiWrapper::ReqQryTradingAccount;
+
+    //ReqQryCFMMCTradingAccountKey
+    apiMap["ReqQryCFMMCTradingAccountKey"] = &CApiWrapper::ReqQryCFMMCTradingAccountKey;
+
+    //ReqUserPasswordUpdate
+    apiMap["ReqUserPasswordUpdate"] = &CApiWrapper::ReqUserPasswordUpdate;
+
+    //ReqParkedOrderAction
+    apiMap["ReqParkedOrderAction"] = &CApiWrapper::ReqParkedOrderAction;
+
+    //ReqQryTradingNotice
+    apiMap["ReqQryTradingNotice"] = &CApiWrapper::ReqQryTradingNotice;
+
+    //ReqQryTrade
+    apiMap["ReqQryTrade"] = &CApiWrapper::ReqQryTrade;
+
+    //ReqQueryMaxOrderVolume
+    apiMap["ReqQueryMaxOrderVolume"] = &CApiWrapper::ReqQueryMaxOrderVolume;
+
+    //ReqSettlementInfoConfirm
+    apiMap["ReqSettlementInfoConfirm"] = &CApiWrapper::ReqSettlementInfoConfirm;
+
+    //ReqQryInvestorPosition
+    apiMap["ReqQryInvestorPosition"] = &CApiWrapper::ReqQryInvestorPosition;
+
+    //ReqQryBrokerTradingAlgos
+    apiMap["ReqQryBrokerTradingAlgos"] = &CApiWrapper::ReqQryBrokerTradingAlgos;
+
+    //ReqQryOrder
+    apiMap["ReqQryOrder"] = &CApiWrapper::ReqQryOrder;
+
+    //ReqQryExchange
+    apiMap["ReqQryExchange"] = &CApiWrapper::ReqQryExchange;
+
+    //ReqUserLogin
+    apiMap["ReqUserLogin"] = &CApiWrapper::ReqUserLogin;
+
+    //ReqFromFutureToBankByFuture
+    apiMap["ReqFromFutureToBankByFuture"] = &CApiWrapper::ReqFromFutureToBankByFuture;
+
+    //ReqFromBankToFutureByFuture
+    apiMap["ReqFromBankToFutureByFuture"] = &CApiWrapper::ReqFromBankToFutureByFuture;
+
+    //ReqQrySettlementInfoConfirm
+    apiMap["ReqQrySettlementInfoConfirm"] = &CApiWrapper::ReqQrySettlementInfoConfirm;
+
+    //ReqQryBrokerTradingParams
+    apiMap["ReqQryBrokerTradingParams"] = &CApiWrapper::ReqQryBrokerTradingParams;
+
+    //ReqQueryCFMMCTradingAccountToken
+    apiMap["ReqQueryCFMMCTradingAccountToken"] = &CApiWrapper::ReqQueryCFMMCTradingAccountToken;
+
+    //ReqQryNotice
+    apiMap["ReqQryNotice"] = &CApiWrapper::ReqQryNotice;
+
+    //ReqQryExchangeRate
+    apiMap["ReqQryExchangeRate"] = &CApiWrapper::ReqQryExchangeRate;
+
+    //ReqParkedOrderInsert
+    apiMap["ReqParkedOrderInsert"] = &CApiWrapper::ReqParkedOrderInsert;
+
+    //ReqQryContractBank
+    apiMap["ReqQryContractBank"] = &CApiWrapper::ReqQryContractBank;
+
+    //ReqQryInvestorPositionCombineDetail
+    apiMap["ReqQryInvestorPositionCombineDetail"] = &CApiWrapper::ReqQryInvestorPositionCombineDetail;
+
+    //ReqQryExchangeMarginRate
+    apiMap["ReqQryExchangeMarginRate"] = &CApiWrapper::ReqQryExchangeMarginRate;
+
+    //ReqQrySecAgentACIDMap
+    apiMap["ReqQrySecAgentACIDMap"] = &CApiWrapper::ReqQrySecAgentACIDMap;
+
+    //ReqQryTransferSerial
+    apiMap["ReqQryTransferSerial"] = &CApiWrapper::ReqQryTransferSerial;
+
+    //ReqQueryBankAccountMoneyByFuture
+    apiMap["ReqQueryBankAccountMoneyByFuture"] = &CApiWrapper::ReqQueryBankAccountMoneyByFuture;
+
+    //ReqQryParkedOrderAction
+    apiMap["ReqQryParkedOrderAction"] = &CApiWrapper::ReqQryParkedOrderAction;
+
+    //ReqAuthenticate
+    apiMap["ReqAuthenticate"] = &CApiWrapper::ReqAuthenticate;
+
+    //ReqOrderInsert
+    apiMap["ReqOrderInsert"] = &CApiWrapper::ReqOrderInsert;
+
+    //ReqQrySettlementInfo
+    apiMap["ReqQrySettlementInfo"] = &CApiWrapper::ReqQrySettlementInfo;
+
+    //ReqUserLogout
+    apiMap["ReqUserLogout"] = &CApiWrapper::ReqUserLogout;
+
+    //ReqQryInstrument
+    apiMap["ReqQryInstrument"] = &CApiWrapper::ReqQryInstrument;
+
+    //ReqOrderAction
+    apiMap["ReqOrderAction"] = &CApiWrapper::ReqOrderAction;
+
+    //ReqQryInstrumentCommissionRate
+    apiMap["ReqQryInstrumentCommissionRate"] = &CApiWrapper::ReqQryInstrumentCommissionRate;
+
+    //ReqQryInstrumentMarginRate
+    apiMap["ReqQryInstrumentMarginRate"] = &CApiWrapper::ReqQryInstrumentMarginRate;
+
+    //ReqQryInvestor
+    apiMap["ReqQryInvestor"] = &CApiWrapper::ReqQryInvestor;
+
+    //ReqQryParkedOrder
+    apiMap["ReqQryParkedOrder"] = &CApiWrapper::ReqQryParkedOrder;
+
+    //ReqQryInvestorProductGroupMargin
+    apiMap["ReqQryInvestorProductGroupMargin"] = &CApiWrapper::ReqQryInvestorProductGroupMargin;
+
+    //ReqQryDepthMarketData
+    apiMap["ReqQryDepthMarketData"] = &CApiWrapper::ReqQryDepthMarketData;
+
+    //ReqQryTransferBank
+    apiMap["ReqQryTransferBank"] = &CApiWrapper::ReqQryTransferBank;
+
+    //ReqRemoveParkedOrderAction
+    apiMap["ReqRemoveParkedOrderAction"] = &CApiWrapper::ReqRemoveParkedOrderAction;
+
+    //ReqQryProduct
+    apiMap["ReqQryProduct"] = &CApiWrapper::ReqQryProduct;
+
+    //ReqQryTradingCode
+    apiMap["ReqQryTradingCode"] = &CApiWrapper::ReqQryTradingCode;
+
+    //ReqTradingAccountPasswordUpdate
+    apiMap["ReqTradingAccountPasswordUpdate"] = &CApiWrapper::ReqTradingAccountPasswordUpdate;
+
+    //ReqQryAccountregister
+    apiMap["ReqQryAccountregister"] = &CApiWrapper::ReqQryAccountregister;
+
+    //ReqQryExchangeMarginRateAdjust
+    apiMap["ReqQryExchangeMarginRateAdjust"] = &CApiWrapper::ReqQryExchangeMarginRateAdjust;
+
+    //ReqQryEWarrantOffset
+    apiMap["ReqQryEWarrantOffset"] = &CApiWrapper::ReqQryEWarrantOffset;
+
+    //ReqQryInvestorPositionDetail
+    apiMap["ReqQryInvestorPositionDetail"] = &CApiWrapper::ReqQryInvestorPositionDetail;
+
+    //ReqRemoveParkedOrder
+    apiMap["ReqRemoveParkedOrder"] = &CApiWrapper::ReqRemoveParkedOrder;
+
+}
+
 /// 启动CTP连接
 void CApiWrapper::init() {
+
+    // 初始化api名称对照表
+    initApiMap();
 
     // 创建zmq通讯环境
     zmq::context_t context(1);
@@ -6132,3 +6290,17 @@ int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
     return nRequestID;
 }
 
+
+
+int CApiWrapper::callApiByName(std::string apiName,std::string jsonString) {
+
+    if ( apiMap.find(apiName) != apiMap.end() ) {
+        return (this->*apiMap[apiName])(jsonString);
+    } else {
+        lastErrorCode = -1000;
+        lastErrorMessage = "没有这个接口函数";
+        return lastErrorCode;
+    }
+    return 0;
+
+}

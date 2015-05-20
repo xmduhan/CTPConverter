@@ -27,8 +27,19 @@ CApiWrapper::CApiWrapper(Configure * pConfigure){
 
 }
 
+// 将所有api函数映射到名称
+void CApiWrapper::initApiMap(){
+	{% for method in reqMethodDict.itervalues() %}
+		//{{method['name']}}
+		apiMap["{{method['name']}}"] = &CApiWrapper::{{method['name']}};
+	{% endfor %}
+}
+
 /// 启动CTP连接
 void CApiWrapper::init(){
+
+	// 初始化api名称对照表
+	initApiMap();
 
 	// 创建zmq通讯环境
 	zmq::context_t context(1);
@@ -236,3 +247,16 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 }
 
 {% endfor %}
+
+// 通过名称调用api
+int CApiWrapper::callApiByName(std::string apiName,std::string jsonString){
+
+	if ( apiMap.find(apiName) != apiMap.end() ){
+		return (this->*apiMap[apiName])(jsonString);
+	}else{
+		lastErrorCode = -1000;
+		lastErrorMessage = "没有这个接口函数";
+		return lastErrorCode;
+	}
+	return 0;
+}

@@ -49,14 +49,19 @@ int main(){
         zmq::poll (pullItems, 2, timeout);
 
         if ( pullItems[0].revents & ZMQ_POLLIN){
-            std::cout << "接收到客户端的请求" << std::endl;
-            try{
-                requestMessage.recv(listener);
-                // TODO : 这里编写消息处理方法
-            }catch(std::exception & e){
-                std::cout << "异常:" << e.what() << std::endl;
-                std::cout << "消息被丢弃" << std::endl;
-            }
+            do {
+                std::cout << "接收到客户端的请求" << std::endl;
+                try{
+                    requestMessage.recv(listener);
+                    std::cout << "客户端请求调用:" << requestMessage.apiName << std::endl;
+                }catch(std::exception & e){
+                    std::cout << "异常:" << e.what() << std::endl;
+                    std::cout << "消息被丢弃" << std::endl;
+                    break;
+                }
+                // TODO : 1. 调用对应的api
+                // TODO : 2. 返回客户端一个信息(调用成功返回requestid，失败有错误信息)
+            }while(false);
         }
 
         if ( pullItems[1].revents & ZMQ_POLLIN){

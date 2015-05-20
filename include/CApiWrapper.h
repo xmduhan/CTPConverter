@@ -11,6 +11,7 @@
 #include <string.h>
 #include <iostream>
 #include <assert.h>
+#include <map>
 
 class CApiWrapper {
 
@@ -40,6 +41,8 @@ public:
     int getLastErrorCode();
     /// 获取上次错误信息
     std::string getLastErrorMessage();
+
+    void initApiMap();
 
     ////////////// API方法的wrapper ///////////////
 
@@ -193,5 +196,9 @@ public:
     ///请求删除预埋单
     int ReqRemoveParkedOrder(std::string jsonString);
 
+
+    std::map<std::string,int (CApiWrapper::*) (std::string)> apiMap;
+
+    int callApiByName(std::string apiName,std::string jsonString);
 
 };
