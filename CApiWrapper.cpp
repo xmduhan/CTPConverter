@@ -6292,6 +6292,7 @@ int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
 
 
 
+// 通过名称调用api
 int CApiWrapper::callApiByName(std::string apiName,std::string jsonString) {
 
     if ( apiMap.find(apiName) != apiMap.end() ) {
@@ -6302,5 +6303,4 @@ int CApiWrapper::callApiByName(std::string apiName,std::string jsonString) {
         return lastErrorCode;
     }
     return 0;
-
 }

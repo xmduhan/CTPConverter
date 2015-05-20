@@ -17,6 +17,8 @@ int main() {
 
     // 导入配置信息
     config.load();
+    CApiWrapper api(&config);
+    api.init();
 
     // 初始化zmq环境
     zmq::context_t context(1);
@@ -41,6 +43,11 @@ int main() {
     long thisTime = 0;
     long totalTime = 0;
 
+    int result;
+    int errorCode;
+    std::string errorMessage;
+
+
     while(1) {
         zmq::pollitem_t pullItems [] = {
             { listener,  0, ZMQ_POLLIN, 0 },
@@ -59,7 +66,15 @@ int main() {
                     std::cout << "消息被丢弃" << std::endl;
                     break;
                 }
+
                 // TODO : 1. 调用对应的api
+                result = api.callApiByName(requestMessage.apiName,requestMessage.reqInfo);
+                if ( result != 0 ) {
+                    std::cout << "调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
+                    errorCode = api.getLastErrorCode();
+                    errorMessage = api.getLastErrorMessage();
+                    std::cout << "ErrorCode=" << errorCode << std::endl << "," << "ErrorMessage=" << errorMessage << std::endl;
+                }
                 // TODO : 2. 返回客户端一个信息(调用成功返回requestid，失败有错误信息)
             } while(false);
         }
