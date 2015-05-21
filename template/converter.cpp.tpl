@@ -18,7 +18,7 @@ int main(){
     // 导入配置信息
     config.load();
     CApiWrapper api(&config);
-    //api.init();
+    api.init();
 
     // 初始化zmq环境
     zmq::context_t context(1);
