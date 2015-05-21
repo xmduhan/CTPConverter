@@ -18,7 +18,7 @@ int main(){
     // 导入配置信息
     config.load();
     CApiWrapper api(&config);
-    api.init();
+    //api.init();
 
     // 初始化zmq环境
     zmq::context_t context(1);
@@ -41,12 +41,13 @@ int main(){
     long timeout = 1;
     long lastTime = s_clock();
     long thisTime = 0;
-    long totalTime = 0;
+    long loopTimes = 0;
 
     int result;
     int errorCode;
     std::string errorMessage;
 
+    std::cout << "main():开始响应客户端请求" << std::endl;
 
     while(1){
         zmq::pollitem_t pullItems [] = {
@@ -57,13 +58,13 @@ int main(){
 
         if ( pullItems[0].revents & ZMQ_POLLIN){
             do {
-                std::cout << "接收到客户端的请求" << std::endl;
+                std::cout << "main():接收到客户端的请求" << std::endl;
                 try{
                     requestMessage.recv(listener);
-                    std::cout << "客户端请求调用:" << requestMessage.apiName << std::endl;
+                    std::cout << "main():客户端请求调用:" << requestMessage.apiName << std::endl;
                 }catch(std::exception & e){
-                    std::cout << "异常:" << e.what() << std::endl;
-                    std::cout << "消息被丢弃" << std::endl;
+                    std::cout << "main():异常:" << e.what() << std::endl;
+                    std::cout << "main():消息被丢弃" << std::endl;
                     break;
                 }
 
@@ -92,16 +93,16 @@ int main(){
                     jsonErrorInfo["ErrorCode"] = errorCode;
                     jsonErrorInfo["ErrorMessage"] = errorMessage;
                     requestIDMessage.errorInfo = jsonErrorInfo.toStyledString();
-                    std::cout << "调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
-                    std::cout << "ErrorCode=" << errorCode << std::endl << "," << "ErrorMessage=" << errorMessage << std::endl;
+                    std::cout << "main():调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
+                    std::cout << "main():" << "ErrorCode=" << errorCode << std::endl << "," << "ErrorMessage=" << errorMessage << std::endl;
                 }
 
                 // 将请求结果信息立即返回给客户端
                 try{
                     requestIDMessage.send(listener);
-                    std::cout << "客户端请求结果已返回客户端"  << std::endl;
+                    std::cout << "main():客户端请求结果已返回客户端"  << std::endl;
                 }catch(std::exception & e){
-                    std::cout << "异常:" << e.what() << std::endl;
+                    std::cout << "main():异常:" << e.what() << std::endl;
                     break;
                 }
 
@@ -110,13 +111,13 @@ int main(){
 
         if ( pullItems[1].revents & ZMQ_POLLIN ) {
             do {
-                std::cout << "接收到服务器的响应信息" << std::endl;
+                std::cout << "main():接收到服务器的响应信息" << std::endl;
                 try{
                     pushbackMessage.recv(pushback);
                     // TODO : 这里编写消息处理方法
                 }catch(std::exception & e){
-                    std::cout << "异常:" << e.what() << std::endl;
-                    std::cout << "消息被丢弃" << std::endl;
+                    std::cout << "main():异常:" << e.what() << std::endl;
+                    std::cout << "main():消息被丢弃" << std::endl;
                     break;
                 }
                 // TODO 将服务端返回结果发送给客户端
@@ -124,12 +125,15 @@ int main(){
         }
         // 计算时间
         thisTime = s_clock();
-        totalTime += (thisTime - lastTime);
-
         // TODO : 消息返回路由的超时处理
         lastTime = thisTime;
-        if ( totalTime % 1000 == 0 ){
-            std::cout << "totolTime=" << totalTime << std::endl;
+
+
+        // 以下程序仅仅让我们知道服务器还在运行
+        loopTimes += 1;
+        if ( loopTimes >= 1000 ){
+            loopTimes = 0;
+            std::cout << "main():" << "完成了1000次循环"  << std::endl;
         }
     }
 

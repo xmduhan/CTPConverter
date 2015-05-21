@@ -7,24 +7,32 @@
 
 /// 构造函数
 CTraderHandler::CTraderHandler(Configure * pConfigure) {
-	printf("CTraderHandler():被执行...\n");
+
+	std::cout << "CTraderHandler():开始执行..." << std::endl;
+
 	// 读取配置数据信息
 	this->pConfigure = pConfigure;
 	// 创建zmq通讯环境
 	pContext = new zmq::context_t(1);
 	pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
 	pSender->bind(pConfigure->PushbackPipe);
+
+	std::cout << "CTraderHandler():执行结束..." << std::endl;
 }
 
 /// 成功连接服务器消息
 void CTraderHandler::OnFrontConnected() {
-    printf("OnFrontConnected():被执行...\n");
+
+	std::cout << "OnFrontConnected():开始执行..." << std::endl;
+
 	zmq::socket_t & sender = *pSender;
 	PushbackMessage message;
 	message.requestID = "0";
 	message.apiName = "OnFrontConnected";
 	message.respInfo = "";
 	message.send(sender);
+
+	std::cout << "OnFrontConnected():执行结束..." << std::endl;
 }
 
 
@@ -45,7 +53,7 @@ static char buffer[1024*10];
 	{%- endfor %}
 ){
 
-	std::cout << "{{method['name']}}():被执行..." << std::endl;
+	std::cout << "{{method['name']}}():开始执行..." << std::endl;
 
 	// 生成发送管道的引用
 	zmq::socket_t & sender = *pSender;
@@ -130,7 +138,9 @@ static char buffer[1024*10];
 		{% endif -%}
 	{%- endfor %}
 ){
-	printf("{{method['name']}}():被执行...\n");
+	std::cout << "{{method['name']}}():开始执行..." << std::endl;
+
+	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
 {% endfor %}
 
@@ -147,7 +157,9 @@ static char buffer[1024*10];
 		{% endif -%}
 	{%- endfor %}
 ){
-	printf("{{method['name']}}():被执行...\n");
+	std::cout << "{{method['name']}}():开始执行..." << std::endl;
+
+	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
 {% endfor %}
 
@@ -164,6 +176,8 @@ static char buffer[1024*10];
 		{% endif -%}
 	{%- endfor %}
 ){
-	printf("{{method['name']}}():被执行...\n");
+	std::cout << "{{method['name']}}():开始执行..." << std::endl;
+
+	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
 {% endfor %}

@@ -185,6 +185,7 @@ void CApiWrapper::initApiMap() {
 /// 启动CTP连接
 void CApiWrapper::init() {
 
+    std::cout << "CApiWrapper::init():开始执行..." << std::endl;
     // 初始化api名称对照表
     initApiMap();
 
@@ -209,20 +210,25 @@ void CApiWrapper::init() {
     pTraderApi->RegisterFront(pConfigure->FrontAddress);
 
     // 连接spi的Pushback管道
-    printf("pConfigure->PushbackPipe=%s\n",pConfigure->PushbackPipe);
+    std::cout << "CApiWrapper::init():Pushback管道地址为:" << pConfigure->PushbackPipe << std::endl;
     receiver.connect(pConfigure->PushbackPipe);
 
     // 连接交易系统
-    printf("尝试连接服务器\n");
+    std::cout << "CApiWrapper::init():尝试连接服务器..." << std::endl;
     pTraderApi->Init();
+
     // 等待服务器发出OnFrontConnected事件
+    std::cout << "CApiWrapper::init():等待服务器响应消息..." << std::endl;
     message.recv(receiver);
+    std::cout << "CApiWrapper::init():已收到服务器响应消息..." << std::endl;
+
     // 确认收到的返回信息是由OnFrontConnected发出
     assert(message.requestID.compare("0") == 0);
     assert(message.apiName.compare("OnFrontConnected") == 0);
     assert(message.respInfo.compare("") == 0);
 
     // 发出登陆请求
+    std::cout << "CApiWrapper::init():发出登录请求..." << std::endl;
     CThostFtdcReqUserLoginField userLoginField;
     strcpy(userLoginField.BrokerID,pConfigure->BrokerID);
     strcpy(userLoginField.UserID,pConfigure->UserID);
@@ -230,7 +236,10 @@ void CApiWrapper::init() {
     pTraderApi->ReqUserLogin(&userLoginField,getNextRequestID());
 
     // 等待登录成功返回信息
+    std::cout << "CApiWrapper::init():等待登录结果..." << std::endl;
     message.recv(receiver);
+    std::cout << "CApiWrapper::init():已收到登录返回信息..." << std::endl;
+
     assert(message.requestID.compare("1") == 0);
     assert(message.apiName.compare("OnRspUserLogin") == 0);
     //assert(message.respInfo.compare("") == 0);
@@ -244,7 +253,9 @@ void CApiWrapper::init() {
     int ErrorID = jsonData["Parameters"]["Data"]["RspInfo"]["ErrorID"].asInt();
     assert(ErrorID == 0);
 
-    printf("Init():执行完毕\n");
+    std::cout << "CApiWrapper::init():登录成功..." << std::endl;
+
+    std::cout << "CApiWrapper::init():执行完毕..." << std::endl;
 }
 
 

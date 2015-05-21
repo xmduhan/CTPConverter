@@ -7,24 +7,32 @@
 
 /// 构造函数
 CTraderHandler::CTraderHandler(Configure * pConfigure) {
-    printf("CTraderHandler():被执行...\n");
+
+    std::cout << "CTraderHandler():开始执行..." << std::endl;
+
     // 读取配置数据信息
     this->pConfigure = pConfigure;
     // 创建zmq通讯环境
     pContext = new zmq::context_t(1);
     pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
     pSender->bind(pConfigure->PushbackPipe);
+
+    std::cout << "CTraderHandler():执行结束..." << std::endl;
 }
 
 /// 成功连接服务器消息
 void CTraderHandler::OnFrontConnected() {
-    printf("OnFrontConnected():被执行...\n");
+
+    std::cout << "OnFrontConnected():开始执行..." << std::endl;
+
     zmq::socket_t & sender = *pSender;
     PushbackMessage message;
     message.requestID = "0";
     message.apiName = "OnFrontConnected";
     message.respInfo = "";
     message.send(sender);
+
+    std::cout << "OnFrontConnected():执行结束..." << std::endl;
 }
 
 
@@ -44,7 +52,7 @@ void CTraderHandler::OnRspQryInstrument(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryInstrument():被执行..." << std::endl;
+    std::cout << "OnRspQryInstrument():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -235,7 +243,7 @@ void CTraderHandler::OnRspQrySettlementInfo(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQrySettlementInfo():被执行..." << std::endl;
+    std::cout << "OnRspQrySettlementInfo():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -336,7 +344,7 @@ void CTraderHandler::OnRspParkedOrderInsert(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspParkedOrderInsert():被执行..." << std::endl;
+    std::cout << "OnRspParkedOrderInsert():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -546,7 +554,7 @@ void CTraderHandler::OnRspQryExchange(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryExchange():被执行..." << std::endl;
+    std::cout << "OnRspQryExchange():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -628,7 +636,7 @@ void CTraderHandler::OnRspOrderAction(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspOrderAction():被执行..." << std::endl;
+    std::cout << "OnRspOrderAction():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -768,7 +776,7 @@ void CTraderHandler::OnRspQryInvestor(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryInvestor():被执行..." << std::endl;
+    std::cout << "OnRspQryInvestor():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -925,7 +933,7 @@ void CTraderHandler::OnRspRemoveParkedOrder(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspRemoveParkedOrder():被执行..." << std::endl;
+    std::cout << "OnRspRemoveParkedOrder():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -1012,7 +1020,7 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryInvestorProductGroupMargin():被执行..." << std::endl;
+    std::cout << "OnRspQryInvestorProductGroupMargin():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -1176,7 +1184,7 @@ void CTraderHandler::OnRspQryTransferBank(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryTransferBank():被执行..." << std::endl;
+    std::cout << "OnRspQryTransferBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -1266,7 +1274,7 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryBrokerTradingAlgos():被执行..." << std::endl;
+    std::cout << "OnRspQryBrokerTradingAlgos():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -1362,7 +1370,7 @@ void CTraderHandler::OnRspQryProduct(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryProduct():被执行..." << std::endl;
+    std::cout << "OnRspQryProduct():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -1490,7 +1498,7 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryInstrumentMarginRate():被执行..." << std::endl;
+    std::cout << "OnRspQryInstrumentMarginRate():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -1598,7 +1606,7 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryCFMMCTradingAccountKey():被执行..." << std::endl;
+    std::cout << "OnRspQryCFMMCTradingAccountKey():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -1696,7 +1704,7 @@ void CTraderHandler::OnRspUserLogin(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspUserLogin():被执行..." << std::endl;
+    std::cout << "OnRspUserLogin():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -1853,7 +1861,7 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspFromFutureToBankByFuture():被执行..." << std::endl;
+    std::cout << "OnRspFromFutureToBankByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -2160,7 +2168,7 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQueryCFMMCTradingAccountToken():被执行..." << std::endl;
+    std::cout << "OnRspQueryCFMMCTradingAccountToken():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -2239,7 +2247,7 @@ void CTraderHandler::OnRspQryContractBank(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryContractBank():被执行..." << std::endl;
+    std::cout << "OnRspQryContractBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -2334,7 +2342,7 @@ void CTraderHandler::OnRspOrderInsert(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspOrderInsert():被执行..." << std::endl;
+    std::cout << "OnRspOrderInsert():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -2511,7 +2519,7 @@ void CTraderHandler::OnRspQryEWarrantOffset(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryEWarrantOffset():被执行..." << std::endl;
+    std::cout << "OnRspQryEWarrantOffset():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -2623,7 +2631,7 @@ void CTraderHandler::OnRspUserPasswordUpdate(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspUserPasswordUpdate():被执行..." << std::endl;
+    std::cout << "OnRspUserPasswordUpdate():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -2718,7 +2726,7 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryExchangeMarginRateAdjust():被执行..." << std::endl;
+    std::cout << "OnRspQryExchangeMarginRateAdjust():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -2836,7 +2844,7 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspFromBankToFutureByFuture():被执行..." << std::endl;
+    std::cout << "OnRspFromBankToFutureByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -3143,7 +3151,7 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryInvestorPositionCombineDetail():被执行..." << std::endl;
+    std::cout << "OnRspQryInvestorPositionCombineDetail():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -3311,7 +3319,7 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspSettlementInfoConfirm():被执行..." << std::endl;
+    std::cout << "OnRspSettlementInfoConfirm():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -3406,7 +3414,7 @@ void CTraderHandler::OnRspQryAccountregister(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryAccountregister():被执行..." << std::endl;
+    std::cout << "OnRspQryAccountregister():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -3580,7 +3588,7 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQrySecAgentACIDMap():被执行..." << std::endl;
+    std::cout << "OnRspQrySecAgentACIDMap():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -3683,7 +3691,7 @@ void CTraderHandler::OnRspQryTradingCode(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryTradingCode():被执行..." << std::endl;
+    std::cout << "OnRspQryTradingCode():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -3784,7 +3792,7 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQrySettlementInfoConfirm():被执行..." << std::endl;
+    std::cout << "OnRspQrySettlementInfoConfirm():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -3879,7 +3887,7 @@ void CTraderHandler::OnRspQryTransferSerial(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryTransferSerial():被执行..." << std::endl;
+    std::cout << "OnRspQryTransferSerial():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -4111,7 +4119,7 @@ void CTraderHandler::OnRspQryInvestorPosition(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryInvestorPosition():被执行..." << std::endl;
+    std::cout << "OnRspQryInvestorPosition():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -4314,7 +4322,7 @@ void CTraderHandler::OnRspUserLogout(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspUserLogout():被执行..." << std::endl;
+    std::cout << "OnRspUserLogout():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -4393,7 +4401,7 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryInvestorPositionDetail():被执行..." << std::endl;
+    std::cout << "OnRspQryInvestorPositionDetail():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -4574,7 +4582,7 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryParkedOrderAction():被执行..." << std::endl;
+    std::cout << "OnRspQryParkedOrderAction():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -4739,7 +4747,7 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryBrokerTradingParams():被执行..." << std::endl;
+    std::cout << "OnRspQryBrokerTradingParams():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -4835,7 +4843,7 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryExchangeMarginRate():被执行..." << std::endl;
+    std::cout << "OnRspQryExchangeMarginRate():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -4929,7 +4937,7 @@ void CTraderHandler::OnRspQryParkedOrder(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryParkedOrder():被执行..." << std::endl;
+    std::cout << "OnRspQryParkedOrder():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -5139,7 +5147,7 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQueryBankAccountMoneyByFuture():被执行..." << std::endl;
+    std::cout << "OnRspQueryBankAccountMoneyByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -5420,7 +5428,7 @@ void CTraderHandler::OnRspAuthenticate(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspAuthenticate():被执行..." << std::endl;
+    std::cout << "OnRspAuthenticate():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -5507,7 +5515,7 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQueryMaxOrderVolume():被执行..." << std::endl;
+    std::cout << "OnRspQueryMaxOrderVolume():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -5606,7 +5614,7 @@ void CTraderHandler::OnRspQryExchangeRate(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryExchangeRate():被执行..." << std::endl;
+    std::cout << "OnRspQryExchangeRate():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -5699,7 +5707,7 @@ void CTraderHandler::OnRspQryTradingNotice(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryTradingNotice():被执行..." << std::endl;
+    std::cout << "OnRspQryTradingNotice():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -5811,7 +5819,7 @@ void CTraderHandler::OnRspParkedOrderAction(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspParkedOrderAction():被执行..." << std::endl;
+    std::cout << "OnRspParkedOrderAction():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -5976,7 +5984,7 @@ void CTraderHandler::OnRspQryNotice(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryNotice():被执行..." << std::endl;
+    std::cout << "OnRspQryNotice():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -6063,7 +6071,7 @@ void CTraderHandler::OnRspQryTradingAccount(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryTradingAccount():被执行..." << std::endl;
+    std::cout << "OnRspQryTradingAccount():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -6284,7 +6292,7 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspTradingAccountPasswordUpdate():被执行..." << std::endl;
+    std::cout << "OnRspTradingAccountPasswordUpdate():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -6387,7 +6395,7 @@ void CTraderHandler::OnRspQryOrder(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryOrder():被执行..." << std::endl;
+    std::cout << "OnRspQryOrder():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -6766,7 +6774,7 @@ void CTraderHandler::OnRspQryDepthMarketData(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryDepthMarketData():被执行..." << std::endl;
+    std::cout << "OnRspQryDepthMarketData():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -6991,7 +6999,7 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryInstrumentCommissionRate():被执行..." << std::endl;
+    std::cout << "OnRspQryInstrumentCommissionRate():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -7099,7 +7107,7 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspRemoveParkedOrderAction():被执行..." << std::endl;
+    std::cout << "OnRspRemoveParkedOrderAction():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -7186,7 +7194,7 @@ void CTraderHandler::OnRspQryTrade(
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryTrade():被执行..." << std::endl;
+    std::cout << "OnRspQryTrade():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -7432,140 +7440,180 @@ void CTraderHandler::OnRspQryTrade(
 void CTraderHandler::OnRtnQueryBankBalanceByFuture(
     CThostFtdcNotifyQueryAccountField * pNotifyQueryAccount
 ) {
-    printf("OnRtnQueryBankBalanceByFuture():被执行...\n");
+    std::cout << "OnRtnQueryBankBalanceByFuture():开始执行..." << std::endl;
+
+    std::cout << "OnRtnQueryBankBalanceByFuture():执行结束..." << std::endl;
 }
 
 ///期货发起冲正银行转期货请求，银行处理完毕后报盘发回的通知
 void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
-    printf("OnRtnRepealFromBankToFutureByFuture():被执行...\n");
+    std::cout << "OnRtnRepealFromBankToFutureByFuture():开始执行..." << std::endl;
+
+    std::cout << "OnRtnRepealFromBankToFutureByFuture():执行结束..." << std::endl;
 }
 
 ///银行发起银行资金转期货通知
 void CTraderHandler::OnRtnFromBankToFutureByBank(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
-    printf("OnRtnFromBankToFutureByBank():被执行...\n");
+    std::cout << "OnRtnFromBankToFutureByBank():开始执行..." << std::endl;
+
+    std::cout << "OnRtnFromBankToFutureByBank():执行结束..." << std::endl;
 }
 
 ///合约交易状态通知
 void CTraderHandler::OnRtnInstrumentStatus(
     CThostFtdcInstrumentStatusField * pInstrumentStatus
 ) {
-    printf("OnRtnInstrumentStatus():被执行...\n");
+    std::cout << "OnRtnInstrumentStatus():开始执行..." << std::endl;
+
+    std::cout << "OnRtnInstrumentStatus():执行结束..." << std::endl;
 }
 
 ///交易通知
 void CTraderHandler::OnRtnTradingNotice(
     CThostFtdcTradingNoticeInfoField * pTradingNoticeInfo
 ) {
-    printf("OnRtnTradingNotice():被执行...\n");
+    std::cout << "OnRtnTradingNotice():开始执行..." << std::endl;
+
+    std::cout << "OnRtnTradingNotice():执行结束..." << std::endl;
 }
 
 ///系统运行时期货端手工发起冲正期货转银行请求，银行处理完毕后报盘发回的通知
 void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
-    printf("OnRtnRepealFromFutureToBankByFutureManual():被执行...\n");
+    std::cout << "OnRtnRepealFromFutureToBankByFutureManual():开始执行..." << std::endl;
+
+    std::cout << "OnRtnRepealFromFutureToBankByFutureManual():执行结束..." << std::endl;
 }
 
 ///期货发起银行资金转期货通知
 void CTraderHandler::OnRtnFromBankToFutureByFuture(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
-    printf("OnRtnFromBankToFutureByFuture():被执行...\n");
+    std::cout << "OnRtnFromBankToFutureByFuture():开始执行..." << std::endl;
+
+    std::cout << "OnRtnFromBankToFutureByFuture():执行结束..." << std::endl;
 }
 
 ///银行发起期货资金转银行通知
 void CTraderHandler::OnRtnFromFutureToBankByBank(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
-    printf("OnRtnFromFutureToBankByBank():被执行...\n");
+    std::cout << "OnRtnFromFutureToBankByBank():开始执行..." << std::endl;
+
+    std::cout << "OnRtnFromFutureToBankByBank():执行结束..." << std::endl;
 }
 
 ///成交通知
 void CTraderHandler::OnRtnTrade(
     CThostFtdcTradeField * pTrade
 ) {
-    printf("OnRtnTrade():被执行...\n");
+    std::cout << "OnRtnTrade():开始执行..." << std::endl;
+
+    std::cout << "OnRtnTrade():执行结束..." << std::endl;
 }
 
 ///系统运行时期货端手工发起冲正银行转期货请求，银行处理完毕后报盘发回的通知
 void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
-    printf("OnRtnRepealFromBankToFutureByFutureManual():被执行...\n");
+    std::cout << "OnRtnRepealFromBankToFutureByFutureManual():开始执行..." << std::endl;
+
+    std::cout << "OnRtnRepealFromBankToFutureByFutureManual():执行结束..." << std::endl;
 }
 
 ///期货发起期货资金转银行通知
 void CTraderHandler::OnRtnFromFutureToBankByFuture(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
-    printf("OnRtnFromFutureToBankByFuture():被执行...\n");
+    std::cout << "OnRtnFromFutureToBankByFuture():开始执行..." << std::endl;
+
+    std::cout << "OnRtnFromFutureToBankByFuture():执行结束..." << std::endl;
 }
 
 ///银行发起变更银行账号通知
 void CTraderHandler::OnRtnChangeAccountByBank(
     CThostFtdcChangeAccountField * pChangeAccount
 ) {
-    printf("OnRtnChangeAccountByBank():被执行...\n");
+    std::cout << "OnRtnChangeAccountByBank():开始执行..." << std::endl;
+
+    std::cout << "OnRtnChangeAccountByBank():执行结束..." << std::endl;
 }
 
 ///银行发起冲正期货转银行通知
 void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
-    printf("OnRtnRepealFromFutureToBankByBank():被执行...\n");
+    std::cout << "OnRtnRepealFromFutureToBankByBank():开始执行..." << std::endl;
+
+    std::cout << "OnRtnRepealFromFutureToBankByBank():执行结束..." << std::endl;
 }
 
 ///银行发起银期开户通知
 void CTraderHandler::OnRtnOpenAccountByBank(
     CThostFtdcOpenAccountField * pOpenAccount
 ) {
-    printf("OnRtnOpenAccountByBank():被执行...\n");
+    std::cout << "OnRtnOpenAccountByBank():开始执行..." << std::endl;
+
+    std::cout << "OnRtnOpenAccountByBank():执行结束..." << std::endl;
 }
 
 ///保证金监控中心用户令牌
 void CTraderHandler::OnRtnCFMMCTradingAccountToken(
     CThostFtdcCFMMCTradingAccountTokenField * pCFMMCTradingAccountToken
 ) {
-    printf("OnRtnCFMMCTradingAccountToken():被执行...\n");
+    std::cout << "OnRtnCFMMCTradingAccountToken():开始执行..." << std::endl;
+
+    std::cout << "OnRtnCFMMCTradingAccountToken():执行结束..." << std::endl;
 }
 
 ///期货发起冲正期货转银行请求，银行处理完毕后报盘发回的通知
 void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
-    printf("OnRtnRepealFromFutureToBankByFuture():被执行...\n");
+    std::cout << "OnRtnRepealFromFutureToBankByFuture():开始执行..." << std::endl;
+
+    std::cout << "OnRtnRepealFromFutureToBankByFuture():执行结束..." << std::endl;
 }
 
 ///提示条件单校验错误
 void CTraderHandler::OnRtnErrorConditionalOrder(
     CThostFtdcErrorConditionalOrderField * pErrorConditionalOrder
 ) {
-    printf("OnRtnErrorConditionalOrder():被执行...\n");
+    std::cout << "OnRtnErrorConditionalOrder():开始执行..." << std::endl;
+
+    std::cout << "OnRtnErrorConditionalOrder():执行结束..." << std::endl;
 }
 
 ///银行发起冲正银行转期货通知
 void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
-    printf("OnRtnRepealFromBankToFutureByBank():被执行...\n");
+    std::cout << "OnRtnRepealFromBankToFutureByBank():开始执行..." << std::endl;
+
+    std::cout << "OnRtnRepealFromBankToFutureByBank():执行结束..." << std::endl;
 }
 
 ///报单通知
 void CTraderHandler::OnRtnOrder(
     CThostFtdcOrderField * pOrder
 ) {
-    printf("OnRtnOrder():被执行...\n");
+    std::cout << "OnRtnOrder():开始执行..." << std::endl;
+
+    std::cout << "OnRtnOrder():执行结束..." << std::endl;
 }
 
 ///银行发起银期销户通知
 void CTraderHandler::OnRtnCancelAccountByBank(
     CThostFtdcCancelAccountField * pCancelAccount
 ) {
-    printf("OnRtnCancelAccountByBank():被执行...\n");
+    std::cout << "OnRtnCancelAccountByBank():开始执行..." << std::endl;
+
+    std::cout << "OnRtnCancelAccountByBank():执行结束..." << std::endl;
 }
 
 
@@ -7579,7 +7627,9 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
     CThostFtdcReqRepealField * pReqRepeal,
     CThostFtdcRspInfoField * pRspInfo
 ) {
-    printf("OnErrRtnRepealFutureToBankByFutureManual():被执行...\n");
+    std::cout << "OnErrRtnRepealFutureToBankByFutureManual():开始执行..." << std::endl;
+
+    std::cout << "OnErrRtnRepealFutureToBankByFutureManual():执行结束..." << std::endl;
 }
 
 ///期货发起期货资金转银行错误回报
@@ -7587,7 +7637,9 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
     CThostFtdcReqTransferField * pReqTransfer,
     CThostFtdcRspInfoField * pRspInfo
 ) {
-    printf("OnErrRtnFutureToBankByFuture():被执行...\n");
+    std::cout << "OnErrRtnFutureToBankByFuture():开始执行..." << std::endl;
+
+    std::cout << "OnErrRtnFutureToBankByFuture():执行结束..." << std::endl;
 }
 
 ///报单录入错误回报
@@ -7595,7 +7647,9 @@ void CTraderHandler::OnErrRtnOrderInsert(
     CThostFtdcInputOrderField * pInputOrder,
     CThostFtdcRspInfoField * pRspInfo
 ) {
-    printf("OnErrRtnOrderInsert():被执行...\n");
+    std::cout << "OnErrRtnOrderInsert():开始执行..." << std::endl;
+
+    std::cout << "OnErrRtnOrderInsert():执行结束..." << std::endl;
 }
 
 ///系统运行时期货端手工发起冲正银行转期货错误回报
@@ -7603,7 +7657,9 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
     CThostFtdcReqRepealField * pReqRepeal,
     CThostFtdcRspInfoField * pRspInfo
 ) {
-    printf("OnErrRtnRepealBankToFutureByFutureManual():被执行...\n");
+    std::cout << "OnErrRtnRepealBankToFutureByFutureManual():开始执行..." << std::endl;
+
+    std::cout << "OnErrRtnRepealBankToFutureByFutureManual():执行结束..." << std::endl;
 }
 
 ///期货发起银行资金转期货错误回报
@@ -7611,7 +7667,9 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
     CThostFtdcReqTransferField * pReqTransfer,
     CThostFtdcRspInfoField * pRspInfo
 ) {
-    printf("OnErrRtnBankToFutureByFuture():被执行...\n");
+    std::cout << "OnErrRtnBankToFutureByFuture():开始执行..." << std::endl;
+
+    std::cout << "OnErrRtnBankToFutureByFuture():执行结束..." << std::endl;
 }
 
 ///期货发起查询银行余额错误回报
@@ -7619,7 +7677,9 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
     CThostFtdcReqQueryAccountField * pReqQueryAccount,
     CThostFtdcRspInfoField * pRspInfo
 ) {
-    printf("OnErrRtnQueryBankBalanceByFuture():被执行...\n");
+    std::cout << "OnErrRtnQueryBankBalanceByFuture():开始执行..." << std::endl;
+
+    std::cout << "OnErrRtnQueryBankBalanceByFuture():执行结束..." << std::endl;
 }
 
 ///报单操作错误回报
@@ -7627,7 +7687,9 @@ void CTraderHandler::OnErrRtnOrderAction(
     CThostFtdcOrderActionField * pOrderAction,
     CThostFtdcRspInfoField * pRspInfo
 ) {
-    printf("OnErrRtnOrderAction():被执行...\n");
+    std::cout << "OnErrRtnOrderAction():开始执行..." << std::endl;
+
+    std::cout << "OnErrRtnOrderAction():执行结束..." << std::endl;
 }
 
 
@@ -7642,5 +7704,7 @@ void CTraderHandler::OnRspError(
     int nRequestID,
     bool bIsLast
 ) {
-    printf("OnRspError():被执行...\n");
+    std::cout << "OnRspError():开始执行..." << std::endl;
+
+    std::cout << "OnRspError():执行结束..." << std::endl;
 }
