@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import sys
 import cppheader
 import os
 from pandas import DataFrame
@@ -113,13 +113,10 @@ def renderTemplate(filename,data,outdir='.'):
     os.system('astyle -q %s' % output)
 
 
-def main():
+def renderAll(data):
     '''
-    将数filename.cpp.tpl转化为对应的.cpp文件
+    将模板目录中的所有.cpp.tpl和.h.tpl的文件转化成对应的代码文件
     '''
-    # 读取ctp接口的各类定义信息,用于生成模板
-    data = loadCtpHeaderData()
-
     # 遍历所有.cpp.tpl模板文件,并生成.cpp文件
     templates = [ i for i in os.listdir(templateDir) if i.endswith('.cpp.tpl') ]
     for template in templates:
@@ -129,6 +126,36 @@ def main():
     templates = [ i for i in os.listdir(templateDir) if i.endswith('.h.tpl') ]
     for template in templates:
         renderTemplate(template,data,'include')
+
+
+def main():
+    '''
+    命令使用格式:
+    python generate.py [--all] | [template file name] [source place dir]
+    '''
+    # 读取ctp接口的各类定义信息,用于生成模板
+    data = loadCtpHeaderData()
+
+    if len(sys.argv) < 2:
+        print '请使用以下命令格式启动程序:'
+        print 'python generate.py [--all] | [template file name] [source place dir]'
+
+    if sys.argv[1] == '--all' :
+        renderAll(data)
+
+    else:
+        # 读取命令参数
+        templateFile = sys.argv[1]
+        if len(sys.argv) >= 3 :
+            outputDir = sys.argv[2]
+        else :
+            outputDir = '.'
+
+        # 调用生成模板
+        renderTemplate(templateFile,outputDir)
+
+
+
 
 
 
