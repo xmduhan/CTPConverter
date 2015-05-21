@@ -15,6 +15,8 @@ static char buffer[1024*10];
 
 int main() {
 
+    std::cout << "测试" << std::endl;
+
     // 导入配置信息
     config.load();
     CApiWrapper api(&config);
