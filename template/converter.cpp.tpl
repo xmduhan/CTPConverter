@@ -86,8 +86,12 @@ int main(){
                 } else {
                     errorCode = api.getLastErrorCode();
                     errorMessage = api.getLastErrorMessage();
-                    sprintf(buffer,"{ErrorCode:%d,ErrorMessage:%s}",errorCode,errorMessage.c_str());
-                    requestIDMessage.errorInfo = buffer;
+                    //sprintf(buffer,"{ErrorCode:%d,ErrorMessage:%s}",errorCode,errorMessage.c_str());
+                    //requestIDMessage.errorInfo = buffer;
+                    Json::Value jsonErrorInfo;
+                    jsonErrorInfo["ErrorCode"] = errorCode;
+                    jsonErrorInfo["ErrorMessage"] = errorMessage;
+                    requestIDMessage.errorInfo = jsonErrorInfo.toStyledString();
                     std::cout << "调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
                     std::cout << "ErrorCode=" << errorCode << std::endl << "," << "ErrorMessage=" << errorMessage << std::endl;
                 }
