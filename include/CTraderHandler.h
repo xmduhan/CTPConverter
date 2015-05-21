@@ -210,14 +210,6 @@ public:
         bool bIsLast
     );
 
-    ///投资者结算结果确认响应
-    virtual void OnRspSettlementInfoConfirm(
-        CThostFtdcSettlementInfoConfirmField * pSettlementInfoConfirm,
-        CThostFtdcRspInfoField * pRspInfo,
-        int nRequestID,
-        bool bIsLast
-    );
-
     ///请求查询银期签约关系响应
     virtual void OnRspQryAccountregister(
         CThostFtdcAccountregisterField * pAccountregister,
@@ -282,9 +274,9 @@ public:
         bool bIsLast
     );
 
-    ///请求查询预埋撤单响应
-    virtual void OnRspQryParkedOrderAction(
-        CThostFtdcParkedOrderActionField * pParkedOrderAction,
+    ///请求查询客户通知响应
+    virtual void OnRspQryNotice(
+        CThostFtdcNoticeField * pNotice,
         CThostFtdcRspInfoField * pRspInfo,
         int nRequestID,
         bool bIsLast
@@ -362,9 +354,9 @@ public:
         bool bIsLast
     );
 
-    ///请求查询客户通知响应
-    virtual void OnRspQryNotice(
-        CThostFtdcNoticeField * pNotice,
+    ///请求查询预埋撤单响应
+    virtual void OnRspQryParkedOrderAction(
+        CThostFtdcParkedOrderActionField * pParkedOrderAction,
         CThostFtdcRspInfoField * pRspInfo,
         int nRequestID,
         bool bIsLast
@@ -386,9 +378,9 @@ public:
         bool bIsLast
     );
 
-    ///请求查询报单响应
-    virtual void OnRspQryOrder(
-        CThostFtdcOrderField * pOrder,
+    ///投资者结算结果确认响应
+    virtual void OnRspSettlementInfoConfirm(
+        CThostFtdcSettlementInfoConfirmField * pSettlementInfoConfirm,
         CThostFtdcRspInfoField * pRspInfo,
         int nRequestID,
         bool bIsLast
@@ -402,6 +394,14 @@ public:
         bool bIsLast
     );
 
+    ///删除预埋撤单响应
+    virtual void OnRspRemoveParkedOrderAction(
+        CThostFtdcRemoveParkedOrderActionField * pRemoveParkedOrderAction,
+        CThostFtdcRspInfoField * pRspInfo,
+        int nRequestID,
+        bool bIsLast
+    );
+
     ///请求查询合约手续费率响应
     virtual void OnRspQryInstrumentCommissionRate(
         CThostFtdcInstrumentCommissionRateField * pInstrumentCommissionRate,
@@ -410,9 +410,9 @@ public:
         bool bIsLast
     );
 
-    ///删除预埋撤单响应
-    virtual void OnRspRemoveParkedOrderAction(
-        CThostFtdcRemoveParkedOrderActionField * pRemoveParkedOrderAction,
+    ///请求查询报单响应
+    virtual void OnRspQryOrder(
+        CThostFtdcOrderField * pOrder,
         CThostFtdcRspInfoField * pRspInfo,
         int nRequestID,
         bool bIsLast
@@ -448,6 +448,11 @@ public:
         CThostFtdcRspTransferField * pRspTransfer
     );
 
+    ///保证金监控中心用户令牌
+    virtual void OnRtnCFMMCTradingAccountToken(
+        CThostFtdcCFMMCTradingAccountTokenField * pCFMMCTradingAccountToken
+    );
+
     ///合约交易状态通知
     virtual void OnRtnInstrumentStatus(
         CThostFtdcInstrumentStatusField * pInstrumentStatus
@@ -471,11 +476,6 @@ public:
     ///银行发起期货资金转银行通知
     virtual void OnRtnFromFutureToBankByBank(
         CThostFtdcRspTransferField * pRspTransfer
-    );
-
-    ///成交通知
-    virtual void OnRtnTrade(
-        CThostFtdcTradeField * pTrade
     );
 
     ///系统运行时期货端手工发起冲正银行转期货请求，银行处理完毕后报盘发回的通知
@@ -503,9 +503,9 @@ public:
         CThostFtdcOpenAccountField * pOpenAccount
     );
 
-    ///保证金监控中心用户令牌
-    virtual void OnRtnCFMMCTradingAccountToken(
-        CThostFtdcCFMMCTradingAccountTokenField * pCFMMCTradingAccountToken
+    ///成交通知
+    virtual void OnRtnTrade(
+        CThostFtdcTradeField * pTrade
     );
 
     ///期货发起冲正期货转银行请求，银行处理完毕后报盘发回的通知

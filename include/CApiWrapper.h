@@ -55,9 +55,6 @@ public:
     ///用户口令更新请求
     int ReqUserPasswordUpdate(std::string jsonString);
 
-    ///预埋撤单录入请求
-    int ReqParkedOrderAction(std::string jsonString);
-
     ///请求查询交易通知
     int ReqQryTradingNotice(std::string jsonString);
 
@@ -88,8 +85,11 @@ public:
     ///期货发起期货资金转银行请求
     int ReqFromFutureToBankByFuture(std::string jsonString);
 
-    ///期货发起银行资金转期货请求
-    int ReqFromBankToFutureByFuture(std::string jsonString);
+    ///请求查询汇率
+    int ReqQryExchangeRate(std::string jsonString);
+
+    ///请求查询投资者持仓明细
+    int ReqQryInvestorPositionDetail(std::string jsonString);
 
     ///请求查询结算信息确认
     int ReqQrySettlementInfoConfirm(std::string jsonString);
@@ -103,26 +103,23 @@ public:
     ///请求查询客户通知
     int ReqQryNotice(std::string jsonString);
 
-    ///请求查询汇率
-    int ReqQryExchangeRate(std::string jsonString);
+    ///期货发起银行资金转期货请求
+    int ReqFromBankToFutureByFuture(std::string jsonString);
 
     ///预埋单录入请求
     int ReqParkedOrderInsert(std::string jsonString);
 
-    ///请求查询签约银行
-    int ReqQryContractBank(std::string jsonString);
-
     ///请求查询投资者持仓明细
     int ReqQryInvestorPositionCombineDetail(std::string jsonString);
 
-    ///请求查询交易所保证金率
-    int ReqQryExchangeMarginRate(std::string jsonString);
+    ///报单录入请求
+    int ReqOrderInsert(std::string jsonString);
 
     ///请求查询二级代理操作员银期权限
     int ReqQrySecAgentACIDMap(std::string jsonString);
 
-    ///请求查询转帐流水
-    int ReqQryTransferSerial(std::string jsonString);
+    ///预埋撤单录入请求
+    int ReqParkedOrderAction(std::string jsonString);
 
     ///期货发起查询银行余额请求
     int ReqQueryBankAccountMoneyByFuture(std::string jsonString);
@@ -133,11 +130,11 @@ public:
     ///客户端认证请求
     int ReqAuthenticate(std::string jsonString);
 
-    ///报单录入请求
-    int ReqOrderInsert(std::string jsonString);
+    ///请求查询交易所保证金率
+    int ReqQryExchangeMarginRate(std::string jsonString);
 
-    ///请求查询投资者结算结果
-    int ReqQrySettlementInfo(std::string jsonString);
+    ///资金账户口令更新请求
+    int ReqTradingAccountPasswordUpdate(std::string jsonString);
 
     ///登出请求
     int ReqUserLogout(std::string jsonString);
@@ -157,11 +154,14 @@ public:
     ///请求查询投资者
     int ReqQryInvestor(std::string jsonString);
 
-    ///请求查询预埋单
-    int ReqQryParkedOrder(std::string jsonString);
+    ///请求查询交易所调整保证金率
+    int ReqQryExchangeMarginRateAdjust(std::string jsonString);
 
     ///请求查询投资者品种/跨品种保证金
     int ReqQryInvestorProductGroupMargin(std::string jsonString);
+
+    ///请求查询仓单折抵信息
+    int ReqQryEWarrantOffset(std::string jsonString);
 
     ///请求查询行情
     int ReqQryDepthMarketData(std::string jsonString);
@@ -178,20 +178,20 @@ public:
     ///请求查询交易编码
     int ReqQryTradingCode(std::string jsonString);
 
-    ///资金账户口令更新请求
-    int ReqTradingAccountPasswordUpdate(std::string jsonString);
+    ///请求查询投资者结算结果
+    int ReqQrySettlementInfo(std::string jsonString);
 
     ///请求查询银期签约关系
     int ReqQryAccountregister(std::string jsonString);
 
-    ///请求查询交易所调整保证金率
-    int ReqQryExchangeMarginRateAdjust(std::string jsonString);
+    ///请求查询预埋单
+    int ReqQryParkedOrder(std::string jsonString);
 
-    ///请求查询仓单折抵信息
-    int ReqQryEWarrantOffset(std::string jsonString);
+    ///请求查询转帐流水
+    int ReqQryTransferSerial(std::string jsonString);
 
-    ///请求查询投资者持仓明细
-    int ReqQryInvestorPositionDetail(std::string jsonString);
+    ///请求查询签约银行
+    int ReqQryContractBank(std::string jsonString);
 
     ///请求删除预埋单
     int ReqRemoveParkedOrder(std::string jsonString);

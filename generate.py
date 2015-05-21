@@ -5,14 +5,23 @@ import os
 from pandas import DataFrame
 from jinja2 import Environment, FileSystemLoader
 from os.path import join
+import pickle
 
 # 模板目录
 templateDir = 'template'
+templateData = 'template_data.pk'
+
 
 def loadCtpHeaderData():
     '''
     读取提供模板生态代码的ctp api函数信息
     '''
+
+    # 如果存在模板数据文件直接从数据文件中读取
+    if os.path.exists(templateData) :
+        data = pickle.load(open(templateData, 'rU' ))
+        return data
+
     # c++头文件的定义信息
     TraderApi_h = cppheader.getCppHeader('include/ThostFtdcTraderApi.h',['TRADER_API_EXPORT'])
     ApiStruct_h = cppheader.getCppHeader('include/ThostFtdcUserApiStruct.h')
@@ -93,6 +102,8 @@ def loadCtpHeaderData():
         'typedefDict':typedefDict,
     }
 
+    #  保存模板数据以便下次访问提高速度
+    pickle.dump( data, open(templateData,"wb") )
     return data
 
 
@@ -139,6 +150,7 @@ def main():
     if len(sys.argv) < 2:
         print '请使用以下命令格式启动程序:'
         print 'python generate.py [--all] | [template file name] [source place dir]'
+        return
 
     if sys.argv[1] == '--all' :
         renderAll(data)
@@ -152,7 +164,7 @@ def main():
             outputDir = '.'
 
         # 调用生成模板
-        renderTemplate(templateFile,outputDir)
+        renderTemplate(templateFile,data,outputDir)
 
 
 

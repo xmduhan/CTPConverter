@@ -3311,101 +3311,6 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
     std::cout << "OnRspQryInvestorPositionCombineDetail():执行结束..." << std::endl;
 }
 
-///投资者结算结果确认响应
-void CTraderHandler::OnRspSettlementInfoConfirm(
-    CThostFtdcSettlementInfoConfirmField * pSettlementInfoConfirm,
-    CThostFtdcRspInfoField * pRspInfo,
-    int nRequestID,
-    bool bIsLast
-) {
-
-    std::cout << "OnRspSettlementInfoConfirm():开始执行..." << std::endl;
-
-    // 生成发送管道的引用
-    zmq::socket_t & sender = *pSender;
-    // 读取处理结果信息
-    Json::Value json_pRspInfo;
-    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
-    // 这里不需要判断是否成功直接将信息返回客户端即可
-    if ( pRspInfo != NULL )  {
-        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-    } else {
-        json_pRspInfo["ErrorID"] = 0;
-        json_pRspInfo["ErrorMsg"] = "";
-    }
-
-    // 生成返回的json格式
-    Json::Value json_Response;
-    json_Response["ResponseMethod"] = "OnRspSettlementInfoConfirm";
-
-    /// 返回数据结构体转化json格式
-    Json::Value json_pSettlementInfoConfirm;
-    if ( pSettlementInfoConfirm != NULL ) {
-        // TODO : 这里需要将编码转化为utf-8
-
-
-        gbk2utf8(
-            pSettlementInfoConfirm->BrokerID,
-            buffer,
-            sizeof(pSettlementInfoConfirm->BrokerID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pSettlementInfoConfirm["BrokerID"] = buffer;
-
-
-        gbk2utf8(
-            pSettlementInfoConfirm->InvestorID,
-            buffer,
-            sizeof(pSettlementInfoConfirm->InvestorID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pSettlementInfoConfirm["InvestorID"] = buffer;
-
-
-        gbk2utf8(
-            pSettlementInfoConfirm->ConfirmDate,
-            buffer,
-            sizeof(pSettlementInfoConfirm->ConfirmDate) * 3 // 字符串转化变长的风险保障
-        );
-        json_pSettlementInfoConfirm["ConfirmDate"] = buffer;
-
-
-        gbk2utf8(
-            pSettlementInfoConfirm->ConfirmTime,
-            buffer,
-            sizeof(pSettlementInfoConfirm->ConfirmTime) * 3 // 字符串转化变长的风险保障
-        );
-        json_pSettlementInfoConfirm["ConfirmTime"] = buffer;
-
-    }
-
-    /// json_nRequestID
-    Json::Value json_nRequestID;
-    json_nRequestID = nRequestID;
-
-    /// 数据末尾标识
-    Json::Value json_bIsLast;
-    json_bIsLast = bIsLast;
-
-    // 定义参数集合
-    // TODO:参数集是用dict还是是用list需要在考虑一下
-    Json::Value json_Parameters;
-    json_Parameters["Data"] = json_pSettlementInfoConfirm;
-    json_Parameters["RspInfo"] = json_pRspInfo;
-    json_Parameters["RequestID"] = json_nRequestID;
-    json_Parameters["IsLast"] = json_bIsLast;
-    json_Response["Parameters"] = json_Parameters;
-
-    // 打包消息结构并压入Pushback管道
-    PushbackMessage message;
-    sprintf(buffer,"%d",nRequestID);
-    message.requestID = buffer;
-    message.apiName = "OnRspSettlementInfoConfirm";
-    message.respInfo = json_Response.toStyledString();
-    message.send(sender);
-
-    std::cout << "OnRspSettlementInfoConfirm():执行结束..." << std::endl;
-}
-
 ///请求查询银期签约关系响应
 void CTraderHandler::OnRspQryAccountregister(
     CThostFtdcAccountregisterField * pAccountregister,
@@ -4574,15 +4479,15 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
     std::cout << "OnRspQryInvestorPositionDetail():执行结束..." << std::endl;
 }
 
-///请求查询预埋撤单响应
-void CTraderHandler::OnRspQryParkedOrderAction(
-    CThostFtdcParkedOrderActionField * pParkedOrderAction,
+///请求查询客户通知响应
+void CTraderHandler::OnRspQryNotice(
+    CThostFtdcNoticeField * pNotice,
     CThostFtdcRspInfoField * pRspInfo,
     int nRequestID,
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryParkedOrderAction():开始执行..." << std::endl;
+    std::cout << "OnRspQryNotice():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -4600,114 +4505,36 @@ void CTraderHandler::OnRspQryParkedOrderAction(
 
     // 生成返回的json格式
     Json::Value json_Response;
-    json_Response["ResponseMethod"] = "OnRspQryParkedOrderAction";
+    json_Response["ResponseMethod"] = "OnRspQryNotice";
 
     /// 返回数据结构体转化json格式
-    Json::Value json_pParkedOrderAction;
-    if ( pParkedOrderAction != NULL ) {
+    Json::Value json_pNotice;
+    if ( pNotice != NULL ) {
         // TODO : 这里需要将编码转化为utf-8
 
 
         gbk2utf8(
-            pParkedOrderAction->BrokerID,
+            pNotice->BrokerID,
             buffer,
-            sizeof(pParkedOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
+            sizeof(pNotice->BrokerID) * 3 // 字符串转化变长的风险保障
         );
-        json_pParkedOrderAction["BrokerID"] = buffer;
+        json_pNotice["BrokerID"] = buffer;
 
 
         gbk2utf8(
-            pParkedOrderAction->InvestorID,
+            pNotice->Content,
             buffer,
-            sizeof(pParkedOrderAction->InvestorID) * 3 // 字符串转化变长的风险保障
+            sizeof(pNotice->Content) * 3 // 字符串转化变长的风险保障
         );
-        json_pParkedOrderAction["InvestorID"] = buffer;
-
-
-        json_pParkedOrderAction["OrderActionRef"] = pParkedOrderAction->OrderActionRef;
+        json_pNotice["Content"] = buffer;
 
 
         gbk2utf8(
-            pParkedOrderAction->OrderRef,
+            pNotice->SequenceLabel,
             buffer,
-            sizeof(pParkedOrderAction->OrderRef) * 3 // 字符串转化变长的风险保障
+            sizeof(pNotice->SequenceLabel) * 3 // 字符串转化变长的风险保障
         );
-        json_pParkedOrderAction["OrderRef"] = buffer;
-
-
-        json_pParkedOrderAction["RequestID"] = pParkedOrderAction->RequestID;
-
-
-        json_pParkedOrderAction["FrontID"] = pParkedOrderAction->FrontID;
-
-
-        json_pParkedOrderAction["SessionID"] = pParkedOrderAction->SessionID;
-
-
-        gbk2utf8(
-            pParkedOrderAction->ExchangeID,
-            buffer,
-            sizeof(pParkedOrderAction->ExchangeID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pParkedOrderAction["ExchangeID"] = buffer;
-
-
-        gbk2utf8(
-            pParkedOrderAction->OrderSysID,
-            buffer,
-            sizeof(pParkedOrderAction->OrderSysID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pParkedOrderAction["OrderSysID"] = buffer;
-
-
-        json_pParkedOrderAction["ActionFlag"] = pParkedOrderAction->ActionFlag;
-
-
-        json_pParkedOrderAction["LimitPrice"] = pParkedOrderAction->LimitPrice;
-
-
-        json_pParkedOrderAction["VolumeChange"] = pParkedOrderAction->VolumeChange;
-
-
-        gbk2utf8(
-            pParkedOrderAction->UserID,
-            buffer,
-            sizeof(pParkedOrderAction->UserID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pParkedOrderAction["UserID"] = buffer;
-
-
-        gbk2utf8(
-            pParkedOrderAction->InstrumentID,
-            buffer,
-            sizeof(pParkedOrderAction->InstrumentID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pParkedOrderAction["InstrumentID"] = buffer;
-
-
-        gbk2utf8(
-            pParkedOrderAction->ParkedOrderActionID,
-            buffer,
-            sizeof(pParkedOrderAction->ParkedOrderActionID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pParkedOrderAction["ParkedOrderActionID"] = buffer;
-
-
-        json_pParkedOrderAction["UserType"] = pParkedOrderAction->UserType;
-
-
-        json_pParkedOrderAction["Status"] = pParkedOrderAction->Status;
-
-
-        json_pParkedOrderAction["ErrorID"] = pParkedOrderAction->ErrorID;
-
-
-        gbk2utf8(
-            pParkedOrderAction->ErrorMsg,
-            buffer,
-            sizeof(pParkedOrderAction->ErrorMsg) * 3 // 字符串转化变长的风险保障
-        );
-        json_pParkedOrderAction["ErrorMsg"] = buffer;
+        json_pNotice["SequenceLabel"] = buffer;
 
     }
 
@@ -4722,7 +4549,7 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     // 定义参数集合
     // TODO:参数集是用dict还是是用list需要在考虑一下
     Json::Value json_Parameters;
-    json_Parameters["Data"] = json_pParkedOrderAction;
+    json_Parameters["Data"] = json_pNotice;
     json_Parameters["RspInfo"] = json_pRspInfo;
     json_Parameters["RequestID"] = json_nRequestID;
     json_Parameters["IsLast"] = json_bIsLast;
@@ -4732,11 +4559,11 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
-    message.apiName = "OnRspQryParkedOrderAction";
+    message.apiName = "OnRspQryNotice";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
 
-    std::cout << "OnRspQryParkedOrderAction():执行结束..." << std::endl;
+    std::cout << "OnRspQryNotice():执行结束..." << std::endl;
 }
 
 ///请求查询经纪公司交易参数响应
@@ -5976,15 +5803,15 @@ void CTraderHandler::OnRspParkedOrderAction(
     std::cout << "OnRspParkedOrderAction():执行结束..." << std::endl;
 }
 
-///请求查询客户通知响应
-void CTraderHandler::OnRspQryNotice(
-    CThostFtdcNoticeField * pNotice,
+///请求查询预埋撤单响应
+void CTraderHandler::OnRspQryParkedOrderAction(
+    CThostFtdcParkedOrderActionField * pParkedOrderAction,
     CThostFtdcRspInfoField * pRspInfo,
     int nRequestID,
     bool bIsLast
 ) {
 
-    std::cout << "OnRspQryNotice():开始执行..." << std::endl;
+    std::cout << "OnRspQryParkedOrderAction():开始执行..." << std::endl;
 
     // 生成发送管道的引用
     zmq::socket_t & sender = *pSender;
@@ -6002,36 +5829,114 @@ void CTraderHandler::OnRspQryNotice(
 
     // 生成返回的json格式
     Json::Value json_Response;
-    json_Response["ResponseMethod"] = "OnRspQryNotice";
+    json_Response["ResponseMethod"] = "OnRspQryParkedOrderAction";
 
     /// 返回数据结构体转化json格式
-    Json::Value json_pNotice;
-    if ( pNotice != NULL ) {
+    Json::Value json_pParkedOrderAction;
+    if ( pParkedOrderAction != NULL ) {
         // TODO : 这里需要将编码转化为utf-8
 
 
         gbk2utf8(
-            pNotice->BrokerID,
+            pParkedOrderAction->BrokerID,
             buffer,
-            sizeof(pNotice->BrokerID) * 3 // 字符串转化变长的风险保障
+            sizeof(pParkedOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
         );
-        json_pNotice["BrokerID"] = buffer;
+        json_pParkedOrderAction["BrokerID"] = buffer;
 
 
         gbk2utf8(
-            pNotice->Content,
+            pParkedOrderAction->InvestorID,
             buffer,
-            sizeof(pNotice->Content) * 3 // 字符串转化变长的风险保障
+            sizeof(pParkedOrderAction->InvestorID) * 3 // 字符串转化变长的风险保障
         );
-        json_pNotice["Content"] = buffer;
+        json_pParkedOrderAction["InvestorID"] = buffer;
+
+
+        json_pParkedOrderAction["OrderActionRef"] = pParkedOrderAction->OrderActionRef;
 
 
         gbk2utf8(
-            pNotice->SequenceLabel,
+            pParkedOrderAction->OrderRef,
             buffer,
-            sizeof(pNotice->SequenceLabel) * 3 // 字符串转化变长的风险保障
+            sizeof(pParkedOrderAction->OrderRef) * 3 // 字符串转化变长的风险保障
         );
-        json_pNotice["SequenceLabel"] = buffer;
+        json_pParkedOrderAction["OrderRef"] = buffer;
+
+
+        json_pParkedOrderAction["RequestID"] = pParkedOrderAction->RequestID;
+
+
+        json_pParkedOrderAction["FrontID"] = pParkedOrderAction->FrontID;
+
+
+        json_pParkedOrderAction["SessionID"] = pParkedOrderAction->SessionID;
+
+
+        gbk2utf8(
+            pParkedOrderAction->ExchangeID,
+            buffer,
+            sizeof(pParkedOrderAction->ExchangeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pParkedOrderAction["ExchangeID"] = buffer;
+
+
+        gbk2utf8(
+            pParkedOrderAction->OrderSysID,
+            buffer,
+            sizeof(pParkedOrderAction->OrderSysID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pParkedOrderAction["OrderSysID"] = buffer;
+
+
+        json_pParkedOrderAction["ActionFlag"] = pParkedOrderAction->ActionFlag;
+
+
+        json_pParkedOrderAction["LimitPrice"] = pParkedOrderAction->LimitPrice;
+
+
+        json_pParkedOrderAction["VolumeChange"] = pParkedOrderAction->VolumeChange;
+
+
+        gbk2utf8(
+            pParkedOrderAction->UserID,
+            buffer,
+            sizeof(pParkedOrderAction->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pParkedOrderAction["UserID"] = buffer;
+
+
+        gbk2utf8(
+            pParkedOrderAction->InstrumentID,
+            buffer,
+            sizeof(pParkedOrderAction->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pParkedOrderAction["InstrumentID"] = buffer;
+
+
+        gbk2utf8(
+            pParkedOrderAction->ParkedOrderActionID,
+            buffer,
+            sizeof(pParkedOrderAction->ParkedOrderActionID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pParkedOrderAction["ParkedOrderActionID"] = buffer;
+
+
+        json_pParkedOrderAction["UserType"] = pParkedOrderAction->UserType;
+
+
+        json_pParkedOrderAction["Status"] = pParkedOrderAction->Status;
+
+
+        json_pParkedOrderAction["ErrorID"] = pParkedOrderAction->ErrorID;
+
+
+        gbk2utf8(
+            pParkedOrderAction->ErrorMsg,
+            buffer,
+            sizeof(pParkedOrderAction->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pParkedOrderAction["ErrorMsg"] = buffer;
 
     }
 
@@ -6046,7 +5951,7 @@ void CTraderHandler::OnRspQryNotice(
     // 定义参数集合
     // TODO:参数集是用dict还是是用list需要在考虑一下
     Json::Value json_Parameters;
-    json_Parameters["Data"] = json_pNotice;
+    json_Parameters["Data"] = json_pParkedOrderAction;
     json_Parameters["RspInfo"] = json_pRspInfo;
     json_Parameters["RequestID"] = json_nRequestID;
     json_Parameters["IsLast"] = json_bIsLast;
@@ -6056,11 +5961,11 @@ void CTraderHandler::OnRspQryNotice(
     PushbackMessage message;
     sprintf(buffer,"%d",nRequestID);
     message.requestID = buffer;
-    message.apiName = "OnRspQryNotice";
+    message.apiName = "OnRspQryParkedOrderAction";
     message.respInfo = json_Response.toStyledString();
     message.send(sender);
 
-    std::cout << "OnRspQryNotice():执行结束..." << std::endl;
+    std::cout << "OnRspQryParkedOrderAction():执行结束..." << std::endl;
 }
 
 ///请求查询资金账户响应
@@ -6385,6 +6290,521 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
     message.send(sender);
 
     std::cout << "OnRspTradingAccountPasswordUpdate():执行结束..." << std::endl;
+}
+
+///投资者结算结果确认响应
+void CTraderHandler::OnRspSettlementInfoConfirm(
+    CThostFtdcSettlementInfoConfirmField * pSettlementInfoConfirm,
+    CThostFtdcRspInfoField * pRspInfo,
+    int nRequestID,
+    bool bIsLast
+) {
+
+    std::cout << "OnRspSettlementInfoConfirm():开始执行..." << std::endl;
+
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+    } else {
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
+    }
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRspSettlementInfoConfirm";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pSettlementInfoConfirm;
+    if ( pSettlementInfoConfirm != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pSettlementInfoConfirm->BrokerID,
+            buffer,
+            sizeof(pSettlementInfoConfirm->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pSettlementInfoConfirm["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pSettlementInfoConfirm->InvestorID,
+            buffer,
+            sizeof(pSettlementInfoConfirm->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pSettlementInfoConfirm["InvestorID"] = buffer;
+
+
+        gbk2utf8(
+            pSettlementInfoConfirm->ConfirmDate,
+            buffer,
+            sizeof(pSettlementInfoConfirm->ConfirmDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pSettlementInfoConfirm["ConfirmDate"] = buffer;
+
+
+        gbk2utf8(
+            pSettlementInfoConfirm->ConfirmTime,
+            buffer,
+            sizeof(pSettlementInfoConfirm->ConfirmTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pSettlementInfoConfirm["ConfirmTime"] = buffer;
+
+    }
+
+    /// json_nRequestID
+    Json::Value json_nRequestID;
+    json_nRequestID = nRequestID;
+
+    /// 数据末尾标识
+    Json::Value json_bIsLast;
+    json_bIsLast = bIsLast;
+
+    // 定义参数集合
+    // TODO:参数集是用dict还是是用list需要在考虑一下
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pSettlementInfoConfirm;
+    json_Parameters["RspInfo"] = json_pRspInfo;
+    json_Parameters["RequestID"] = json_nRequestID;
+    json_Parameters["IsLast"] = json_bIsLast;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspSettlementInfoConfirm";
+    message.respInfo = json_Response.toStyledString();
+    message.send(sender);
+
+    std::cout << "OnRspSettlementInfoConfirm():执行结束..." << std::endl;
+}
+
+///请求查询行情响应
+void CTraderHandler::OnRspQryDepthMarketData(
+    CThostFtdcDepthMarketDataField * pDepthMarketData,
+    CThostFtdcRspInfoField * pRspInfo,
+    int nRequestID,
+    bool bIsLast
+) {
+
+    std::cout << "OnRspQryDepthMarketData():开始执行..." << std::endl;
+
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+    } else {
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
+    }
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRspQryDepthMarketData";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pDepthMarketData;
+    if ( pDepthMarketData != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pDepthMarketData->TradingDay,
+            buffer,
+            sizeof(pDepthMarketData->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["TradingDay"] = buffer;
+
+
+        gbk2utf8(
+            pDepthMarketData->InstrumentID,
+            buffer,
+            sizeof(pDepthMarketData->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["InstrumentID"] = buffer;
+
+
+        gbk2utf8(
+            pDepthMarketData->ExchangeID,
+            buffer,
+            sizeof(pDepthMarketData->ExchangeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["ExchangeID"] = buffer;
+
+
+        gbk2utf8(
+            pDepthMarketData->ExchangeInstID,
+            buffer,
+            sizeof(pDepthMarketData->ExchangeInstID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["ExchangeInstID"] = buffer;
+
+
+        json_pDepthMarketData["LastPrice"] = pDepthMarketData->LastPrice;
+
+
+        json_pDepthMarketData["PreSettlementPrice"] = pDepthMarketData->PreSettlementPrice;
+
+
+        json_pDepthMarketData["PreClosePrice"] = pDepthMarketData->PreClosePrice;
+
+
+        json_pDepthMarketData["PreOpenInterest"] = pDepthMarketData->PreOpenInterest;
+
+
+        json_pDepthMarketData["OpenPrice"] = pDepthMarketData->OpenPrice;
+
+
+        json_pDepthMarketData["HighestPrice"] = pDepthMarketData->HighestPrice;
+
+
+        json_pDepthMarketData["LowestPrice"] = pDepthMarketData->LowestPrice;
+
+
+        json_pDepthMarketData["Volume"] = pDepthMarketData->Volume;
+
+
+        json_pDepthMarketData["Turnover"] = pDepthMarketData->Turnover;
+
+
+        json_pDepthMarketData["OpenInterest"] = pDepthMarketData->OpenInterest;
+
+
+        json_pDepthMarketData["ClosePrice"] = pDepthMarketData->ClosePrice;
+
+
+        json_pDepthMarketData["SettlementPrice"] = pDepthMarketData->SettlementPrice;
+
+
+        json_pDepthMarketData["UpperLimitPrice"] = pDepthMarketData->UpperLimitPrice;
+
+
+        json_pDepthMarketData["LowerLimitPrice"] = pDepthMarketData->LowerLimitPrice;
+
+
+        json_pDepthMarketData["PreDelta"] = pDepthMarketData->PreDelta;
+
+
+        json_pDepthMarketData["CurrDelta"] = pDepthMarketData->CurrDelta;
+
+
+        gbk2utf8(
+            pDepthMarketData->UpdateTime,
+            buffer,
+            sizeof(pDepthMarketData->UpdateTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["UpdateTime"] = buffer;
+
+
+        json_pDepthMarketData["UpdateMillisec"] = pDepthMarketData->UpdateMillisec;
+
+
+        json_pDepthMarketData["BidPrice1"] = pDepthMarketData->BidPrice1;
+
+
+        json_pDepthMarketData["BidVolume1"] = pDepthMarketData->BidVolume1;
+
+
+        json_pDepthMarketData["AskPrice1"] = pDepthMarketData->AskPrice1;
+
+
+        json_pDepthMarketData["AskVolume1"] = pDepthMarketData->AskVolume1;
+
+
+        json_pDepthMarketData["BidPrice2"] = pDepthMarketData->BidPrice2;
+
+
+        json_pDepthMarketData["BidVolume2"] = pDepthMarketData->BidVolume2;
+
+
+        json_pDepthMarketData["AskPrice2"] = pDepthMarketData->AskPrice2;
+
+
+        json_pDepthMarketData["AskVolume2"] = pDepthMarketData->AskVolume2;
+
+
+        json_pDepthMarketData["BidPrice3"] = pDepthMarketData->BidPrice3;
+
+
+        json_pDepthMarketData["BidVolume3"] = pDepthMarketData->BidVolume3;
+
+
+        json_pDepthMarketData["AskPrice3"] = pDepthMarketData->AskPrice3;
+
+
+        json_pDepthMarketData["AskVolume3"] = pDepthMarketData->AskVolume3;
+
+
+        json_pDepthMarketData["BidPrice4"] = pDepthMarketData->BidPrice4;
+
+
+        json_pDepthMarketData["BidVolume4"] = pDepthMarketData->BidVolume4;
+
+
+        json_pDepthMarketData["AskPrice4"] = pDepthMarketData->AskPrice4;
+
+
+        json_pDepthMarketData["AskVolume4"] = pDepthMarketData->AskVolume4;
+
+
+        json_pDepthMarketData["BidPrice5"] = pDepthMarketData->BidPrice5;
+
+
+        json_pDepthMarketData["BidVolume5"] = pDepthMarketData->BidVolume5;
+
+
+        json_pDepthMarketData["AskPrice5"] = pDepthMarketData->AskPrice5;
+
+
+        json_pDepthMarketData["AskVolume5"] = pDepthMarketData->AskVolume5;
+
+
+        json_pDepthMarketData["AveragePrice"] = pDepthMarketData->AveragePrice;
+
+
+        gbk2utf8(
+            pDepthMarketData->ActionDay,
+            buffer,
+            sizeof(pDepthMarketData->ActionDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["ActionDay"] = buffer;
+
+    }
+
+    /// json_nRequestID
+    Json::Value json_nRequestID;
+    json_nRequestID = nRequestID;
+
+    /// 数据末尾标识
+    Json::Value json_bIsLast;
+    json_bIsLast = bIsLast;
+
+    // 定义参数集合
+    // TODO:参数集是用dict还是是用list需要在考虑一下
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pDepthMarketData;
+    json_Parameters["RspInfo"] = json_pRspInfo;
+    json_Parameters["RequestID"] = json_nRequestID;
+    json_Parameters["IsLast"] = json_bIsLast;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryDepthMarketData";
+    message.respInfo = json_Response.toStyledString();
+    message.send(sender);
+
+    std::cout << "OnRspQryDepthMarketData():执行结束..." << std::endl;
+}
+
+///删除预埋撤单响应
+void CTraderHandler::OnRspRemoveParkedOrderAction(
+    CThostFtdcRemoveParkedOrderActionField * pRemoveParkedOrderAction,
+    CThostFtdcRspInfoField * pRspInfo,
+    int nRequestID,
+    bool bIsLast
+) {
+
+    std::cout << "OnRspRemoveParkedOrderAction():开始执行..." << std::endl;
+
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+    } else {
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
+    }
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRspRemoveParkedOrderAction";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRemoveParkedOrderAction;
+    if ( pRemoveParkedOrderAction != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pRemoveParkedOrderAction->BrokerID,
+            buffer,
+            sizeof(pRemoveParkedOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRemoveParkedOrderAction["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRemoveParkedOrderAction->InvestorID,
+            buffer,
+            sizeof(pRemoveParkedOrderAction->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRemoveParkedOrderAction["InvestorID"] = buffer;
+
+
+        gbk2utf8(
+            pRemoveParkedOrderAction->ParkedOrderActionID,
+            buffer,
+            sizeof(pRemoveParkedOrderAction->ParkedOrderActionID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRemoveParkedOrderAction["ParkedOrderActionID"] = buffer;
+
+    }
+
+    /// json_nRequestID
+    Json::Value json_nRequestID;
+    json_nRequestID = nRequestID;
+
+    /// 数据末尾标识
+    Json::Value json_bIsLast;
+    json_bIsLast = bIsLast;
+
+    // 定义参数集合
+    // TODO:参数集是用dict还是是用list需要在考虑一下
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRemoveParkedOrderAction;
+    json_Parameters["RspInfo"] = json_pRspInfo;
+    json_Parameters["RequestID"] = json_nRequestID;
+    json_Parameters["IsLast"] = json_bIsLast;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspRemoveParkedOrderAction";
+    message.respInfo = json_Response.toStyledString();
+    message.send(sender);
+
+    std::cout << "OnRspRemoveParkedOrderAction():执行结束..." << std::endl;
+}
+
+///请求查询合约手续费率响应
+void CTraderHandler::OnRspQryInstrumentCommissionRate(
+    CThostFtdcInstrumentCommissionRateField * pInstrumentCommissionRate,
+    CThostFtdcRspInfoField * pRspInfo,
+    int nRequestID,
+    bool bIsLast
+) {
+
+    std::cout << "OnRspQryInstrumentCommissionRate():开始执行..." << std::endl;
+
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+    // 读取处理结果信息
+    Json::Value json_pRspInfo;
+    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
+    // 这里不需要判断是否成功直接将信息返回客户端即可
+    if ( pRspInfo != NULL )  {
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+    } else {
+        json_pRspInfo["ErrorID"] = 0;
+        json_pRspInfo["ErrorMsg"] = "";
+    }
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRspQryInstrumentCommissionRate";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pInstrumentCommissionRate;
+    if ( pInstrumentCommissionRate != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pInstrumentCommissionRate->InstrumentID,
+            buffer,
+            sizeof(pInstrumentCommissionRate->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInstrumentCommissionRate["InstrumentID"] = buffer;
+
+
+        json_pInstrumentCommissionRate["InvestorRange"] = pInstrumentCommissionRate->InvestorRange;
+
+
+        gbk2utf8(
+            pInstrumentCommissionRate->BrokerID,
+            buffer,
+            sizeof(pInstrumentCommissionRate->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInstrumentCommissionRate["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pInstrumentCommissionRate->InvestorID,
+            buffer,
+            sizeof(pInstrumentCommissionRate->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInstrumentCommissionRate["InvestorID"] = buffer;
+
+
+        json_pInstrumentCommissionRate["OpenRatioByMoney"] = pInstrumentCommissionRate->OpenRatioByMoney;
+
+
+        json_pInstrumentCommissionRate["OpenRatioByVolume"] = pInstrumentCommissionRate->OpenRatioByVolume;
+
+
+        json_pInstrumentCommissionRate["CloseRatioByMoney"] = pInstrumentCommissionRate->CloseRatioByMoney;
+
+
+        json_pInstrumentCommissionRate["CloseRatioByVolume"] = pInstrumentCommissionRate->CloseRatioByVolume;
+
+
+        json_pInstrumentCommissionRate["CloseTodayRatioByMoney"] = pInstrumentCommissionRate->CloseTodayRatioByMoney;
+
+
+        json_pInstrumentCommissionRate["CloseTodayRatioByVolume"] = pInstrumentCommissionRate->CloseTodayRatioByVolume;
+
+    }
+
+    /// json_nRequestID
+    Json::Value json_nRequestID;
+    json_nRequestID = nRequestID;
+
+    /// 数据末尾标识
+    Json::Value json_bIsLast;
+    json_bIsLast = bIsLast;
+
+    // 定义参数集合
+    // TODO:参数集是用dict还是是用list需要在考虑一下
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pInstrumentCommissionRate;
+    json_Parameters["RspInfo"] = json_pRspInfo;
+    json_Parameters["RequestID"] = json_nRequestID;
+    json_Parameters["IsLast"] = json_bIsLast;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
+    message.apiName = "OnRspQryInstrumentCommissionRate";
+    message.respInfo = json_Response.toStyledString();
+    message.send(sender);
+
+    std::cout << "OnRspQryInstrumentCommissionRate():执行结束..." << std::endl;
 }
 
 ///请求查询报单响应
@@ -6766,426 +7186,6 @@ void CTraderHandler::OnRspQryOrder(
     std::cout << "OnRspQryOrder():执行结束..." << std::endl;
 }
 
-///请求查询行情响应
-void CTraderHandler::OnRspQryDepthMarketData(
-    CThostFtdcDepthMarketDataField * pDepthMarketData,
-    CThostFtdcRspInfoField * pRspInfo,
-    int nRequestID,
-    bool bIsLast
-) {
-
-    std::cout << "OnRspQryDepthMarketData():开始执行..." << std::endl;
-
-    // 生成发送管道的引用
-    zmq::socket_t & sender = *pSender;
-    // 读取处理结果信息
-    Json::Value json_pRspInfo;
-    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
-    // 这里不需要判断是否成功直接将信息返回客户端即可
-    if ( pRspInfo != NULL )  {
-        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-    } else {
-        json_pRspInfo["ErrorID"] = 0;
-        json_pRspInfo["ErrorMsg"] = "";
-    }
-
-    // 生成返回的json格式
-    Json::Value json_Response;
-    json_Response["ResponseMethod"] = "OnRspQryDepthMarketData";
-
-    /// 返回数据结构体转化json格式
-    Json::Value json_pDepthMarketData;
-    if ( pDepthMarketData != NULL ) {
-        // TODO : 这里需要将编码转化为utf-8
-
-
-        gbk2utf8(
-            pDepthMarketData->TradingDay,
-            buffer,
-            sizeof(pDepthMarketData->TradingDay) * 3 // 字符串转化变长的风险保障
-        );
-        json_pDepthMarketData["TradingDay"] = buffer;
-
-
-        gbk2utf8(
-            pDepthMarketData->InstrumentID,
-            buffer,
-            sizeof(pDepthMarketData->InstrumentID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pDepthMarketData["InstrumentID"] = buffer;
-
-
-        gbk2utf8(
-            pDepthMarketData->ExchangeID,
-            buffer,
-            sizeof(pDepthMarketData->ExchangeID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pDepthMarketData["ExchangeID"] = buffer;
-
-
-        gbk2utf8(
-            pDepthMarketData->ExchangeInstID,
-            buffer,
-            sizeof(pDepthMarketData->ExchangeInstID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pDepthMarketData["ExchangeInstID"] = buffer;
-
-
-        json_pDepthMarketData["LastPrice"] = pDepthMarketData->LastPrice;
-
-
-        json_pDepthMarketData["PreSettlementPrice"] = pDepthMarketData->PreSettlementPrice;
-
-
-        json_pDepthMarketData["PreClosePrice"] = pDepthMarketData->PreClosePrice;
-
-
-        json_pDepthMarketData["PreOpenInterest"] = pDepthMarketData->PreOpenInterest;
-
-
-        json_pDepthMarketData["OpenPrice"] = pDepthMarketData->OpenPrice;
-
-
-        json_pDepthMarketData["HighestPrice"] = pDepthMarketData->HighestPrice;
-
-
-        json_pDepthMarketData["LowestPrice"] = pDepthMarketData->LowestPrice;
-
-
-        json_pDepthMarketData["Volume"] = pDepthMarketData->Volume;
-
-
-        json_pDepthMarketData["Turnover"] = pDepthMarketData->Turnover;
-
-
-        json_pDepthMarketData["OpenInterest"] = pDepthMarketData->OpenInterest;
-
-
-        json_pDepthMarketData["ClosePrice"] = pDepthMarketData->ClosePrice;
-
-
-        json_pDepthMarketData["SettlementPrice"] = pDepthMarketData->SettlementPrice;
-
-
-        json_pDepthMarketData["UpperLimitPrice"] = pDepthMarketData->UpperLimitPrice;
-
-
-        json_pDepthMarketData["LowerLimitPrice"] = pDepthMarketData->LowerLimitPrice;
-
-
-        json_pDepthMarketData["PreDelta"] = pDepthMarketData->PreDelta;
-
-
-        json_pDepthMarketData["CurrDelta"] = pDepthMarketData->CurrDelta;
-
-
-        gbk2utf8(
-            pDepthMarketData->UpdateTime,
-            buffer,
-            sizeof(pDepthMarketData->UpdateTime) * 3 // 字符串转化变长的风险保障
-        );
-        json_pDepthMarketData["UpdateTime"] = buffer;
-
-
-        json_pDepthMarketData["UpdateMillisec"] = pDepthMarketData->UpdateMillisec;
-
-
-        json_pDepthMarketData["BidPrice1"] = pDepthMarketData->BidPrice1;
-
-
-        json_pDepthMarketData["BidVolume1"] = pDepthMarketData->BidVolume1;
-
-
-        json_pDepthMarketData["AskPrice1"] = pDepthMarketData->AskPrice1;
-
-
-        json_pDepthMarketData["AskVolume1"] = pDepthMarketData->AskVolume1;
-
-
-        json_pDepthMarketData["BidPrice2"] = pDepthMarketData->BidPrice2;
-
-
-        json_pDepthMarketData["BidVolume2"] = pDepthMarketData->BidVolume2;
-
-
-        json_pDepthMarketData["AskPrice2"] = pDepthMarketData->AskPrice2;
-
-
-        json_pDepthMarketData["AskVolume2"] = pDepthMarketData->AskVolume2;
-
-
-        json_pDepthMarketData["BidPrice3"] = pDepthMarketData->BidPrice3;
-
-
-        json_pDepthMarketData["BidVolume3"] = pDepthMarketData->BidVolume3;
-
-
-        json_pDepthMarketData["AskPrice3"] = pDepthMarketData->AskPrice3;
-
-
-        json_pDepthMarketData["AskVolume3"] = pDepthMarketData->AskVolume3;
-
-
-        json_pDepthMarketData["BidPrice4"] = pDepthMarketData->BidPrice4;
-
-
-        json_pDepthMarketData["BidVolume4"] = pDepthMarketData->BidVolume4;
-
-
-        json_pDepthMarketData["AskPrice4"] = pDepthMarketData->AskPrice4;
-
-
-        json_pDepthMarketData["AskVolume4"] = pDepthMarketData->AskVolume4;
-
-
-        json_pDepthMarketData["BidPrice5"] = pDepthMarketData->BidPrice5;
-
-
-        json_pDepthMarketData["BidVolume5"] = pDepthMarketData->BidVolume5;
-
-
-        json_pDepthMarketData["AskPrice5"] = pDepthMarketData->AskPrice5;
-
-
-        json_pDepthMarketData["AskVolume5"] = pDepthMarketData->AskVolume5;
-
-
-        json_pDepthMarketData["AveragePrice"] = pDepthMarketData->AveragePrice;
-
-
-        gbk2utf8(
-            pDepthMarketData->ActionDay,
-            buffer,
-            sizeof(pDepthMarketData->ActionDay) * 3 // 字符串转化变长的风险保障
-        );
-        json_pDepthMarketData["ActionDay"] = buffer;
-
-    }
-
-    /// json_nRequestID
-    Json::Value json_nRequestID;
-    json_nRequestID = nRequestID;
-
-    /// 数据末尾标识
-    Json::Value json_bIsLast;
-    json_bIsLast = bIsLast;
-
-    // 定义参数集合
-    // TODO:参数集是用dict还是是用list需要在考虑一下
-    Json::Value json_Parameters;
-    json_Parameters["Data"] = json_pDepthMarketData;
-    json_Parameters["RspInfo"] = json_pRspInfo;
-    json_Parameters["RequestID"] = json_nRequestID;
-    json_Parameters["IsLast"] = json_bIsLast;
-    json_Response["Parameters"] = json_Parameters;
-
-    // 打包消息结构并压入Pushback管道
-    PushbackMessage message;
-    sprintf(buffer,"%d",nRequestID);
-    message.requestID = buffer;
-    message.apiName = "OnRspQryDepthMarketData";
-    message.respInfo = json_Response.toStyledString();
-    message.send(sender);
-
-    std::cout << "OnRspQryDepthMarketData():执行结束..." << std::endl;
-}
-
-///请求查询合约手续费率响应
-void CTraderHandler::OnRspQryInstrumentCommissionRate(
-    CThostFtdcInstrumentCommissionRateField * pInstrumentCommissionRate,
-    CThostFtdcRspInfoField * pRspInfo,
-    int nRequestID,
-    bool bIsLast
-) {
-
-    std::cout << "OnRspQryInstrumentCommissionRate():开始执行..." << std::endl;
-
-    // 生成发送管道的引用
-    zmq::socket_t & sender = *pSender;
-    // 读取处理结果信息
-    Json::Value json_pRspInfo;
-    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
-    // 这里不需要判断是否成功直接将信息返回客户端即可
-    if ( pRspInfo != NULL )  {
-        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-    } else {
-        json_pRspInfo["ErrorID"] = 0;
-        json_pRspInfo["ErrorMsg"] = "";
-    }
-
-    // 生成返回的json格式
-    Json::Value json_Response;
-    json_Response["ResponseMethod"] = "OnRspQryInstrumentCommissionRate";
-
-    /// 返回数据结构体转化json格式
-    Json::Value json_pInstrumentCommissionRate;
-    if ( pInstrumentCommissionRate != NULL ) {
-        // TODO : 这里需要将编码转化为utf-8
-
-
-        gbk2utf8(
-            pInstrumentCommissionRate->InstrumentID,
-            buffer,
-            sizeof(pInstrumentCommissionRate->InstrumentID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pInstrumentCommissionRate["InstrumentID"] = buffer;
-
-
-        json_pInstrumentCommissionRate["InvestorRange"] = pInstrumentCommissionRate->InvestorRange;
-
-
-        gbk2utf8(
-            pInstrumentCommissionRate->BrokerID,
-            buffer,
-            sizeof(pInstrumentCommissionRate->BrokerID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pInstrumentCommissionRate["BrokerID"] = buffer;
-
-
-        gbk2utf8(
-            pInstrumentCommissionRate->InvestorID,
-            buffer,
-            sizeof(pInstrumentCommissionRate->InvestorID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pInstrumentCommissionRate["InvestorID"] = buffer;
-
-
-        json_pInstrumentCommissionRate["OpenRatioByMoney"] = pInstrumentCommissionRate->OpenRatioByMoney;
-
-
-        json_pInstrumentCommissionRate["OpenRatioByVolume"] = pInstrumentCommissionRate->OpenRatioByVolume;
-
-
-        json_pInstrumentCommissionRate["CloseRatioByMoney"] = pInstrumentCommissionRate->CloseRatioByMoney;
-
-
-        json_pInstrumentCommissionRate["CloseRatioByVolume"] = pInstrumentCommissionRate->CloseRatioByVolume;
-
-
-        json_pInstrumentCommissionRate["CloseTodayRatioByMoney"] = pInstrumentCommissionRate->CloseTodayRatioByMoney;
-
-
-        json_pInstrumentCommissionRate["CloseTodayRatioByVolume"] = pInstrumentCommissionRate->CloseTodayRatioByVolume;
-
-    }
-
-    /// json_nRequestID
-    Json::Value json_nRequestID;
-    json_nRequestID = nRequestID;
-
-    /// 数据末尾标识
-    Json::Value json_bIsLast;
-    json_bIsLast = bIsLast;
-
-    // 定义参数集合
-    // TODO:参数集是用dict还是是用list需要在考虑一下
-    Json::Value json_Parameters;
-    json_Parameters["Data"] = json_pInstrumentCommissionRate;
-    json_Parameters["RspInfo"] = json_pRspInfo;
-    json_Parameters["RequestID"] = json_nRequestID;
-    json_Parameters["IsLast"] = json_bIsLast;
-    json_Response["Parameters"] = json_Parameters;
-
-    // 打包消息结构并压入Pushback管道
-    PushbackMessage message;
-    sprintf(buffer,"%d",nRequestID);
-    message.requestID = buffer;
-    message.apiName = "OnRspQryInstrumentCommissionRate";
-    message.respInfo = json_Response.toStyledString();
-    message.send(sender);
-
-    std::cout << "OnRspQryInstrumentCommissionRate():执行结束..." << std::endl;
-}
-
-///删除预埋撤单响应
-void CTraderHandler::OnRspRemoveParkedOrderAction(
-    CThostFtdcRemoveParkedOrderActionField * pRemoveParkedOrderAction,
-    CThostFtdcRspInfoField * pRspInfo,
-    int nRequestID,
-    bool bIsLast
-) {
-
-    std::cout << "OnRspRemoveParkedOrderAction():开始执行..." << std::endl;
-
-    // 生成发送管道的引用
-    zmq::socket_t & sender = *pSender;
-    // 读取处理结果信息
-    Json::Value json_pRspInfo;
-    // 如果RspInfo为空，或者RspInfo的错误代码为0，说明查询成功。
-    // 这里不需要判断是否成功直接将信息返回客户端即可
-    if ( pRspInfo != NULL )  {
-        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
-    } else {
-        json_pRspInfo["ErrorID"] = 0;
-        json_pRspInfo["ErrorMsg"] = "";
-    }
-
-    // 生成返回的json格式
-    Json::Value json_Response;
-    json_Response["ResponseMethod"] = "OnRspRemoveParkedOrderAction";
-
-    /// 返回数据结构体转化json格式
-    Json::Value json_pRemoveParkedOrderAction;
-    if ( pRemoveParkedOrderAction != NULL ) {
-        // TODO : 这里需要将编码转化为utf-8
-
-
-        gbk2utf8(
-            pRemoveParkedOrderAction->BrokerID,
-            buffer,
-            sizeof(pRemoveParkedOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pRemoveParkedOrderAction["BrokerID"] = buffer;
-
-
-        gbk2utf8(
-            pRemoveParkedOrderAction->InvestorID,
-            buffer,
-            sizeof(pRemoveParkedOrderAction->InvestorID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pRemoveParkedOrderAction["InvestorID"] = buffer;
-
-
-        gbk2utf8(
-            pRemoveParkedOrderAction->ParkedOrderActionID,
-            buffer,
-            sizeof(pRemoveParkedOrderAction->ParkedOrderActionID) * 3 // 字符串转化变长的风险保障
-        );
-        json_pRemoveParkedOrderAction["ParkedOrderActionID"] = buffer;
-
-    }
-
-    /// json_nRequestID
-    Json::Value json_nRequestID;
-    json_nRequestID = nRequestID;
-
-    /// 数据末尾标识
-    Json::Value json_bIsLast;
-    json_bIsLast = bIsLast;
-
-    // 定义参数集合
-    // TODO:参数集是用dict还是是用list需要在考虑一下
-    Json::Value json_Parameters;
-    json_Parameters["Data"] = json_pRemoveParkedOrderAction;
-    json_Parameters["RspInfo"] = json_pRspInfo;
-    json_Parameters["RequestID"] = json_nRequestID;
-    json_Parameters["IsLast"] = json_bIsLast;
-    json_Response["Parameters"] = json_Parameters;
-
-    // 打包消息结构并压入Pushback管道
-    PushbackMessage message;
-    sprintf(buffer,"%d",nRequestID);
-    message.requestID = buffer;
-    message.apiName = "OnRspRemoveParkedOrderAction";
-    message.respInfo = json_Response.toStyledString();
-    message.send(sender);
-
-    std::cout << "OnRspRemoveParkedOrderAction():执行结束..." << std::endl;
-}
-
 ///请求查询成交响应
 void CTraderHandler::OnRspQryTrade(
     CThostFtdcTradeField * pTrade,
@@ -7463,6 +7463,15 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
     std::cout << "OnRtnFromBankToFutureByBank():执行结束..." << std::endl;
 }
 
+///保证金监控中心用户令牌
+void CTraderHandler::OnRtnCFMMCTradingAccountToken(
+    CThostFtdcCFMMCTradingAccountTokenField * pCFMMCTradingAccountToken
+) {
+    std::cout << "OnRtnCFMMCTradingAccountToken():开始执行..." << std::endl;
+
+    std::cout << "OnRtnCFMMCTradingAccountToken():执行结束..." << std::endl;
+}
+
 ///合约交易状态通知
 void CTraderHandler::OnRtnInstrumentStatus(
     CThostFtdcInstrumentStatusField * pInstrumentStatus
@@ -7506,15 +7515,6 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
     std::cout << "OnRtnFromFutureToBankByBank():开始执行..." << std::endl;
 
     std::cout << "OnRtnFromFutureToBankByBank():执行结束..." << std::endl;
-}
-
-///成交通知
-void CTraderHandler::OnRtnTrade(
-    CThostFtdcTradeField * pTrade
-) {
-    std::cout << "OnRtnTrade():开始执行..." << std::endl;
-
-    std::cout << "OnRtnTrade():执行结束..." << std::endl;
 }
 
 ///系统运行时期货端手工发起冲正银行转期货请求，银行处理完毕后报盘发回的通知
@@ -7562,13 +7562,13 @@ void CTraderHandler::OnRtnOpenAccountByBank(
     std::cout << "OnRtnOpenAccountByBank():执行结束..." << std::endl;
 }
 
-///保证金监控中心用户令牌
-void CTraderHandler::OnRtnCFMMCTradingAccountToken(
-    CThostFtdcCFMMCTradingAccountTokenField * pCFMMCTradingAccountToken
+///成交通知
+void CTraderHandler::OnRtnTrade(
+    CThostFtdcTradeField * pTrade
 ) {
-    std::cout << "OnRtnCFMMCTradingAccountToken():开始执行..." << std::endl;
+    std::cout << "OnRtnTrade():开始执行..." << std::endl;
 
-    std::cout << "OnRtnCFMMCTradingAccountToken():执行结束..." << std::endl;
+    std::cout << "OnRtnTrade():执行结束..." << std::endl;
 }
 
 ///期货发起冲正期货转银行请求，银行处理完毕后报盘发回的通知
