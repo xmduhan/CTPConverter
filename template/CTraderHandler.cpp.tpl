@@ -30,7 +30,7 @@ void CTraderHandler::OnFrontConnected() {
 
 // 字符操作使用的临时缓冲区,由于ctp最长的字符串变量长度2049,并且需要字符串编码的转换,
 // 定义3倍长度来保证不会超出
-char buffer[6145];
+static char buffer[1024*10];
 
 /**********************************************************
 *                   onRsp开头的方法                         *
@@ -74,7 +74,7 @@ char buffer[6145];
 		// TODO : 这里需要将编码转化为utf-8
 		{% for field in dataType['fields'] %}
 			{%- set typeInfo = typedefDict[field['type']] %}
-			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}				
+			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
 				gbk2utf8(
 					{{dataVarName}}->{{field['name']}},
 					buffer,

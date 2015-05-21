@@ -4,25 +4,25 @@
 
 
 // 配置数据
-Configure configtest;
+static Configure config;
 
 /// 读取配置数据
 void loadConfig() {
-    configtest.load();
-    printf("FrontAddress=%s\n",configtest.FrontAddress);
-    printf("BrokerID=%s\n",configtest.BrokerID);
-    printf("UserID=%s\n",configtest.UserID);
-    printf("Password=%s\n",configtest.Password);
-    printf("RequestPipe=%s\n",configtest.RequestPipe);
-    printf("PushbackPipe=%s\n",configtest.PushbackPipe);
-    printf("PublishPipe=%s\n",configtest.PublishPipe);
+    config.load();
+    printf("FrontAddress=%s\n",config.FrontAddress);
+    printf("BrokerID=%s\n",config.BrokerID);
+    printf("UserID=%s\n",config.UserID);
+    printf("Password=%s\n",config.Password);
+    printf("RequestPipe=%s\n",config.RequestPipe);
+    printf("PushbackPipe=%s\n",config.PushbackPipe);
+    printf("PublishPipe=%s\n",config.PublishPipe);
 }
 
 
 void test01() {
     zmq::context_t * pContext = new zmq::context_t(1);
     zmq::socket_t * pReceiver = new zmq::socket_t(*pContext, ZMQ_PULL);
-    pReceiver->connect(configtest.PushbackPipe);
+    pReceiver->connect(config.PushbackPipe);
     //pReceiver->connect("ipc://ipc/pushback");
 
     //zmq::socket_t * pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
@@ -59,7 +59,7 @@ void test01() {
 
 void test02() {
     loadConfig();
-    CApiWrapper api(&configtest);
+    CApiWrapper api(&config);
     api.init();
 }
 
@@ -128,12 +128,12 @@ void readJsonDict() {
 }
 
 void test03() {
-    configtest.load();
+    config.load();
     CThostFtdcInstrumentField pInstrument;
     CThostFtdcRspInfoField pRspInfo;
     int nRequestID;
     bool bIsLast;
-    CTraderHandler traderHandler = CTraderHandler(&configtest);
+    CTraderHandler traderHandler = CTraderHandler(&config);
     while(1) {
         traderHandler.OnRspQryInstrument(&pInstrument,&pRspInfo,nRequestID,bIsLast);
         //traderHandler.OnRspQryInstrument(0,&pRspInfo,nRequestID,bIsLast);
@@ -231,7 +231,7 @@ void test05(){
     }\
     ";
     loadConfig();
-    CApiWrapper api(&configtest);
+    CApiWrapper api(&config);
     api.init();
     int result  ;
 
@@ -243,7 +243,7 @@ void test05(){
         zmq::context_t context(1);
         zmq::socket_t receiver(context, ZMQ_PULL);
         PushbackMessage message;
-        receiver.connect(configtest.PushbackPipe);
+        receiver.connect(config.PushbackPipe);
         message.recv(receiver);
         std::cout << "message.requestID = " << message.requestID << std::endl;
         std::cout << "message.apiName = " << message.apiName << std::endl;

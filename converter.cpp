@@ -5,12 +5,12 @@
 #include <Message.h>
 
 // 配置信息
-Configure config;
+static Configure config;
+
+static char buffer[1024*10];
 
 
 // 返回信息路由表
-
-
 
 
 int main() {
@@ -67,27 +67,56 @@ int main() {
                     break;
                 }
 
-                // TODO : 1. 调用对应的api
+                // 调用对应的api
                 result = api.callApiByName(requestMessage.apiName,requestMessage.reqInfo);
-                if ( result != 0 ) {
-                    std::cout << "调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
+
+                // 初始化返回信息格式
+                requestIDMessage.routeKey = requestMessage.routeKey;
+                requestIDMessage.requestID = "0";
+                requestIDMessage.header = "REQUESTID";
+                requestIDMessage.apiName = requestMessage.apiName;
+                requestIDMessage.errorInfo = "";
+                requestIDMessage.metaData = requestMessage.metaData;
+
+                // 判断api调用的结果,如果成功返回RequestID,失败返回错误信息
+                if ( result > 0 ) {
+                    // 调用成功返回的是RequestID
+                    sprintf(buffer,"%d",result);
+                    requestIDMessage.requestID = buffer;
+                } else {
                     errorCode = api.getLastErrorCode();
                     errorMessage = api.getLastErrorMessage();
+                    sprintf(buffer,"{ErrorCode:%d,ErrorMessage:%s}",errorCode,errorMessage.c_str());
+                    requestIDMessage.errorInfo = buffer;
+                    std::cout << "调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
                     std::cout << "ErrorCode=" << errorCode << std::endl << "," << "ErrorMessage=" << errorMessage << std::endl;
                 }
-                // TODO : 2. 返回客户端一个信息(调用成功返回requestid，失败有错误信息)
+
+                // 将请求结果信息立即返回给客户端
+                try {
+                    requestIDMessage.send(listener);
+                    std::cout << "客户端请求结果已返回客户端"  << std::endl;
+                } catch(std::exception & e) {
+                    std::cout << "异常:" << e.what() << std::endl;
+                    break;
+                }
+
             } while(false);
         }
 
-        if ( pullItems[1].revents & ZMQ_POLLIN) {
-            std::cout << "接收到服务器的响应信息" << std::endl;
-            try {
-                pushbackMessage.recv(pushback);
-                // TODO : 这里编写消息处理方法
-            } catch(std::exception & e) {
-                std::cout << "异常:" << e.what() << std::endl;
-                std::cout << "消息被丢弃" << std::endl;
-            }
+        if ( pullItems[1].revents & ZMQ_POLLIN ) {
+            do {
+                std::cout << "接收到服务器的响应信息" << std::endl;
+                try {
+                    pushbackMessage.recv(pushback);
+                    // TODO : 这里编写消息处理方法
+                } catch(std::exception & e) {
+                    std::cout << "异常:" << e.what() << std::endl;
+                    std::cout << "消息被丢弃" << std::endl;
+                    break;
+                }
+                // TODO 将服务端返回结果发送给客户端
+            } while(false);
         }
         // 计算时间
         thisTime = s_clock();
