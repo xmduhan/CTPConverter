@@ -19,7 +19,8 @@ def getDefaultReqInfo(apiName):
 
 def test_ReqQryTradingAccount_0():
 	'''
-
+	测试ReqQryTradingAccount xxx
+	其他的一些说明
 	'''
 	address = 'tcp://localhost:10001'
 
@@ -28,7 +29,7 @@ def test_ReqQryTradingAccount_0():
 	reqApiName = 'ReqQryTradingAccount'
 	reqReqInfo = getDefaultReqInfo(reqApiName)
 	data = reqReqInfo['Parameters']['Data']
-	reqMetaData = {'a':1}
+	reqMetaData = {}
 
 	# 连接request通讯管道
 	context = zmq.Context()
@@ -41,10 +42,11 @@ def test_ReqQryTradingAccount_0():
 		[reqHeader,reqApiName,json.dumps(reqReqInfo),json.dumps(reqMetaData)]
 	)
 
-	# 等待服务器响应
+
+	################### 等待服务器的REQUESTID响应 ###################
 	poller = zmq.Poller()
 	poller.register(socket, zmq.POLLIN)
-	sockets = dict(poller.poll(5))
+	sockets = dict(poller.poll(100))
 	assert socket in sockets
 
 	# 从request通讯管道读取返回信息
@@ -54,7 +56,26 @@ def test_ReqQryTradingAccount_0():
 	assert respHeader == 'REQUESTID'
 	assert int(respRequestID) > 0
 	assert respApiName == reqApiName
-	assert json.dumps(reqMetaData) == respMetaData
+	assert respErrorInfo == ''
+	assert respMetaData == json.dumps(reqMetaData)
+
+
+	################### 等待服务器的返回的数据信息 ###################
+	poller = zmq.Poller()
+	poller.register(socket, zmq.POLLIN)
+	sockets = dict(poller.poll(100))
+	assert socket in sockets
+	# 从request通讯管道读取返回信息
+	respHeader,respRequestID,respApiName,respRespInfo,respMetaData = \
+	socket.recv_multipart()
+	print "respHeader=",respHeader
+	print "respRequestID=",respRequestID
+	print "respApiName=",respApiName
+	print "respRespInfo=",respRespInfo
+	print "respMetaData=",respMetaData
+
+
+
 
 
 #

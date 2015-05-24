@@ -11,6 +11,13 @@ static char buffer[1024*10];
 
 
 // 返回信息路由表
+struct RouteTableItem{
+    std::string routeKey;
+    std::string metaData;
+    long ttl;
+};
+static std::map<int,RouteTableItem *> routeTable;
+static std::map<int,RouteTableItem *> ::iterator iterRouteTable;
 
 
 int main(){
@@ -41,7 +48,9 @@ int main(){
     long timeout = 1;
     long lastTime = s_clock();
     long thisTime = 0;
+    long timeDelta = 0;
     long loopTimes = 0;
+
 
     int result;
     int errorCode;
@@ -106,6 +115,20 @@ int main(){
                     break;
                 }
 
+                // 如果调用是成功的，将请求数据放入信息路由路由表中
+                if (result > 0)
+                    try{
+                        int requestID = result;
+                        RouteTableItem * pRouteTableItem = new RouteTableItem();
+                        pRouteTableItem -> routeKey = requestMessage.routeKey;
+                        pRouteTableItem -> metaData = requestMessage.metaData;
+                        pRouteTableItem -> ttl = 10;
+                        routeTable[requestID] = pRouteTableItem;
+                    }catch(std::exception & e){
+                        std::cout << "main():异常:" << e.what() << std::endl;
+                        break;
+                    }
+
             }while(false);
         }
 
@@ -115,6 +138,30 @@ int main(){
                 try{
                     pushbackMessage.recv(pushback);
                     // TODO : 这里编写消息处理方法
+                    int requestID = atoi(pushbackMessage.requestID.c_str());
+                    // requestID如果为0是广播消息
+                    if (requestID != 0){
+                        // 处理客户端请求数据
+                        // 检查RequestID是否在路由表中
+                        if (routeTable.count(requestID) != 0){
+                            RouteTableItem * pRouteTableItem = routeTable[requestID];
+                            std::cout << "main():找到路由信息,将信息返回客户端" << std::endl;
+                            responseMessage.routeKey = pRouteTableItem->routeKey;
+                            responseMessage.header = "RESPONSE";
+                            responseMessage.requestID = pushbackMessage.requestID;
+                            responseMessage.apiName = pushbackMessage.apiName;
+                            responseMessage.respInfo = pushbackMessage.respInfo;
+                            responseMessage.metaData = pRouteTableItem->metaData;
+                            responseMessage.send(listener);
+                            //std::cout << "main():pushbackMessage.respInfo=" << pushbackMessage.respInfo<< std::endl;
+                            std::cout << "main():信息已经成功发送给客户端" << std::endl;
+                        }else{
+                            std::cout << "main():无法找到返回路由,可能是路由信息已过期" << std::endl;
+                        }
+                    }else{
+                        // 处理广播消息
+                        std::cout << "main():收到一条广播消息" << std::endl;
+                    }
                 }catch(std::exception & e){
                     std::cout << "main():异常:" << e.what() << std::endl;
                     std::cout << "main():消息被丢弃" << std::endl;
@@ -125,15 +172,24 @@ int main(){
         }
         // 计算时间
         thisTime = s_clock();
-        // TODO : 消息返回路由的超时处理
+        timeDelta = thisTime - lastTime;
         lastTime = thisTime;
 
-
-        // 以下程序仅仅让我们知道服务器还在运行
-        loopTimes += 1;
+        // 检查路由表中的过期信息,并将其删除
+        loopTimes += timeDelta;
         if ( loopTimes >= 1000 ){
             loopTimes = 0;
-            std::cout << "main():" << "完成了1000次循环"  << std::endl;
+            std::cout << "main():" << "完成了1000次循环,"
+            << "路由表中元素数量为:" <<  routeTable.size() << std::endl;
+            // 遍历路由表
+            for (iterRouteTable = routeTable.begin(); iterRouteTable != routeTable.end(); iterRouteTable++ ){
+                //std::cout <<  iterRouteTable->first << "=" << iterRouteTable->second << std::endl;
+                RouteTableItem * pRouteTableItem = iterRouteTable->second;
+                if ( --pRouteTableItem -> ttl <= 0){
+                    routeTable.erase(iterRouteTable);
+                    delete pRouteTableItem;
+                }
+            }
         }
     }
 

@@ -2,4 +2,5 @@
 *.pyc
 *.orig
 *.pk
+*.con
 converter
