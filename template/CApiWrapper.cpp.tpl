@@ -182,7 +182,8 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
         Json::Value Parameters = jsonData["Parameters"];
         Assert<std::exception>(!Parameters.empty());
         Json::Value Data = Parameters["Data"];
-        Assert<std::exception>(!Data.empty());
+		//Assert<std::exception>(!Data.empty());
+
 
 		// TODO:这里将pJsonData转化为对应的结构参数
 		{%- set dataTypeName = parameter['raw_type'] %}
