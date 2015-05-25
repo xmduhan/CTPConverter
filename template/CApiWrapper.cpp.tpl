@@ -60,11 +60,11 @@ void CApiWrapper::init(){
 	pTraderApi->SubscribePublicTopic(THOST_TERT_QUICK);
 
 	/// 设置服务器地址
-	pTraderApi->RegisterFront(pConfigure->FrontAddress);
+	pTraderApi->RegisterFront(pConfigure->frontAddress);
 
 	// 连接spi的Pushback管道
-	std::cout << "CApiWrapper::init():Pushback管道地址为:" << pConfigure->PushbackPipe << std::endl;
-	receiver.connect(pConfigure->PushbackPipe);
+	std::cout << "CApiWrapper::init():Pushback管道地址为:" << pConfigure->pushbackPipe << std::endl;
+	receiver.connect(pConfigure->pushbackPipe);
 
 	// 连接交易系统
 	std::cout << "CApiWrapper::init():尝试连接服务器..." << std::endl;
@@ -83,9 +83,9 @@ void CApiWrapper::init(){
 	// 发出登陆请求
 	std::cout << "CApiWrapper::init():发出登录请求..." << std::endl;
 	CThostFtdcReqUserLoginField userLoginField;
-	strcpy(userLoginField.BrokerID,pConfigure->BrokerID);
-	strcpy(userLoginField.UserID,pConfigure->UserID);
-	strcpy(userLoginField.Password,pConfigure->Password);
+	strcpy(userLoginField.BrokerID,pConfigure->brokerID);
+	strcpy(userLoginField.UserID,pConfigure->userID);
+	strcpy(userLoginField.Password,pConfigure->password);
 	pTraderApi->ReqUserLogin(&userLoginField,getNextRequestID());
 
 	// 等待登录成功返回信息

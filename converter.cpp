@@ -34,9 +34,9 @@ int main() {
     zmq::socket_t publish  (context, ZMQ_PUB);
 
     // 连接对应通讯管道
-    listener.bind(config.RequestPipe);
-    pushback.connect(config.PushbackPipe);
-    publish.bind(config.PublishPipe);
+    listener.bind(config.requestPipe);
+    pushback.connect(config.pushbackPipe);
+    publish.bind(config.publishPipe);
 
     // 定义消息变量
     RequestMessage requestMessage;

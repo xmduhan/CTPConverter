@@ -43,18 +43,17 @@ CApiWrapper 自动编写部分（ok）
 1、测试框架(ok)
 
 
-1、完成api调用的测试的完整用例
+1、完成api调用的测试的完整用例(ok)
 （1）接受消息的时候需要保存测试用例
-
-
 2、atom文件过滤的问题（ok）
 
+1、测试用例的完善
+(1)环境变量的重新命名,并完善到测试用例中
+(2)请求和返回的变量名冲突问题
 3、编写生成python测试用例拷贝原型的脚本
 
-4、环境变量的重新命名,并完善到测试用例中
 
-
-
+1、测试行情查询请求的性能是否符合要求。
 
 1、需要设计出错信息
 1、如何添加测试框架问题
@@ -196,7 +195,7 @@ structDict['CThostFtdcRspInfoField']
 ErrorID
 ErrorMsg
 
-#%% 寻找ctp定义变量中最长的类型 
+#%% 寻找ctp定义变量中最长的类型
 maxLen = 0
 for i in typedefDict.itervalues():
     l = int(i.get('len',0) or '0')

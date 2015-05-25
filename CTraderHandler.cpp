@@ -15,7 +15,7 @@ CTraderHandler::CTraderHandler(Configure * pConfigure) {
     // 创建zmq通讯环境
     pContext = new zmq::context_t(1);
     pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
-    pSender->bind(pConfigure->PushbackPipe);
+    pSender->bind(pConfigure->pushbackPipe);
 
     std::cout << "CTraderHandler():执行结束..." << std::endl;
 }

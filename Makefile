@@ -1,8 +1,10 @@
 IDIR =include
 LIBS =lib/*.so
 CC=g++
+LD=g++
 CFLAGS=-I$(IDIR) -g -std=gnu++11
 LFLAGS= $(LIBS) -lzmq
+
 
 all : generate compile
 
@@ -35,7 +37,7 @@ CTraderHandler.h : template/CTraderHandler.h.tpl
 
 
 compile : CApiWrapper.o comhelper.o Configure.o converter.o CTraderHandler.o jsoncpp.o Message.o
-	$(CC) *.o $(LFLAGS) -o converter
+	$(LD) *.o $(LFLAGS) -o converter
 
 
 CApiWrapper.o : CApiWrapper.cpp include/*.h
