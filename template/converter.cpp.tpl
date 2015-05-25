@@ -4,6 +4,9 @@
 #include <comhelper.h>
 #include <Message.h>
 
+#include <chrono>
+#include <iostream>
+
 // 配置信息
 static Configure config;
 
@@ -19,6 +22,7 @@ struct RouteTableItem{
 static std::map<int,RouteTableItem *> routeTable;
 static std::map<int,RouteTableItem *> ::iterator iterRouteTable;
 
+static std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
 
 int main(){
 
@@ -66,6 +70,10 @@ int main(){
         zmq::poll (pullItems, 2, timeout);
 
         if ( pullItems[0].revents & ZMQ_POLLIN){
+            // 记时开始
+
+            startTime = std::chrono::system_clock::now();
+
             do {
                 std::cout << "main():接收到客户端的请求" << std::endl;
                 try{
@@ -129,6 +137,7 @@ int main(){
                         break;
                     }
 
+
             }while(false);
         }
 
@@ -168,6 +177,10 @@ int main(){
                     break;
                 }
                 // TODO 将服务端返回结果发送给客户端
+                // 记时结束
+                endTime = std::chrono::system_clock::now();
+                std::chrono::duration<double> elapsed_seconds = endTime-startTime;
+                std::cout << "响应请求共耗费:" << elapsed_seconds.count() << "秒" << std::endl;
             }while(false);
         }
         // 计算时间

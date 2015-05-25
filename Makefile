@@ -68,6 +68,6 @@ Message.o : Message.cpp include/*.h
 	$(CC) -c Message.cpp $(CFLAGS)
 
 
-clean:
-	touch template/*
+clean :
+	touch template/* include/* 
 	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk converter

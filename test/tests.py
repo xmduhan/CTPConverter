@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import zmq
 import json
+from datetime import datetime
 
 
 def getDefaultReqInfo(apiName):
@@ -22,6 +23,7 @@ def test_ReqQryTradingAccount_0():
 	测试ReqQryTradingAccount xxx
 	其他的一些说明
 	'''
+
 	address = 'tcp://localhost:10001'
 
 	# 准备调用接口数据
@@ -37,12 +39,11 @@ def test_ReqQryTradingAccount_0():
 	socket.connect(address)
 	socket.setsockopt(zmq.LINGER,0)
 
+	startTime = datetime.now()
 	# 向协议转换器发出请求
 	socket.send_multipart(
 		[reqHeader,reqApiName,json.dumps(reqReqInfo),json.dumps(reqMetaData)]
 	)
-
-
 	################### 等待服务器的REQUESTID响应 ###################
 	poller = zmq.Poller()
 	poller.register(socket, zmq.POLLIN)
@@ -74,6 +75,9 @@ def test_ReqQryTradingAccount_0():
 	print "respRespInfo=",respRespInfo
 	print "respMetaData=",respMetaData
 
+	endTime = datetime.now()
+	timeDelta = endTime - startTime
+	print timeDelta.total_seconds()
 
 
 
