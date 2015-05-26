@@ -84,19 +84,21 @@ def test_ReqQryTradingAccount_0():
 	# 从request通讯管道读取返回信息
 	responseData = {}
 	responseData['header'],responseData['requestID'],responseData['responseApiName'],\
-	responseData['respInfo'],responseData['metaData'] = socket.recv_multipart()
+	responseData['respInfo'],responseData['isLast'],responseData['metaData'] \
+	= socket.recv_multipart()
 
 	# TODO 检查调用是否成功
 	assert responseData['header'] == 'RESPONSE'
 	assert responseData['requestID'] == requestIdData['requestID']
 	assert responseData['responseApiName'] == responseApiName
+	#assert int(responseData['isLast']) == 1
 	assert responseData['metaData'] == json.dumps(metaData)
 
-	print "respHeader=",responseData['header']
-	print "respRequestID=",responseData['requestID']
-	print "respApiName=",responseData['responseApiName']
-	#print "respRespInfo=",responseData['respInfo']
-	print "respMetaData=",responseData['metaData']
+	#print "respHeader=",responseData['header']
+	#print "respRequestID=",responseData['requestID']
+	#print "respApiName=",responseData['responseApiName']
+	print "respRespInfo=",responseData['respInfo']
+	#print "respMetaData=",responseData['metaData']
 	# TODO 显示关键信息
 
 	endTime = datetime.now()

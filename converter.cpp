@@ -160,6 +160,7 @@ int main() {
                             responseMessage.requestID = pushbackMessage.requestID;
                             responseMessage.apiName = pushbackMessage.apiName;
                             responseMessage.respInfo = pushbackMessage.respInfo;
+                            responseMessage.isLast = pushbackMessage.isLast;
                             responseMessage.metaData = pRouteTableItem->metaData;
                             responseMessage.send(listener);
                             //std::cout << "main():pushbackMessage.respInfo=" << pushbackMessage.respInfo<< std::endl;

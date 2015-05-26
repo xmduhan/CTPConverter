@@ -118,6 +118,7 @@ static char buffer[1024*10];
 	message.requestID = buffer;
 	message.apiName = "{{method['name']}}";
 	message.respInfo = json_Response.toStyledString();
+	message.isLast = bIsLast ? "1" : "0";
 	message.send(sender);
 
 	std::cout << "{{method['name']}}():执行结束..." << std::endl;
