@@ -109,7 +109,7 @@ void RequestIDMessage::send(zmq::socket_t & socket){
 // TODO 这里没有考虑第1帧是客户端地址
 /// ResponseMessage的接收函数
 void ResponseMessage::recv(zmq::socket_t & socket){
-    int n=6,i = 0;
+    int n=7,i = 0;
     do {
         switch(i){
             case 0: routeKey = s_recv(socket); break;
@@ -117,7 +117,8 @@ void ResponseMessage::recv(zmq::socket_t & socket){
             case 2: requestID = s_recv(socket); break;
             case 3: apiName = s_recv(socket); break;
             case 4: respInfo = s_recv(socket); break;
-            case 5: metaData = s_recv(socket); break;
+            case 5: isLast = s_recv(socket); break;
+            case 6: metaData = s_recv(socket); break;
             default: s_recv(socket); break;
         };
         i++;
@@ -153,6 +154,7 @@ void ResponseMessage::send(zmq::socket_t & socket){
     s_sendmore(socket,requestID);
     s_sendmore(socket,apiName);
     s_sendmore(socket,respInfo);
+    s_sendmore(socket,isLast);
     s_send(socket,metaData);
 }
 
@@ -206,12 +208,13 @@ void PublishMessage::send(zmq::socket_t & socket){
 
 /// PushbackMessage的接收函数
 void PushbackMessage::recv(zmq::socket_t & socket){
-    int n=3,i = 0;
+    int n=4,i = 0;
     do {
         switch(i){
             case 0: requestID = s_recv(socket); break;
             case 1: apiName = s_recv(socket); break;
             case 2: respInfo = s_recv(socket); break;
+            case 3: isLast = s_recv(socket); break;
             default: s_recv(socket); break;
         };
         i++;
@@ -230,5 +233,6 @@ void PushbackMessage::send(zmq::socket_t & socket){
     // 按RequestID消息格式发送消息
     s_sendmore(socket,requestID);
     s_sendmore(socket,apiName);
-    s_send(socket,respInfo);
+    s_sendmore(socket,respInfo);
+    s_send(socket,isLast);
 }

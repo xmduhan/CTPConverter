@@ -230,6 +230,7 @@ void CTraderHandler::OnRspQryInstrument(
     message.requestID = buffer;
     message.apiName = "OnRspQryInstrument";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryInstrument():执行结束..." << std::endl;
@@ -331,6 +332,7 @@ void CTraderHandler::OnRspQrySettlementInfo(
     message.requestID = buffer;
     message.apiName = "OnRspQrySettlementInfo";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQrySettlementInfo():执行结束..." << std::endl;
@@ -541,6 +543,7 @@ void CTraderHandler::OnRspParkedOrderInsert(
     message.requestID = buffer;
     message.apiName = "OnRspParkedOrderInsert";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspParkedOrderInsert():执行结束..." << std::endl;
@@ -623,6 +626,7 @@ void CTraderHandler::OnRspQryExchange(
     message.requestID = buffer;
     message.apiName = "OnRspQryExchange";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryExchange():执行结束..." << std::endl;
@@ -763,6 +767,7 @@ void CTraderHandler::OnRspOrderAction(
     message.requestID = buffer;
     message.apiName = "OnRspOrderAction";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspOrderAction():执行结束..." << std::endl;
@@ -920,6 +925,7 @@ void CTraderHandler::OnRspQryInvestor(
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestor";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryInvestor():执行结束..." << std::endl;
@@ -1007,6 +1013,7 @@ void CTraderHandler::OnRspRemoveParkedOrder(
     message.requestID = buffer;
     message.apiName = "OnRspRemoveParkedOrder";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspRemoveParkedOrder():执行结束..." << std::endl;
@@ -1171,6 +1178,7 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestorProductGroupMargin";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryInvestorProductGroupMargin():执行结束..." << std::endl;
@@ -1261,6 +1269,7 @@ void CTraderHandler::OnRspQryTransferBank(
     message.requestID = buffer;
     message.apiName = "OnRspQryTransferBank";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryTransferBank():执行结束..." << std::endl;
@@ -1357,6 +1366,7 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
     message.requestID = buffer;
     message.apiName = "OnRspQryBrokerTradingAlgos";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryBrokerTradingAlgos():执行结束..." << std::endl;
@@ -1485,6 +1495,7 @@ void CTraderHandler::OnRspQryProduct(
     message.requestID = buffer;
     message.apiName = "OnRspQryProduct";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryProduct():执行结束..." << std::endl;
@@ -1593,6 +1604,7 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
     message.requestID = buffer;
     message.apiName = "OnRspQryInstrumentMarginRate";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryInstrumentMarginRate():执行结束..." << std::endl;
@@ -1691,6 +1703,7 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
     message.requestID = buffer;
     message.apiName = "OnRspQryCFMMCTradingAccountKey";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryCFMMCTradingAccountKey():执行结束..." << std::endl;
@@ -1848,6 +1861,7 @@ void CTraderHandler::OnRspUserLogin(
     message.requestID = buffer;
     message.apiName = "OnRspUserLogin";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspUserLogin():执行结束..." << std::endl;
@@ -2155,6 +2169,7 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
     message.requestID = buffer;
     message.apiName = "OnRspFromFutureToBankByFuture";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspFromFutureToBankByFuture():执行结束..." << std::endl;
@@ -2234,6 +2249,7 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
     message.requestID = buffer;
     message.apiName = "OnRspQueryCFMMCTradingAccountToken";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQueryCFMMCTradingAccountToken():执行结束..." << std::endl;
@@ -2329,6 +2345,7 @@ void CTraderHandler::OnRspQryContractBank(
     message.requestID = buffer;
     message.apiName = "OnRspQryContractBank";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryContractBank():执行结束..." << std::endl;
@@ -2506,6 +2523,7 @@ void CTraderHandler::OnRspOrderInsert(
     message.requestID = buffer;
     message.apiName = "OnRspOrderInsert";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspOrderInsert():执行结束..." << std::endl;
@@ -2618,6 +2636,7 @@ void CTraderHandler::OnRspQryEWarrantOffset(
     message.requestID = buffer;
     message.apiName = "OnRspQryEWarrantOffset";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryEWarrantOffset():执行结束..." << std::endl;
@@ -2713,6 +2732,7 @@ void CTraderHandler::OnRspUserPasswordUpdate(
     message.requestID = buffer;
     message.apiName = "OnRspUserPasswordUpdate";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspUserPasswordUpdate():执行结束..." << std::endl;
@@ -2831,6 +2851,7 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
     message.requestID = buffer;
     message.apiName = "OnRspQryExchangeMarginRateAdjust";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryExchangeMarginRateAdjust():执行结束..." << std::endl;
@@ -3138,6 +3159,7 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
     message.requestID = buffer;
     message.apiName = "OnRspFromBankToFutureByFuture";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspFromBankToFutureByFuture():执行结束..." << std::endl;
@@ -3306,6 +3328,7 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestorPositionCombineDetail";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryInvestorPositionCombineDetail():执行结束..." << std::endl;
@@ -3480,6 +3503,7 @@ void CTraderHandler::OnRspQryAccountregister(
     message.requestID = buffer;
     message.apiName = "OnRspQryAccountregister";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryAccountregister():执行结束..." << std::endl;
@@ -3583,6 +3607,7 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
     message.requestID = buffer;
     message.apiName = "OnRspQrySecAgentACIDMap";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQrySecAgentACIDMap():执行结束..." << std::endl;
@@ -3684,6 +3709,7 @@ void CTraderHandler::OnRspQryTradingCode(
     message.requestID = buffer;
     message.apiName = "OnRspQryTradingCode";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryTradingCode():执行结束..." << std::endl;
@@ -3779,6 +3805,7 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
     message.requestID = buffer;
     message.apiName = "OnRspQrySettlementInfoConfirm";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQrySettlementInfoConfirm():执行结束..." << std::endl;
@@ -4011,6 +4038,7 @@ void CTraderHandler::OnRspQryTransferSerial(
     message.requestID = buffer;
     message.apiName = "OnRspQryTransferSerial";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryTransferSerial():执行结束..." << std::endl;
@@ -4214,6 +4242,7 @@ void CTraderHandler::OnRspQryInvestorPosition(
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestorPosition";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryInvestorPosition():执行结束..." << std::endl;
@@ -4293,6 +4322,7 @@ void CTraderHandler::OnRspUserLogout(
     message.requestID = buffer;
     message.apiName = "OnRspUserLogout";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspUserLogout():执行结束..." << std::endl;
@@ -4474,6 +4504,7 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
     message.requestID = buffer;
     message.apiName = "OnRspQryInvestorPositionDetail";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryInvestorPositionDetail():执行结束..." << std::endl;
@@ -4561,6 +4592,7 @@ void CTraderHandler::OnRspQryNotice(
     message.requestID = buffer;
     message.apiName = "OnRspQryNotice";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryNotice():执行结束..." << std::endl;
@@ -4657,6 +4689,7 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
     message.requestID = buffer;
     message.apiName = "OnRspQryBrokerTradingParams";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryBrokerTradingParams():执行结束..." << std::endl;
@@ -4751,6 +4784,7 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
     message.requestID = buffer;
     message.apiName = "OnRspQryExchangeMarginRate";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryExchangeMarginRate():执行结束..." << std::endl;
@@ -4961,6 +4995,7 @@ void CTraderHandler::OnRspQryParkedOrder(
     message.requestID = buffer;
     message.apiName = "OnRspQryParkedOrder";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryParkedOrder():执行结束..." << std::endl;
@@ -5242,6 +5277,7 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
     message.requestID = buffer;
     message.apiName = "OnRspQueryBankAccountMoneyByFuture";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQueryBankAccountMoneyByFuture():执行结束..." << std::endl;
@@ -5329,6 +5365,7 @@ void CTraderHandler::OnRspAuthenticate(
     message.requestID = buffer;
     message.apiName = "OnRspAuthenticate";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspAuthenticate():执行结束..." << std::endl;
@@ -5428,6 +5465,7 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
     message.requestID = buffer;
     message.apiName = "OnRspQueryMaxOrderVolume";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQueryMaxOrderVolume():执行结束..." << std::endl;
@@ -5521,6 +5559,7 @@ void CTraderHandler::OnRspQryExchangeRate(
     message.requestID = buffer;
     message.apiName = "OnRspQryExchangeRate";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryExchangeRate():执行结束..." << std::endl;
@@ -5633,6 +5672,7 @@ void CTraderHandler::OnRspQryTradingNotice(
     message.requestID = buffer;
     message.apiName = "OnRspQryTradingNotice";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryTradingNotice():执行结束..." << std::endl;
@@ -5798,6 +5838,7 @@ void CTraderHandler::OnRspParkedOrderAction(
     message.requestID = buffer;
     message.apiName = "OnRspParkedOrderAction";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspParkedOrderAction():执行结束..." << std::endl;
@@ -5963,6 +6004,7 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     message.requestID = buffer;
     message.apiName = "OnRspQryParkedOrderAction";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryParkedOrderAction():执行结束..." << std::endl;
@@ -6184,6 +6226,7 @@ void CTraderHandler::OnRspQryTradingAccount(
     message.requestID = buffer;
     message.apiName = "OnRspQryTradingAccount";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryTradingAccount():执行结束..." << std::endl;
@@ -6287,6 +6330,7 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
     message.requestID = buffer;
     message.apiName = "OnRspTradingAccountPasswordUpdate";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspTradingAccountPasswordUpdate():执行结束..." << std::endl;
@@ -6382,6 +6426,7 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
     message.requestID = buffer;
     message.apiName = "OnRspSettlementInfoConfirm";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspSettlementInfoConfirm():执行结束..." << std::endl;
@@ -6607,6 +6652,7 @@ void CTraderHandler::OnRspQryDepthMarketData(
     message.requestID = buffer;
     message.apiName = "OnRspQryDepthMarketData";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryDepthMarketData():执行结束..." << std::endl;
@@ -6694,6 +6740,7 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
     message.requestID = buffer;
     message.apiName = "OnRspRemoveParkedOrderAction";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspRemoveParkedOrderAction():执行结束..." << std::endl;
@@ -6802,6 +6849,7 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
     message.requestID = buffer;
     message.apiName = "OnRspQryInstrumentCommissionRate";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryInstrumentCommissionRate():执行结束..." << std::endl;
@@ -7181,6 +7229,7 @@ void CTraderHandler::OnRspQryOrder(
     message.requestID = buffer;
     message.apiName = "OnRspQryOrder";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryOrder():执行结束..." << std::endl;
@@ -7424,6 +7473,7 @@ void CTraderHandler::OnRspQryTrade(
     message.requestID = buffer;
     message.apiName = "OnRspQryTrade";
     message.respInfo = json_Response.toStyledString();
+    message.isLast = bIsLast ? "1" : "0";
     message.send(sender);
 
     std::cout << "OnRspQryTrade():执行结束..." << std::endl;

@@ -53,6 +53,7 @@ public:
     std::string requestID;
     std::string apiName;
     std::string respInfo;
+    std::string isLast;
     std::string metaData;
     virtual void recv(zmq::socket_t & socket);
     virtual void send(zmq::socket_t & socket);
@@ -74,6 +75,7 @@ public:
     std::string requestID;
     std::string apiName;
     std::string respInfo;
+    std::string isLast;
     virtual void recv(zmq::socket_t & socket);
     virtual void send(zmq::socket_t & socket);
 };
