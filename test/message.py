@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 
 
-'''
-class InvalidMessageFormat:
-    pass
-'''
+
+class InvalidMessageFormat(Exception):
+    '''
+    消息格式不正确时抛出的异常
+    '''
+
+    def __init__(self):
+        self.value = u'不正确的消息格式'
+
+    def __str__(self):
+        return repr(self.value)
+
 
 class RequestMessage:
     '''
@@ -12,16 +20,18 @@ class RequestMessage:
     '''
     def __init__(self):
         #self.routeKey = ''
-        self.header = ''
+        self.header = 'REQUEST'
         self.apiName = ''
         self.reqInfo = ''
         self.metaData = ''
 
-    def send(socket):
+    def send(self,socket):
         '''
         '''
-        # TODO 判断消息头
-        socket.send_multipart([header,apiName,reqInfo,metaData])
+        if self.header != 'REQUEST':
+            raise InvalidMessageFormat()
+        socket.send_multipart([self.header,self.apiName,self.reqInfo,self.metaData])
+
 
 class RequestIDMessage :
     '''
@@ -35,9 +45,17 @@ class RequestIDMessage :
         self.errorInfo = ''
         self.metaData = ''
 
-    def recv(socket):
-        self.header,self.requestID,self.apiName,self.errorInfo,self.metaData = \
-        socket.recv_multipart()
+    def recv(self,socket):
+        '''
+        从服务器上接受REQUESTID消息,即立即返回消息
+        '''
+        received = socket.recv_multipart()
+        if len(received) != 5 :
+            raise InvalidMessageFormat()
+        self.header,self.requestID,self.apiName,self.errorInfo,self.metaData = received
+        if self.header != 'REQUESTID' :
+            raise InvalidMessageFormat()
+
 
 class ResponseMessage :
     '''
@@ -52,9 +70,16 @@ class ResponseMessage :
         self.isLast = ''
         self.metaData = ''
 
-    def recv(socket):
-        self.header,self.requestID,self.apiName,self.respInfo,self.isLast,self.metaData = \
-        socket.recv_multipart()
+    def recv(self,socket):
+        '''
+        服务器上接受数据消息
+        '''
+        received = socket.recv_multipart()
+        if len(received) != 6 :
+            raise InvalidMessageFormat()
+        self.header,self.requestID,self.apiName,self.respInfo,self.isLast,self.metaData = received
+        if self.header != 'RESPONSE' :
+            raise InvalidMessageFormat()
 
 
 class PublishMessage :
@@ -66,5 +91,11 @@ class PublishMessage :
         self.apiName = ''
         self.respInfo = ''
 
-    def recv(socket):
-        self.header,self.apiName,self.respInfo = socket.recv_multipart()
+    def recv(self,socket):
+        '''
+        接受发布消息
+        '''
+        received = socket.recv_multipart()
+        if len(received) != 6 :
+            raise InvalidMessageFormat()
+        self.header,self.apiName,self.respInfo = received
