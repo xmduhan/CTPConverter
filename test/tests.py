@@ -6,7 +6,6 @@ from datetime import datetime
 from message import *
 
 
-
 def getDefaultReqInfo(apiName):
 	'''
 	获取一个默认的调用结构
