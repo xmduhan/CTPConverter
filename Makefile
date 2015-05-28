@@ -10,7 +10,7 @@ all : generate compile
 
 
 generate: CApiWrapper.cpp include/CApiWrapper.h converter.cpp include/converter.h \
-	CTraderHandler.cpp include/CTraderHandler.h test/channel.py
+	CTraderHandler.cpp include/CTraderHandler.h test/channel.py test/struct.py 
 
 
 CApiWrapper.cpp : template/CApiWrapper.cpp.tpl
@@ -38,6 +38,9 @@ include/CTraderHandler.h : template/CTraderHandler.h.tpl
 
 test/channel.py : template/channel.py.tpl
 	python generate.py channel.py.tpl test
+
+test/struct.py : template/struct.py.tpl
+	python generate.py struct.py.tpl test
 
 
 compile : CApiWrapper.o comhelper.o Configure.o converter.o CTraderHandler.o jsoncpp.o Message.o
@@ -73,5 +76,5 @@ Message.o : Message.cpp include/*.h
 
 
 clean :
-	touch template/* include/*
+	touch template/*
 	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk converter
