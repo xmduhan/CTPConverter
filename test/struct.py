@@ -79,8 +79,8 @@ class CThostFtdcTransferQryDetailRspField:
     
         '''有效标志'''
         self.Flag = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -115,8 +115,8 @@ class CThostFtdcInvestorAccountField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -146,8 +146,8 @@ class CThostFtdcNoticeField:
     
         '''经纪公司通知内容序列号'''
         self.SequenceLabel = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -172,8 +172,8 @@ class CThostFtdcQryCommRateModelField:
     
         '''手续费率模板代码'''
         self.CommModelID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -418,8 +418,8 @@ class CThostFtdcOpenAccountField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -439,8 +439,8 @@ class CThostFtdcBrokerSyncField:
     
         '''经纪公司代码'''
         self.BrokerID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -470,8 +470,8 @@ class CThostFtdcQryInvestorPositionField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -501,8 +501,8 @@ class CThostFtdcMarginModelField:
     
         '''模板名称'''
         self.MarginModelName = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -532,8 +532,8 @@ class CThostFtdcRspAuthenticateField:
     
         '''用户端产品信息'''
         self.UserProductInfo = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -678,8 +678,8 @@ class CThostFtdcInstrumentField:
     
         '''是否使用大额单边保证金算法'''
         self.MaxMarginSideAlgorithm = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -714,8 +714,8 @@ class CThostFtdcTradingAccountReserveField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -745,8 +745,8 @@ class CThostFtdcInvestorGroupField:
     
         '''投资者分组名称'''
         self.InvestorGroupName = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -781,8 +781,8 @@ class CThostFtdcDiscountField:
     
         '''资金折扣比例'''
         self.Discount = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -812,8 +812,8 @@ class CThostFtdcFensUserInfoField:
     
         '''登录模式'''
         self.LoginMode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -858,8 +858,8 @@ class CThostFtdcBrokerUserField:
     
         '''是否使用令牌'''
         self.IsUsingOTP = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -909,8 +909,8 @@ class CThostFtdcQryOrderField:
     
         '''结束时间'''
         self.InsertTimeEnd = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -940,8 +940,8 @@ class CThostFtdcExchangeField:
     
         '''交易所属性'''
         self.ExchangeProperty = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -966,8 +966,8 @@ class CThostFtdcLoginForbiddenUserField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1212,8 +1212,8 @@ class CThostFtdcCancelAccountField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1293,8 +1293,8 @@ class CThostFtdcTransferHeaderField:
     
         '''请求编号，N/A'''
         self.RequestID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1329,8 +1329,8 @@ class CThostFtdcFrontStatusField:
     
         '''是否活跃'''
         self.IsActive = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1545,8 +1545,8 @@ class CThostFtdcInvestorPositionField:
     
         '''保证金率(按手数)'''
         self.MarginRateByVolume = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1571,8 +1571,8 @@ class CThostFtdcQrySyncFundMortgageField:
     
         '''货币质押流水号'''
         self.MortgageSeqNo = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1592,8 +1592,8 @@ class CThostFtdcQryExchangeSequenceField:
     
         '''交易所代码'''
         self.ExchangeID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1618,8 +1618,8 @@ class CThostFtdcQryLinkManField:
     
         '''投资者代码'''
         self.InvestorID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1654,8 +1654,8 @@ class CThostFtdcQryTransferSerialField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1710,8 +1710,8 @@ class CThostFtdcExchangeOrderActionErrorField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1746,8 +1746,8 @@ class CThostFtdcReqAuthenticateField:
     
         '''认证码'''
         self.AuthCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1807,8 +1807,8 @@ class CThostFtdcQryHisOrderField:
     
         '''结算编号'''
         self.SettlementID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1848,8 +1848,8 @@ class CThostFtdcSyncingInstrumentTradingRightField:
     
         '''交易权限'''
         self.TradingRight = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1889,8 +1889,8 @@ class CThostFtdcQryTradingCodeField:
     
         '''交易编码类型'''
         self.ClientIDType = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -1970,8 +1970,8 @@ class CThostFtdcRspUserLoginField:
     
         '''能源中心时间'''
         self.INETime = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2001,8 +2001,8 @@ class CThostFtdcCommPhaseField:
     
         '''系统编号'''
         self.SystemID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2117,8 +2117,8 @@ class CThostFtdcLoginInfoField:
     
         '''能源中心时间'''
         self.INETime = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2153,8 +2153,8 @@ class CThostFtdcQrySecAgentACIDMapField:
     
         '''币种'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2184,8 +2184,8 @@ class CThostFtdcQryInvestorPositionDetailField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2330,8 +2330,8 @@ class CThostFtdcInvestorPositionDetailField:
     
         '''平仓金额'''
         self.CloseAmount = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2556,8 +2556,8 @@ class CThostFtdcExchangeOrderField:
     
         '''序号'''
         self.SequenceNo = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2762,8 +2762,8 @@ class CThostFtdcRspQueryAccountField:
     
         '''银行可取金额'''
         self.BankFetchAmount = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2788,8 +2788,8 @@ class CThostFtdcQrySettlementInfoConfirmField:
     
         '''投资者代码'''
         self.InvestorID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2939,8 +2939,8 @@ class CThostFtdcInvestorProductGroupMarginField:
     
         '''投机套保标志'''
         self.HedgeFlag = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2965,8 +2965,8 @@ class CThostFtdcQryTradingNoticeField:
     
         '''投资者代码'''
         self.InvestorID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -2991,8 +2991,8 @@ class CThostFtdcQryErrOrderField:
     
         '''投资者代码'''
         self.InvestorID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3032,8 +3032,8 @@ class CThostFtdcManualSyncBrokerUserOTPField:
     
         '''第二个动态密码'''
         self.SecondOTP = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3268,8 +3268,8 @@ class CThostFtdcDepthMarketDataField:
     
         '''业务日期'''
         self.ActionDay = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3379,8 +3379,8 @@ class CThostFtdcTraderOfferField:
     
         '''本席位最大报单备拷'''
         self.MaxOrderMessageReference = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3430,8 +3430,8 @@ class CThostFtdcCFMMCBrokerKeyField:
     
         '''动态密钥类型'''
         self.KeyKind = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3451,8 +3451,8 @@ class CThostFtdcQryDepthMarketDataField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3472,8 +3472,8 @@ class CThostFtdcTransferQryDetailReqField:
     
         '''期货资金账户'''
         self.FutureAccount = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3533,8 +3533,8 @@ class CThostFtdcBrokerWithdrawAlgorithmField:
     
         '''货币质押比率'''
         self.FundMortgageRatio = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3554,8 +3554,8 @@ class CThostFtdcMarketDataExchangeField:
     
         '''交易所代码'''
         self.ExchangeID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3605,8 +3605,8 @@ class CThostFtdcExchangeOrderInsertErrorField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3801,8 +3801,8 @@ class CThostFtdcReqQueryAccountField:
     
         '''交易ID'''
         self.TID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -3822,8 +3822,8 @@ class CThostFtdcQrySuperUserFunctionField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4098,8 +4098,8 @@ class CThostFtdcRspRepealField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4149,8 +4149,8 @@ class CThostFtdcQryTradeField:
     
         '''结束时间'''
         self.TradeTimeEnd = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4195,8 +4195,8 @@ class CThostFtdcTradingNoticeInfoField:
     
         '''序列号'''
         self.SequenceNo = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4336,8 +4336,8 @@ class CThostFtdcErrOrderField:
     
         '''互换单标志'''
         self.IsSwapOrder = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4372,8 +4372,8 @@ class CThostFtdcContractBankField:
     
         '''银行名称'''
         self.BankName = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4408,8 +4408,8 @@ class CThostFtdcQryParkedOrderActionField:
     
         '''交易所代码'''
         self.ExchangeID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4499,8 +4499,8 @@ class CThostFtdcProductField:
     
         '''质押资金可用范围'''
         self.MortgageFundUseRange = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4520,8 +4520,8 @@ class CThostFtdcQryCFMMCBrokerKeyField:
     
         '''经纪公司代码'''
         self.BrokerID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4566,8 +4566,8 @@ class CThostFtdcBrokerTradingAlgosField:
     
         '''资金处理算法编号'''
         self.HandleTradingAccountAlgoID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4602,8 +4602,8 @@ class CThostFtdcTransferQryBankReqField:
     
         '''币种：RMB-人民币 USD-美圆 HKD-港元'''
         self.CurrencyCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4818,8 +4818,8 @@ class CThostFtdcReqChangeAccountField:
     
         '''摘要'''
         self.Digest = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4849,8 +4849,8 @@ class CThostFtdcMulticastGroupInfoField:
     
         '''源地址'''
         self.SourceIP = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4890,8 +4890,8 @@ class CThostFtdcAuthenticationInfoField:
     
         '''是否为认证结果'''
         self.IsResult = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -4936,8 +4936,8 @@ class CThostFtdcTransferFutureToBankReqField:
     
         '''币种：RMB-人民币 USD-美圆 HKD-港元'''
         self.CurrencyCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5172,8 +5172,8 @@ class CThostFtdcReqCancelAccountField:
     
         '''用户标识'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5208,8 +5208,8 @@ class CThostFtdcMarketDataLastMatchField:
     
         '''持仓量'''
         self.OpenInterest = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5234,8 +5234,8 @@ class CThostFtdcSuperUserFunctionField:
     
         '''功能代码'''
         self.FunctionCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5345,8 +5345,8 @@ class CThostFtdcParkedOrderActionField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5416,8 +5416,8 @@ class CThostFtdcUserSessionField:
     
         '''Mac地址'''
         self.MacAddress = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5472,8 +5472,8 @@ class CThostFtdcQueryMaxOrderVolumeWithPriceField:
     
         '''报单价格'''
         self.Price = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5518,8 +5518,8 @@ class CThostFtdcTransferBankToFutureReqField:
     
         '''币种：RMB-人民币 USD-美圆 HKD-港元'''
         self.CurrencyCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5574,8 +5574,8 @@ class CThostFtdcInstrumentStatusField:
     
         '''进入本状态原因'''
         self.EnterReason = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5615,8 +5615,8 @@ class CThostFtdcSecAgentACIDMapField:
     
         '''境外中介机构资金帐号'''
         self.BrokerSecAgentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5646,8 +5646,8 @@ class CThostFtdcQryContractBankField:
     
         '''银行分中心代码'''
         self.BankBrchID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5787,8 +5787,8 @@ class CThostFtdcNotifyFutureSignInField:
     
         '''MAC密钥'''
         self.MacKey = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5833,8 +5833,8 @@ class CThostFtdcSyncingTradingCodeField:
     
         '''交易编码类型'''
         self.ClientIDType = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5869,8 +5869,8 @@ class CThostFtdcQryEWarrantOffsetField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5900,8 +5900,8 @@ class CThostFtdcQryBrokerTradingParamsField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -5926,8 +5926,8 @@ class CThostFtdcQryLoginForbiddenUserField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6172,8 +6172,8 @@ class CThostFtdcSyncingTradingAccountField:
     
         '''特殊产品交易所保证金'''
         self.SpecProductExchangeMargin = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6213,8 +6213,8 @@ class CThostFtdcQryExchangeOrderField:
     
         '''交易所交易员代码'''
         self.TraderID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6439,8 +6439,8 @@ class CThostFtdcChangeAccountField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6490,8 +6490,8 @@ class CThostFtdcDepositResultInformField:
     
         '''返回码描述'''
         self.DescrInfoForReturnCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6521,8 +6521,8 @@ class CThostFtdcQryBrokerTradingAlgosField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6752,8 +6752,8 @@ class CThostFtdcReqTransferField:
     
         '''转账交易状态'''
         self.TransferStatus = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6803,8 +6803,8 @@ class CThostFtdcVerifyFuturePasswordAndCustInfoField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6834,8 +6834,8 @@ class CThostFtdcQryExchangeMarginRateAdjustField:
     
         '''投机套保标志'''
         self.HedgeFlag = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6865,8 +6865,8 @@ class CThostFtdcLogoutAllField:
     
         '''系统名称'''
         self.SystemName = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6921,8 +6921,8 @@ class CThostFtdcMarketDataStaticField:
     
         '''今虚实度'''
         self.CurrDelta = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -6962,8 +6962,8 @@ class CThostFtdcCFMMCTradingAccountTokenField:
     
         '''动态令牌'''
         self.Token = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7008,8 +7008,8 @@ class CThostFtdcTradingCodeField:
     
         '''交易编码类型'''
         self.ClientIDType = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7034,8 +7034,8 @@ class CThostFtdcRspInfoField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7055,8 +7055,8 @@ class CThostFtdcQrySuperUserField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7091,8 +7091,8 @@ class CThostFtdcQryInstrumentMarginRateField:
     
         '''投机套保标志'''
         self.HedgeFlag = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7112,8 +7112,8 @@ class CThostFtdcQryInvestorGroupField:
     
         '''经纪公司代码'''
         self.BrokerID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7378,8 +7378,8 @@ class CThostFtdcReqRepealField:
     
         '''转账交易状态'''
         self.TransferStatus = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7414,8 +7414,8 @@ class CThostFtdcTradingAccountPasswordUpdateV1Field:
     
         '''新的口令'''
         self.NewPassword = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7540,8 +7540,8 @@ class CThostFtdcExchangeTradeField:
     
         '''成交来源'''
         self.TradeSource = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7576,8 +7576,8 @@ class CThostFtdcQryUserSessionField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7632,8 +7632,8 @@ class CThostFtdcTradingNoticeField:
     
         '''消息正文'''
         self.FieldContent = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7748,8 +7748,8 @@ class CThostFtdcReqSyncKeyField:
     
         '''交易ID'''
         self.TID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7774,8 +7774,8 @@ class CThostFtdcQryBrokerUserField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7795,8 +7795,8 @@ class CThostFtdcCurrTransferIdentityField:
     
         '''交易中心代码'''
         self.IdentityID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7826,8 +7826,8 @@ class CThostFtdcQryExchangeMarginRateField:
     
         '''投机套保标志'''
         self.HedgeFlag = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -7892,8 +7892,8 @@ class CThostFtdcSyncingInstrumentCommissionRateField:
     
         '''平今手续费'''
         self.CloseTodayRatioByVolume = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8138,8 +8138,8 @@ class CThostFtdcTradingAccountField:
     
         '''特殊产品交易所保证金'''
         self.SpecProductExchangeMargin = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8204,8 +8204,8 @@ class CThostFtdcSyncingInstrumentMarginRateField:
     
         '''是否相对交易所收取'''
         self.IsRelative = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8230,8 +8230,8 @@ class CThostFtdcForceUserLogoutField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8356,8 +8356,8 @@ class CThostFtdcNotifySyncKeyField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8392,8 +8392,8 @@ class CThostFtdcMarketDataBid45Field:
     
         '''申买量五'''
         self.BidVolume5 = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8423,8 +8423,8 @@ class CThostFtdcQryExchangeRateField:
     
         '''目标币种'''
         self.ToCurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8499,8 +8499,8 @@ class CThostFtdcLinkManField:
     
         '''全称'''
         self.PersonFullName = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8530,8 +8530,8 @@ class CThostFtdcCommRateModelField:
     
         '''模板名称'''
         self.CommModelName = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8551,8 +8551,8 @@ class CThostFtdcQryExchangeField:
     
         '''交易所代码'''
         self.ExchangeID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8602,8 +8602,8 @@ class CThostFtdcQueryMaxOrderVolumeField:
     
         '''最大允许报单数量'''
         self.MaxVolume = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8638,8 +8638,8 @@ class CThostFtdcMarketDataUpdateTimeField:
     
         '''业务日期'''
         self.ActionDay = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8684,8 +8684,8 @@ class CThostFtdcCombinationLegField:
     
         '''派生层数'''
         self.ImplyLevel = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8715,8 +8715,8 @@ class CThostFtdcExchangeSequenceField:
     
         '''合约交易状态'''
         self.MarketStatus = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8761,8 +8761,8 @@ class CThostFtdcSettlementInfoField:
     
         '''消息正文'''
         self.Content = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8872,8 +8872,8 @@ class CThostFtdcMDTraderOfferField:
     
         '''本席位最大报单备拷'''
         self.MaxOrderMessageReference = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8898,8 +8898,8 @@ class CThostFtdcQryInstrumentStatusField:
     
         '''合约在交易所的代码'''
         self.ExchangeInstID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8934,8 +8934,8 @@ class CThostFtdcMarketDataAsk23Field:
     
         '''申卖量三'''
         self.AskVolume3 = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8965,8 +8965,8 @@ class CThostFtdcQryOrderActionField:
     
         '''交易所代码'''
         self.ExchangeID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -8996,8 +8996,8 @@ class CThostFtdcUserRightsAssignField:
     
         '''交易中心代码'''
         self.DRIdentityID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9030,8 +9030,8 @@ class CThostFtdcDisseminationField:
     
         '''序列号'''
         self.SequenceNo = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9056,8 +9056,8 @@ class CThostFtdcUserLogoutField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9092,8 +9092,8 @@ class CThostFtdcCurrentTimeField:
     
         '''业务日期'''
         self.ActionDay = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9243,8 +9243,8 @@ class CThostFtdcErrOrderActionField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9274,8 +9274,8 @@ class CThostFtdcQryTraderOfferField:
     
         '''交易所交易员代码'''
         self.TraderID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9310,8 +9310,8 @@ class CThostFtdcMarketDataBid23Field:
     
         '''申买量三'''
         self.BidVolume3 = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9336,8 +9336,8 @@ class CThostFtdcQryMarginModelField:
     
         '''保证金率模板代码'''
         self.MarginModelID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9377,8 +9377,8 @@ class CThostFtdcMarketDataBaseField:
     
         '''昨虚实度'''
         self.PreDelta = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9543,8 +9543,8 @@ class CThostFtdcTradeField:
     
         '''成交来源'''
         self.TradeSource = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9579,8 +9579,8 @@ class CThostFtdcQryParkedOrderField:
     
         '''交易所代码'''
         self.ExchangeID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9610,8 +9610,8 @@ class CThostFtdcQryBrokerUserEventField:
     
         '''用户事件类型'''
         self.UserEventType = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9641,8 +9641,8 @@ class CThostFtdcQryInstrumentCommissionRateField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9667,8 +9667,8 @@ class CThostFtdcReturnResultField:
     
         '''返回码描述'''
         self.DescrInfoForReturnCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9698,8 +9698,8 @@ class CThostFtdcRemoveParkedOrderActionField:
     
         '''预埋撤单编号'''
         self.ParkedOrderActionID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9729,8 +9729,8 @@ class CThostFtdcQryTraderField:
     
         '''交易所交易员代码'''
         self.TraderID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9770,8 +9770,8 @@ class CThostFtdcCFMMCTradingAccountKeyField:
     
         '''动态密钥'''
         self.CurrentKey = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9811,8 +9811,8 @@ class CThostFtdcExchangeRateField:
     
         '''汇率'''
         self.ExchangeRate = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9837,8 +9837,8 @@ class CThostFtdcQrySyncDepositField:
     
         '''出入金流水号'''
         self.DepositSeqNo = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9903,8 +9903,8 @@ class CThostFtdcReqUserLoginField:
     
         '''终端IP地址'''
         self.ClientIPAddress = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9944,8 +9944,8 @@ class CThostFtdcInstrumentTradingRightField:
     
         '''交易权限'''
         self.TradingRight = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -9980,8 +9980,8 @@ class CThostFtdcVerifyCustInfoField:
     
         '''客户类型'''
         self.CustType = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10066,8 +10066,8 @@ class CThostFtdcInputOrderActionField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10182,8 +10182,8 @@ class CThostFtdcInvestorPositionCombineDetailField:
     
         '''成交组号'''
         self.TradeGroupID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10208,8 +10208,8 @@ class CThostFtdcQryBrokerUserFunctionField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10369,8 +10369,8 @@ class CThostFtdcParkedOrderField:
     
         '''互换单标志'''
         self.IsSwapOrder = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10400,8 +10400,8 @@ class CThostFtdcBrokerUserRightAssignField:
     
         '''能否交易'''
         self.Tradeable = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10541,8 +10541,8 @@ class CThostFtdcOrderActionField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10577,8 +10577,8 @@ class CThostFtdcPartBrokerField:
     
         '''是否活跃'''
         self.IsActive = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10813,8 +10813,8 @@ class CThostFtdcReqOpenAccountField:
     
         '''用户标识'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10849,8 +10849,8 @@ class CThostFtdcQryInvestorProductGroupMarginField:
     
         '''投机套保标志'''
         self.HedgeFlag = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10880,8 +10880,8 @@ class CThostFtdcVerifyInvestorPasswordField:
     
         '''密码'''
         self.Password = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10906,8 +10906,8 @@ class CThostFtdcQueryBrokerDepositField:
     
         '''交易所代码'''
         self.ExchangeID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10942,8 +10942,8 @@ class CThostFtdcSuperUserField:
     
         '''是否活跃'''
         self.IsActive = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -10963,8 +10963,8 @@ class CThostFtdcQryProductField:
     
         '''产品代码'''
         self.ProductID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11044,8 +11044,8 @@ class CThostFtdcInvestorField:
     
         '''保证金率模板代码'''
         self.MarginModelID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11070,8 +11070,8 @@ class CThostFtdcSyncStatusField:
     
         '''数据同步状态'''
         self.DataSyncStatus = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11116,8 +11116,8 @@ class CThostFtdcInvestorWithdrawAlgorithmField:
     
         '''货币质押比率'''
         self.FundMortgageRatio = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11167,8 +11167,8 @@ class CThostFtdcTransferQryBankRspField:
     
         '''币种'''
         self.CurrencyCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11268,8 +11268,8 @@ class CThostFtdcAccountregisterField:
     
         '''银行帐号类型'''
         self.BankAccType = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11349,8 +11349,8 @@ class CThostFtdcBrokerDepositField:
     
         '''冻结的保证金'''
         self.FrozenMargin = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11660,8 +11660,8 @@ class CThostFtdcErrorConditionalOrderField:
     
         '''互换单标志'''
         self.IsSwapOrder = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11696,8 +11696,8 @@ class CThostFtdcDRTransferField:
     
         '''目标易用单元代码'''
         self.DestBrokerID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11742,8 +11742,8 @@ class CThostFtdcSyncFundMortgageField:
     
         '''目标币种'''
         self.ToCurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11788,8 +11788,8 @@ class CThostFtdcBrokerTradingParamsField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11819,8 +11819,8 @@ class CThostFtdcRemoveParkedOrderField:
     
         '''预埋报单编号'''
         self.ParkedOrderID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -11850,8 +11850,8 @@ class CThostFtdcBrokerUserPasswordField:
     
         '''密码'''
         self.Password = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12151,8 +12151,8 @@ class CThostFtdcOrderField:
     
         '''互换单标志'''
         self.IsSwapOrder = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12172,8 +12172,8 @@ class CThostFtdcQrySyncStatusField:
     
         '''交易日'''
         self.TradingDay = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12198,8 +12198,8 @@ class CThostFtdcQryErrOrderActionField:
     
         '''投资者代码'''
         self.InvestorID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12254,8 +12254,8 @@ class CThostFtdcBrokerUserOTPParamField:
     
         '''动态令牌类型'''
         self.OTPType = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12320,8 +12320,8 @@ class CThostFtdcInstrumentMarginRateAdjustField:
     
         '''是否相对交易所收取'''
         self.IsRelative = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12346,8 +12346,8 @@ class CThostFtdcQryInvestorField:
     
         '''投资者代码'''
         self.InvestorID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12367,8 +12367,8 @@ class CThostFtdcSpecificInstrumentField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12403,8 +12403,8 @@ class CThostFtdcMarketDataAsk45Field:
     
         '''申卖量五'''
         self.AskVolume5 = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12444,8 +12444,8 @@ class CThostFtdcTradingAccountPasswordUpdateField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12590,8 +12590,8 @@ class CThostFtdcRspQueryTradeResultBySerialField:
     
         '''摘要'''
         self.Digest = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12656,8 +12656,8 @@ class CThostFtdcInstrumentCommissionRateField:
     
         '''平今手续费'''
         self.CloseTodayRatioByVolume = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12682,8 +12682,8 @@ class CThostFtdcQueryCFMMCTradingAccountTokenField:
     
         '''投资者代码'''
         self.InvestorID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12713,8 +12713,8 @@ class CThostFtdcQryInvestorPositionCombineDetailField:
     
         '''组合持仓合约编码'''
         self.CombInstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12739,8 +12739,8 @@ class CThostFtdcQryTransferBankField:
     
         '''银行分中心代码'''
         self.BankBrchID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12895,8 +12895,8 @@ class CThostFtdcTransferSerialField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -12986,8 +12986,8 @@ class CThostFtdcExchangeMarginRateAdjustField:
     
         '''不跟随交易所投资者空头保证金费'''
         self.NoShortMarginRatioByVolume = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13007,8 +13007,8 @@ class CThostFtdcQryFrontStatusField:
     
         '''前置编号'''
         self.FrontID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13028,8 +13028,8 @@ class CThostFtdcQryNoticeField:
     
         '''经纪公司代码'''
         self.BrokerID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13059,8 +13059,8 @@ class CThostFtdcSyncingInvestorGroupField:
     
         '''投资者分组名称'''
         self.InvestorGroupName = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13105,8 +13105,8 @@ class CThostFtdcTraderField:
     
         '''经纪公司代码'''
         self.BrokerID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13236,8 +13236,8 @@ class CThostFtdcNotifyFutureSignOutField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13332,8 +13332,8 @@ class CThostFtdcExchangeOrderActionField:
     
         '''用户代码'''
         self.UserID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13413,8 +13413,8 @@ class CThostFtdcSyncingInvestorField:
     
         '''保证金率模板代码'''
         self.MarginModelID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13434,8 +13434,8 @@ class CThostFtdcLoadSettlementInfoField:
     
         '''经纪公司代码'''
         self.BrokerID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13470,8 +13470,8 @@ class CThostFtdcTradingAccountPasswordField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13506,8 +13506,8 @@ class CThostFtdcSettlementInfoConfirmField:
     
         '''确认时间'''
         self.ConfirmTime = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13747,8 +13747,8 @@ class CThostFtdcRspTransferField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13783,8 +13783,8 @@ class CThostFtdcQryExchangeOrderActionField:
     
         '''交易所交易员代码'''
         self.TraderID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13829,8 +13829,8 @@ class CThostFtdcTransferBankToFutureRspField:
     
         '''币种'''
         self.CurrencyCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -13875,8 +13875,8 @@ class CThostFtdcSyncDepositField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14006,8 +14006,8 @@ class CThostFtdcRspFutureSignOutField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14127,8 +14127,8 @@ class CThostFtdcFutureSignIOField:
     
         '''交易ID'''
         self.TID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14163,8 +14163,8 @@ class CThostFtdcBrokerField:
     
         '''是否活跃'''
         self.IsActive = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14194,8 +14194,8 @@ class CThostFtdcQryInstrumentTradingRightField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14235,8 +14235,8 @@ class CThostFtdcQryAccountregisterField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14296,8 +14296,8 @@ class CThostFtdcBrokerUserEventField:
     
         '''合约代码'''
         self.InstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14327,8 +14327,8 @@ class CThostFtdcBrokerUserFunctionField:
     
         '''经纪公司功能代码'''
         self.BrokerFunctionCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14353,8 +14353,8 @@ class CThostFtdcQryCFMMCTradingAccountKeyField:
     
         '''投资者代码'''
         self.InvestorID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14389,8 +14389,8 @@ class CThostFtdcTransferBankField:
     
         '''是否活跃'''
         self.IsActive = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14515,8 +14515,8 @@ class CThostFtdcRspSyncKeyField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14556,8 +14556,8 @@ class CThostFtdcPositionProfitAlgorithmField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14622,8 +14622,8 @@ class CThostFtdcInstrumentMarginRateField:
     
         '''是否相对交易所收取'''
         self.IsRelative = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14643,8 +14643,8 @@ class CThostFtdcMarketDataAveragePriceField:
     
         '''当日均价'''
         self.AveragePrice = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14674,8 +14674,8 @@ class CThostFtdcQryMDTraderOfferField:
     
         '''交易所交易员代码'''
         self.TraderID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14820,8 +14820,8 @@ class CThostFtdcReqQueryTradeResultBySerialField:
     
         '''摘要'''
         self.Digest = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -14856,8 +14856,8 @@ class CThostFtdcUserPasswordUpdateField:
     
         '''新的口令'''
         self.NewPassword = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15072,8 +15072,8 @@ class CThostFtdcNotifyQueryAccountField:
     
         '''错误信息'''
         self.ErrorMsg = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15203,8 +15203,8 @@ class CThostFtdcMarketDataField:
     
         '''业务日期'''
         self.ActionDay = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15259,8 +15259,8 @@ class CThostFtdcEWarrantOffsetField:
     
         '''数量'''
         self.Volume = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15300,8 +15300,8 @@ class CThostFtdcUserIPField:
     
         '''Mac地址'''
         self.MacAddress = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15321,8 +15321,8 @@ class CThostFtdcQryBrokerField:
     
         '''经纪公司代码'''
         self.BrokerID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15352,8 +15352,8 @@ class CThostFtdcQryPartBrokerField:
     
         '''会员代码'''
         self.ParticipantID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15378,8 +15378,8 @@ class CThostFtdcSettlementRefField:
     
         '''结算编号'''
         self.SettlementID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15499,8 +15499,8 @@ class CThostFtdcReqFutureSignOutField:
     
         '''交易ID'''
         self.TID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15545,8 +15545,8 @@ class CThostFtdcTransferFutureToBankRspField:
     
         '''币种'''
         self.CurrencyCode = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15576,8 +15576,8 @@ class CThostFtdcQryCombinationLegField:
     
         '''单腿合约代码'''
         self.LegInstrumentID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15627,8 +15627,8 @@ class CThostFtdcExchangeMarginRateField:
     
         '''空头保证金费'''
         self.ShortMarginRatioByVolume = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15713,8 +15713,8 @@ class CThostFtdcReqDayEndFileReadyField:
     
         '''摘要'''
         self.Digest = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15744,8 +15744,8 @@ class CThostFtdcQryTradingAccountField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15780,8 +15780,8 @@ class CThostFtdcUserRightField:
     
         '''是否禁止'''
         self.IsForbidden = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -15911,8 +15911,8 @@ class CThostFtdcInputOrderField:
     
         '''互换单标志'''
         self.IsSwapOrder = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -16022,8 +16022,8 @@ class CThostFtdcVerifyFuturePasswordField:
     
         '''币种代码'''
         self.CurrencyID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -16238,8 +16238,8 @@ class CThostFtdcSyncingInvestorPositionField:
     
         '''保证金率(按手数)'''
         self.MarginRateByVolume = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -16269,8 +16269,8 @@ class CThostFtdcQrySettlementInfoField:
     
         '''交易日'''
         self.TradingDay = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -16410,8 +16410,8 @@ class CThostFtdcRspFutureSignInField:
     
         '''MAC密钥'''
         self.MacKey = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -16446,8 +16446,8 @@ class CThostFtdcQryInstrumentField:
     
         '''产品代码'''
         self.ProductID = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
@@ -16482,8 +16482,8 @@ class CThostFtdcMarketDataBestPriceField:
     
         '''申卖量一'''
         self.AskVolume1 = None
-        
-        self.__dict__.update(entries)
+    
+        self.__dict__.update(fields)
 
     def toDict(self):
         ''' '''
