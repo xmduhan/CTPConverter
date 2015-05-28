@@ -9,31 +9,35 @@ LFLAGS= $(LIBS) -lzmq
 all : generate compile
 
 
-generate: CApiWrapper.cpp CApiWrapper.h converter.cpp converter.h CTraderHandler.cpp CTraderHandler.h
+generate: CApiWrapper.cpp include/CApiWrapper.h converter.cpp include/converter.h \
+	CTraderHandler.cpp include/CTraderHandler.h test/channel.py
 
 
 CApiWrapper.cpp : template/CApiWrapper.cpp.tpl
 	python generate.py CApiWrapper.cpp.tpl
 
 
-CApiWrapper.h : template/CApiWrapper.h.tpl
-	python generate.py CApiWrapper.h.tpl
+include/CApiWrapper.h : template/CApiWrapper.h.tpl
+	python generate.py CApiWrapper.h.tpl include
 
 
 converter.cpp : template/converter.cpp.tpl
 	python generate.py converter.cpp.tpl
 
 
-converter.h : template/converter.h.tpl
-	python generate.py converter.h.tpl
+include/converter.h : template/converter.h.tpl
+	python generate.py converter.h.tpl include
 
 
 CTraderHandler.cpp : template/CTraderHandler.cpp.tpl
 	python generate.py CTraderHandler.cpp.tpl
 
 
-CTraderHandler.h : template/CTraderHandler.h.tpl
-	python generate.py CTraderHandler.h.tpl
+include/CTraderHandler.h : template/CTraderHandler.h.tpl
+	python generate.py CTraderHandler.h.tpl include
+
+test/channel.py : template/channel.py.tpl
+	python generate.py channel.py.tpl test
 
 
 compile : CApiWrapper.o comhelper.o Configure.o converter.o CTraderHandler.o jsoncpp.o Message.o
@@ -69,5 +73,5 @@ Message.o : Message.cpp include/*.h
 
 
 clean :
-	touch template/* include/* 
+	touch template/* include/*
 	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk converter
