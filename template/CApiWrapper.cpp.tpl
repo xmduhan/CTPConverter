@@ -159,6 +159,10 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 */
 
 
+
+
+
+// 调用成功返回RequestID,失败返回-1
 {% for method in reqMethodDict.itervalues() %}
 	{{ method['remark'] }}
 	int CApiWrapper::{{method['name']}}(std::string jsonString)
@@ -249,7 +253,9 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 			case -3 : lastErrorMessage = "每秒发送请求超过许可数"; break;
 			default : lastErrorMessage = "未知错误";
 		}
-		return result;
+
+		//return result;
+		return -1;
 	}
 
 	// 如果执行成功重置最近错误信息，并将RequestID返回调用程序
