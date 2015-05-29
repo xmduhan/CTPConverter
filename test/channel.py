@@ -18,43 +18,10 @@ def packageReqInfo(apiName,data):
 	parameters['Data'] = data
 	return reqInfo
 
-
-
-class InvalidInputFormat(Exception):
-    '''
-    数据格式不正确
-    '''
-
-    def __init__(self,expect):
-        self.value = u'输入的数据格式错误,要求是:%s' %  expect
-
-    def __str__(self):
-        return repr(self.value)
-
-
-class ResponseTimeOut(Exception):
-    '''
-    请求超时未响应
-    '''
-
-    def __init__(self):
-        self.value = u'请求超时未响应'
-
-    def __str__(self):
-        return repr(self.value)
-
-
-class InvalidMessageFormat(Exception):
-    '''
-    接收到的消息格式不正确
-    '''
-
-    def __init__(self,expect,fact):
-        self.value = u'接收到的消息格式不正确,期待:%s,实际:%s.' %  (expect,fact)
-
-    def __str__(self):
-        return repr(self.value)
-
+# 定义通用的出错返回数据
+InvalidRequestFormat = [-2000,u'参数表单类型不正确',[]]
+ResponseTimeOut = [-2001,u'请求超时收到响应',[]]
+InvalidRequestFormat = [-2002,u'接收到异常消息格式',[]]
 
 
 class CTPChannel :
@@ -76,29 +43,27 @@ class CTPChannel :
     	socket.setsockopt(zmq.LINGER,0)
 
         self.request = socket
-        self.timeout = 1000 * 5
+        self.timeout = 1000 * 1
 
 
 
     
-    def QryTradingAccount(self,data,metaData={}):
+    def QryTradingAccount(self,data):
 		'''
 		请求查询资金账户
-		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingAccountField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingAccountField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTradingAccountField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryTradingAccount'
 		responseApiName = 'OnRspQryTradingAccount'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -114,19 +79,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -136,41 +101,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcTradingAccountField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -181,24 +142,22 @@ class CTPChannel :
 
 
     
-    def QryCFMMCTradingAccountKey(self,data,metaData={}):
+    def QryCFMMCTradingAccountKey(self,data):
 		'''
 		请求查询保证金监管系统经纪公司资金账户密钥
-		data 调用api需要填写参数表单,类型为CThostFtdcQryCFMMCTradingAccountKeyField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryCFMMCTradingAccountKeyField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryCFMMCTradingAccountKeyField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryCFMMCTradingAccountKey'
 		responseApiName = 'OnRspQryCFMMCTradingAccountKey'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -214,19 +173,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -236,41 +195,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcCFMMCTradingAccountKeyField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -281,24 +236,22 @@ class CTPChannel :
 
 
     
-    def UserPasswordUpdate(self,data,metaData={}):
+    def UserPasswordUpdate(self,data):
 		'''
 		用户口令更新请求
-		data 调用api需要填写参数表单,类型为CThostFtdcUserPasswordUpdateField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcUserPasswordUpdateField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcUserPasswordUpdateField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqUserPasswordUpdate'
 		responseApiName = 'OnRspUserPasswordUpdate'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -314,19 +267,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -336,41 +289,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcUserPasswordUpdateField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -381,24 +330,22 @@ class CTPChannel :
 
 
     
-    def QryTradingNotice(self,data,metaData={}):
+    def QryTradingNotice(self,data):
 		'''
 		请求查询交易通知
-		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingNoticeField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingNoticeField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTradingNoticeField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryTradingNotice'
 		responseApiName = 'OnRspQryTradingNotice'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -414,19 +361,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -436,41 +383,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcTradingNoticeField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -481,24 +424,22 @@ class CTPChannel :
 
 
     
-    def QryTrade(self,data,metaData={}):
+    def QryTrade(self,data):
 		'''
 		请求查询成交
-		data 调用api需要填写参数表单,类型为CThostFtdcQryTradeField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryTradeField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTradeField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryTrade'
 		responseApiName = 'OnRspQryTrade'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -514,19 +455,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -536,41 +477,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcTradeField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -581,24 +518,22 @@ class CTPChannel :
 
 
     
-    def QueryMaxOrderVolume(self,data,metaData={}):
+    def QueryMaxOrderVolume(self,data):
 		'''
 		查询最大报单数量请求
-		data 调用api需要填写参数表单,类型为CThostFtdcQueryMaxOrderVolumeField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQueryMaxOrderVolumeField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQueryMaxOrderVolumeField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQueryMaxOrderVolume'
 		responseApiName = 'OnRspQueryMaxOrderVolume'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -614,19 +549,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -636,41 +571,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcQueryMaxOrderVolumeField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -681,24 +612,22 @@ class CTPChannel :
 
 
     
-    def SettlementInfoConfirm(self,data,metaData={}):
+    def SettlementInfoConfirm(self,data):
 		'''
 		投资者结算结果确认
-		data 调用api需要填写参数表单,类型为CThostFtdcSettlementInfoConfirmField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcSettlementInfoConfirmField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcSettlementInfoConfirmField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqSettlementInfoConfirm'
 		responseApiName = 'OnRspSettlementInfoConfirm'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -714,19 +643,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -736,41 +665,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcSettlementInfoConfirmField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -781,24 +706,22 @@ class CTPChannel :
 
 
     
-    def QryInvestorPosition(self,data,metaData={}):
+    def QryInvestorPosition(self,data):
 		'''
 		请求查询投资者持仓
-		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorPositionField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryInvestorPosition'
 		responseApiName = 'OnRspQryInvestorPosition'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -814,19 +737,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -836,41 +759,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInvestorPositionField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -881,24 +800,22 @@ class CTPChannel :
 
 
     
-    def QryBrokerTradingAlgos(self,data,metaData={}):
+    def QryBrokerTradingAlgos(self,data):
 		'''
 		请求查询经纪公司交易算法
-		data 调用api需要填写参数表单,类型为CThostFtdcQryBrokerTradingAlgosField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryBrokerTradingAlgosField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryBrokerTradingAlgosField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryBrokerTradingAlgos'
 		responseApiName = 'OnRspQryBrokerTradingAlgos'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -914,19 +831,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -936,41 +853,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcBrokerTradingAlgosField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -981,24 +894,22 @@ class CTPChannel :
 
 
     
-    def QryOrder(self,data,metaData={}):
+    def QryOrder(self,data):
 		'''
 		请求查询报单
-		data 调用api需要填写参数表单,类型为CThostFtdcQryOrderField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryOrderField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryOrderField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryOrder'
 		responseApiName = 'OnRspQryOrder'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1014,19 +925,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1036,41 +947,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcOrderField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1081,24 +988,22 @@ class CTPChannel :
 
 
     
-    def QryExchange(self,data,metaData={}):
+    def QryExchange(self,data):
 		'''
 		请求查询交易所
-		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryExchangeField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryExchange'
 		responseApiName = 'OnRspQryExchange'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1114,19 +1019,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1136,41 +1041,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcExchangeField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1181,24 +1082,22 @@ class CTPChannel :
 
 
     
-    def UserLogin(self,data,metaData={}):
+    def UserLogin(self,data):
 		'''
 		用户登录请求
-		data 调用api需要填写参数表单,类型为CThostFtdcReqUserLoginField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcReqUserLoginField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqUserLoginField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqUserLogin'
 		responseApiName = 'OnRspUserLogin'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1214,19 +1113,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1236,41 +1135,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcRspUserLoginField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1281,24 +1176,22 @@ class CTPChannel :
 
 
     
-    def FromFutureToBankByFuture(self,data,metaData={}):
+    def FromFutureToBankByFuture(self,data):
 		'''
 		期货发起期货资金转银行请求
-		data 调用api需要填写参数表单,类型为CThostFtdcReqTransferField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcReqTransferField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqTransferField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqFromFutureToBankByFuture'
 		responseApiName = 'OnRspFromFutureToBankByFuture'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1314,19 +1207,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1336,41 +1229,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcReqTransferField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1381,24 +1270,22 @@ class CTPChannel :
 
 
     
-    def QryExchangeRate(self,data,metaData={}):
+    def QryExchangeRate(self,data):
 		'''
 		请求查询汇率
-		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeRateField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeRateField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryExchangeRateField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryExchangeRate'
 		responseApiName = 'OnRspQryExchangeRate'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1414,19 +1301,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1436,41 +1323,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcExchangeRateField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1481,24 +1364,22 @@ class CTPChannel :
 
 
     
-    def QryInvestorPositionDetail(self,data,metaData={}):
+    def QryInvestorPositionDetail(self,data):
 		'''
 		请求查询投资者持仓明细
-		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionDetailField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionDetailField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorPositionDetailField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryInvestorPositionDetail'
 		responseApiName = 'OnRspQryInvestorPositionDetail'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1514,19 +1395,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1536,41 +1417,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInvestorPositionDetailField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1581,24 +1458,22 @@ class CTPChannel :
 
 
     
-    def QrySettlementInfoConfirm(self,data,metaData={}):
+    def QrySettlementInfoConfirm(self,data):
 		'''
 		请求查询结算信息确认
-		data 调用api需要填写参数表单,类型为CThostFtdcQrySettlementInfoConfirmField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQrySettlementInfoConfirmField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQrySettlementInfoConfirmField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQrySettlementInfoConfirm'
 		responseApiName = 'OnRspQrySettlementInfoConfirm'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1614,19 +1489,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1636,41 +1511,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcSettlementInfoConfirmField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1681,24 +1552,22 @@ class CTPChannel :
 
 
     
-    def QryBrokerTradingParams(self,data,metaData={}):
+    def QryBrokerTradingParams(self,data):
 		'''
 		请求查询经纪公司交易参数
-		data 调用api需要填写参数表单,类型为CThostFtdcQryBrokerTradingParamsField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryBrokerTradingParamsField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryBrokerTradingParamsField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryBrokerTradingParams'
 		responseApiName = 'OnRspQryBrokerTradingParams'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1714,19 +1583,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1736,41 +1605,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcBrokerTradingParamsField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1781,24 +1646,22 @@ class CTPChannel :
 
 
     
-    def QueryCFMMCTradingAccountToken(self,data,metaData={}):
+    def QueryCFMMCTradingAccountToken(self,data):
 		'''
 		请求查询监控中心用户令牌
-		data 调用api需要填写参数表单,类型为CThostFtdcQueryCFMMCTradingAccountTokenField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQueryCFMMCTradingAccountTokenField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQueryCFMMCTradingAccountTokenField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQueryCFMMCTradingAccountToken'
 		responseApiName = 'OnRspQueryCFMMCTradingAccountToken'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1814,19 +1677,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1836,41 +1699,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcQueryCFMMCTradingAccountTokenField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1881,24 +1740,22 @@ class CTPChannel :
 
 
     
-    def QryNotice(self,data,metaData={}):
+    def QryNotice(self,data):
 		'''
 		请求查询客户通知
-		data 调用api需要填写参数表单,类型为CThostFtdcQryNoticeField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryNoticeField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryNoticeField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryNotice'
 		responseApiName = 'OnRspQryNotice'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -1914,19 +1771,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -1936,41 +1793,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcNoticeField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -1981,24 +1834,22 @@ class CTPChannel :
 
 
     
-    def FromBankToFutureByFuture(self,data,metaData={}):
+    def FromBankToFutureByFuture(self,data):
 		'''
 		期货发起银行资金转期货请求
-		data 调用api需要填写参数表单,类型为CThostFtdcReqTransferField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcReqTransferField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqTransferField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqFromBankToFutureByFuture'
 		responseApiName = 'OnRspFromBankToFutureByFuture'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2014,19 +1865,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2036,41 +1887,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcReqTransferField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2081,24 +1928,22 @@ class CTPChannel :
 
 
     
-    def ParkedOrderInsert(self,data,metaData={}):
+    def ParkedOrderInsert(self,data):
 		'''
 		预埋单录入请求
-		data 调用api需要填写参数表单,类型为CThostFtdcParkedOrderField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcParkedOrderField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcParkedOrderField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqParkedOrderInsert'
 		responseApiName = 'OnRspParkedOrderInsert'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2114,19 +1959,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2136,41 +1981,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcParkedOrderField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2181,24 +2022,22 @@ class CTPChannel :
 
 
     
-    def QryInvestorPositionCombineDetail(self,data,metaData={}):
+    def QryInvestorPositionCombineDetail(self,data):
 		'''
 		请求查询投资者持仓明细
-		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionCombineDetailField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionCombineDetailField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorPositionCombineDetailField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryInvestorPositionCombineDetail'
 		responseApiName = 'OnRspQryInvestorPositionCombineDetail'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2214,19 +2053,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2236,41 +2075,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInvestorPositionCombineDetailField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2281,24 +2116,22 @@ class CTPChannel :
 
 
     
-    def OrderInsert(self,data,metaData={}):
+    def OrderInsert(self,data):
 		'''
 		报单录入请求
-		data 调用api需要填写参数表单,类型为CThostFtdcInputOrderField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcInputOrderField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcInputOrderField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqOrderInsert'
 		responseApiName = 'OnRspOrderInsert'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2314,19 +2147,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2336,41 +2169,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInputOrderField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2381,24 +2210,22 @@ class CTPChannel :
 
 
     
-    def QrySecAgentACIDMap(self,data,metaData={}):
+    def QrySecAgentACIDMap(self,data):
 		'''
 		请求查询二级代理操作员银期权限
-		data 调用api需要填写参数表单,类型为CThostFtdcQrySecAgentACIDMapField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQrySecAgentACIDMapField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQrySecAgentACIDMapField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQrySecAgentACIDMap'
 		responseApiName = 'OnRspQrySecAgentACIDMap'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2414,19 +2241,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2436,41 +2263,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcSecAgentACIDMapField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2481,24 +2304,22 @@ class CTPChannel :
 
 
     
-    def ParkedOrderAction(self,data,metaData={}):
+    def ParkedOrderAction(self,data):
 		'''
 		预埋撤单录入请求
-		data 调用api需要填写参数表单,类型为CThostFtdcParkedOrderActionField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcParkedOrderActionField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcParkedOrderActionField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqParkedOrderAction'
 		responseApiName = 'OnRspParkedOrderAction'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2514,19 +2335,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2536,41 +2357,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcParkedOrderActionField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2581,24 +2398,22 @@ class CTPChannel :
 
 
     
-    def QueryBankAccountMoneyByFuture(self,data,metaData={}):
+    def QueryBankAccountMoneyByFuture(self,data):
 		'''
 		期货发起查询银行余额请求
-		data 调用api需要填写参数表单,类型为CThostFtdcReqQueryAccountField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcReqQueryAccountField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqQueryAccountField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQueryBankAccountMoneyByFuture'
 		responseApiName = 'OnRspQueryBankAccountMoneyByFuture'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2614,19 +2429,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2636,41 +2451,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcReqQueryAccountField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2681,24 +2492,22 @@ class CTPChannel :
 
 
     
-    def QryParkedOrderAction(self,data,metaData={}):
+    def QryParkedOrderAction(self,data):
 		'''
 		请求查询预埋撤单
-		data 调用api需要填写参数表单,类型为CThostFtdcQryParkedOrderActionField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryParkedOrderActionField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryParkedOrderActionField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryParkedOrderAction'
 		responseApiName = 'OnRspQryParkedOrderAction'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2714,19 +2523,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2736,41 +2545,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcParkedOrderActionField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2781,24 +2586,22 @@ class CTPChannel :
 
 
     
-    def Authenticate(self,data,metaData={}):
+    def Authenticate(self,data):
 		'''
 		客户端认证请求
-		data 调用api需要填写参数表单,类型为CThostFtdcReqAuthenticateField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcReqAuthenticateField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqAuthenticateField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqAuthenticate'
 		responseApiName = 'OnRspAuthenticate'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2814,19 +2617,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2836,41 +2639,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcRspAuthenticateField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2881,24 +2680,22 @@ class CTPChannel :
 
 
     
-    def QryExchangeMarginRate(self,data,metaData={}):
+    def QryExchangeMarginRate(self,data):
 		'''
 		请求查询交易所保证金率
-		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeMarginRateField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeMarginRateField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryExchangeMarginRateField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryExchangeMarginRate'
 		responseApiName = 'OnRspQryExchangeMarginRate'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -2914,19 +2711,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -2936,41 +2733,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcExchangeMarginRateField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -2981,24 +2774,22 @@ class CTPChannel :
 
 
     
-    def TradingAccountPasswordUpdate(self,data,metaData={}):
+    def TradingAccountPasswordUpdate(self,data):
 		'''
 		资金账户口令更新请求
-		data 调用api需要填写参数表单,类型为CThostFtdcTradingAccountPasswordUpdateField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcTradingAccountPasswordUpdateField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcTradingAccountPasswordUpdateField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqTradingAccountPasswordUpdate'
 		responseApiName = 'OnRspTradingAccountPasswordUpdate'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3014,19 +2805,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3036,41 +2827,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcTradingAccountPasswordUpdateField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3081,24 +2868,22 @@ class CTPChannel :
 
 
     
-    def UserLogout(self,data,metaData={}):
+    def UserLogout(self,data):
 		'''
 		登出请求
-		data 调用api需要填写参数表单,类型为CThostFtdcUserLogoutField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcUserLogoutField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcUserLogoutField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqUserLogout'
 		responseApiName = 'OnRspUserLogout'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3114,19 +2899,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3136,41 +2921,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcUserLogoutField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3181,24 +2962,22 @@ class CTPChannel :
 
 
     
-    def QryInstrument(self,data,metaData={}):
+    def QryInstrument(self,data):
 		'''
 		请求查询合约
-		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInstrumentField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryInstrument'
 		responseApiName = 'OnRspQryInstrument'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3214,19 +2993,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3236,41 +3015,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInstrumentField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3281,24 +3056,22 @@ class CTPChannel :
 
 
     
-    def OrderAction(self,data,metaData={}):
+    def OrderAction(self,data):
 		'''
 		报单操作请求
-		data 调用api需要填写参数表单,类型为CThostFtdcInputOrderActionField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcInputOrderActionField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcInputOrderActionField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqOrderAction'
 		responseApiName = 'OnRspOrderAction'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3314,19 +3087,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3336,41 +3109,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInputOrderActionField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3381,24 +3150,22 @@ class CTPChannel :
 
 
     
-    def QryInstrumentCommissionRate(self,data,metaData={}):
+    def QryInstrumentCommissionRate(self,data):
 		'''
 		请求查询合约手续费率
-		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentCommissionRateField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentCommissionRateField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInstrumentCommissionRateField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryInstrumentCommissionRate'
 		responseApiName = 'OnRspQryInstrumentCommissionRate'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3414,19 +3181,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3436,41 +3203,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInstrumentCommissionRateField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3481,24 +3244,22 @@ class CTPChannel :
 
 
     
-    def QryInstrumentMarginRate(self,data,metaData={}):
+    def QryInstrumentMarginRate(self,data):
 		'''
 		请求查询合约保证金率
-		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentMarginRateField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentMarginRateField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInstrumentMarginRateField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryInstrumentMarginRate'
 		responseApiName = 'OnRspQryInstrumentMarginRate'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3514,19 +3275,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3536,41 +3297,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInstrumentMarginRateField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3581,24 +3338,22 @@ class CTPChannel :
 
 
     
-    def QryInvestor(self,data,metaData={}):
+    def QryInvestor(self,data):
 		'''
 		请求查询投资者
-		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryInvestor'
 		responseApiName = 'OnRspQryInvestor'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3614,19 +3369,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3636,41 +3391,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInvestorField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3681,24 +3432,22 @@ class CTPChannel :
 
 
     
-    def QryExchangeMarginRateAdjust(self,data,metaData={}):
+    def QryExchangeMarginRateAdjust(self,data):
 		'''
 		请求查询交易所调整保证金率
-		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeMarginRateAdjustField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeMarginRateAdjustField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryExchangeMarginRateAdjustField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryExchangeMarginRateAdjust'
 		responseApiName = 'OnRspQryExchangeMarginRateAdjust'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3714,19 +3463,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3736,41 +3485,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcExchangeMarginRateAdjustField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3781,24 +3526,22 @@ class CTPChannel :
 
 
     
-    def QryInvestorProductGroupMargin(self,data,metaData={}):
+    def QryInvestorProductGroupMargin(self,data):
 		'''
 		请求查询投资者品种/跨品种保证金
-		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorProductGroupMarginField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorProductGroupMarginField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorProductGroupMarginField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryInvestorProductGroupMargin'
 		responseApiName = 'OnRspQryInvestorProductGroupMargin'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3814,19 +3557,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3836,41 +3579,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcInvestorProductGroupMarginField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3881,24 +3620,22 @@ class CTPChannel :
 
 
     
-    def QryEWarrantOffset(self,data,metaData={}):
+    def QryEWarrantOffset(self,data):
 		'''
 		请求查询仓单折抵信息
-		data 调用api需要填写参数表单,类型为CThostFtdcQryEWarrantOffsetField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryEWarrantOffsetField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryEWarrantOffsetField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryEWarrantOffset'
 		responseApiName = 'OnRspQryEWarrantOffset'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -3914,19 +3651,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -3936,41 +3673,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcEWarrantOffsetField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -3981,24 +3714,22 @@ class CTPChannel :
 
 
     
-    def QryDepthMarketData(self,data,metaData={}):
+    def QryDepthMarketData(self,data):
 		'''
 		请求查询行情
-		data 调用api需要填写参数表单,类型为CThostFtdcQryDepthMarketDataField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryDepthMarketDataField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryDepthMarketDataField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryDepthMarketData'
 		responseApiName = 'OnRspQryDepthMarketData'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4014,19 +3745,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4036,41 +3767,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcDepthMarketDataField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4081,24 +3808,22 @@ class CTPChannel :
 
 
     
-    def QryTransferBank(self,data,metaData={}):
+    def QryTransferBank(self,data):
 		'''
 		请求查询转帐银行
-		data 调用api需要填写参数表单,类型为CThostFtdcQryTransferBankField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryTransferBankField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTransferBankField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryTransferBank'
 		responseApiName = 'OnRspQryTransferBank'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4114,19 +3839,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4136,41 +3861,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcTransferBankField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4181,24 +3902,22 @@ class CTPChannel :
 
 
     
-    def RemoveParkedOrderAction(self,data,metaData={}):
+    def RemoveParkedOrderAction(self,data):
 		'''
 		请求删除预埋撤单
-		data 调用api需要填写参数表单,类型为CThostFtdcRemoveParkedOrderActionField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcRemoveParkedOrderActionField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcRemoveParkedOrderActionField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqRemoveParkedOrderAction'
 		responseApiName = 'OnRspRemoveParkedOrderAction'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4214,19 +3933,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4236,41 +3955,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcRemoveParkedOrderActionField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4281,24 +3996,22 @@ class CTPChannel :
 
 
     
-    def QryProduct(self,data,metaData={}):
+    def QryProduct(self,data):
 		'''
 		请求查询产品
-		data 调用api需要填写参数表单,类型为CThostFtdcQryProductField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryProductField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryProductField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryProduct'
 		responseApiName = 'OnRspQryProduct'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4314,19 +4027,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4336,41 +4049,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcProductField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4381,24 +4090,22 @@ class CTPChannel :
 
 
     
-    def QryTradingCode(self,data,metaData={}):
+    def QryTradingCode(self,data):
 		'''
 		请求查询交易编码
-		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingCodeField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingCodeField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTradingCodeField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryTradingCode'
 		responseApiName = 'OnRspQryTradingCode'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4414,19 +4121,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4436,41 +4143,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcTradingCodeField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4481,24 +4184,22 @@ class CTPChannel :
 
 
     
-    def QrySettlementInfo(self,data,metaData={}):
+    def QrySettlementInfo(self,data):
 		'''
 		请求查询投资者结算结果
-		data 调用api需要填写参数表单,类型为CThostFtdcQrySettlementInfoField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQrySettlementInfoField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQrySettlementInfoField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQrySettlementInfo'
 		responseApiName = 'OnRspQrySettlementInfo'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4514,19 +4215,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4536,41 +4237,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcSettlementInfoField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4581,24 +4278,22 @@ class CTPChannel :
 
 
     
-    def QryAccountregister(self,data,metaData={}):
+    def QryAccountregister(self,data):
 		'''
 		请求查询银期签约关系
-		data 调用api需要填写参数表单,类型为CThostFtdcQryAccountregisterField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryAccountregisterField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryAccountregisterField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryAccountregister'
 		responseApiName = 'OnRspQryAccountregister'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4614,19 +4309,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4636,41 +4331,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcAccountregisterField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4681,24 +4372,22 @@ class CTPChannel :
 
 
     
-    def QryParkedOrder(self,data,metaData={}):
+    def QryParkedOrder(self,data):
 		'''
 		请求查询预埋单
-		data 调用api需要填写参数表单,类型为CThostFtdcQryParkedOrderField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryParkedOrderField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryParkedOrderField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryParkedOrder'
 		responseApiName = 'OnRspQryParkedOrder'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4714,19 +4403,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4736,41 +4425,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcParkedOrderField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4781,24 +4466,22 @@ class CTPChannel :
 
 
     
-    def QryTransferSerial(self,data,metaData={}):
+    def QryTransferSerial(self,data):
 		'''
 		请求查询转帐流水
-		data 调用api需要填写参数表单,类型为CThostFtdcQryTransferSerialField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryTransferSerialField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTransferSerialField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryTransferSerial'
 		responseApiName = 'OnRspQryTransferSerial'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4814,19 +4497,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4836,41 +4519,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcTransferSerialField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4881,24 +4560,22 @@ class CTPChannel :
 
 
     
-    def QryContractBank(self,data,metaData={}):
+    def QryContractBank(self,data):
 		'''
 		请求查询签约银行
-		data 调用api需要填写参数表单,类型为CThostFtdcQryContractBankField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcQryContractBankField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryContractBankField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqQryContractBank'
 		responseApiName = 'OnRspQryContractBank'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -4914,19 +4591,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -4936,41 +4613,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcContractBankField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
@@ -4981,24 +4654,22 @@ class CTPChannel :
 
 
     
-    def RemoveParkedOrder(self,data,metaData={}):
+    def RemoveParkedOrder(self,data):
 		'''
 		请求删除预埋单
-		data 调用api需要填写参数表单,类型为CThostFtdcRemoveParkedOrderField,具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为CThostFtdcRemoveParkedOrderField,具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcRemoveParkedOrderField):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'ReqRemoveParkedOrder'
 		responseApiName = 'OnRspRemoveParkedOrder'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -5014,19 +4685,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -5036,41 +4707,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			
 			respnoseData = CThostFtdcRemoveParkedOrderField(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 

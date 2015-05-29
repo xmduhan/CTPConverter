@@ -18,43 +18,10 @@ def packageReqInfo(apiName,data):
 	parameters['Data'] = data
 	return reqInfo
 
-
-
-class InvalidInputFormat(Exception):
-    '''
-    数据格式不正确
-    '''
-
-    def __init__(self,expect):
-        self.value = u'输入的数据格式错误,要求是:%s' %  expect
-
-    def __str__(self):
-        return repr(self.value)
-
-
-class ResponseTimeOut(Exception):
-    '''
-    请求超时未响应
-    '''
-
-    def __init__(self):
-        self.value = u'请求超时未响应'
-
-    def __str__(self):
-        return repr(self.value)
-
-
-class InvalidMessageFormat(Exception):
-    '''
-    接收到的消息格式不正确
-    '''
-
-    def __init__(self,expect,fact):
-        self.value = u'接收到的消息格式不正确,期待:%s,实际:%s.' %  (expect,fact)
-
-    def __str__(self):
-        return repr(self.value)
-
+# 定义通用的出错返回数据
+InvalidRequestFormat = [-2000,u'参数表单类型不正确',[]]
+ResponseTimeOut = [-2001,u'请求超时收到响应',[]]
+InvalidRequestFormat = [-2002,u'接收到异常消息格式',[]]
 
 
 class CTPChannel :
@@ -76,29 +43,27 @@ class CTPChannel :
     	socket.setsockopt(zmq.LINGER,0)
 
         self.request = socket
-        self.timeout = 1000 * 5
+        self.timeout = 1000 * 1
 
 
 {% for method in reqMethodDict.itervalues() %}
     {% set parameter = method['parameters'][0]  %}
-    def {{ method['name'][3:]}}(self,data,metaData={}):
+    def {{ method['name'][3:]}}(self,data):
 		'''
 		{{ method['remark'][3:] }}
-		data 调用api需要填写参数表单,类型为{{parameter['raw_type']}},具体定义参见CTPStruct.py
-		metaData 调用函数时的附加信息
-		TODO 同步调用似乎不需要附加信息
+		data 调用api需要填写参数表单,类型为{{parameter['raw_type']}},具体参见其定义文件
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,{{parameter['raw_type']}}):
-			return -2000,u'参数表单类型不正确',[]
-			pass
-
+			return InvalidRequestFormat
 
 		requestApiName = 'Req{{method['name'][3:]}}'
 		responseApiName = 'OnRsp{{method['name'][3:]}}'
 
         # 打包消息格式
 		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		metaData={}
 		requestMessage = RequestMessage()
 		requestMessage.header = 'REQUEST'
 		requestMessage.apiName = requestApiName
@@ -114,19 +79,19 @@ class CTPChannel :
 		poller.register(self.request, zmq.POLLIN)
 		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
-			return -2001,u'请求超时收到响应',[]
+			return ResponseTimeOut
 
 		# 从request通讯管道读取返回信息
-		# TODO 如果在同异步混用的情况下,这个位置无法确定是REQUESTID消息
 		requestIDMessage = RequestIDMessage()
 		requestIDMessage.recv(self.request)
 
-		if not (requestIDMessage.header == 'REQUESTID'):
-			return -2002,u'接收到异常消息格式',[]
+		# 检查接收的消息格式
+		c1 = requestIDMessage.header == 'REQUESTID'
+		c2 = requestIDMessage.apiName == requestApiName
+		if not ( c1 and c2 ):
+			return InvalidRequestFormat
 
-		if not (requestIDMessage.apiName == requestApiName) :
-			return -2002,u'接收到异常消息格式',[]
-
+		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
 			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
@@ -136,41 +101,37 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
+		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
-				return -2001,u'请求超时收到响应',[]
+				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
-			# TODO 如果在同异步混用的情况下,这个位置无法确定是RESPONSE消息
 			responseMessage = ResponseMessage()
 			responseMessage.recv(self.request)
 
-			# 返回数据信息格式
-			if not (responseMessage.header == 'RESPONSE') :
-				return -2002,u'接收到异常消息格式',[]
+			# 返回数据信息格式符合要求
+			c1 = responseMessage.header == 'RESPONSE'
+			c2 = responseMessage.requestID == requestIDMessage.requestID
+			c3 = responseMessage.apiName == responseApiName
+			if not (c1 and c2 and c3) :
+				return InvalidRequestFormat
 
-			if not (responseMessage.requestID == requestIDMessage.requestID) :
-				return -2002,u'接收到异常消息格式',[]
-
-			if not (responseMessage.apiName == responseApiName) :
-				return -2002,u'接收到异常消息格式',[]
-
+			# 提取消息中的出错信息
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			# 返回数据转化为对象格式
+			# 提取消息中的数据
 			{% set responseDataType = onRspMethodDict['OnRsp' + method['name'][3:]]['parameters'][0]['raw_type']%}
 			respnoseData = {{responseDataType}}(**respInfo['Parameters']['Data'])
-			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
-			# 已处理完最后一条消息
+			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
