@@ -160,11 +160,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcTradingAccountField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -256,11 +260,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcCFMMCTradingAccountKeyField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -352,11 +360,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcUserPasswordUpdateField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -448,11 +460,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcTradingNoticeField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -544,11 +560,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcTradeField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -640,11 +660,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcQueryMaxOrderVolumeField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -736,11 +760,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcSettlementInfoConfirmField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -832,11 +860,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInvestorPositionField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -928,11 +960,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcBrokerTradingAlgosField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1024,11 +1060,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcOrderField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1120,11 +1160,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcExchangeField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1216,11 +1260,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcRspUserLoginField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1312,11 +1360,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcReqTransferField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1408,11 +1460,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcExchangeRateField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1504,11 +1560,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInvestorPositionDetailField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1600,11 +1660,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcSettlementInfoConfirmField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1696,11 +1760,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcBrokerTradingParamsField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1792,11 +1860,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcQueryCFMMCTradingAccountTokenField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1888,11 +1960,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcNoticeField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1984,11 +2060,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcReqTransferField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2080,11 +2160,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcParkedOrderField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2176,11 +2260,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInvestorPositionCombineDetailField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2272,11 +2360,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInputOrderField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2368,11 +2460,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcSecAgentACIDMapField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2464,11 +2560,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcParkedOrderActionField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2560,11 +2660,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcReqQueryAccountField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2656,11 +2760,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcParkedOrderActionField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2752,11 +2860,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcRspAuthenticateField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2848,11 +2960,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcExchangeMarginRateField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2944,11 +3060,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcTradingAccountPasswordUpdateField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3040,11 +3160,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcUserLogoutField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3136,11 +3260,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInstrumentField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3232,11 +3360,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInputOrderActionField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3328,11 +3460,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInstrumentCommissionRateField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3424,11 +3560,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInstrumentMarginRateField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3520,11 +3660,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInvestorField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3616,11 +3760,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcExchangeMarginRateAdjustField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3712,11 +3860,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcInvestorProductGroupMarginField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3808,11 +3960,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcEWarrantOffsetField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3904,11 +4060,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcDepthMarketDataField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4000,11 +4160,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcTransferBankField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4096,11 +4260,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcRemoveParkedOrderActionField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4192,11 +4360,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcProductField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4288,11 +4460,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcTradingCodeField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4384,11 +4560,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcSettlementInfoField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4480,11 +4660,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcAccountregisterField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4576,11 +4760,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcParkedOrderField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4672,11 +4860,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcTransferSerialField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4768,11 +4960,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcContractBankField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4864,11 +5060,15 @@ class CTPChannel :
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
-			respnoseData = respInfo['Parameters']['Data']
+
 			if errorID != 0 :
 				return errorID,errorMsg,[]
-			else:
-				respnoseDataList.append(respnoseData)
+
+			# 返回数据转化为对象格式
+			
+			respnoseData = CThostFtdcRemoveParkedOrderField(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:

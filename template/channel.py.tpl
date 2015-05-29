@@ -164,8 +164,10 @@ class CTPChannel :
 			if errorID != 0 :
 				return errorID,errorMsg,[]
 
-			respnoseData = respInfo['Parameters']['Data']
-			# TODO 将数据转化为对象格式
+			# 返回数据转化为对象格式
+			{% set responseDataType = onRspMethodDict['OnRsp' + method['name'][3:]]['parameters'][0]['raw_type']%}
+			respnoseData = {{responseDataType}}(**respInfo['Parameters']['Data'])
+			# 添加1条数据记录
 			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
