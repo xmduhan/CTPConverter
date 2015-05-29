@@ -48,11 +48,11 @@ CApiWrapper 自动编写部分（ok）
 1、请求结构和返回结构数据的生成(ok)
 1、将class转化为dict，将dict转化位class(ok)
 1、CTPChannel类代码生成(可以先通过写死环境变量初始化连接)（ok）
+1、解决errorCode和errorId不一致问题(ok)
+1、在CTPChannel统一出错代码(ok)
 ------------------------------------------------------------------------------
-
-1、解决errorCode和errorId不一致问题
-1、在CTPChannel统一出错代码
-
+1、
+1、
 
 
 1、设计在同一台机器上执行多个ctp转化器进程的机制
@@ -247,3 +247,20 @@ for template in templates:
 
 for name,method in onRspMethodDict.iteritems():
     print name
+
+
+
+#%% python执行ctp接口调用例子
+import os
+os.chdir('/home/duhan/github/CTPConverter/test')
+
+from channel import CTPChannel
+from CTPStruct import *
+
+ch = CTPChannel()
+data = CThostFtdcQryTradingAccountField()
+errorID,errorMsg,responeDataList =  ch.QryTradingAccount(data)
+print errorID,errorMsg,responeDataList
+print len(responeDataList)
+print responeDataList[0].toDict()
+

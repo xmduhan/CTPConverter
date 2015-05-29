@@ -107,8 +107,11 @@ def test_ReqQryTradingAccount_1():
 	'''
 	ch = CTPChannel()
 	data = CThostFtdcQryTradingAccountField()
-	print ch.QryTradingAccount(data)
-	
+	errorID,errorMsg,responeDataList =  ch.QryTradingAccount(data)
+	print errorID,errorMsg,responeDataList
+	print len(responeDataList)
+	print responeDataList[0].toDict()
+
 
 
 #
