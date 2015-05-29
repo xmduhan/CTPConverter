@@ -133,43 +133,15 @@ std::string CApiWrapper::getLastErrorMessage(){
 }
 
 
-/* TODO:这里两个函数要实现到CTraderHandler中去
-
-// 允许登录事件
-virtual void OnFrontConnected() {
-    static int i = 0;
-    printf("OnFrontConnected():被执行...\n");
-    // 在登出后系统会重新调用OnFrontConnected，这里简单判断并忽略第1次之后的所有调用。
-    if (i++==0) {
-        sem_post(&sem);
-    }
-}
-
-// 登录结果响应
-virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
-                            CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
-    printf("OnRspUserLogin():被执行...\n");
-    if (pRspInfo->ErrorID == 0) {
-        printf("登录成功!\n");
-        sem_post(&sem);
-    } else {
-        printf("登录失败!\n");
-    }
-}
-*/
-
-
-
-
-
-// 调用成功返回RequestID,失败返回-1
 {% for method in reqMethodDict.itervalues() %}
 	{{ method['remark'] }}
+	/// 调用成功返回RequestID,失败返回-1
+	/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
 	int CApiWrapper::{{method['name']}}(std::string jsonString)
 {
 	printf("{{method['name']}}():被执行...\n");
 
-	{% set parameter = method['parameters'][0]  %}
+	{% set parameter = method['parameters'][0] %}
 	{{ parameter['raw_type'] }} data;
     int nRequestID;
 
@@ -234,7 +206,7 @@ virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 	}catch (...){
 		lastErrorCode = -1001;
 		lastErrorMessage = "json数据格式错误";
-		return lastErrorCode;
+		return -1;
 	}
 
 	// 获取RequestID
@@ -274,7 +246,7 @@ int CApiWrapper::callApiByName(std::string apiName,std::string jsonString){
 	}else{
 		lastErrorCode = -1000;
 		lastErrorMessage = "没有这个接口函数";
-		return lastErrorCode;
+		return -1;
 	}
 	return 0;
 }
