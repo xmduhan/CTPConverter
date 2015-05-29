@@ -3,7 +3,10 @@ import os
 import zmq
 import json
 from datetime import datetime
+from time import sleep
 from message import *
+from channel import CTPChannel
+from CTPStruct import *
 
 
 def getDefaultReqInfo(apiName):
@@ -95,7 +98,17 @@ def test_ReqQryTradingAccount_0():
 	endTime = datetime.now()
 	timeDelta = endTime - startTime
 	print timeDelta.total_seconds()
+	sleep(1)
 
+
+def test_ReqQryTradingAccount_1():
+	'''
+
+	'''
+	ch = CTPChannel()
+	data = CThostFtdcQryTradingAccountField()
+	print ch.QryTradingAccount(data)
+	
 
 
 #

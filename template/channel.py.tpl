@@ -2,6 +2,7 @@
 
 import os
 import zmq
+import json
 from CTPStruct import *
 from message import *
 
@@ -81,35 +82,37 @@ class CTPChannel :
 {% for method in reqMethodDict.itervalues() %}
     {% set parameter = method['parameters'][0]  %}
     def {{ method['name'][3:]}}(self,data,metaData={}):
-        '''
-        {{ method['remark'][3:] }}
+		'''
+		{{ method['remark'][3:] }}
 		data 调用api需要填写参数表单,类型为{{parameter['raw_type']}},具体定义参见CTPStruct.py
 		metaData 调用函数时的附加信息
 		TODO 同步调用似乎不需要附加信息
 		返回信息格式[errorCode,errorMessage,responseData=[...]]
-        '''
-        if not isinstance(data,{{parameter['raw_type']}}):
-            return -2000,u'参数表单类型不正确',[]
+		'''
+		if not isinstance(data,{{parameter['raw_type']}}):
+			return -2000,u'参数表单类型不正确',[]
+			pass
 
-        requestApiName = 'Req%s' % method['name'][3:]
-    	responseApiName = 'OnRsp%s' % method['name'][3:]
+
+		requestApiName = 'Req{{method['name'][3:]}}'
+		responseApiName = 'OnRsp{{method['name'][3:]}}'
 
         # 打包消息格式
-        reqInfo = packageReqInfo(requestApiName,data.toDict())
-    	requestMessage = RequestMessage()
-    	requestMessage.header = 'REQUEST'
-    	requestMessage.apiName = requestApiName
-    	requestMessage.reqInfo = json.dumps(reqInfo)
-    	requestMessage.metaData = json.dumps(metaData)
+		reqInfo = packageReqInfo(requestApiName,data.toDict())
+		requestMessage = RequestMessage()
+		requestMessage.header = 'REQUEST'
+		requestMessage.apiName = requestApiName
+		requestMessage.reqInfo = json.dumps(reqInfo)
+		requestMessage.metaData = json.dumps(metaData)
 
         # 发送到服务器
-        requestMessage.send(self.request)
+		requestMessage.send(self.request)
 
 		################### 等待服务器的REQUESTID响应 ###################
 		# 读取服务
 		poller = zmq.Poller()
-		poller.register(socket, zmq.POLLIN)
-		sockets = dict(poller.poll(timeout))
+		poller.register(self.request, zmq.POLLIN)
+		sockets = dict(poller.poll(self.timeout))
 		if not (self.request in sockets) :
 			return -2001,u'请求超时收到响应',[]
 
@@ -133,9 +136,9 @@ class CTPChannel :
 		poller = zmq.Poller()
 		poller.register(self.request, zmq.POLLIN)
 
-		respnoseData = []
+		respnoseDataList = []
 		while(True):
-			sockets = dict(poller.poll(timeout))
+			sockets = dict(poller.poll(self.timeout))
 			if not (self.request in sockets) :
 				return -2001,u'请求超时收到响应',[]
 
@@ -155,19 +158,22 @@ class CTPChannel :
 				return -2002,u'接收到异常消息格式',[]
 
 			respInfo = json.loads(responseMessage.respInfo)
-			print respInfo
+			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
+			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
+
+			if errorID != 0 :
+				return errorID,errorMsg,[]
+
+			respnoseData = respInfo['Parameters']['Data']
+			# TODO 将数据转化为对象格式
+			respnoseDataList.append(respnoseData)
 
 			# 已处理完最后一条消息
 			if int(responseMessage.isLast) == 1:
 				break;
 
-
-
-
-
-
-
-
+		# 返回成功
+		return 0,'',respnoseDataList
 
 
 
