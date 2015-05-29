@@ -52,7 +52,7 @@ class CTPChannel :
 		'''
 		{{ method['remark'][3:] }}
 		data 调用api需要填写参数表单,类型为{{parameter['raw_type']}},具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,{{parameter['raw_type']}}):
@@ -94,7 +94,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################

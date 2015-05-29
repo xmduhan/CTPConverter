@@ -57,8 +57,8 @@ int main() {
 
 
     int result;
-    int errorCode;
-    std::string errorMessage;
+    int errorID;
+    std::string errorMsg;
 
     std::cout << "main():开始响应客户端请求" << std::endl;
 
@@ -102,16 +102,16 @@ int main() {
                     sprintf(buffer,"%d",result);
                     requestIDMessage.requestID = buffer;
                 } else {
-                    errorCode = api.getLastErrorCode();
-                    errorMessage = api.getLastErrorMessage();
-                    //sprintf(buffer,"{ErrorCode:%d,ErrorMessage:%s}",errorCode,errorMessage.c_str());
+                    errorID = api.getLastErrorID();
+                    errorMsg = api.getLastErrorMsg();
+                    //sprintf(buffer,"{ErrorID:%d,ErrorMsg:%s}",errorID,errorMsg.c_str());
                     //requestIDMessage.errorInfo = buffer;
                     Json::Value jsonErrorInfo;
-                    jsonErrorInfo["ErrorCode"] = errorCode;
-                    jsonErrorInfo["ErrorMessage"] = errorMessage;
+                    jsonErrorInfo["ErrorID"] = errorID;
+                    jsonErrorInfo["ErrorMsg"] = errorMsg;
                     requestIDMessage.errorInfo = jsonErrorInfo.toStyledString();
                     std::cout << "main():调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
-                    std::cout << "main():" << "ErrorCode=" << errorCode << std::endl << "," << "ErrorMessage=" << errorMessage << std::endl;
+                    std::cout << "main():" << "ErrorID=" << errorID << std::endl << "," << "ErrorMsg=" << errorMsg << std::endl;
                 }
 
                 // 将请求结果信息立即返回给客户端

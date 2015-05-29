@@ -22,8 +22,8 @@ CApiWrapper::CApiWrapper(Configure * pConfigure) {
     RequestID = 0;
 
     // 初始化上次出错代码和出错信息
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
 
 }
 
@@ -270,20 +270,20 @@ int CApiWrapper::getCurrentRequestID() {
 }
 
 /// 获取上次出错代码
-int CApiWrapper::getLastErrorCode() {
-    return lastErrorCode;
+int CApiWrapper::getLastErrorID() {
+    return lastErrorID;
 }
 
 /// 获取上次错误信息
-std::string CApiWrapper::getLastErrorMessage() {
-    return lastErrorMessage;
+std::string CApiWrapper::getLastErrorMsg() {
+    return lastErrorMsg;
 }
 
 
 
 ///请求查询资金账户
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryTradingAccount(std::string jsonString)
 {
     printf("ReqQryTradingAccount():被执行...\n");
@@ -335,8 +335,8 @@ int CApiWrapper::ReqQryTradingAccount(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -349,19 +349,19 @@ int CApiWrapper::ReqQryTradingAccount(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -369,15 +369,15 @@ int CApiWrapper::ReqQryTradingAccount(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询保证金监管系统经纪公司资金账户密钥
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
 {
     printf("ReqQryCFMMCTradingAccountKey():被执行...\n");
@@ -421,8 +421,8 @@ int CApiWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -435,19 +435,19 @@ int CApiWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -455,15 +455,15 @@ int CApiWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///用户口令更新请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqUserPasswordUpdate(std::string jsonString)
 {
     printf("ReqUserPasswordUpdate():被执行...\n");
@@ -523,8 +523,8 @@ int CApiWrapper::ReqUserPasswordUpdate(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -537,19 +537,19 @@ int CApiWrapper::ReqUserPasswordUpdate(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -557,15 +557,15 @@ int CApiWrapper::ReqUserPasswordUpdate(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///预埋撤单录入请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqParkedOrderAction(std::string jsonString)
 {
     printf("ReqParkedOrderAction():被执行...\n");
@@ -735,8 +735,8 @@ int CApiWrapper::ReqParkedOrderAction(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -749,19 +749,19 @@ int CApiWrapper::ReqParkedOrderAction(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -769,15 +769,15 @@ int CApiWrapper::ReqParkedOrderAction(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询交易通知
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryTradingNotice(std::string jsonString)
 {
     printf("ReqQryTradingNotice():被执行...\n");
@@ -821,8 +821,8 @@ int CApiWrapper::ReqQryTradingNotice(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -835,19 +835,19 @@ int CApiWrapper::ReqQryTradingNotice(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -855,15 +855,15 @@ int CApiWrapper::ReqQryTradingNotice(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询成交
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryTrade(std::string jsonString)
 {
     printf("ReqQryTrade():被执行...\n");
@@ -947,8 +947,8 @@ int CApiWrapper::ReqQryTrade(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -961,19 +961,19 @@ int CApiWrapper::ReqQryTrade(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -981,15 +981,15 @@ int CApiWrapper::ReqQryTrade(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///查询最大报单数量请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
 {
     printf("ReqQueryMaxOrderVolume():被执行...\n");
@@ -1069,8 +1069,8 @@ int CApiWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -1083,19 +1083,19 @@ int CApiWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -1103,15 +1103,15 @@ int CApiWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///投资者结算结果确认
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqSettlementInfoConfirm(std::string jsonString)
 {
     printf("ReqSettlementInfoConfirm():被执行...\n");
@@ -1171,8 +1171,8 @@ int CApiWrapper::ReqSettlementInfoConfirm(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -1185,19 +1185,19 @@ int CApiWrapper::ReqSettlementInfoConfirm(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -1205,15 +1205,15 @@ int CApiWrapper::ReqSettlementInfoConfirm(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询投资者持仓
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryInvestorPosition(std::string jsonString)
 {
     printf("ReqQryInvestorPosition():被执行...\n");
@@ -1265,8 +1265,8 @@ int CApiWrapper::ReqQryInvestorPosition(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -1279,19 +1279,19 @@ int CApiWrapper::ReqQryInvestorPosition(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -1299,15 +1299,15 @@ int CApiWrapper::ReqQryInvestorPosition(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询经纪公司交易算法
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
 {
     printf("ReqQryBrokerTradingAlgos():被执行...\n");
@@ -1359,8 +1359,8 @@ int CApiWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -1373,19 +1373,19 @@ int CApiWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -1393,15 +1393,15 @@ int CApiWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询报单
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryOrder(std::string jsonString)
 {
     printf("ReqQryOrder():被执行...\n");
@@ -1485,8 +1485,8 @@ int CApiWrapper::ReqQryOrder(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -1499,19 +1499,19 @@ int CApiWrapper::ReqQryOrder(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -1519,15 +1519,15 @@ int CApiWrapper::ReqQryOrder(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询交易所
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryExchange(std::string jsonString)
 {
     printf("ReqQryExchange():被执行...\n");
@@ -1563,8 +1563,8 @@ int CApiWrapper::ReqQryExchange(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -1577,19 +1577,19 @@ int CApiWrapper::ReqQryExchange(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -1597,15 +1597,15 @@ int CApiWrapper::ReqQryExchange(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///用户登录请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqUserLogin(std::string jsonString)
 {
     printf("ReqUserLogin():被执行...\n");
@@ -1713,8 +1713,8 @@ int CApiWrapper::ReqUserLogin(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -1727,19 +1727,19 @@ int CApiWrapper::ReqUserLogin(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -1747,15 +1747,15 @@ int CApiWrapper::ReqUserLogin(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///期货发起期货资金转银行请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
 {
     printf("ReqFromFutureToBankByFuture():被执行...\n");
@@ -2107,8 +2107,8 @@ int CApiWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -2121,19 +2121,19 @@ int CApiWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -2141,15 +2141,15 @@ int CApiWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///期货发起银行资金转期货请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
 {
     printf("ReqFromBankToFutureByFuture():被执行...\n");
@@ -2501,8 +2501,8 @@ int CApiWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -2515,19 +2515,19 @@ int CApiWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -2535,15 +2535,15 @@ int CApiWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询结算信息确认
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
 {
     printf("ReqQrySettlementInfoConfirm():被执行...\n");
@@ -2587,8 +2587,8 @@ int CApiWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -2601,19 +2601,19 @@ int CApiWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -2621,15 +2621,15 @@ int CApiWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询经纪公司交易参数
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryBrokerTradingParams(std::string jsonString)
 {
     printf("ReqQryBrokerTradingParams():被执行...\n");
@@ -2681,8 +2681,8 @@ int CApiWrapper::ReqQryBrokerTradingParams(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -2695,19 +2695,19 @@ int CApiWrapper::ReqQryBrokerTradingParams(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -2715,15 +2715,15 @@ int CApiWrapper::ReqQryBrokerTradingParams(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询监控中心用户令牌
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
 {
     printf("ReqQueryCFMMCTradingAccountToken():被执行...\n");
@@ -2767,8 +2767,8 @@ int CApiWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -2781,19 +2781,19 @@ int CApiWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -2801,15 +2801,15 @@ int CApiWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询客户通知
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryNotice(std::string jsonString)
 {
     printf("ReqQryNotice():被执行...\n");
@@ -2845,8 +2845,8 @@ int CApiWrapper::ReqQryNotice(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -2859,19 +2859,19 @@ int CApiWrapper::ReqQryNotice(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -2879,15 +2879,15 @@ int CApiWrapper::ReqQryNotice(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询汇率
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryExchangeRate(std::string jsonString)
 {
     printf("ReqQryExchangeRate():被执行...\n");
@@ -2939,8 +2939,8 @@ int CApiWrapper::ReqQryExchangeRate(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -2953,19 +2953,19 @@ int CApiWrapper::ReqQryExchangeRate(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -2973,15 +2973,15 @@ int CApiWrapper::ReqQryExchangeRate(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///预埋单录入请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqParkedOrderInsert(std::string jsonString)
 {
     printf("ReqParkedOrderInsert():被执行...\n");
@@ -3224,8 +3224,8 @@ int CApiWrapper::ReqParkedOrderInsert(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -3238,19 +3238,19 @@ int CApiWrapper::ReqParkedOrderInsert(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -3258,15 +3258,15 @@ int CApiWrapper::ReqParkedOrderInsert(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询签约银行
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryContractBank(std::string jsonString)
 {
     printf("ReqQryContractBank():被执行...\n");
@@ -3318,8 +3318,8 @@ int CApiWrapper::ReqQryContractBank(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -3332,19 +3332,19 @@ int CApiWrapper::ReqQryContractBank(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -3352,15 +3352,15 @@ int CApiWrapper::ReqQryContractBank(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询投资者持仓明细
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
 {
     printf("ReqQryInvestorPositionCombineDetail():被执行...\n");
@@ -3412,8 +3412,8 @@ int CApiWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -3426,19 +3426,19 @@ int CApiWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -3446,15 +3446,15 @@ int CApiWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询交易所保证金率
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryExchangeMarginRate(std::string jsonString)
 {
     printf("ReqQryExchangeMarginRate():被执行...\n");
@@ -3505,8 +3505,8 @@ int CApiWrapper::ReqQryExchangeMarginRate(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -3519,19 +3519,19 @@ int CApiWrapper::ReqQryExchangeMarginRate(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -3539,15 +3539,15 @@ int CApiWrapper::ReqQryExchangeMarginRate(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询二级代理操作员银期权限
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
 {
     printf("ReqQrySecAgentACIDMap():被执行...\n");
@@ -3607,8 +3607,8 @@ int CApiWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -3621,19 +3621,19 @@ int CApiWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -3641,15 +3641,15 @@ int CApiWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询转帐流水
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryTransferSerial(std::string jsonString)
 {
     printf("ReqQryTransferSerial():被执行...\n");
@@ -3709,8 +3709,8 @@ int CApiWrapper::ReqQryTransferSerial(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -3723,19 +3723,19 @@ int CApiWrapper::ReqQryTransferSerial(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -3743,15 +3743,15 @@ int CApiWrapper::ReqQryTransferSerial(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///期货发起查询银行余额请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
 {
     printf("ReqQueryBankAccountMoneyByFuture():被执行...\n");
@@ -4053,8 +4053,8 @@ int CApiWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -4067,19 +4067,19 @@ int CApiWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -4087,15 +4087,15 @@ int CApiWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询预埋撤单
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryParkedOrderAction(std::string jsonString)
 {
     printf("ReqQryParkedOrderAction():被执行...\n");
@@ -4155,8 +4155,8 @@ int CApiWrapper::ReqQryParkedOrderAction(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -4169,19 +4169,19 @@ int CApiWrapper::ReqQryParkedOrderAction(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -4189,15 +4189,15 @@ int CApiWrapper::ReqQryParkedOrderAction(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///客户端认证请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqAuthenticate(std::string jsonString)
 {
     printf("ReqAuthenticate():被执行...\n");
@@ -4257,8 +4257,8 @@ int CApiWrapper::ReqAuthenticate(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -4271,19 +4271,19 @@ int CApiWrapper::ReqAuthenticate(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -4291,15 +4291,15 @@ int CApiWrapper::ReqAuthenticate(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///报单录入请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqOrderInsert(std::string jsonString)
 {
     printf("ReqOrderInsert():被执行...\n");
@@ -4497,8 +4497,8 @@ int CApiWrapper::ReqOrderInsert(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -4511,19 +4511,19 @@ int CApiWrapper::ReqOrderInsert(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -4531,15 +4531,15 @@ int CApiWrapper::ReqOrderInsert(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询投资者结算结果
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQrySettlementInfo(std::string jsonString)
 {
     printf("ReqQrySettlementInfo():被执行...\n");
@@ -4591,8 +4591,8 @@ int CApiWrapper::ReqQrySettlementInfo(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -4605,19 +4605,19 @@ int CApiWrapper::ReqQrySettlementInfo(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -4625,15 +4625,15 @@ int CApiWrapper::ReqQrySettlementInfo(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///登出请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqUserLogout(std::string jsonString)
 {
     printf("ReqUserLogout():被执行...\n");
@@ -4677,8 +4677,8 @@ int CApiWrapper::ReqUserLogout(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -4691,19 +4691,19 @@ int CApiWrapper::ReqUserLogout(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -4711,15 +4711,15 @@ int CApiWrapper::ReqUserLogout(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询合约
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryInstrument(std::string jsonString)
 {
     printf("ReqQryInstrument():被执行...\n");
@@ -4779,8 +4779,8 @@ int CApiWrapper::ReqQryInstrument(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -4793,19 +4793,19 @@ int CApiWrapper::ReqQryInstrument(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -4813,15 +4813,15 @@ int CApiWrapper::ReqQryInstrument(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///报单操作请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqOrderAction(std::string jsonString)
 {
     printf("ReqOrderAction():被执行...\n");
@@ -4954,8 +4954,8 @@ int CApiWrapper::ReqOrderAction(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -4968,19 +4968,19 @@ int CApiWrapper::ReqOrderAction(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -4988,15 +4988,15 @@ int CApiWrapper::ReqOrderAction(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询合约手续费率
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
 {
     printf("ReqQryInstrumentCommissionRate():被执行...\n");
@@ -5048,8 +5048,8 @@ int CApiWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5062,19 +5062,19 @@ int CApiWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5082,15 +5082,15 @@ int CApiWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询合约保证金率
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
 {
     printf("ReqQryInstrumentMarginRate():被执行...\n");
@@ -5149,8 +5149,8 @@ int CApiWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5163,19 +5163,19 @@ int CApiWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5183,15 +5183,15 @@ int CApiWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询投资者
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryInvestor(std::string jsonString)
 {
     printf("ReqQryInvestor():被执行...\n");
@@ -5235,8 +5235,8 @@ int CApiWrapper::ReqQryInvestor(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5249,19 +5249,19 @@ int CApiWrapper::ReqQryInvestor(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5269,15 +5269,15 @@ int CApiWrapper::ReqQryInvestor(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询预埋单
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryParkedOrder(std::string jsonString)
 {
     printf("ReqQryParkedOrder():被执行...\n");
@@ -5337,8 +5337,8 @@ int CApiWrapper::ReqQryParkedOrder(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5351,19 +5351,19 @@ int CApiWrapper::ReqQryParkedOrder(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5371,15 +5371,15 @@ int CApiWrapper::ReqQryParkedOrder(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询投资者品种/跨品种保证金
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
 {
     printf("ReqQryInvestorProductGroupMargin():被执行...\n");
@@ -5438,8 +5438,8 @@ int CApiWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5452,19 +5452,19 @@ int CApiWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5472,15 +5472,15 @@ int CApiWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询行情
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryDepthMarketData(std::string jsonString)
 {
     printf("ReqQryDepthMarketData():被执行...\n");
@@ -5516,8 +5516,8 @@ int CApiWrapper::ReqQryDepthMarketData(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5530,19 +5530,19 @@ int CApiWrapper::ReqQryDepthMarketData(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5550,15 +5550,15 @@ int CApiWrapper::ReqQryDepthMarketData(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询转帐银行
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryTransferBank(std::string jsonString)
 {
     printf("ReqQryTransferBank():被执行...\n");
@@ -5602,8 +5602,8 @@ int CApiWrapper::ReqQryTransferBank(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5616,19 +5616,19 @@ int CApiWrapper::ReqQryTransferBank(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5636,15 +5636,15 @@ int CApiWrapper::ReqQryTransferBank(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求删除预埋撤单
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
 {
     printf("ReqRemoveParkedOrderAction():被执行...\n");
@@ -5696,8 +5696,8 @@ int CApiWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5710,19 +5710,19 @@ int CApiWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5730,15 +5730,15 @@ int CApiWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询产品
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryProduct(std::string jsonString)
 {
     printf("ReqQryProduct():被执行...\n");
@@ -5774,8 +5774,8 @@ int CApiWrapper::ReqQryProduct(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5788,19 +5788,19 @@ int CApiWrapper::ReqQryProduct(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5808,15 +5808,15 @@ int CApiWrapper::ReqQryProduct(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询交易编码
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryTradingCode(std::string jsonString)
 {
     printf("ReqQryTradingCode():被执行...\n");
@@ -5883,8 +5883,8 @@ int CApiWrapper::ReqQryTradingCode(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -5897,19 +5897,19 @@ int CApiWrapper::ReqQryTradingCode(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -5917,15 +5917,15 @@ int CApiWrapper::ReqQryTradingCode(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///资金账户口令更新请求
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
 {
     printf("ReqTradingAccountPasswordUpdate():被执行...\n");
@@ -5993,8 +5993,8 @@ int CApiWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -6007,19 +6007,19 @@ int CApiWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -6027,15 +6027,15 @@ int CApiWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询银期签约关系
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryAccountregister(std::string jsonString)
 {
     printf("ReqQryAccountregister():被执行...\n");
@@ -6103,8 +6103,8 @@ int CApiWrapper::ReqQryAccountregister(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -6117,19 +6117,19 @@ int CApiWrapper::ReqQryAccountregister(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -6137,15 +6137,15 @@ int CApiWrapper::ReqQryAccountregister(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询交易所调整保证金率
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
 {
     printf("ReqQryExchangeMarginRateAdjust():被执行...\n");
@@ -6196,8 +6196,8 @@ int CApiWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -6210,19 +6210,19 @@ int CApiWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -6230,15 +6230,15 @@ int CApiWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询仓单折抵信息
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryEWarrantOffset(std::string jsonString)
 {
     printf("ReqQryEWarrantOffset():被执行...\n");
@@ -6298,8 +6298,8 @@ int CApiWrapper::ReqQryEWarrantOffset(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -6312,19 +6312,19 @@ int CApiWrapper::ReqQryEWarrantOffset(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -6332,15 +6332,15 @@ int CApiWrapper::ReqQryEWarrantOffset(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求查询投资者持仓明细
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
 {
     printf("ReqQryInvestorPositionDetail():被执行...\n");
@@ -6392,8 +6392,8 @@ int CApiWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -6406,19 +6406,19 @@ int CApiWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -6426,15 +6426,15 @@ int CApiWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
 
 ///请求删除预埋单
 /// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
 {
     printf("ReqRemoveParkedOrder():被执行...\n");
@@ -6486,8 +6486,8 @@ int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
         }
 
     } catch (...) {
-        lastErrorCode = -1001;
-        lastErrorMessage = "json数据格式错误";
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
         return -1;
     }
 
@@ -6500,19 +6500,19 @@ int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
-        lastErrorCode = result;
+        lastErrorID = result;
         switch(result) {
         case -1 :
-            lastErrorMessage = "网络连接失败";
+            lastErrorMsg = "网络连接失败";
             break;
         case -2 :
-            lastErrorMessage = "未处理请求超过许可数";
+            lastErrorMsg = "未处理请求超过许可数";
             break;
         case -3 :
-            lastErrorMessage = "每秒发送请求超过许可数";
+            lastErrorMsg = "每秒发送请求超过许可数";
             break;
         default :
-            lastErrorMessage = "未知错误";
+            lastErrorMsg = "未知错误";
         }
 
         //return result;
@@ -6520,8 +6520,8 @@ int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
     }
 
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorCode = 0;
-    lastErrorMessage = "";
+    lastErrorID = 0;
+    lastErrorMsg = "";
     return nRequestID;
 }
 
@@ -6533,8 +6533,8 @@ int CApiWrapper::callApiByName(std::string apiName,std::string jsonString) {
     if ( apiMap.find(apiName) != apiMap.end() ) {
         return (this->*apiMap[apiName])(jsonString);
     } else {
-        lastErrorCode = -1000;
-        lastErrorMessage = "没有这个接口函数";
+        lastErrorID = -1000;
+        lastErrorMsg = "没有这个接口函数";
         return -1;
     }
     return 0;

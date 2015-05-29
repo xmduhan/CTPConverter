@@ -52,7 +52,7 @@ class CTPChannel :
 		'''
 		请求查询资金账户
 		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingAccountField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTradingAccountField):
@@ -94,7 +94,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -146,7 +146,7 @@ class CTPChannel :
 		'''
 		请求查询保证金监管系统经纪公司资金账户密钥
 		data 调用api需要填写参数表单,类型为CThostFtdcQryCFMMCTradingAccountKeyField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryCFMMCTradingAccountKeyField):
@@ -188,7 +188,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -240,7 +240,7 @@ class CTPChannel :
 		'''
 		用户口令更新请求
 		data 调用api需要填写参数表单,类型为CThostFtdcUserPasswordUpdateField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcUserPasswordUpdateField):
@@ -282,7 +282,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -334,7 +334,7 @@ class CTPChannel :
 		'''
 		请求查询交易通知
 		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingNoticeField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTradingNoticeField):
@@ -376,7 +376,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -428,7 +428,7 @@ class CTPChannel :
 		'''
 		请求查询成交
 		data 调用api需要填写参数表单,类型为CThostFtdcQryTradeField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTradeField):
@@ -470,7 +470,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -522,7 +522,7 @@ class CTPChannel :
 		'''
 		查询最大报单数量请求
 		data 调用api需要填写参数表单,类型为CThostFtdcQueryMaxOrderVolumeField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQueryMaxOrderVolumeField):
@@ -564,7 +564,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -616,7 +616,7 @@ class CTPChannel :
 		'''
 		投资者结算结果确认
 		data 调用api需要填写参数表单,类型为CThostFtdcSettlementInfoConfirmField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcSettlementInfoConfirmField):
@@ -658,7 +658,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -710,7 +710,7 @@ class CTPChannel :
 		'''
 		请求查询投资者持仓
 		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorPositionField):
@@ -752,7 +752,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -804,7 +804,7 @@ class CTPChannel :
 		'''
 		请求查询经纪公司交易算法
 		data 调用api需要填写参数表单,类型为CThostFtdcQryBrokerTradingAlgosField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryBrokerTradingAlgosField):
@@ -846,7 +846,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -898,7 +898,7 @@ class CTPChannel :
 		'''
 		请求查询报单
 		data 调用api需要填写参数表单,类型为CThostFtdcQryOrderField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryOrderField):
@@ -940,7 +940,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -992,7 +992,7 @@ class CTPChannel :
 		'''
 		请求查询交易所
 		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryExchangeField):
@@ -1034,7 +1034,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1086,7 +1086,7 @@ class CTPChannel :
 		'''
 		用户登录请求
 		data 调用api需要填写参数表单,类型为CThostFtdcReqUserLoginField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqUserLoginField):
@@ -1128,7 +1128,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1180,7 +1180,7 @@ class CTPChannel :
 		'''
 		期货发起期货资金转银行请求
 		data 调用api需要填写参数表单,类型为CThostFtdcReqTransferField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqTransferField):
@@ -1222,7 +1222,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1274,7 +1274,7 @@ class CTPChannel :
 		'''
 		请求查询汇率
 		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeRateField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryExchangeRateField):
@@ -1316,7 +1316,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1368,7 +1368,7 @@ class CTPChannel :
 		'''
 		请求查询投资者持仓明细
 		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionDetailField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorPositionDetailField):
@@ -1410,7 +1410,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1462,7 +1462,7 @@ class CTPChannel :
 		'''
 		请求查询结算信息确认
 		data 调用api需要填写参数表单,类型为CThostFtdcQrySettlementInfoConfirmField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQrySettlementInfoConfirmField):
@@ -1504,7 +1504,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1556,7 +1556,7 @@ class CTPChannel :
 		'''
 		请求查询经纪公司交易参数
 		data 调用api需要填写参数表单,类型为CThostFtdcQryBrokerTradingParamsField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryBrokerTradingParamsField):
@@ -1598,7 +1598,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1650,7 +1650,7 @@ class CTPChannel :
 		'''
 		请求查询监控中心用户令牌
 		data 调用api需要填写参数表单,类型为CThostFtdcQueryCFMMCTradingAccountTokenField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQueryCFMMCTradingAccountTokenField):
@@ -1692,7 +1692,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1744,7 +1744,7 @@ class CTPChannel :
 		'''
 		请求查询客户通知
 		data 调用api需要填写参数表单,类型为CThostFtdcQryNoticeField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryNoticeField):
@@ -1786,7 +1786,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1838,7 +1838,7 @@ class CTPChannel :
 		'''
 		期货发起银行资金转期货请求
 		data 调用api需要填写参数表单,类型为CThostFtdcReqTransferField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqTransferField):
@@ -1880,7 +1880,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -1932,7 +1932,7 @@ class CTPChannel :
 		'''
 		预埋单录入请求
 		data 调用api需要填写参数表单,类型为CThostFtdcParkedOrderField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcParkedOrderField):
@@ -1974,7 +1974,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2026,7 +2026,7 @@ class CTPChannel :
 		'''
 		请求查询投资者持仓明细
 		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorPositionCombineDetailField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorPositionCombineDetailField):
@@ -2068,7 +2068,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2120,7 +2120,7 @@ class CTPChannel :
 		'''
 		报单录入请求
 		data 调用api需要填写参数表单,类型为CThostFtdcInputOrderField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcInputOrderField):
@@ -2162,7 +2162,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2214,7 +2214,7 @@ class CTPChannel :
 		'''
 		请求查询二级代理操作员银期权限
 		data 调用api需要填写参数表单,类型为CThostFtdcQrySecAgentACIDMapField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQrySecAgentACIDMapField):
@@ -2256,7 +2256,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2308,7 +2308,7 @@ class CTPChannel :
 		'''
 		预埋撤单录入请求
 		data 调用api需要填写参数表单,类型为CThostFtdcParkedOrderActionField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcParkedOrderActionField):
@@ -2350,7 +2350,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2402,7 +2402,7 @@ class CTPChannel :
 		'''
 		期货发起查询银行余额请求
 		data 调用api需要填写参数表单,类型为CThostFtdcReqQueryAccountField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqQueryAccountField):
@@ -2444,7 +2444,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2496,7 +2496,7 @@ class CTPChannel :
 		'''
 		请求查询预埋撤单
 		data 调用api需要填写参数表单,类型为CThostFtdcQryParkedOrderActionField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryParkedOrderActionField):
@@ -2538,7 +2538,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2590,7 +2590,7 @@ class CTPChannel :
 		'''
 		客户端认证请求
 		data 调用api需要填写参数表单,类型为CThostFtdcReqAuthenticateField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcReqAuthenticateField):
@@ -2632,7 +2632,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2684,7 +2684,7 @@ class CTPChannel :
 		'''
 		请求查询交易所保证金率
 		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeMarginRateField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryExchangeMarginRateField):
@@ -2726,7 +2726,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2778,7 +2778,7 @@ class CTPChannel :
 		'''
 		资金账户口令更新请求
 		data 调用api需要填写参数表单,类型为CThostFtdcTradingAccountPasswordUpdateField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcTradingAccountPasswordUpdateField):
@@ -2820,7 +2820,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2872,7 +2872,7 @@ class CTPChannel :
 		'''
 		登出请求
 		data 调用api需要填写参数表单,类型为CThostFtdcUserLogoutField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcUserLogoutField):
@@ -2914,7 +2914,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -2966,7 +2966,7 @@ class CTPChannel :
 		'''
 		请求查询合约
 		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInstrumentField):
@@ -3008,7 +3008,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3060,7 +3060,7 @@ class CTPChannel :
 		'''
 		报单操作请求
 		data 调用api需要填写参数表单,类型为CThostFtdcInputOrderActionField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcInputOrderActionField):
@@ -3102,7 +3102,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3154,7 +3154,7 @@ class CTPChannel :
 		'''
 		请求查询合约手续费率
 		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentCommissionRateField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInstrumentCommissionRateField):
@@ -3196,7 +3196,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3248,7 +3248,7 @@ class CTPChannel :
 		'''
 		请求查询合约保证金率
 		data 调用api需要填写参数表单,类型为CThostFtdcQryInstrumentMarginRateField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInstrumentMarginRateField):
@@ -3290,7 +3290,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3342,7 +3342,7 @@ class CTPChannel :
 		'''
 		请求查询投资者
 		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorField):
@@ -3384,7 +3384,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3436,7 +3436,7 @@ class CTPChannel :
 		'''
 		请求查询交易所调整保证金率
 		data 调用api需要填写参数表单,类型为CThostFtdcQryExchangeMarginRateAdjustField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryExchangeMarginRateAdjustField):
@@ -3478,7 +3478,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3530,7 +3530,7 @@ class CTPChannel :
 		'''
 		请求查询投资者品种/跨品种保证金
 		data 调用api需要填写参数表单,类型为CThostFtdcQryInvestorProductGroupMarginField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryInvestorProductGroupMarginField):
@@ -3572,7 +3572,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3624,7 +3624,7 @@ class CTPChannel :
 		'''
 		请求查询仓单折抵信息
 		data 调用api需要填写参数表单,类型为CThostFtdcQryEWarrantOffsetField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryEWarrantOffsetField):
@@ -3666,7 +3666,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3718,7 +3718,7 @@ class CTPChannel :
 		'''
 		请求查询行情
 		data 调用api需要填写参数表单,类型为CThostFtdcQryDepthMarketDataField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryDepthMarketDataField):
@@ -3760,7 +3760,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3812,7 +3812,7 @@ class CTPChannel :
 		'''
 		请求查询转帐银行
 		data 调用api需要填写参数表单,类型为CThostFtdcQryTransferBankField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTransferBankField):
@@ -3854,7 +3854,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -3906,7 +3906,7 @@ class CTPChannel :
 		'''
 		请求删除预埋撤单
 		data 调用api需要填写参数表单,类型为CThostFtdcRemoveParkedOrderActionField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcRemoveParkedOrderActionField):
@@ -3948,7 +3948,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -4000,7 +4000,7 @@ class CTPChannel :
 		'''
 		请求查询产品
 		data 调用api需要填写参数表单,类型为CThostFtdcQryProductField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryProductField):
@@ -4042,7 +4042,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -4094,7 +4094,7 @@ class CTPChannel :
 		'''
 		请求查询交易编码
 		data 调用api需要填写参数表单,类型为CThostFtdcQryTradingCodeField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTradingCodeField):
@@ -4136,7 +4136,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -4188,7 +4188,7 @@ class CTPChannel :
 		'''
 		请求查询投资者结算结果
 		data 调用api需要填写参数表单,类型为CThostFtdcQrySettlementInfoField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQrySettlementInfoField):
@@ -4230,7 +4230,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -4282,7 +4282,7 @@ class CTPChannel :
 		'''
 		请求查询银期签约关系
 		data 调用api需要填写参数表单,类型为CThostFtdcQryAccountregisterField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryAccountregisterField):
@@ -4324,7 +4324,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -4376,7 +4376,7 @@ class CTPChannel :
 		'''
 		请求查询预埋单
 		data 调用api需要填写参数表单,类型为CThostFtdcQryParkedOrderField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryParkedOrderField):
@@ -4418,7 +4418,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -4470,7 +4470,7 @@ class CTPChannel :
 		'''
 		请求查询转帐流水
 		data 调用api需要填写参数表单,类型为CThostFtdcQryTransferSerialField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryTransferSerialField):
@@ -4512,7 +4512,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -4564,7 +4564,7 @@ class CTPChannel :
 		'''
 		请求查询签约银行
 		data 调用api需要填写参数表单,类型为CThostFtdcQryContractBankField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcQryContractBankField):
@@ -4606,7 +4606,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################
@@ -4658,7 +4658,7 @@ class CTPChannel :
 		'''
 		请求删除预埋单
 		data 调用api需要填写参数表单,类型为CThostFtdcRemoveParkedOrderField,具体参见其定义文件
-		返回信息格式[errorCode,errorMessage,responseData=[...]]
+		返回信息格式[errorID,errorMsg,responseData=[...]]
 		注意:同步调用没有metaData参数,因为没有意义
 		'''
 		if not isinstance(data,CThostFtdcRemoveParkedOrderField):
@@ -4700,7 +4700,7 @@ class CTPChannel :
 		# 如果没有收到RequestID,返回转换器的出错信息
 		if not (int(requestIDMessage.requestID) > 0):
 			errorInfo = json.loads(requestIDMessage.errorInfo)
-			return errorInfo['ErrorCode'],errorInfo['ErrorMessage'],[]
+			return errorInfo['ErrorID'],errorInfo['ErrorMsg'],[]
 
 
 		################### 等待服务器的返回的数据信息 ###################

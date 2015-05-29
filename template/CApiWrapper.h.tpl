@@ -28,9 +28,9 @@ public:
     /// RequestID序列器
     int RequestID;
     /// 上次出错代码
-    int lastErrorCode;
+    int lastErrorID;
     /// 上次出错信息
-    std::string lastErrorMessage;
+    std::string lastErrorMsg;
     /// 启动CTP连接
     void init();
     /// 获取下一个RequestID序列
@@ -38,9 +38,9 @@ public:
     /// 获取当前RequestID序列
     int getCurrentRequestID();
     /// 获取上次出错代码
-    int getLastErrorCode();
+    int getLastErrorID();
     /// 获取上次错误信息
-    std::string getLastErrorMessage();
+    std::string getLastErrorMsg();
 
     void initApiMap();
 

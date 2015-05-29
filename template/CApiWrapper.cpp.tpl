@@ -22,8 +22,8 @@ CApiWrapper::CApiWrapper(Configure * pConfigure){
 	RequestID = 0;
 
 	// 初始化上次出错代码和出错信息
-	lastErrorCode = 0;
-	lastErrorMessage = "";
+	lastErrorID = 0;
+	lastErrorMsg = "";
 
 }
 
@@ -123,20 +123,20 @@ int CApiWrapper::getCurrentRequestID(){
 }
 
 /// 获取上次出错代码
-int CApiWrapper::getLastErrorCode(){
-	return lastErrorCode;
+int CApiWrapper::getLastErrorID(){
+	return lastErrorID;
 }
 
 /// 获取上次错误信息
-std::string CApiWrapper::getLastErrorMessage(){
-	return lastErrorMessage;
+std::string CApiWrapper::getLastErrorMsg(){
+	return lastErrorMsg;
 }
 
 
 {% for method in reqMethodDict.itervalues() %}
 	{{ method['remark'] }}
 	/// 调用成功返回RequestID,失败返回-1
-	/// 通过查看lastErrorCode和lastErrorMessage查看出错的原因
+	/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
 	int CApiWrapper::{{method['name']}}(std::string jsonString)
 {
 	printf("{{method['name']}}():被执行...\n");
@@ -204,8 +204,8 @@ std::string CApiWrapper::getLastErrorMessage(){
 			{%- endif %}
 		{%- endfor %}
 	}catch (...){
-		lastErrorCode = -1001;
-		lastErrorMessage = "json数据格式错误";
+		lastErrorID = -1001;
+		lastErrorMsg = "json数据格式错误";
 		return -1;
 	}
 
@@ -218,12 +218,12 @@ std::string CApiWrapper::getLastErrorMessage(){
 
 	// TODO:检查API调用是否失败,并设置LastError信息
 	if ( result != 0 ){
-		lastErrorCode = result;
+		lastErrorID = result;
 		switch(result){
-			case -1 : lastErrorMessage = "网络连接失败"; break;
-			case -2 : lastErrorMessage = "未处理请求超过许可数"; break;
-			case -3 : lastErrorMessage = "每秒发送请求超过许可数"; break;
-			default : lastErrorMessage = "未知错误";
+			case -1 : lastErrorMsg = "网络连接失败"; break;
+			case -2 : lastErrorMsg = "未处理请求超过许可数"; break;
+			case -3 : lastErrorMsg = "每秒发送请求超过许可数"; break;
+			default : lastErrorMsg = "未知错误";
 		}
 
 		//return result;
@@ -231,8 +231,8 @@ std::string CApiWrapper::getLastErrorMessage(){
 	}
 
 	// 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-	lastErrorCode = 0;
-	lastErrorMessage = "";
+	lastErrorID = 0;
+	lastErrorMsg = "";
 	return nRequestID;
 }
 
@@ -244,8 +244,8 @@ int CApiWrapper::callApiByName(std::string apiName,std::string jsonString){
 	if ( apiMap.find(apiName) != apiMap.end() ){
 		return (this->*apiMap[apiName])(jsonString);
 	}else{
-		lastErrorCode = -1000;
-		lastErrorMessage = "没有这个接口函数";
+		lastErrorID = -1000;
+		lastErrorMsg = "没有这个接口函数";
 		return -1;
 	}
 	return 0;
