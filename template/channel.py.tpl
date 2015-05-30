@@ -20,7 +20,7 @@ def packageReqInfo(apiName,data):
 
 # 定义通用的出错返回数据
 InvalidRequestFormat = [-2000,u'参数表单类型不正确',[]]
-ResponseTimeOut = [-2001,u'请求超时收到响应',[]]
+ResponseTimeOut = [-2001,u'请求超时未响应',[]]
 InvalidRequestFormat = [-2002,u'接收到异常消息格式',[]]
 
 
@@ -120,6 +120,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -128,8 +129,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			{% set responseDataType = onRspMethodDict['OnRsp' + method['name'][3:]]['parameters'][0]['raw_type']%}
-			respnoseData = {{responseDataType}}(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = {{responseDataType}}(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:

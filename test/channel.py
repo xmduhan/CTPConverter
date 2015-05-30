@@ -20,7 +20,7 @@ def packageReqInfo(apiName,data):
 
 # 定义通用的出错返回数据
 InvalidRequestFormat = [-2000,u'参数表单类型不正确',[]]
-ResponseTimeOut = [-2001,u'请求超时收到响应',[]]
+ResponseTimeOut = [-2001,u'请求超时未响应',[]]
 InvalidRequestFormat = [-2002,u'接收到异常消息格式',[]]
 
 
@@ -120,6 +120,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -128,8 +129,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcTradingAccountField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcTradingAccountField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -214,6 +217,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -222,8 +226,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcCFMMCTradingAccountKeyField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcCFMMCTradingAccountKeyField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -308,6 +314,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -316,8 +323,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcUserPasswordUpdateField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcUserPasswordUpdateField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -402,6 +411,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -410,8 +420,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcTradingNoticeField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcTradingNoticeField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -496,6 +508,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -504,8 +517,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcTradeField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcTradeField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -590,6 +605,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -598,8 +614,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcQueryMaxOrderVolumeField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcQueryMaxOrderVolumeField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -684,6 +702,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -692,8 +711,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcSettlementInfoConfirmField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcSettlementInfoConfirmField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -778,6 +799,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -786,8 +808,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInvestorPositionField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInvestorPositionField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -872,6 +896,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -880,8 +905,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcBrokerTradingAlgosField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcBrokerTradingAlgosField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -966,6 +993,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -974,8 +1002,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcOrderField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcOrderField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1060,6 +1090,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1068,8 +1099,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcExchangeField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcExchangeField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1154,6 +1187,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1162,8 +1196,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcRspUserLoginField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcRspUserLoginField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1248,6 +1284,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1256,8 +1293,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcReqTransferField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcReqTransferField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1342,6 +1381,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1350,8 +1390,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcExchangeRateField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcExchangeRateField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1436,6 +1478,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1444,8 +1487,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInvestorPositionDetailField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInvestorPositionDetailField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1530,6 +1575,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1538,8 +1584,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcSettlementInfoConfirmField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcSettlementInfoConfirmField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1624,6 +1672,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1632,8 +1681,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcBrokerTradingParamsField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcBrokerTradingParamsField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1718,6 +1769,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1726,8 +1778,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcQueryCFMMCTradingAccountTokenField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcQueryCFMMCTradingAccountTokenField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1812,6 +1866,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1820,8 +1875,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcNoticeField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcNoticeField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -1906,6 +1963,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1914,8 +1972,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcReqTransferField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcReqTransferField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2000,6 +2060,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2008,8 +2069,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcParkedOrderField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcParkedOrderField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2094,6 +2157,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2102,8 +2166,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInvestorPositionCombineDetailField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInvestorPositionCombineDetailField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2188,6 +2254,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2196,8 +2263,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInputOrderField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInputOrderField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2282,6 +2351,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2290,8 +2360,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcSecAgentACIDMapField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcSecAgentACIDMapField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2376,6 +2448,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2384,8 +2457,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcParkedOrderActionField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcParkedOrderActionField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2470,6 +2545,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2478,8 +2554,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcReqQueryAccountField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcReqQueryAccountField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2564,6 +2642,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2572,8 +2651,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcParkedOrderActionField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcParkedOrderActionField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2658,6 +2739,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2666,8 +2748,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcRspAuthenticateField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcRspAuthenticateField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2752,6 +2836,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2760,8 +2845,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcExchangeMarginRateField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcExchangeMarginRateField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2846,6 +2933,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2854,8 +2942,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcTradingAccountPasswordUpdateField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcTradingAccountPasswordUpdateField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -2940,6 +3030,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2948,8 +3039,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcUserLogoutField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcUserLogoutField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3034,6 +3127,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3042,8 +3136,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInstrumentField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInstrumentField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3128,6 +3224,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3136,8 +3233,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInputOrderActionField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInputOrderActionField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3222,6 +3321,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3230,8 +3330,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInstrumentCommissionRateField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInstrumentCommissionRateField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3316,6 +3418,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3324,8 +3427,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInstrumentMarginRateField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInstrumentMarginRateField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3410,6 +3515,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3418,8 +3524,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInvestorField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInvestorField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3504,6 +3612,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3512,8 +3621,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcExchangeMarginRateAdjustField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcExchangeMarginRateAdjustField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3598,6 +3709,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3606,8 +3718,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcInvestorProductGroupMarginField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcInvestorProductGroupMarginField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3692,6 +3806,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3700,8 +3815,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcEWarrantOffsetField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcEWarrantOffsetField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3786,6 +3903,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3794,8 +3912,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcDepthMarketDataField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcDepthMarketDataField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3880,6 +4000,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3888,8 +4009,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcTransferBankField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcTransferBankField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -3974,6 +4097,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3982,8 +4106,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcRemoveParkedOrderActionField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcRemoveParkedOrderActionField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4068,6 +4194,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4076,8 +4203,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcProductField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcProductField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4162,6 +4291,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4170,8 +4300,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcTradingCodeField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcTradingCodeField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4256,6 +4388,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4264,8 +4397,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcSettlementInfoField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcSettlementInfoField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4350,6 +4485,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4358,8 +4494,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcAccountregisterField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcAccountregisterField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4444,6 +4582,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4452,8 +4591,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcParkedOrderField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcParkedOrderField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4538,6 +4679,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4546,8 +4688,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcTransferSerialField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcTransferSerialField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4632,6 +4776,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4640,8 +4785,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcContractBankField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcContractBankField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:
@@ -4726,6 +4873,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
+			print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4734,8 +4882,10 @@ class CTPChannel :
 
 			# 提取消息中的数据
 			
-			respnoseData = CThostFtdcRemoveParkedOrderField(**respInfo['Parameters']['Data'])
-			respnoseDataList.append(respnoseData)
+			respnoseDataDict = respInfo['Parameters']['Data']
+			if respnoseDataDict:
+				respnoseData = CThostFtdcRemoveParkedOrderField(**respnoseDataDict)
+				respnoseDataList.append(respnoseData)
 
 			# 判断是否已是最后一条消息
 			if int(responseMessage.isLast) == 1:

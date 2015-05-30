@@ -23,11 +23,13 @@ def getDefaultReqInfo(apiName):
 
 
 
-def test_ReqQryTradingAccount_0():
+def test_connet_to_ctp_converter():
 	'''
-	测试ReqQryTradingAccount xxx
-	其他的一些说明
+	测试和CTPConverter的连接
+	用于检查与CTPConverter的连接是否正常和测试响应延时
 	'''
+	sleep(1)
+
 	requestApiName = 'ReqQryTradingAccount'
 	responseApiName = 'OnRspQryTradingAccount'
 	timeout = 1000
@@ -98,19 +100,155 @@ def test_ReqQryTradingAccount_0():
 	endTime = datetime.now()
 	timeDelta = endTime - startTime
 	print timeDelta.total_seconds()
-	sleep(1)
 
 
-def test_ReqQryTradingAccount_1():
-	'''
 
-	'''
-	ch = CTPChannel()
-	data = CThostFtdcQryTradingAccountField()
-	errorID,errorMsg,responeDataList =  ch.QryTradingAccount(data)
-	print errorID,errorMsg,responeDataList
-	print len(responeDataList)
-	print responeDataList[0].toDict()
+def test_QryTradingAccount():
+    '''
+    测试QryTradingAccount
+    '''
+    print ''
+    print '----------------------------------------------------------------------'
+    print 'test_QryTradingAccount():开始'
+    sleep(1)
+    ch = CTPChannel()
+    data = CThostFtdcQryTradingAccountField()
+    errorID,errorMsg,responeDataList =  ch.QryTradingAccount(data)
+    if errorID == 0 :
+        print u'共收到%d数据记录' % len(responeDataList)
+        for i,responeData in enumerate(responeDataList):
+            print '---------------------------------%d-----------------------------------' % (i + 1)
+            for k,v in responeData.toDict().iteritems():
+                print k,'=',v,',',
+            print ''
+    else :
+        print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
+
+    print 'test_QryTradingAccount():请求完成'
+
+    assert errorID == 0,u'请求失败'
+
+    print 'test_QryTradingAccount():执行结束'
+    print '----------------------------------------------------------------------'
+
+
+def test_QryCFMMCTradingAccountKey():
+    '''
+    测试QryCFMMCTradingAccountKey
+    '''
+    print ''
+    print '----------------------------------------------------------------------'
+    print 'test_QryCFMMCTradingAccountKey():开始'
+    sleep(1)
+    ch = CTPChannel()
+    data = CThostFtdcQryCFMMCTradingAccountKeyField()
+    errorID,errorMsg,responeDataList =  ch.QryCFMMCTradingAccountKey(data)
+    if errorID == 0 :
+        print u'共收到%d数据记录' % len(responeDataList)
+        for i,responeData in enumerate(responeDataList):
+            print '---------------------------------%d-----------------------------------' % (i + 1)
+            for k,v in responeData.toDict().iteritems():
+                print k,'=',v,',',
+            print ''
+    else :
+        print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
+
+    print 'test_QryCFMMCTradingAccountKey():请求完成'
+
+    assert errorID == 0,u'请求失败'
+
+    print 'test_QryCFMMCTradingAccountKey():执行结束'
+    print '----------------------------------------------------------------------'
+
+
+def test_QryTradingNotice():
+    '''
+    测试QryTradingNotice
+    '''
+    print ''
+    print '----------------------------------------------------------------------'
+    print 'test_QryTradingNotice():开始'
+    sleep(1)
+    ch = CTPChannel()
+    data = CThostFtdcQryTradingNoticeField()
+    errorID,errorMsg,responeDataList =  ch.QryTradingNotice(data)
+    if errorID == 0 :
+        print u'共收到%d数据记录' % len(responeDataList)
+        for i,responeData in enumerate(responeDataList):
+            print '---------------------------------%d-----------------------------------' % (i + 1)
+            for k,v in responeData.toDict().iteritems():
+                print k,'=',v,',',
+            print ''
+    else :
+        print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
+
+    print 'test_QryTradingNotice():请求完成'
+
+    assert errorID == 0,u'请求失败'
+
+    print 'test_QryTradingNotice():执行结束'
+    print '----------------------------------------------------------------------'
+
+
+def test_QryTrade():
+    '''
+    测试QryTrade
+    '''
+    print ''
+    print '----------------------------------------------------------------------'
+    print 'test_QryTrade():开始'
+    sleep(1)
+    ch = CTPChannel()
+    data = CThostFtdcQryTradeField()
+    errorID,errorMsg,responeDataList =  ch.QryTrade(data)
+    if errorID == 0 :
+        print u'共收到%d数据记录' % len(responeDataList)
+        for i,responeData in enumerate(responeDataList):
+            print '---------------------------------%d-----------------------------------' % (i + 1)
+            for k,v in responeData.toDict().iteritems():
+                print k,'=',v,',',
+            print ''
+    else :
+        print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
+
+    print 'test_QryTrade():请求完成'
+
+    assert errorID == 0,u'请求失败'
+
+    print 'test_QryTrade():执行结束'
+    print '----------------------------------------------------------------------'
+
+
+def test_QueryMaxOrderVolume():
+    '''
+    测试QueryMaxOrderVolume
+    '''
+    print ''
+    print '----------------------------------------------------------------------'
+    print 'test_QueryMaxOrderVolume():开始'
+    sleep(1)
+    ch = CTPChannel()
+    data = CThostFtdcQueryMaxOrderVolumeField()
+    errorID,errorMsg,responeDataList =  ch.QueryMaxOrderVolume(data)
+    if errorID == 0 :
+        print u'共收到%d数据记录' % len(responeDataList)
+        for i,responeData in enumerate(responeDataList):
+            print '---------------------------------%d-----------------------------------' % (i + 1)
+            for k,v in responeData.toDict().iteritems():
+                print k,'=',v,',',
+            print ''
+    else :
+        print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
+
+    print 'test_QueryMaxOrderVolume():请求完成'
+
+    assert errorID == 0,u'请求失败'
+
+    print 'test_QueryMaxOrderVolume():执行结束'
+    print '----------------------------------------------------------------------'
+
+
+
 
 
 
