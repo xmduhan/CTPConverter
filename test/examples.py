@@ -2,9 +2,11 @@
 from channel import CTPChannel
 from CTPStruct import *
 from time import sleep
+from nose.plugins.attrib import attr
 
 
 
+@attr('QryTradingAccount')
 def test_QryTradingAccount():
     '''
     测试QryTradingAccount
@@ -35,6 +37,7 @@ def test_QryTradingAccount():
 
 
 
+@attr('QryCFMMCTradingAccountKey')
 def test_QryCFMMCTradingAccountKey():
     '''
     测试QryCFMMCTradingAccountKey
@@ -65,6 +68,7 @@ def test_QryCFMMCTradingAccountKey():
 
 
 
+@attr('UserPasswordUpdate')
 def test_UserPasswordUpdate():
     '''
     测试UserPasswordUpdate
@@ -95,6 +99,7 @@ def test_UserPasswordUpdate():
 
 
 
+@attr('QryTradingNotice')
 def test_QryTradingNotice():
     '''
     测试QryTradingNotice
@@ -125,6 +130,7 @@ def test_QryTradingNotice():
 
 
 
+@attr('QryTrade')
 def test_QryTrade():
     '''
     测试QryTrade
@@ -155,6 +161,7 @@ def test_QryTrade():
 
 
 
+@attr('QueryMaxOrderVolume')
 def test_QueryMaxOrderVolume():
     '''
     测试QueryMaxOrderVolume
@@ -185,6 +192,7 @@ def test_QueryMaxOrderVolume():
 
 
 
+@attr('SettlementInfoConfirm')
 def test_SettlementInfoConfirm():
     '''
     测试SettlementInfoConfirm
@@ -215,6 +223,7 @@ def test_SettlementInfoConfirm():
 
 
 
+@attr('QryInvestorPosition')
 def test_QryInvestorPosition():
     '''
     测试QryInvestorPosition
@@ -245,6 +254,7 @@ def test_QryInvestorPosition():
 
 
 
+@attr('QryBrokerTradingAlgos')
 def test_QryBrokerTradingAlgos():
     '''
     测试QryBrokerTradingAlgos
@@ -275,6 +285,7 @@ def test_QryBrokerTradingAlgos():
 
 
 
+@attr('QryOrder')
 def test_QryOrder():
     '''
     测试QryOrder
@@ -305,6 +316,7 @@ def test_QryOrder():
 
 
 
+@attr('QryExchange')
 def test_QryExchange():
     '''
     测试QryExchange
@@ -335,6 +347,7 @@ def test_QryExchange():
 
 
 
+@attr('UserLogin')
 def test_UserLogin():
     '''
     测试UserLogin
@@ -365,6 +378,7 @@ def test_UserLogin():
 
 
 
+@attr('FromFutureToBankByFuture')
 def test_FromFutureToBankByFuture():
     '''
     测试FromFutureToBankByFuture
@@ -395,6 +409,7 @@ def test_FromFutureToBankByFuture():
 
 
 
+@attr('QryExchangeRate')
 def test_QryExchangeRate():
     '''
     测试QryExchangeRate
@@ -425,6 +440,7 @@ def test_QryExchangeRate():
 
 
 
+@attr('QryInvestorPositionDetail')
 def test_QryInvestorPositionDetail():
     '''
     测试QryInvestorPositionDetail
@@ -455,6 +471,7 @@ def test_QryInvestorPositionDetail():
 
 
 
+@attr('QrySettlementInfoConfirm')
 def test_QrySettlementInfoConfirm():
     '''
     测试QrySettlementInfoConfirm
@@ -485,6 +502,7 @@ def test_QrySettlementInfoConfirm():
 
 
 
+@attr('QryBrokerTradingParams')
 def test_QryBrokerTradingParams():
     '''
     测试QryBrokerTradingParams
@@ -515,6 +533,7 @@ def test_QryBrokerTradingParams():
 
 
 
+@attr('QueryCFMMCTradingAccountToken')
 def test_QueryCFMMCTradingAccountToken():
     '''
     测试QueryCFMMCTradingAccountToken
@@ -545,6 +564,7 @@ def test_QueryCFMMCTradingAccountToken():
 
 
 
+@attr('QryNotice')
 def test_QryNotice():
     '''
     测试QryNotice
@@ -575,6 +595,7 @@ def test_QryNotice():
 
 
 
+@attr('FromBankToFutureByFuture')
 def test_FromBankToFutureByFuture():
     '''
     测试FromBankToFutureByFuture
@@ -605,6 +626,7 @@ def test_FromBankToFutureByFuture():
 
 
 
+@attr('ParkedOrderInsert')
 def test_ParkedOrderInsert():
     '''
     测试ParkedOrderInsert
@@ -635,6 +657,7 @@ def test_ParkedOrderInsert():
 
 
 
+@attr('QryInvestorPositionCombineDetail')
 def test_QryInvestorPositionCombineDetail():
     '''
     测试QryInvestorPositionCombineDetail
@@ -665,6 +688,7 @@ def test_QryInvestorPositionCombineDetail():
 
 
 
+@attr('OrderInsert')
 def test_OrderInsert():
     '''
     测试OrderInsert
@@ -695,6 +719,7 @@ def test_OrderInsert():
 
 
 
+@attr('QrySecAgentACIDMap')
 def test_QrySecAgentACIDMap():
     '''
     测试QrySecAgentACIDMap
@@ -725,6 +750,7 @@ def test_QrySecAgentACIDMap():
 
 
 
+@attr('ParkedOrderAction')
 def test_ParkedOrderAction():
     '''
     测试ParkedOrderAction
@@ -755,6 +781,7 @@ def test_ParkedOrderAction():
 
 
 
+@attr('QueryBankAccountMoneyByFuture')
 def test_QueryBankAccountMoneyByFuture():
     '''
     测试QueryBankAccountMoneyByFuture
@@ -785,6 +812,7 @@ def test_QueryBankAccountMoneyByFuture():
 
 
 
+@attr('QryParkedOrderAction')
 def test_QryParkedOrderAction():
     '''
     测试QryParkedOrderAction
@@ -815,6 +843,7 @@ def test_QryParkedOrderAction():
 
 
 
+@attr('Authenticate')
 def test_Authenticate():
     '''
     测试Authenticate
@@ -845,6 +874,7 @@ def test_Authenticate():
 
 
 
+@attr('QryExchangeMarginRate')
 def test_QryExchangeMarginRate():
     '''
     测试QryExchangeMarginRate
@@ -875,6 +905,7 @@ def test_QryExchangeMarginRate():
 
 
 
+@attr('TradingAccountPasswordUpdate')
 def test_TradingAccountPasswordUpdate():
     '''
     测试TradingAccountPasswordUpdate
@@ -905,6 +936,7 @@ def test_TradingAccountPasswordUpdate():
 
 
 
+@attr('UserLogout')
 def test_UserLogout():
     '''
     测试UserLogout
@@ -935,6 +967,7 @@ def test_UserLogout():
 
 
 
+@attr('QryInstrument')
 def test_QryInstrument():
     '''
     测试QryInstrument
@@ -965,6 +998,7 @@ def test_QryInstrument():
 
 
 
+@attr('OrderAction')
 def test_OrderAction():
     '''
     测试OrderAction
@@ -995,6 +1029,7 @@ def test_OrderAction():
 
 
 
+@attr('QryInstrumentCommissionRate')
 def test_QryInstrumentCommissionRate():
     '''
     测试QryInstrumentCommissionRate
@@ -1025,6 +1060,7 @@ def test_QryInstrumentCommissionRate():
 
 
 
+@attr('QryInstrumentMarginRate')
 def test_QryInstrumentMarginRate():
     '''
     测试QryInstrumentMarginRate
@@ -1055,6 +1091,7 @@ def test_QryInstrumentMarginRate():
 
 
 
+@attr('QryInvestor')
 def test_QryInvestor():
     '''
     测试QryInvestor
@@ -1085,6 +1122,7 @@ def test_QryInvestor():
 
 
 
+@attr('QryExchangeMarginRateAdjust')
 def test_QryExchangeMarginRateAdjust():
     '''
     测试QryExchangeMarginRateAdjust
@@ -1115,6 +1153,7 @@ def test_QryExchangeMarginRateAdjust():
 
 
 
+@attr('QryInvestorProductGroupMargin')
 def test_QryInvestorProductGroupMargin():
     '''
     测试QryInvestorProductGroupMargin
@@ -1145,6 +1184,7 @@ def test_QryInvestorProductGroupMargin():
 
 
 
+@attr('QryEWarrantOffset')
 def test_QryEWarrantOffset():
     '''
     测试QryEWarrantOffset
@@ -1175,6 +1215,7 @@ def test_QryEWarrantOffset():
 
 
 
+@attr('QryDepthMarketData')
 def test_QryDepthMarketData():
     '''
     测试QryDepthMarketData
@@ -1205,6 +1246,7 @@ def test_QryDepthMarketData():
 
 
 
+@attr('QryTransferBank')
 def test_QryTransferBank():
     '''
     测试QryTransferBank
@@ -1235,6 +1277,7 @@ def test_QryTransferBank():
 
 
 
+@attr('RemoveParkedOrderAction')
 def test_RemoveParkedOrderAction():
     '''
     测试RemoveParkedOrderAction
@@ -1265,6 +1308,7 @@ def test_RemoveParkedOrderAction():
 
 
 
+@attr('QryProduct')
 def test_QryProduct():
     '''
     测试QryProduct
@@ -1295,6 +1339,7 @@ def test_QryProduct():
 
 
 
+@attr('QryTradingCode')
 def test_QryTradingCode():
     '''
     测试QryTradingCode
@@ -1325,6 +1370,7 @@ def test_QryTradingCode():
 
 
 
+@attr('QrySettlementInfo')
 def test_QrySettlementInfo():
     '''
     测试QrySettlementInfo
@@ -1355,6 +1401,7 @@ def test_QrySettlementInfo():
 
 
 
+@attr('QryAccountregister')
 def test_QryAccountregister():
     '''
     测试QryAccountregister
@@ -1385,6 +1432,7 @@ def test_QryAccountregister():
 
 
 
+@attr('QryParkedOrder')
 def test_QryParkedOrder():
     '''
     测试QryParkedOrder
@@ -1415,6 +1463,7 @@ def test_QryParkedOrder():
 
 
 
+@attr('QryTransferSerial')
 def test_QryTransferSerial():
     '''
     测试QryTransferSerial
@@ -1445,6 +1494,7 @@ def test_QryTransferSerial():
 
 
 
+@attr('QryContractBank')
 def test_QryContractBank():
     '''
     测试QryContractBank
@@ -1475,6 +1525,7 @@ def test_QryContractBank():
 
 
 
+@attr('RemoveParkedOrder')
 def test_RemoveParkedOrder():
     '''
     测试RemoveParkedOrder

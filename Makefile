@@ -11,7 +11,7 @@ all : generate compile
 
 generate: CApiWrapper.cpp include/CApiWrapper.h converter.cpp include/converter.h \
 	CTraderHandler.cpp include/CTraderHandler.h test/channel.py test/CTPStruct.py \
-	test/examples.py
+	test/examples.py test/query_api_tests.py
 
 
 CApiWrapper.cpp : template/CApiWrapper.cpp.tpl
@@ -49,6 +49,8 @@ test/CTPStruct.py : template/CTPStruct.py.tpl
 test/examples.py : template/examples.py.tpl
 	python generate.py examples.py.tpl test
 
+test/query_api_tests.py : template/query_api_tests.py.tpl
+	python generate.py query_api_tests.py.tpl test
 
 compile : CApiWrapper.o comhelper.o Configure.o converter.o CTraderHandler.o jsoncpp.o Message.o
 	$(LD) *.o $(LFLAGS) -o converter

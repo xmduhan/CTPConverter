@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-import os
-import zmq
-import json
-from datetime import datetime
-from time import sleep
-from message import *
 from channel import CTPChannel
 from CTPStruct import *
+from time import sleep
+from nose.plugins.attrib import attr
 
 
 
+
+@attr('QryTradingAccount')
 def test_QryTradingAccount():
     '''
     测试QryTradingAccount
@@ -24,7 +22,7 @@ def test_QryTradingAccount():
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
-            print '---------------------------------%d-----------------------------------' % (i + 1)
+            print '---------------------------------%d------------------------------------' % (i + 1)
             for k,v in responeData.toDict().iteritems():
                 print k,'=',v,',',
             print ''
@@ -33,12 +31,15 @@ def test_QryTradingAccount():
 
     print 'test_QryTradingAccount():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryTradingAccount():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryCFMMCTradingAccountKey')
 def test_QryCFMMCTradingAccountKey():
     '''
     测试QryCFMMCTradingAccountKey
@@ -53,7 +54,7 @@ def test_QryCFMMCTradingAccountKey():
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
-            print '---------------------------------%d-----------------------------------' % (i + 1)
+            print '---------------------------------%d------------------------------------' % (i + 1)
             for k,v in responeData.toDict().iteritems():
                 print k,'=',v,',',
             print ''
@@ -62,12 +63,17 @@ def test_QryCFMMCTradingAccountKey():
 
     print 'test_QryCFMMCTradingAccountKey():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryCFMMCTradingAccountKey():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+
+
+@attr('QryTradingNotice')
 def test_QryTradingNotice():
     '''
     测试QryTradingNotice
@@ -82,7 +88,7 @@ def test_QryTradingNotice():
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
-            print '---------------------------------%d-----------------------------------' % (i + 1)
+            print '---------------------------------%d------------------------------------' % (i + 1)
             for k,v in responeData.toDict().iteritems():
                 print k,'=',v,',',
             print ''
@@ -91,12 +97,15 @@ def test_QryTradingNotice():
 
     print 'test_QryTradingNotice():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryTradingNotice():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryTrade')
 def test_QryTrade():
     '''
     测试QryTrade
@@ -111,7 +120,7 @@ def test_QryTrade():
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
-            print '---------------------------------%d-----------------------------------' % (i + 1)
+            print '---------------------------------%d------------------------------------' % (i + 1)
             for k,v in responeData.toDict().iteritems():
                 print k,'=',v,',',
             print ''
@@ -120,12 +129,15 @@ def test_QryTrade():
 
     print 'test_QryTrade():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryTrade():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QueryMaxOrderVolume')
 def test_QueryMaxOrderVolume():
     '''
     测试QueryMaxOrderVolume
@@ -140,7 +152,7 @@ def test_QueryMaxOrderVolume():
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
-            print '---------------------------------%d-----------------------------------' % (i + 1)
+            print '---------------------------------%d------------------------------------' % (i + 1)
             for k,v in responeData.toDict().iteritems():
                 print k,'=',v,',',
             print ''
@@ -149,12 +161,17 @@ def test_QueryMaxOrderVolume():
 
     print 'test_QueryMaxOrderVolume():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QueryMaxOrderVolume():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+
+
+@attr('QryInvestorPosition')
 def test_QryInvestorPosition():
     '''
     测试QryInvestorPosition
@@ -178,12 +195,15 @@ def test_QryInvestorPosition():
 
     print 'test_QryInvestorPosition():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryInvestorPosition():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryBrokerTradingAlgos')
 def test_QryBrokerTradingAlgos():
     '''
     测试QryBrokerTradingAlgos
@@ -207,12 +227,15 @@ def test_QryBrokerTradingAlgos():
 
     print 'test_QryBrokerTradingAlgos():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryBrokerTradingAlgos():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryOrder')
 def test_QryOrder():
     '''
     测试QryOrder
@@ -236,12 +259,15 @@ def test_QryOrder():
 
     print 'test_QryOrder():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryOrder():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryExchange')
 def test_QryExchange():
     '''
     测试QryExchange
@@ -265,12 +291,19 @@ def test_QryExchange():
 
     print 'test_QryExchange():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryExchange():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+
+
+
+
+@attr('QryExchangeRate')
 def test_QryExchangeRate():
     '''
     测试QryExchangeRate
@@ -294,12 +327,15 @@ def test_QryExchangeRate():
 
     print 'test_QryExchangeRate():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryExchangeRate():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryInvestorPositionDetail')
 def test_QryInvestorPositionDetail():
     '''
     测试QryInvestorPositionDetail
@@ -323,12 +359,15 @@ def test_QryInvestorPositionDetail():
 
     print 'test_QryInvestorPositionDetail():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryInvestorPositionDetail():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QrySettlementInfoConfirm')
 def test_QrySettlementInfoConfirm():
     '''
     测试QrySettlementInfoConfirm
@@ -352,12 +391,15 @@ def test_QrySettlementInfoConfirm():
 
     print 'test_QrySettlementInfoConfirm():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QrySettlementInfoConfirm():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryBrokerTradingParams')
 def test_QryBrokerTradingParams():
     '''
     测试QryBrokerTradingParams
@@ -381,12 +423,47 @@ def test_QryBrokerTradingParams():
 
     print 'test_QryBrokerTradingParams():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryBrokerTradingParams():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QueryCFMMCTradingAccountToken')
+def test_QueryCFMMCTradingAccountToken():
+    '''
+    测试QueryCFMMCTradingAccountToken
+    '''
+    print ''
+    print '----------------------------------------------------------------------'
+    print 'test_QueryCFMMCTradingAccountToken():开始'
+    sleep(1)
+    ch = CTPChannel()
+    data = CThostFtdcQueryCFMMCTradingAccountTokenField()
+    errorID,errorMsg,responeDataList =  ch.QueryCFMMCTradingAccountToken(data)
+    if errorID == 0 :
+        print u'共收到%d数据记录' % len(responeDataList)
+        for i,responeData in enumerate(responeDataList):
+            print '---------------------------------%d------------------------------------' % (i + 1)
+            for k,v in responeData.toDict().iteritems():
+                print k,'=',v,',',
+            print ''
+    else :
+        print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
+
+    print 'test_QueryCFMMCTradingAccountToken():请求完成'
+
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
+
+    print 'test_QueryCFMMCTradingAccountToken():执行结束'
+    print '----------------------------------------------------------------------'
+
+
+
+
+@attr('QryNotice')
 def test_QryNotice():
     '''
     测试QryNotice
@@ -410,11 +487,19 @@ def test_QryNotice():
 
     print 'test_QryNotice():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryNotice():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+
+
+
+
+@attr('QryInvestorPositionCombineDetail')
 def test_QryInvestorPositionCombineDetail():
     '''
     测试QryInvestorPositionCombineDetail
@@ -438,11 +523,17 @@ def test_QryInvestorPositionCombineDetail():
 
     print 'test_QryInvestorPositionCombineDetail():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryInvestorPositionCombineDetail():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+
+
+@attr('QrySecAgentACIDMap')
 def test_QrySecAgentACIDMap():
     '''
     测试QrySecAgentACIDMap
@@ -466,12 +557,49 @@ def test_QrySecAgentACIDMap():
 
     print 'test_QrySecAgentACIDMap():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QrySecAgentACIDMap():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+
+
+@attr('QueryBankAccountMoneyByFuture')
+def test_QueryBankAccountMoneyByFuture():
+    '''
+    测试QueryBankAccountMoneyByFuture
+    '''
+    print ''
+    print '----------------------------------------------------------------------'
+    print 'test_QueryBankAccountMoneyByFuture():开始'
+    sleep(1)
+    ch = CTPChannel()
+    data = CThostFtdcReqQueryAccountField()
+    errorID,errorMsg,responeDataList =  ch.QueryBankAccountMoneyByFuture(data)
+    if errorID == 0 :
+        print u'共收到%d数据记录' % len(responeDataList)
+        for i,responeData in enumerate(responeDataList):
+            print '---------------------------------%d------------------------------------' % (i + 1)
+            for k,v in responeData.toDict().iteritems():
+                print k,'=',v,',',
+            print ''
+    else :
+        print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
+
+    print 'test_QueryBankAccountMoneyByFuture():请求完成'
+
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
+
+    print 'test_QueryBankAccountMoneyByFuture():执行结束'
+    print '----------------------------------------------------------------------'
+
+
+
+
+@attr('QryParkedOrderAction')
 def test_QryParkedOrderAction():
     '''
     测试QryParkedOrderAction
@@ -495,12 +623,17 @@ def test_QryParkedOrderAction():
 
     print 'test_QryParkedOrderAction():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryParkedOrderAction():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+
+
+@attr('QryExchangeMarginRate')
 def test_QryExchangeMarginRate():
     '''
     测试QryExchangeMarginRate
@@ -524,11 +657,19 @@ def test_QryExchangeMarginRate():
 
     print 'test_QryExchangeMarginRate():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryExchangeMarginRate():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+
+
+
+
+@attr('QryInstrument')
 def test_QryInstrument():
     '''
     测试QryInstrument
@@ -552,11 +693,17 @@ def test_QryInstrument():
 
     print 'test_QryInstrument():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryInstrument():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+
+
+@attr('QryInstrumentCommissionRate')
 def test_QryInstrumentCommissionRate():
     '''
     测试QryInstrumentCommissionRate
@@ -580,12 +727,15 @@ def test_QryInstrumentCommissionRate():
 
     print 'test_QryInstrumentCommissionRate():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryInstrumentCommissionRate():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryInstrumentMarginRate')
 def test_QryInstrumentMarginRate():
     '''
     测试QryInstrumentMarginRate
@@ -609,12 +759,15 @@ def test_QryInstrumentMarginRate():
 
     print 'test_QryInstrumentMarginRate():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryInstrumentMarginRate():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryInvestor')
 def test_QryInvestor():
     '''
     测试QryInvestor
@@ -638,12 +791,15 @@ def test_QryInvestor():
 
     print 'test_QryInvestor():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryInvestor():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryExchangeMarginRateAdjust')
 def test_QryExchangeMarginRateAdjust():
     '''
     测试QryExchangeMarginRateAdjust
@@ -667,11 +823,15 @@ def test_QryExchangeMarginRateAdjust():
 
     print 'test_QryExchangeMarginRateAdjust():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryExchangeMarginRateAdjust():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+@attr('QryInvestorProductGroupMargin')
 def test_QryInvestorProductGroupMargin():
     '''
     测试QryInvestorProductGroupMargin
@@ -695,12 +855,15 @@ def test_QryInvestorProductGroupMargin():
 
     print 'test_QryInvestorProductGroupMargin():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryInvestorProductGroupMargin():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryEWarrantOffset')
 def test_QryEWarrantOffset():
     '''
     测试QryEWarrantOffset
@@ -724,11 +887,15 @@ def test_QryEWarrantOffset():
 
     print 'test_QryEWarrantOffset():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryEWarrantOffset():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+@attr('QryDepthMarketData')
 def test_QryDepthMarketData():
     '''
     测试QryDepthMarketData
@@ -752,12 +919,15 @@ def test_QryDepthMarketData():
 
     print 'test_QryDepthMarketData():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryDepthMarketData():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryTransferBank')
 def test_QryTransferBank():
     '''
     测试QryTransferBank
@@ -781,12 +951,17 @@ def test_QryTransferBank():
 
     print 'test_QryTransferBank():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryTransferBank():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+
+
+@attr('QryProduct')
 def test_QryProduct():
     '''
     测试QryProduct
@@ -810,11 +985,15 @@ def test_QryProduct():
 
     print 'test_QryProduct():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryProduct():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+@attr('QryTradingCode')
 def test_QryTradingCode():
     '''
     测试QryTradingCode
@@ -838,12 +1017,15 @@ def test_QryTradingCode():
 
     print 'test_QryTradingCode():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryTradingCode():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QrySettlementInfo')
 def test_QrySettlementInfo():
     '''
     测试QrySettlementInfo
@@ -867,11 +1049,15 @@ def test_QrySettlementInfo():
 
     print 'test_QrySettlementInfo():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QrySettlementInfo():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+@attr('QryAccountregister')
 def test_QryAccountregister():
     '''
     测试QryAccountregister
@@ -895,11 +1081,15 @@ def test_QryAccountregister():
 
     print 'test_QryAccountregister():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryAccountregister():执行结束'
     print '----------------------------------------------------------------------'
 
+
+
+
+@attr('QryParkedOrder')
 def test_QryParkedOrder():
     '''
     测试QryParkedOrder
@@ -923,12 +1113,15 @@ def test_QryParkedOrder():
 
     print 'test_QryParkedOrder():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryParkedOrder():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryTransferSerial')
 def test_QryTransferSerial():
     '''
     测试QryTransferSerial
@@ -952,12 +1145,15 @@ def test_QryTransferSerial():
 
     print 'test_QryTransferSerial():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryTransferSerial():执行结束'
     print '----------------------------------------------------------------------'
 
 
+
+
+@attr('QryContractBank')
 def test_QryContractBank():
     '''
     测试QryContractBank
@@ -981,11 +1177,10 @@ def test_QryContractBank():
 
     print 'test_QryContractBank():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_QryContractBank():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
-#

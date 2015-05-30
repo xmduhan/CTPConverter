@@ -5,6 +5,7 @@ from time import sleep
 from nose.plugins.attrib import attr
 
 {% for method in reqMethodDict.itervalues() %}
+{% if method['name'][3:6] == 'Qry' or method['name'][3:8] == 'Query' %}
 {% set parameter = method['parameters'][0]  %}
 @attr('{{ method['name'][3:]}}')
 def test_{{ method['name'][3:]}}():
@@ -30,9 +31,9 @@ def test_{{ method['name'][3:]}}():
 
     print 'test_{{ method['name'][3:]}}():请求完成'
 
-    assert errorID == 0,u'请求失败'
+    assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
     print 'test_{{ method['name'][3:]}}():执行结束'
     print '----------------------------------------------------------------------'
-
+{% endif %}
 {% endfor %}
