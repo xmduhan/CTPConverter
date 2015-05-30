@@ -62,7 +62,12 @@ void CTraderHandler::OnRspQryInstrument(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -254,7 +259,12 @@ void CTraderHandler::OnRspQrySettlementInfo(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -356,7 +366,12 @@ void CTraderHandler::OnRspParkedOrderInsert(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -567,7 +582,12 @@ void CTraderHandler::OnRspQryExchange(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -650,7 +670,12 @@ void CTraderHandler::OnRspOrderAction(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -791,7 +816,12 @@ void CTraderHandler::OnRspQryInvestor(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -949,7 +979,12 @@ void CTraderHandler::OnRspRemoveParkedOrder(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -1037,7 +1072,12 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -1202,7 +1242,12 @@ void CTraderHandler::OnRspQryTransferBank(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -1293,7 +1338,12 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -1390,7 +1440,12 @@ void CTraderHandler::OnRspQryProduct(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -1519,7 +1574,12 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -1628,7 +1688,12 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -1727,7 +1792,12 @@ void CTraderHandler::OnRspUserLogin(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -1885,7 +1955,12 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -2193,7 +2268,12 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -2273,7 +2353,12 @@ void CTraderHandler::OnRspQryContractBank(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -2369,7 +2454,12 @@ void CTraderHandler::OnRspOrderInsert(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -2547,7 +2637,12 @@ void CTraderHandler::OnRspQryEWarrantOffset(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -2660,7 +2755,12 @@ void CTraderHandler::OnRspUserPasswordUpdate(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -2756,7 +2856,12 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -2875,7 +2980,12 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -3183,7 +3293,12 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -3352,7 +3467,12 @@ void CTraderHandler::OnRspQryAccountregister(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -3527,7 +3647,12 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -3631,7 +3756,12 @@ void CTraderHandler::OnRspQryTradingCode(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -3733,7 +3863,12 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -3829,7 +3964,12 @@ void CTraderHandler::OnRspQryTransferSerial(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -4062,7 +4202,12 @@ void CTraderHandler::OnRspQryInvestorPosition(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -4266,7 +4411,12 @@ void CTraderHandler::OnRspUserLogout(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -4346,7 +4496,12 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -4528,7 +4683,12 @@ void CTraderHandler::OnRspQryNotice(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -4616,7 +4776,12 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -4713,7 +4878,12 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -4808,7 +4978,12 @@ void CTraderHandler::OnRspQryParkedOrder(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -5019,7 +5194,12 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -5301,7 +5481,12 @@ void CTraderHandler::OnRspAuthenticate(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -5389,7 +5574,12 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -5489,7 +5679,12 @@ void CTraderHandler::OnRspQryExchangeRate(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -5583,7 +5778,12 @@ void CTraderHandler::OnRspQryTradingNotice(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -5696,7 +5896,12 @@ void CTraderHandler::OnRspParkedOrderAction(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -5862,7 +6067,12 @@ void CTraderHandler::OnRspQryParkedOrderAction(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -6028,7 +6238,12 @@ void CTraderHandler::OnRspQryTradingAccount(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -6250,7 +6465,12 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -6354,7 +6574,12 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -6450,7 +6675,12 @@ void CTraderHandler::OnRspQryDepthMarketData(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -6676,7 +6906,12 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -6764,7 +6999,12 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -6873,7 +7113,12 @@ void CTraderHandler::OnRspQryOrder(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";
@@ -7253,7 +7498,12 @@ void CTraderHandler::OnRspQryTrade(
     // 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-        json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
     } else {
         json_pRspInfo["ErrorID"] = 0;
         json_pRspInfo["ErrorMsg"] = "";

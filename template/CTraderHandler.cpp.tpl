@@ -63,7 +63,12 @@ static char buffer[1024*10];
 	// 这里不需要判断是否成功直接将信息返回客户端即可
     if ( pRspInfo != NULL )  {
 		json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
-		json_pRspInfo["ErrorMsg"] = pRspInfo->ErrorMsg;
+		gbk2utf8(
+			pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+		json_pRspInfo["ErrorMsg"] = buffer;
     }else{
 		json_pRspInfo["ErrorID"] = 0;
 		json_pRspInfo["ErrorMsg"] = "";
