@@ -3,10 +3,12 @@ from channel import CTPChannel
 from CTPStruct import *
 from time import sleep
 from nose.plugins.attrib import attr
+from datetime import datetime
 
 
 
 
+@attr('QueryApi')
 @attr('QryTradingAccount')
 def test_QryTradingAccount():
     '''
@@ -14,11 +16,16 @@ def test_QryTradingAccount():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryTradingAccount():开始'
+    print u'test_QryTradingAccount():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryTradingAccountField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryTradingAccount(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryTradingAccount():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -29,16 +36,17 @@ def test_QryTradingAccount():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryTradingAccount():请求完成'
+    print u'test_QryTradingAccount():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryTradingAccount():执行结束'
+    print u'test_QryTradingAccount():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryCFMMCTradingAccountKey')
 def test_QryCFMMCTradingAccountKey():
     '''
@@ -46,11 +54,16 @@ def test_QryCFMMCTradingAccountKey():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryCFMMCTradingAccountKey():开始'
+    print u'test_QryCFMMCTradingAccountKey():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryCFMMCTradingAccountKeyField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryCFMMCTradingAccountKey(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryCFMMCTradingAccountKey():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -61,11 +74,11 @@ def test_QryCFMMCTradingAccountKey():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryCFMMCTradingAccountKey():请求完成'
+    print u'test_QryCFMMCTradingAccountKey():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryCFMMCTradingAccountKey():执行结束'
+    print u'test_QryCFMMCTradingAccountKey():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -73,6 +86,7 @@ def test_QryCFMMCTradingAccountKey():
 
 
 
+@attr('QueryApi')
 @attr('QryTradingNotice')
 def test_QryTradingNotice():
     '''
@@ -80,11 +94,16 @@ def test_QryTradingNotice():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryTradingNotice():开始'
+    print u'test_QryTradingNotice():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryTradingNoticeField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryTradingNotice(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryTradingNotice():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -95,16 +114,17 @@ def test_QryTradingNotice():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryTradingNotice():请求完成'
+    print u'test_QryTradingNotice():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryTradingNotice():执行结束'
+    print u'test_QryTradingNotice():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryTrade')
 def test_QryTrade():
     '''
@@ -112,11 +132,16 @@ def test_QryTrade():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryTrade():开始'
+    print u'test_QryTrade():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryTradeField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryTrade(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryTrade():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -127,16 +152,17 @@ def test_QryTrade():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryTrade():请求完成'
+    print u'test_QryTrade():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryTrade():执行结束'
+    print u'test_QryTrade():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QueryMaxOrderVolume')
 def test_QueryMaxOrderVolume():
     '''
@@ -144,11 +170,16 @@ def test_QueryMaxOrderVolume():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QueryMaxOrderVolume():开始'
+    print u'test_QueryMaxOrderVolume():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQueryMaxOrderVolumeField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QueryMaxOrderVolume(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QueryMaxOrderVolume():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -159,11 +190,11 @@ def test_QueryMaxOrderVolume():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QueryMaxOrderVolume():请求完成'
+    print u'test_QueryMaxOrderVolume():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QueryMaxOrderVolume():执行结束'
+    print u'test_QueryMaxOrderVolume():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -171,6 +202,7 @@ def test_QueryMaxOrderVolume():
 
 
 
+@attr('QueryApi')
 @attr('QryInvestorPosition')
 def test_QryInvestorPosition():
     '''
@@ -178,11 +210,16 @@ def test_QryInvestorPosition():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryInvestorPosition():开始'
+    print u'test_QryInvestorPosition():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryInvestorPositionField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryInvestorPosition(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryInvestorPosition():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -193,16 +230,17 @@ def test_QryInvestorPosition():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryInvestorPosition():请求完成'
+    print u'test_QryInvestorPosition():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryInvestorPosition():执行结束'
+    print u'test_QryInvestorPosition():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryBrokerTradingAlgos')
 def test_QryBrokerTradingAlgos():
     '''
@@ -210,11 +248,16 @@ def test_QryBrokerTradingAlgos():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryBrokerTradingAlgos():开始'
+    print u'test_QryBrokerTradingAlgos():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryBrokerTradingAlgosField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryBrokerTradingAlgos(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryBrokerTradingAlgos():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -225,16 +268,17 @@ def test_QryBrokerTradingAlgos():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryBrokerTradingAlgos():请求完成'
+    print u'test_QryBrokerTradingAlgos():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryBrokerTradingAlgos():执行结束'
+    print u'test_QryBrokerTradingAlgos():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryOrder')
 def test_QryOrder():
     '''
@@ -242,11 +286,16 @@ def test_QryOrder():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryOrder():开始'
+    print u'test_QryOrder():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryOrderField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryOrder(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryOrder():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -257,16 +306,17 @@ def test_QryOrder():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryOrder():请求完成'
+    print u'test_QryOrder():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryOrder():执行结束'
+    print u'test_QryOrder():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryExchange')
 def test_QryExchange():
     '''
@@ -274,11 +324,16 @@ def test_QryExchange():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryExchange():开始'
+    print u'test_QryExchange():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryExchangeField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryExchange(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryExchange():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -289,11 +344,11 @@ def test_QryExchange():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryExchange():请求完成'
+    print u'test_QryExchange():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryExchange():执行结束'
+    print u'test_QryExchange():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -303,6 +358,7 @@ def test_QryExchange():
 
 
 
+@attr('QueryApi')
 @attr('QryExchangeRate')
 def test_QryExchangeRate():
     '''
@@ -310,11 +366,16 @@ def test_QryExchangeRate():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryExchangeRate():开始'
+    print u'test_QryExchangeRate():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryExchangeRateField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryExchangeRate(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryExchangeRate():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -325,16 +386,17 @@ def test_QryExchangeRate():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryExchangeRate():请求完成'
+    print u'test_QryExchangeRate():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryExchangeRate():执行结束'
+    print u'test_QryExchangeRate():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryInvestorPositionDetail')
 def test_QryInvestorPositionDetail():
     '''
@@ -342,11 +404,16 @@ def test_QryInvestorPositionDetail():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryInvestorPositionDetail():开始'
+    print u'test_QryInvestorPositionDetail():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryInvestorPositionDetailField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryInvestorPositionDetail(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryInvestorPositionDetail():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -357,16 +424,17 @@ def test_QryInvestorPositionDetail():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryInvestorPositionDetail():请求完成'
+    print u'test_QryInvestorPositionDetail():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryInvestorPositionDetail():执行结束'
+    print u'test_QryInvestorPositionDetail():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QrySettlementInfoConfirm')
 def test_QrySettlementInfoConfirm():
     '''
@@ -374,11 +442,16 @@ def test_QrySettlementInfoConfirm():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QrySettlementInfoConfirm():开始'
+    print u'test_QrySettlementInfoConfirm():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQrySettlementInfoConfirmField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QrySettlementInfoConfirm(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QrySettlementInfoConfirm():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -389,16 +462,17 @@ def test_QrySettlementInfoConfirm():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QrySettlementInfoConfirm():请求完成'
+    print u'test_QrySettlementInfoConfirm():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QrySettlementInfoConfirm():执行结束'
+    print u'test_QrySettlementInfoConfirm():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryBrokerTradingParams')
 def test_QryBrokerTradingParams():
     '''
@@ -406,11 +480,16 @@ def test_QryBrokerTradingParams():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryBrokerTradingParams():开始'
+    print u'test_QryBrokerTradingParams():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryBrokerTradingParamsField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryBrokerTradingParams(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryBrokerTradingParams():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -421,16 +500,17 @@ def test_QryBrokerTradingParams():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryBrokerTradingParams():请求完成'
+    print u'test_QryBrokerTradingParams():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryBrokerTradingParams():执行结束'
+    print u'test_QryBrokerTradingParams():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QueryCFMMCTradingAccountToken')
 def test_QueryCFMMCTradingAccountToken():
     '''
@@ -438,11 +518,16 @@ def test_QueryCFMMCTradingAccountToken():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QueryCFMMCTradingAccountToken():开始'
+    print u'test_QueryCFMMCTradingAccountToken():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQueryCFMMCTradingAccountTokenField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QueryCFMMCTradingAccountToken(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QueryCFMMCTradingAccountToken():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -453,16 +538,17 @@ def test_QueryCFMMCTradingAccountToken():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QueryCFMMCTradingAccountToken():请求完成'
+    print u'test_QueryCFMMCTradingAccountToken():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QueryCFMMCTradingAccountToken():执行结束'
+    print u'test_QueryCFMMCTradingAccountToken():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryNotice')
 def test_QryNotice():
     '''
@@ -470,11 +556,16 @@ def test_QryNotice():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryNotice():开始'
+    print u'test_QryNotice():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryNoticeField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryNotice(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryNotice():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -485,11 +576,11 @@ def test_QryNotice():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryNotice():请求完成'
+    print u'test_QryNotice():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryNotice():执行结束'
+    print u'test_QryNotice():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -499,6 +590,7 @@ def test_QryNotice():
 
 
 
+@attr('QueryApi')
 @attr('QryInvestorPositionCombineDetail')
 def test_QryInvestorPositionCombineDetail():
     '''
@@ -506,11 +598,16 @@ def test_QryInvestorPositionCombineDetail():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryInvestorPositionCombineDetail():开始'
+    print u'test_QryInvestorPositionCombineDetail():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryInvestorPositionCombineDetailField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryInvestorPositionCombineDetail(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryInvestorPositionCombineDetail():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -521,11 +618,11 @@ def test_QryInvestorPositionCombineDetail():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryInvestorPositionCombineDetail():请求完成'
+    print u'test_QryInvestorPositionCombineDetail():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryInvestorPositionCombineDetail():执行结束'
+    print u'test_QryInvestorPositionCombineDetail():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -533,6 +630,7 @@ def test_QryInvestorPositionCombineDetail():
 
 
 
+@attr('QueryApi')
 @attr('QrySecAgentACIDMap')
 def test_QrySecAgentACIDMap():
     '''
@@ -540,11 +638,16 @@ def test_QrySecAgentACIDMap():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QrySecAgentACIDMap():开始'
+    print u'test_QrySecAgentACIDMap():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQrySecAgentACIDMapField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QrySecAgentACIDMap(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QrySecAgentACIDMap():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -555,11 +658,11 @@ def test_QrySecAgentACIDMap():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QrySecAgentACIDMap():请求完成'
+    print u'test_QrySecAgentACIDMap():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QrySecAgentACIDMap():执行结束'
+    print u'test_QrySecAgentACIDMap():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -567,6 +670,7 @@ def test_QrySecAgentACIDMap():
 
 
 
+@attr('QueryApi')
 @attr('QueryBankAccountMoneyByFuture')
 def test_QueryBankAccountMoneyByFuture():
     '''
@@ -574,11 +678,16 @@ def test_QueryBankAccountMoneyByFuture():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QueryBankAccountMoneyByFuture():开始'
+    print u'test_QueryBankAccountMoneyByFuture():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcReqQueryAccountField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QueryBankAccountMoneyByFuture(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QueryBankAccountMoneyByFuture():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -589,16 +698,17 @@ def test_QueryBankAccountMoneyByFuture():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QueryBankAccountMoneyByFuture():请求完成'
+    print u'test_QueryBankAccountMoneyByFuture():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QueryBankAccountMoneyByFuture():执行结束'
+    print u'test_QueryBankAccountMoneyByFuture():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryParkedOrderAction')
 def test_QryParkedOrderAction():
     '''
@@ -606,11 +716,16 @@ def test_QryParkedOrderAction():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryParkedOrderAction():开始'
+    print u'test_QryParkedOrderAction():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryParkedOrderActionField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryParkedOrderAction(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryParkedOrderAction():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -621,11 +736,11 @@ def test_QryParkedOrderAction():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryParkedOrderAction():请求完成'
+    print u'test_QryParkedOrderAction():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryParkedOrderAction():执行结束'
+    print u'test_QryParkedOrderAction():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -633,6 +748,7 @@ def test_QryParkedOrderAction():
 
 
 
+@attr('QueryApi')
 @attr('QryExchangeMarginRate')
 def test_QryExchangeMarginRate():
     '''
@@ -640,11 +756,16 @@ def test_QryExchangeMarginRate():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryExchangeMarginRate():开始'
+    print u'test_QryExchangeMarginRate():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryExchangeMarginRateField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryExchangeMarginRate(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryExchangeMarginRate():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -655,11 +776,11 @@ def test_QryExchangeMarginRate():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryExchangeMarginRate():请求完成'
+    print u'test_QryExchangeMarginRate():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryExchangeMarginRate():执行结束'
+    print u'test_QryExchangeMarginRate():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -669,6 +790,7 @@ def test_QryExchangeMarginRate():
 
 
 
+@attr('QueryApi')
 @attr('QryInstrument')
 def test_QryInstrument():
     '''
@@ -676,11 +798,16 @@ def test_QryInstrument():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryInstrument():开始'
+    print u'test_QryInstrument():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryInstrumentField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryInstrument(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryInstrument():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -691,11 +818,11 @@ def test_QryInstrument():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryInstrument():请求完成'
+    print u'test_QryInstrument():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryInstrument():执行结束'
+    print u'test_QryInstrument():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -703,6 +830,7 @@ def test_QryInstrument():
 
 
 
+@attr('QueryApi')
 @attr('QryInstrumentCommissionRate')
 def test_QryInstrumentCommissionRate():
     '''
@@ -710,11 +838,16 @@ def test_QryInstrumentCommissionRate():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryInstrumentCommissionRate():开始'
+    print u'test_QryInstrumentCommissionRate():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryInstrumentCommissionRateField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryInstrumentCommissionRate(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryInstrumentCommissionRate():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -725,16 +858,17 @@ def test_QryInstrumentCommissionRate():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryInstrumentCommissionRate():请求完成'
+    print u'test_QryInstrumentCommissionRate():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryInstrumentCommissionRate():执行结束'
+    print u'test_QryInstrumentCommissionRate():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryInstrumentMarginRate')
 def test_QryInstrumentMarginRate():
     '''
@@ -742,11 +876,16 @@ def test_QryInstrumentMarginRate():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryInstrumentMarginRate():开始'
+    print u'test_QryInstrumentMarginRate():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryInstrumentMarginRateField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryInstrumentMarginRate(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryInstrumentMarginRate():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -757,16 +896,17 @@ def test_QryInstrumentMarginRate():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryInstrumentMarginRate():请求完成'
+    print u'test_QryInstrumentMarginRate():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryInstrumentMarginRate():执行结束'
+    print u'test_QryInstrumentMarginRate():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryInvestor')
 def test_QryInvestor():
     '''
@@ -774,11 +914,16 @@ def test_QryInvestor():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryInvestor():开始'
+    print u'test_QryInvestor():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryInvestorField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryInvestor(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryInvestor():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -789,16 +934,17 @@ def test_QryInvestor():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryInvestor():请求完成'
+    print u'test_QryInvestor():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryInvestor():执行结束'
+    print u'test_QryInvestor():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryExchangeMarginRateAdjust')
 def test_QryExchangeMarginRateAdjust():
     '''
@@ -806,11 +952,16 @@ def test_QryExchangeMarginRateAdjust():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryExchangeMarginRateAdjust():开始'
+    print u'test_QryExchangeMarginRateAdjust():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryExchangeMarginRateAdjustField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryExchangeMarginRateAdjust(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryExchangeMarginRateAdjust():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -821,16 +972,17 @@ def test_QryExchangeMarginRateAdjust():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryExchangeMarginRateAdjust():请求完成'
+    print u'test_QryExchangeMarginRateAdjust():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryExchangeMarginRateAdjust():执行结束'
+    print u'test_QryExchangeMarginRateAdjust():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryInvestorProductGroupMargin')
 def test_QryInvestorProductGroupMargin():
     '''
@@ -838,11 +990,16 @@ def test_QryInvestorProductGroupMargin():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryInvestorProductGroupMargin():开始'
+    print u'test_QryInvestorProductGroupMargin():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryInvestorProductGroupMarginField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryInvestorProductGroupMargin(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryInvestorProductGroupMargin():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -853,16 +1010,17 @@ def test_QryInvestorProductGroupMargin():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryInvestorProductGroupMargin():请求完成'
+    print u'test_QryInvestorProductGroupMargin():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryInvestorProductGroupMargin():执行结束'
+    print u'test_QryInvestorProductGroupMargin():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryEWarrantOffset')
 def test_QryEWarrantOffset():
     '''
@@ -870,11 +1028,16 @@ def test_QryEWarrantOffset():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryEWarrantOffset():开始'
+    print u'test_QryEWarrantOffset():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryEWarrantOffsetField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryEWarrantOffset(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryEWarrantOffset():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -885,16 +1048,17 @@ def test_QryEWarrantOffset():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryEWarrantOffset():请求完成'
+    print u'test_QryEWarrantOffset():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryEWarrantOffset():执行结束'
+    print u'test_QryEWarrantOffset():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryDepthMarketData')
 def test_QryDepthMarketData():
     '''
@@ -902,11 +1066,16 @@ def test_QryDepthMarketData():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryDepthMarketData():开始'
+    print u'test_QryDepthMarketData():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryDepthMarketDataField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryDepthMarketData(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryDepthMarketData():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -917,16 +1086,17 @@ def test_QryDepthMarketData():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryDepthMarketData():请求完成'
+    print u'test_QryDepthMarketData():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryDepthMarketData():执行结束'
+    print u'test_QryDepthMarketData():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryTransferBank')
 def test_QryTransferBank():
     '''
@@ -934,11 +1104,16 @@ def test_QryTransferBank():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryTransferBank():开始'
+    print u'test_QryTransferBank():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryTransferBankField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryTransferBank(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryTransferBank():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -949,11 +1124,11 @@ def test_QryTransferBank():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryTransferBank():请求完成'
+    print u'test_QryTransferBank():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryTransferBank():执行结束'
+    print u'test_QryTransferBank():执行结束'
     print '----------------------------------------------------------------------'
 
 
@@ -961,6 +1136,7 @@ def test_QryTransferBank():
 
 
 
+@attr('QueryApi')
 @attr('QryProduct')
 def test_QryProduct():
     '''
@@ -968,11 +1144,16 @@ def test_QryProduct():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryProduct():开始'
+    print u'test_QryProduct():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryProductField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryProduct(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryProduct():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -983,16 +1164,17 @@ def test_QryProduct():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryProduct():请求完成'
+    print u'test_QryProduct():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryProduct():执行结束'
+    print u'test_QryProduct():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryTradingCode')
 def test_QryTradingCode():
     '''
@@ -1000,11 +1182,16 @@ def test_QryTradingCode():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryTradingCode():开始'
+    print u'test_QryTradingCode():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryTradingCodeField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryTradingCode(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryTradingCode():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -1015,16 +1202,17 @@ def test_QryTradingCode():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryTradingCode():请求完成'
+    print u'test_QryTradingCode():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryTradingCode():执行结束'
+    print u'test_QryTradingCode():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QrySettlementInfo')
 def test_QrySettlementInfo():
     '''
@@ -1032,11 +1220,16 @@ def test_QrySettlementInfo():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QrySettlementInfo():开始'
+    print u'test_QrySettlementInfo():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQrySettlementInfoField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QrySettlementInfo(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QrySettlementInfo():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -1047,16 +1240,17 @@ def test_QrySettlementInfo():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QrySettlementInfo():请求完成'
+    print u'test_QrySettlementInfo():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QrySettlementInfo():执行结束'
+    print u'test_QrySettlementInfo():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryAccountregister')
 def test_QryAccountregister():
     '''
@@ -1064,11 +1258,16 @@ def test_QryAccountregister():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryAccountregister():开始'
+    print u'test_QryAccountregister():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryAccountregisterField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryAccountregister(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryAccountregister():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -1079,16 +1278,17 @@ def test_QryAccountregister():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryAccountregister():请求完成'
+    print u'test_QryAccountregister():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryAccountregister():执行结束'
+    print u'test_QryAccountregister():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryParkedOrder')
 def test_QryParkedOrder():
     '''
@@ -1096,11 +1296,16 @@ def test_QryParkedOrder():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryParkedOrder():开始'
+    print u'test_QryParkedOrder():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryParkedOrderField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryParkedOrder(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryParkedOrder():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -1111,16 +1316,17 @@ def test_QryParkedOrder():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryParkedOrder():请求完成'
+    print u'test_QryParkedOrder():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryParkedOrder():执行结束'
+    print u'test_QryParkedOrder():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryTransferSerial')
 def test_QryTransferSerial():
     '''
@@ -1128,11 +1334,16 @@ def test_QryTransferSerial():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryTransferSerial():开始'
+    print u'test_QryTransferSerial():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryTransferSerialField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryTransferSerial(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryTransferSerial():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -1143,16 +1354,17 @@ def test_QryTransferSerial():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryTransferSerial():请求完成'
+    print u'test_QryTransferSerial():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryTransferSerial():执行结束'
+    print u'test_QryTransferSerial():执行结束'
     print '----------------------------------------------------------------------'
 
 
 
 
+@attr('QueryApi')
 @attr('QryContractBank')
 def test_QryContractBank():
     '''
@@ -1160,11 +1372,16 @@ def test_QryContractBank():
     '''
     print ''
     print '----------------------------------------------------------------------'
-    print 'test_QryContractBank():开始'
+    print u'test_QryContractBank():开始'
     sleep(1)
     ch = CTPChannel()
     data = CThostFtdcQryContractBankField()
+    startTime = datetime.now()
     errorID,errorMsg,responeDataList =  ch.QryContractBank(data)
+    endTime = datetime.now()
+    timeDelta = endTime - startTime
+    print u'test_QryContractBank():请求共耗时%f秒' % timeDelta.total_seconds()
+
     if errorID == 0 :
         print u'共收到%d数据记录' % len(responeDataList)
         for i,responeData in enumerate(responeDataList):
@@ -1175,11 +1392,11 @@ def test_QryContractBank():
     else :
         print u'出错:','errorID=',errorID,'errorMsg=',errorMsg
 
-    print 'test_QryContractBank():请求完成'
+    print u'test_QryContractBank():请求完成'
 
     assert errorID == 0 or errorMsg== u'CTP:无此权限',u'请求失败'
 
-    print 'test_QryContractBank():执行结束'
+    print u'test_QryContractBank():执行结束'
     print '----------------------------------------------------------------------'
 
 
