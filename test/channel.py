@@ -120,7 +120,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -217,7 +217,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -314,7 +314,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -411,7 +411,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -508,7 +508,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -605,7 +605,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -702,7 +702,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -799,7 +799,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -896,7 +896,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -993,7 +993,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1090,7 +1090,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1187,7 +1187,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1284,7 +1284,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1381,7 +1381,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1478,7 +1478,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1575,7 +1575,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1672,7 +1672,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1769,7 +1769,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1866,7 +1866,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -1963,7 +1963,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2060,7 +2060,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2157,7 +2157,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2254,7 +2254,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2351,7 +2351,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2448,7 +2448,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2545,7 +2545,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2642,7 +2642,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2739,7 +2739,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2836,7 +2836,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -2933,7 +2933,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3030,7 +3030,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3127,7 +3127,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3224,7 +3224,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3321,7 +3321,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3418,7 +3418,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3515,7 +3515,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3612,7 +3612,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3709,7 +3709,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3806,7 +3806,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -3903,7 +3903,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4000,7 +4000,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4097,7 +4097,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4194,7 +4194,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4291,7 +4291,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4388,7 +4388,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4485,7 +4485,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4582,7 +4582,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4679,7 +4679,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4776,7 +4776,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
@@ -4873,7 +4873,7 @@ class CTPChannel :
 				return InvalidRequestFormat
 
 			# 提取消息中的出错信息
-			print responseMessage.respInfo
+			#print responseMessage.respInfo
 			respInfo = json.loads(responseMessage.respInfo)
 			errorID = respInfo['Parameters']['RspInfo']['ErrorID']
 			errorMsg = respInfo['Parameters']['RspInfo']['ErrorMsg']
