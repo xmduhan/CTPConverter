@@ -58,6 +58,7 @@ CApiWrapper 自动编写部分（ok）
 1、设计在同一台机器上执行多个ctp转化器进程的机制
 (1)让converter使用命令行参数而不是使用环境变量
 
+
 (2)设计一个CTPChannel的类，一个channel对应一个converter
 |--如何管理进程converter(何时创建何时销毁)
 |--如果保证不同的converter进程使用的通讯管道都不重复?
