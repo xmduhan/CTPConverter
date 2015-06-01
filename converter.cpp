@@ -12,6 +12,7 @@ static Configure config;
 
 static char buffer[1024*10];
 
+#define REQUEST_ROUTE_TTL 30
 
 // 返回信息路由表
 struct RouteTableItem {
@@ -130,7 +131,7 @@ int main() {
                         RouteTableItem * pRouteTableItem = new RouteTableItem();
                         pRouteTableItem -> routeKey = requestMessage.routeKey;
                         pRouteTableItem -> metaData = requestMessage.metaData;
-                        pRouteTableItem -> ttl = 10;
+                      	pRouteTableItem -> ttl = REQUEST_ROUTE_TTL;
                         routeTable[requestID] = pRouteTableItem;
                     } catch(std::exception & e) {
                         std::cout << "main():异常:" << e.what() << std::endl;
