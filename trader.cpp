@@ -30,13 +30,12 @@ int main(int argc,char * argv[]) {
     // 导入配置信息
     CommandOption commandOption(argc,argv);
     if( commandOption.exists("--env") ) {
-        // 使用环境变量配置
+        // 使用环境变量
         config.loadFromEnvironment();
     } else {
-        //config.loadFromCommandLine(commandOption);
+        // 使用命令行参数
+        config.loadFromCommandLine(commandOption);
     }
-
-    //readConfigFromCommandLine(argc,argv);
 
     // 初始化api接口实例
     CTraderWrapper api(&config);
