@@ -6,7 +6,7 @@ CFLAGS=-I$(IDIR) -g -std=gnu++11
 LFLAGS= $(LIBS) -lzmq
 
 
-all : generate compile
+all : generate bin/trader
 
 
 generate: CTraderWrapper.cpp include/CTraderWrapper.h trader.cpp include/trader.h \
@@ -52,8 +52,8 @@ test/examples.py : template/examples.py.tpl
 test/query_api_tests.py : template/query_api_tests.py.tpl
 	python generate.py query_api_tests.py.tpl test
 
-compile : CTraderWrapper.o comhelper.o Configure.o trader.o CTraderHandler.o jsoncpp.o Message.o
-	$(LD) *.o $(LFLAGS) -o trader
+bin/trader : CTraderWrapper.o comhelper.o Configure.o trader.o CTraderHandler.o jsoncpp.o Message.o
+	$(LD) *.o $(LFLAGS) -o bin/trader
 
 
 CTraderWrapper.o : CTraderWrapper.cpp include/*.h
@@ -86,4 +86,4 @@ Message.o : Message.cpp include/*.h
 
 clean :
 	touch template/*
-	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk trader
+	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk bin/trader
