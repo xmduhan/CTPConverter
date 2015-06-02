@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <iconv.h>
-#include <string.h>
-#include <string>
-#include <algorithm>
+#include <comhelper.h>
+
 
 void codeConvert(char * from,char * to,char * src,char * dst,size_t dstSize){
 	size_t sl,dl;
@@ -24,13 +21,24 @@ void gbk2utf8(char * src,char * dst,size_t dstSize){
 }
 
 
-char* getCmdOption(int argc,char * argv[], const std::string & option)
-{
-    char ** begin = argv;
+CommandOption::CommandOption(int argc,char * argv[]){
+	this->argc = argc;
+	this->argv = argv;
+}
+
+bool CommandOption::exists(const std::string & option){
+	char ** begin = argv;
     char ** end = argv + argc;
-    char ** itr = std::find(begin, end, option);
-    if (itr != end && ++itr != end) {
-        return *itr;
-    }
-    return NULL;
+	return std::find(begin, end, option) != end;
+	return 0;
+}
+
+char * CommandOption::get(const std::string & option){
+	char ** begin = argv;
+	char ** end = argv + argc;
+	char ** itr = std::find(begin, end, option);
+	if (itr != end && ++itr != end) {
+		return *itr;
+	}
+	return NULL;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <ThostFtdcUserApiDataType.h>
+#include <comhelper.h>
 
 
 class Configure {
@@ -24,5 +25,6 @@ public:
     char * publishPipe;
 
     /// 读取配置信息
-    void load();
+    void loadFromEnvironment();
+    void loadFromCommandLine(CommandOption commandOption);
 };

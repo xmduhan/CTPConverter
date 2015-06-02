@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+//#include <comhelper.h>
 
 
 /// 构造函数
@@ -11,7 +12,7 @@ Configure::Configure() {
 }
 
 /// 读取配置信息
-void Configure::load() {
+void Configure::loadFromEnvironment() {
     /// 服务器地址
     this->frontAddress = getenv("CTP_FRONT_ADDRESS");
     assert(this->frontAddress);
@@ -30,8 +31,13 @@ void Configure::load() {
     /// 回调信息管道
     this->pushbackPipe = getenv("CTP_PUSHBACK_PIPE");
     assert(this->pushbackPipe);
-
     /// 广播信息管道
     this->publishPipe = getenv("CTP_PUBLISH_PIPE");
     assert(this->publishPipe);
+}
+
+void  Configure::loadFromCommandLine(CommandOption commandOption){
+
+
+
 }

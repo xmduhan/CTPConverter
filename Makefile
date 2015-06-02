@@ -6,7 +6,7 @@ CFLAGS=-I$(IDIR) -g -std=gnu++11
 LFLAGS= $(LIBS) -lzmq
 
 
-all : generate bin/trader
+all : generate bin/trader bin/test
 
 
 generate: CTraderWrapper.cpp include/CTraderWrapper.h trader.cpp include/trader.h \
@@ -49,11 +49,19 @@ test/CTPStruct.py : template/CTPStruct.py.tpl
 test/examples.py : template/examples.py.tpl
 	python generate.py examples.py.tpl test
 
+
 test/query_api_tests.py : template/query_api_tests.py.tpl
 	python generate.py query_api_tests.py.tpl test
 
-bin/trader : CTraderWrapper.o comhelper.o Configure.o trader.o CTraderHandler.o jsoncpp.o Message.o
-	$(LD) *.o $(LFLAGS) -o bin/trader
+
+bin/trader : trader.o CTraderWrapper.o comhelper.o Configure.o CTraderHandler.o jsoncpp.o Message.o
+	$(LD) trader.o CTraderWrapper.o comhelper.o Configure.o  CTraderHandler.o \
+	jsoncpp.o Message.o $(LFLAGS) -o bin/trader
+
+
+bin/test : test.o CTraderWrapper.o comhelper.o Configure.o CTraderHandler.o jsoncpp.o Message.o
+	$(LD) test.o CTraderWrapper.o comhelper.o Configure.o CTraderHandler.o \
+	jsoncpp.o Message.o $(LFLAGS) -o bin/test
 
 
 CTraderWrapper.o : CTraderWrapper.cpp include/*.h
@@ -84,6 +92,10 @@ Message.o : Message.cpp include/*.h
 	$(CC) -c Message.cpp $(CFLAGS)
 
 
+test.o : test.cpp include/*.h
+	$(CC) -c test.cpp $(CFLAGS)
+
+
 clean :
 	touch template/*
-	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk bin/trader
+	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk bin/trader bin/test

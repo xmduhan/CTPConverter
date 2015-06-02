@@ -22,13 +22,23 @@ struct RouteTableItem {
 };
 static std::map<int,RouteTableItem *> routeTable;
 static std::map<int,RouteTableItem *> ::iterator iterRouteTable;
-
 static std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
 
-int main() {
+
+int main(int argc,char * argv[]) {
 
     // 导入配置信息
-    config.load();
+    CommandOption commandOption(argc,argv);
+    if( commandOption.exists("--env") ) {
+        // 使用环境变量配置
+        config.loadFromEnvironment();
+    } else {
+        //config.loadFromCommandLine(commandOption);
+    }
+
+    //readConfigFromCommandLine(argc,argv);
+
+    // 初始化api接口实例
     CTraderWrapper api(&config);
     api.init();
 
