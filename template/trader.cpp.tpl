@@ -1,5 +1,5 @@
 
-#include <converter.h>
+#include <trader.h>
 #include <json/json.h>
 #include <comhelper.h>
 #include <Message.h>
@@ -16,7 +16,7 @@ static char buffer[1024*10];
 
 
 // 返回信息路由表
-struct RouteTableItem {
+struct RouteTableItem{
     std::string routeKey;
     std::string metaData;
     long ttl;
@@ -26,7 +26,7 @@ static std::map<int,RouteTableItem *> ::iterator iterRouteTable;
 
 static std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
 
-int main() {
+int main(){
 
     // 导入配置信息
     config.load();
@@ -64,24 +64,24 @@ int main() {
 
     std::cout << "main():开始响应客户端请求" << std::endl;
 
-    while(1) {
+    while(1){
         zmq::pollitem_t pullItems [] = {
             { listener,  0, ZMQ_POLLIN, 0 },
             { pushback, 0, ZMQ_POLLIN, 0 }
         };
         zmq::poll (pullItems, 2, timeout);
 
-        if ( pullItems[0].revents & ZMQ_POLLIN) {
+        if ( pullItems[0].revents & ZMQ_POLLIN){
             // 记时开始
 
             startTime = std::chrono::system_clock::now();
 
             do {
                 std::cout << "main():接收到客户端的请求" << std::endl;
-                try {
+                try{
                     requestMessage.recv(listener);
                     std::cout << "main():客户端请求调用:" << requestMessage.apiName << std::endl;
-                } catch(std::exception & e) {
+                }catch(std::exception & e){
                     std::cout << "main():异常:" << e.what() << std::endl;
                     std::cout << "main():消息被丢弃" << std::endl;
                     break;
@@ -117,44 +117,44 @@ int main() {
                 }
 
                 // 将请求结果信息立即返回给客户端
-                try {
+                try{
                     requestIDMessage.send(listener);
                     std::cout << "main():客户端请求结果已返回客户端"  << std::endl;
-                } catch(std::exception & e) {
+                }catch(std::exception & e){
                     std::cout << "main():异常:" << e.what() << std::endl;
                     break;
                 }
 
                 // 如果调用是成功的，将请求数据放入信息路由路由表中
                 if (result > 0)
-                    try {
+                    try{
                         int requestID = result;
                         RouteTableItem * pRouteTableItem = new RouteTableItem();
                         pRouteTableItem -> routeKey = requestMessage.routeKey;
                         pRouteTableItem -> metaData = requestMessage.metaData;
                         pRouteTableItem -> ttl = ROUTE_MESSAGE_TTL;
                         routeTable[requestID] = pRouteTableItem;
-                    } catch(std::exception & e) {
+                    }catch(std::exception & e){
                         std::cout << "main():异常:" << e.what() << std::endl;
                         break;
                     }
 
 
-            } while(false);
+            }while(false);
         }
 
         if ( pullItems[1].revents & ZMQ_POLLIN ) {
             do {
                 std::cout << "main():接收到服务器的响应信息" << std::endl;
-                try {
+                try{
                     pushbackMessage.recv(pushback);
                     // TODO : 这里编写消息处理方法
                     int requestID = atoi(pushbackMessage.requestID.c_str());
                     // requestID如果为0是广播消息
-                    if (requestID != 0) {
+                    if (requestID != 0){
                         // 处理客户端请求数据
                         // 检查RequestID是否在路由表中
-                        if (routeTable.count(requestID) != 0) {
+                        if (routeTable.count(requestID) != 0){
                             RouteTableItem * pRouteTableItem = routeTable[requestID];
                             std::cout << "main():找到路由信息,将信息返回客户端" << std::endl;
                             responseMessage.routeKey = pRouteTableItem->routeKey;
@@ -167,14 +167,14 @@ int main() {
                             responseMessage.send(listener);
                             //std::cout << "main():pushbackMessage.respInfo=" << pushbackMessage.respInfo<< std::endl;
                             std::cout << "main():信息已经成功发送给客户端" << std::endl;
-                        } else {
+                        }else{
                             std::cout << "main():无法找到返回路由,可能是路由信息已过期" << std::endl;
                         }
-                    } else {
+                    }else{
                         // 处理广播消息
                         std::cout << "main():收到一条广播消息" << std::endl;
                     }
-                } catch(std::exception & e) {
+                }catch(std::exception & e){
                     std::cout << "main():异常:" << e.what() << std::endl;
                     std::cout << "main():消息被丢弃" << std::endl;
                     break;
@@ -184,7 +184,7 @@ int main() {
                 endTime = std::chrono::system_clock::now();
                 std::chrono::duration<double> elapsed_seconds = endTime-startTime;
                 std::cout << "响应请求共耗费:" << elapsed_seconds.count() << "秒" << std::endl;
-            } while(false);
+            }while(false);
         }
         // 计算时间
         thisTime = s_clock();
@@ -193,15 +193,15 @@ int main() {
 
         // 检查路由表中的过期信息,并将其删除
         loopTimes += timeDelta;
-        if ( loopTimes >= 1000 ) {
+        if ( loopTimes >= 1000 ){
             loopTimes = 0;
             std::cout << "main():" << "完成了1000次循环,"
-                      << "路由表中元素数量为:" <<  routeTable.size() << std::endl;
+            << "路由表中元素数量为:" <<  routeTable.size() << std::endl;
             // 遍历路由表
-            for (iterRouteTable = routeTable.begin(); iterRouteTable != routeTable.end(); iterRouteTable++ ) {
+            for (iterRouteTable = routeTable.begin(); iterRouteTable != routeTable.end(); iterRouteTable++ ){
                 //std::cout <<  iterRouteTable->first << "=" << iterRouteTable->second << std::endl;
                 RouteTableItem * pRouteTableItem = iterRouteTable->second;
-                if ( --pRouteTableItem -> ttl <= 0) {
+                if ( --pRouteTableItem -> ttl <= 0){
                     routeTable.erase(iterRouteTable);
                     delete pRouteTableItem;
                 }

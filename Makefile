@@ -9,7 +9,7 @@ LFLAGS= $(LIBS) -lzmq
 all : generate compile
 
 
-generate: CTraderWrapper.cpp include/CTraderWrapper.h converter.cpp include/converter.h \
+generate: CTraderWrapper.cpp include/CTraderWrapper.h trader.cpp include/trader.h \
 	CTraderHandler.cpp include/CTraderHandler.h test/channel.py test/CTPStruct.py \
 	test/examples.py test/query_api_tests.py
 
@@ -22,12 +22,12 @@ include/CTraderWrapper.h : template/CTraderWrapper.h.tpl
 	python generate.py CTraderWrapper.h.tpl include
 
 
-converter.cpp : template/converter.cpp.tpl
-	python generate.py converter.cpp.tpl
+trader.cpp : template/trader.cpp.tpl
+	python generate.py trader.cpp.tpl
 
 
-include/converter.h : template/converter.h.tpl
-	python generate.py converter.h.tpl include
+include/trader.h : template/trader.h.tpl
+	python generate.py trader.h.tpl include
 
 
 CTraderHandler.cpp : template/CTraderHandler.cpp.tpl
@@ -52,8 +52,8 @@ test/examples.py : template/examples.py.tpl
 test/query_api_tests.py : template/query_api_tests.py.tpl
 	python generate.py query_api_tests.py.tpl test
 
-compile : CTraderWrapper.o comhelper.o Configure.o converter.o CTraderHandler.o jsoncpp.o Message.o
-	$(LD) *.o $(LFLAGS) -o converter
+compile : CTraderWrapper.o comhelper.o Configure.o trader.o CTraderHandler.o jsoncpp.o Message.o
+	$(LD) *.o $(LFLAGS) -o trader
 
 
 CTraderWrapper.o : CTraderWrapper.cpp include/*.h
@@ -68,8 +68,8 @@ Configure.o : Configure.cpp include/*.h
 	$(CC) -c Configure.cpp $(CFLAGS)
 
 
-converter.o : converter.cpp include/*.h
-	$(CC) -c converter.cpp $(CFLAGS)
+trader.o : trader.cpp include/*.h
+	$(CC) -c trader.cpp $(CFLAGS)
 
 
 CTraderHandler.o : CTraderHandler.cpp include/*.h
@@ -86,4 +86,4 @@ Message.o : Message.cpp include/*.h
 
 clean :
 	touch template/*
-	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk converter
+	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk trader
