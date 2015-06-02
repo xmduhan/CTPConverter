@@ -200,7 +200,7 @@ int main(){
             for (iterRouteTable = routeTable.begin(); iterRouteTable != routeTable.end(); iterRouteTable++ ){
                 //std::cout <<  iterRouteTable->first << "=" << iterRouteTable->second << std::endl;
                 RouteTableItem * pRouteTableItem = iterRouteTable->second;
-                if ( --pRouteTableItem -> ttl <= 0){
+                if ( --(pRouteTableItem->ttl) <= 0){
                     routeTable.erase(iterRouteTable);
                     delete pRouteTableItem;
                 }
