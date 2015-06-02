@@ -1,12 +1,12 @@
 
-#include <CApiWrapper.h>
+#include <CTraderWrapper.h>
 #include <json/json.h>
 #include <comhelper.h>
 
 
 
 /// 构造函数
-CApiWrapper::CApiWrapper(Configure * pConfigure){
+CTraderWrapper::CTraderWrapper(Configure * pConfigure){
 
 	// 读取配置数据信息
 	this->pConfigure = pConfigure;
@@ -28,17 +28,17 @@ CApiWrapper::CApiWrapper(Configure * pConfigure){
 }
 
 // 将所有api函数映射到名称
-void CApiWrapper::initApiMap(){
+void CTraderWrapper::initApiMap(){
 	{% for method in reqMethodDict.itervalues() %}
 		//{{method['name']}}
-		apiMap["{{method['name']}}"] = &CApiWrapper::{{method['name']}};
+		apiMap["{{method['name']}}"] = &CTraderWrapper::{{method['name']}};
 	{% endfor %}
 }
 
 /// 启动CTP连接
-void CApiWrapper::init(){
+void CTraderWrapper::init(){
 
-	std::cout << "CApiWrapper::init():开始执行..." << std::endl;
+	std::cout << "CTraderWrapper::init():开始执行..." << std::endl;
 	// 初始化api名称对照表
 	initApiMap();
 
@@ -63,17 +63,17 @@ void CApiWrapper::init(){
 	pTraderApi->RegisterFront(pConfigure->frontAddress);
 
 	// 连接spi的Pushback管道
-	std::cout << "CApiWrapper::init():Pushback管道地址为:" << pConfigure->pushbackPipe << std::endl;
+	std::cout << "CTraderWrapper::init():Pushback管道地址为:" << pConfigure->pushbackPipe << std::endl;
 	receiver.connect(pConfigure->pushbackPipe);
 
 	// 连接交易系统
-	std::cout << "CApiWrapper::init():尝试连接服务器..." << std::endl;
+	std::cout << "CTraderWrapper::init():尝试连接服务器..." << std::endl;
 	pTraderApi->Init();
 
 	// 等待服务器发出OnFrontConnected事件
-	std::cout << "CApiWrapper::init():等待服务器响应消息..." << std::endl;
+	std::cout << "CTraderWrapper::init():等待服务器响应消息..." << std::endl;
 	message.recv(receiver);
-	std::cout << "CApiWrapper::init():已收到服务器响应消息..." << std::endl;
+	std::cout << "CTraderWrapper::init():已收到服务器响应消息..." << std::endl;
 
 	// 确认收到的返回信息是由OnFrontConnected发出
 	assert(message.requestID.compare("0") == 0);
@@ -81,7 +81,7 @@ void CApiWrapper::init(){
 	assert(message.respInfo.compare("") == 0);
 
 	// 发出登陆请求
-	std::cout << "CApiWrapper::init():发出登录请求..." << std::endl;
+	std::cout << "CTraderWrapper::init():发出登录请求..." << std::endl;
 	CThostFtdcReqUserLoginField userLoginField;
 	strcpy(userLoginField.BrokerID,pConfigure->brokerID);
 	strcpy(userLoginField.UserID,pConfigure->userID);
@@ -89,9 +89,9 @@ void CApiWrapper::init(){
 	pTraderApi->ReqUserLogin(&userLoginField,getNextRequestID());
 
 	// 等待登录成功返回信息
-	std::cout << "CApiWrapper::init():等待登录结果..." << std::endl;
+	std::cout << "CTraderWrapper::init():等待登录结果..." << std::endl;
 	message.recv(receiver);
-	std::cout << "CApiWrapper::init():已收到登录返回信息..." << std::endl;
+	std::cout << "CTraderWrapper::init():已收到登录返回信息..." << std::endl;
 
 	assert(message.requestID.compare("1") == 0);
 	assert(message.apiName.compare("OnRspUserLogin") == 0);
@@ -106,29 +106,29 @@ void CApiWrapper::init(){
 	int ErrorID = jsonData["Parameters"]["Data"]["RspInfo"]["ErrorID"].asInt();
 	assert(ErrorID == 0);
 
-	std::cout << "CApiWrapper::init():登录成功..." << std::endl;
+	std::cout << "CTraderWrapper::init():登录成功..." << std::endl;
 
-	std::cout << "CApiWrapper::init():执行完毕..." << std::endl;
+	std::cout << "CTraderWrapper::init():执行完毕..." << std::endl;
 }
 
 
 /// 获取下一个RequestID序列
-int CApiWrapper::getNextRequestID(){
+int CTraderWrapper::getNextRequestID(){
 	return 	++this->RequestID;
 }
 
 /// 获取当前RequestID序列
-int CApiWrapper::getCurrentRequestID(){
+int CTraderWrapper::getCurrentRequestID(){
 	return 	this->RequestID;
 }
 
 /// 获取上次出错代码
-int CApiWrapper::getLastErrorID(){
+int CTraderWrapper::getLastErrorID(){
 	return lastErrorID;
 }
 
 /// 获取上次错误信息
-std::string CApiWrapper::getLastErrorMsg(){
+std::string CTraderWrapper::getLastErrorMsg(){
 	return lastErrorMsg;
 }
 
@@ -137,7 +137,7 @@ std::string CApiWrapper::getLastErrorMsg(){
 	{{ method['remark'] }}
 	/// 调用成功返回RequestID,失败返回-1
 	/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-	int CApiWrapper::{{method['name']}}(std::string jsonString)
+	int CTraderWrapper::{{method['name']}}(std::string jsonString)
 {
 	printf("{{method['name']}}():被执行...\n");
 
@@ -239,7 +239,7 @@ std::string CApiWrapper::getLastErrorMsg(){
 {% endfor %}
 
 // 通过名称调用api
-int CApiWrapper::callApiByName(std::string apiName,std::string jsonString){
+int CTraderWrapper::callApiByName(std::string apiName,std::string jsonString){
 
 	if ( apiMap.find(apiName) != apiMap.end() ){
 		return (this->*apiMap[apiName])(jsonString);

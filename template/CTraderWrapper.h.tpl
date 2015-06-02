@@ -13,11 +13,11 @@
 #include <assert.h>
 #include <map>
 
-class CApiWrapper {
+class CTraderWrapper {
 
 public:
     /// 构造函数
-    CApiWrapper(Configure * pConfigure);
+    CTraderWrapper(Configure * pConfigure);
     /////////////////  变量定义 //////////////////
     /// 对应的API实例
     CThostFtdcTraderApi * pTraderApi;
@@ -50,7 +50,7 @@ public:
     	int {{method['name']}}(std::string jsonString);
     {% endfor %}
 
-    std::map<std::string,int (CApiWrapper::*) (std::string)> apiMap;
+    std::map<std::string,int (CTraderWrapper::*) (std::string)> apiMap;
 
     int callApiByName(std::string apiName,std::string jsonString);
 

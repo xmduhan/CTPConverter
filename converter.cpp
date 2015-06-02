@@ -30,7 +30,7 @@ int main() {
 
     // 导入配置信息
     config.load();
-    CApiWrapper api(&config);
+    CTraderWrapper api(&config);
     api.init();
 
     // 初始化zmq环境

@@ -9,17 +9,17 @@ LFLAGS= $(LIBS) -lzmq
 all : generate compile
 
 
-generate: CApiWrapper.cpp include/CApiWrapper.h converter.cpp include/converter.h \
+generate: CTraderWrapper.cpp include/CTraderWrapper.h converter.cpp include/converter.h \
 	CTraderHandler.cpp include/CTraderHandler.h test/channel.py test/CTPStruct.py \
 	test/examples.py test/query_api_tests.py
 
 
-CApiWrapper.cpp : template/CApiWrapper.cpp.tpl
-	python generate.py CApiWrapper.cpp.tpl
+CTraderWrapper.cpp : template/CTraderWrapper.cpp.tpl
+	python generate.py CTraderWrapper.cpp.tpl
 
 
-include/CApiWrapper.h : template/CApiWrapper.h.tpl
-	python generate.py CApiWrapper.h.tpl include
+include/CTraderWrapper.h : template/CTraderWrapper.h.tpl
+	python generate.py CTraderWrapper.h.tpl include
 
 
 converter.cpp : template/converter.cpp.tpl
@@ -52,12 +52,12 @@ test/examples.py : template/examples.py.tpl
 test/query_api_tests.py : template/query_api_tests.py.tpl
 	python generate.py query_api_tests.py.tpl test
 
-compile : CApiWrapper.o comhelper.o Configure.o converter.o CTraderHandler.o jsoncpp.o Message.o
+compile : CTraderWrapper.o comhelper.o Configure.o converter.o CTraderHandler.o jsoncpp.o Message.o
 	$(LD) *.o $(LFLAGS) -o converter
 
 
-CApiWrapper.o : CApiWrapper.cpp include/*.h
-	$(CC) -c CApiWrapper.cpp $(CFLAGS)
+CTraderWrapper.o : CTraderWrapper.cpp include/*.h
+	$(CC) -c CTraderWrapper.cpp $(CFLAGS)
 
 
 comhelper.o : comhelper.cpp include/*.h

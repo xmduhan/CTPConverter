@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <CTraderHandler.h>
 #include <Configure.h>
-#include <CApiWrapper.h>
+#include <CTraderWrapper.h>
 #include <unistd.h>
 #include <zmq.hpp>
 #include <zhelpers.hpp>

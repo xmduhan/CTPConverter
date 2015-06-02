@@ -1,12 +1,12 @@
 
-#include <CApiWrapper.h>
+#include <CTraderWrapper.h>
 #include <json/json.h>
 #include <comhelper.h>
 
 
 
 /// 构造函数
-CApiWrapper::CApiWrapper(Configure * pConfigure) {
+CTraderWrapper::CTraderWrapper(Configure * pConfigure) {
 
     // 读取配置数据信息
     this->pConfigure = pConfigure;
@@ -28,164 +28,164 @@ CApiWrapper::CApiWrapper(Configure * pConfigure) {
 }
 
 // 将所有api函数映射到名称
-void CApiWrapper::initApiMap() {
+void CTraderWrapper::initApiMap() {
 
     //ReqQryTradingAccount
-    apiMap["ReqQryTradingAccount"] = &CApiWrapper::ReqQryTradingAccount;
+    apiMap["ReqQryTradingAccount"] = &CTraderWrapper::ReqQryTradingAccount;
 
     //ReqQryCFMMCTradingAccountKey
-    apiMap["ReqQryCFMMCTradingAccountKey"] = &CApiWrapper::ReqQryCFMMCTradingAccountKey;
+    apiMap["ReqQryCFMMCTradingAccountKey"] = &CTraderWrapper::ReqQryCFMMCTradingAccountKey;
 
     //ReqUserPasswordUpdate
-    apiMap["ReqUserPasswordUpdate"] = &CApiWrapper::ReqUserPasswordUpdate;
+    apiMap["ReqUserPasswordUpdate"] = &CTraderWrapper::ReqUserPasswordUpdate;
 
     //ReqParkedOrderAction
-    apiMap["ReqParkedOrderAction"] = &CApiWrapper::ReqParkedOrderAction;
+    apiMap["ReqParkedOrderAction"] = &CTraderWrapper::ReqParkedOrderAction;
 
     //ReqQryTradingNotice
-    apiMap["ReqQryTradingNotice"] = &CApiWrapper::ReqQryTradingNotice;
+    apiMap["ReqQryTradingNotice"] = &CTraderWrapper::ReqQryTradingNotice;
 
     //ReqQryTrade
-    apiMap["ReqQryTrade"] = &CApiWrapper::ReqQryTrade;
+    apiMap["ReqQryTrade"] = &CTraderWrapper::ReqQryTrade;
 
     //ReqQueryMaxOrderVolume
-    apiMap["ReqQueryMaxOrderVolume"] = &CApiWrapper::ReqQueryMaxOrderVolume;
+    apiMap["ReqQueryMaxOrderVolume"] = &CTraderWrapper::ReqQueryMaxOrderVolume;
 
     //ReqSettlementInfoConfirm
-    apiMap["ReqSettlementInfoConfirm"] = &CApiWrapper::ReqSettlementInfoConfirm;
+    apiMap["ReqSettlementInfoConfirm"] = &CTraderWrapper::ReqSettlementInfoConfirm;
 
     //ReqQryInvestorPosition
-    apiMap["ReqQryInvestorPosition"] = &CApiWrapper::ReqQryInvestorPosition;
+    apiMap["ReqQryInvestorPosition"] = &CTraderWrapper::ReqQryInvestorPosition;
 
     //ReqQryBrokerTradingAlgos
-    apiMap["ReqQryBrokerTradingAlgos"] = &CApiWrapper::ReqQryBrokerTradingAlgos;
+    apiMap["ReqQryBrokerTradingAlgos"] = &CTraderWrapper::ReqQryBrokerTradingAlgos;
 
     //ReqQryOrder
-    apiMap["ReqQryOrder"] = &CApiWrapper::ReqQryOrder;
+    apiMap["ReqQryOrder"] = &CTraderWrapper::ReqQryOrder;
 
     //ReqQryExchange
-    apiMap["ReqQryExchange"] = &CApiWrapper::ReqQryExchange;
+    apiMap["ReqQryExchange"] = &CTraderWrapper::ReqQryExchange;
 
     //ReqUserLogin
-    apiMap["ReqUserLogin"] = &CApiWrapper::ReqUserLogin;
+    apiMap["ReqUserLogin"] = &CTraderWrapper::ReqUserLogin;
 
     //ReqFromFutureToBankByFuture
-    apiMap["ReqFromFutureToBankByFuture"] = &CApiWrapper::ReqFromFutureToBankByFuture;
+    apiMap["ReqFromFutureToBankByFuture"] = &CTraderWrapper::ReqFromFutureToBankByFuture;
 
     //ReqFromBankToFutureByFuture
-    apiMap["ReqFromBankToFutureByFuture"] = &CApiWrapper::ReqFromBankToFutureByFuture;
+    apiMap["ReqFromBankToFutureByFuture"] = &CTraderWrapper::ReqFromBankToFutureByFuture;
 
     //ReqQrySettlementInfoConfirm
-    apiMap["ReqQrySettlementInfoConfirm"] = &CApiWrapper::ReqQrySettlementInfoConfirm;
+    apiMap["ReqQrySettlementInfoConfirm"] = &CTraderWrapper::ReqQrySettlementInfoConfirm;
 
     //ReqQryBrokerTradingParams
-    apiMap["ReqQryBrokerTradingParams"] = &CApiWrapper::ReqQryBrokerTradingParams;
+    apiMap["ReqQryBrokerTradingParams"] = &CTraderWrapper::ReqQryBrokerTradingParams;
 
     //ReqQueryCFMMCTradingAccountToken
-    apiMap["ReqQueryCFMMCTradingAccountToken"] = &CApiWrapper::ReqQueryCFMMCTradingAccountToken;
+    apiMap["ReqQueryCFMMCTradingAccountToken"] = &CTraderWrapper::ReqQueryCFMMCTradingAccountToken;
 
     //ReqQryNotice
-    apiMap["ReqQryNotice"] = &CApiWrapper::ReqQryNotice;
+    apiMap["ReqQryNotice"] = &CTraderWrapper::ReqQryNotice;
 
     //ReqQryExchangeRate
-    apiMap["ReqQryExchangeRate"] = &CApiWrapper::ReqQryExchangeRate;
+    apiMap["ReqQryExchangeRate"] = &CTraderWrapper::ReqQryExchangeRate;
 
     //ReqParkedOrderInsert
-    apiMap["ReqParkedOrderInsert"] = &CApiWrapper::ReqParkedOrderInsert;
+    apiMap["ReqParkedOrderInsert"] = &CTraderWrapper::ReqParkedOrderInsert;
 
     //ReqQryContractBank
-    apiMap["ReqQryContractBank"] = &CApiWrapper::ReqQryContractBank;
+    apiMap["ReqQryContractBank"] = &CTraderWrapper::ReqQryContractBank;
 
     //ReqQryInvestorPositionCombineDetail
-    apiMap["ReqQryInvestorPositionCombineDetail"] = &CApiWrapper::ReqQryInvestorPositionCombineDetail;
+    apiMap["ReqQryInvestorPositionCombineDetail"] = &CTraderWrapper::ReqQryInvestorPositionCombineDetail;
 
     //ReqQryExchangeMarginRate
-    apiMap["ReqQryExchangeMarginRate"] = &CApiWrapper::ReqQryExchangeMarginRate;
+    apiMap["ReqQryExchangeMarginRate"] = &CTraderWrapper::ReqQryExchangeMarginRate;
 
     //ReqQrySecAgentACIDMap
-    apiMap["ReqQrySecAgentACIDMap"] = &CApiWrapper::ReqQrySecAgentACIDMap;
+    apiMap["ReqQrySecAgentACIDMap"] = &CTraderWrapper::ReqQrySecAgentACIDMap;
 
     //ReqQryTransferSerial
-    apiMap["ReqQryTransferSerial"] = &CApiWrapper::ReqQryTransferSerial;
+    apiMap["ReqQryTransferSerial"] = &CTraderWrapper::ReqQryTransferSerial;
 
     //ReqQueryBankAccountMoneyByFuture
-    apiMap["ReqQueryBankAccountMoneyByFuture"] = &CApiWrapper::ReqQueryBankAccountMoneyByFuture;
+    apiMap["ReqQueryBankAccountMoneyByFuture"] = &CTraderWrapper::ReqQueryBankAccountMoneyByFuture;
 
     //ReqQryParkedOrderAction
-    apiMap["ReqQryParkedOrderAction"] = &CApiWrapper::ReqQryParkedOrderAction;
+    apiMap["ReqQryParkedOrderAction"] = &CTraderWrapper::ReqQryParkedOrderAction;
 
     //ReqAuthenticate
-    apiMap["ReqAuthenticate"] = &CApiWrapper::ReqAuthenticate;
+    apiMap["ReqAuthenticate"] = &CTraderWrapper::ReqAuthenticate;
 
     //ReqOrderInsert
-    apiMap["ReqOrderInsert"] = &CApiWrapper::ReqOrderInsert;
+    apiMap["ReqOrderInsert"] = &CTraderWrapper::ReqOrderInsert;
 
     //ReqQrySettlementInfo
-    apiMap["ReqQrySettlementInfo"] = &CApiWrapper::ReqQrySettlementInfo;
+    apiMap["ReqQrySettlementInfo"] = &CTraderWrapper::ReqQrySettlementInfo;
 
     //ReqUserLogout
-    apiMap["ReqUserLogout"] = &CApiWrapper::ReqUserLogout;
+    apiMap["ReqUserLogout"] = &CTraderWrapper::ReqUserLogout;
 
     //ReqQryInstrument
-    apiMap["ReqQryInstrument"] = &CApiWrapper::ReqQryInstrument;
+    apiMap["ReqQryInstrument"] = &CTraderWrapper::ReqQryInstrument;
 
     //ReqOrderAction
-    apiMap["ReqOrderAction"] = &CApiWrapper::ReqOrderAction;
+    apiMap["ReqOrderAction"] = &CTraderWrapper::ReqOrderAction;
 
     //ReqQryInstrumentCommissionRate
-    apiMap["ReqQryInstrumentCommissionRate"] = &CApiWrapper::ReqQryInstrumentCommissionRate;
+    apiMap["ReqQryInstrumentCommissionRate"] = &CTraderWrapper::ReqQryInstrumentCommissionRate;
 
     //ReqQryInstrumentMarginRate
-    apiMap["ReqQryInstrumentMarginRate"] = &CApiWrapper::ReqQryInstrumentMarginRate;
+    apiMap["ReqQryInstrumentMarginRate"] = &CTraderWrapper::ReqQryInstrumentMarginRate;
 
     //ReqQryInvestor
-    apiMap["ReqQryInvestor"] = &CApiWrapper::ReqQryInvestor;
+    apiMap["ReqQryInvestor"] = &CTraderWrapper::ReqQryInvestor;
 
     //ReqQryParkedOrder
-    apiMap["ReqQryParkedOrder"] = &CApiWrapper::ReqQryParkedOrder;
+    apiMap["ReqQryParkedOrder"] = &CTraderWrapper::ReqQryParkedOrder;
 
     //ReqQryInvestorProductGroupMargin
-    apiMap["ReqQryInvestorProductGroupMargin"] = &CApiWrapper::ReqQryInvestorProductGroupMargin;
+    apiMap["ReqQryInvestorProductGroupMargin"] = &CTraderWrapper::ReqQryInvestorProductGroupMargin;
 
     //ReqQryDepthMarketData
-    apiMap["ReqQryDepthMarketData"] = &CApiWrapper::ReqQryDepthMarketData;
+    apiMap["ReqQryDepthMarketData"] = &CTraderWrapper::ReqQryDepthMarketData;
 
     //ReqQryTransferBank
-    apiMap["ReqQryTransferBank"] = &CApiWrapper::ReqQryTransferBank;
+    apiMap["ReqQryTransferBank"] = &CTraderWrapper::ReqQryTransferBank;
 
     //ReqRemoveParkedOrderAction
-    apiMap["ReqRemoveParkedOrderAction"] = &CApiWrapper::ReqRemoveParkedOrderAction;
+    apiMap["ReqRemoveParkedOrderAction"] = &CTraderWrapper::ReqRemoveParkedOrderAction;
 
     //ReqQryProduct
-    apiMap["ReqQryProduct"] = &CApiWrapper::ReqQryProduct;
+    apiMap["ReqQryProduct"] = &CTraderWrapper::ReqQryProduct;
 
     //ReqQryTradingCode
-    apiMap["ReqQryTradingCode"] = &CApiWrapper::ReqQryTradingCode;
+    apiMap["ReqQryTradingCode"] = &CTraderWrapper::ReqQryTradingCode;
 
     //ReqTradingAccountPasswordUpdate
-    apiMap["ReqTradingAccountPasswordUpdate"] = &CApiWrapper::ReqTradingAccountPasswordUpdate;
+    apiMap["ReqTradingAccountPasswordUpdate"] = &CTraderWrapper::ReqTradingAccountPasswordUpdate;
 
     //ReqQryAccountregister
-    apiMap["ReqQryAccountregister"] = &CApiWrapper::ReqQryAccountregister;
+    apiMap["ReqQryAccountregister"] = &CTraderWrapper::ReqQryAccountregister;
 
     //ReqQryExchangeMarginRateAdjust
-    apiMap["ReqQryExchangeMarginRateAdjust"] = &CApiWrapper::ReqQryExchangeMarginRateAdjust;
+    apiMap["ReqQryExchangeMarginRateAdjust"] = &CTraderWrapper::ReqQryExchangeMarginRateAdjust;
 
     //ReqQryEWarrantOffset
-    apiMap["ReqQryEWarrantOffset"] = &CApiWrapper::ReqQryEWarrantOffset;
+    apiMap["ReqQryEWarrantOffset"] = &CTraderWrapper::ReqQryEWarrantOffset;
 
     //ReqQryInvestorPositionDetail
-    apiMap["ReqQryInvestorPositionDetail"] = &CApiWrapper::ReqQryInvestorPositionDetail;
+    apiMap["ReqQryInvestorPositionDetail"] = &CTraderWrapper::ReqQryInvestorPositionDetail;
 
     //ReqRemoveParkedOrder
-    apiMap["ReqRemoveParkedOrder"] = &CApiWrapper::ReqRemoveParkedOrder;
+    apiMap["ReqRemoveParkedOrder"] = &CTraderWrapper::ReqRemoveParkedOrder;
 
 }
 
 /// 启动CTP连接
-void CApiWrapper::init() {
+void CTraderWrapper::init() {
 
-    std::cout << "CApiWrapper::init():开始执行..." << std::endl;
+    std::cout << "CTraderWrapper::init():开始执行..." << std::endl;
     // 初始化api名称对照表
     initApiMap();
 
@@ -210,17 +210,17 @@ void CApiWrapper::init() {
     pTraderApi->RegisterFront(pConfigure->frontAddress);
 
     // 连接spi的Pushback管道
-    std::cout << "CApiWrapper::init():Pushback管道地址为:" << pConfigure->pushbackPipe << std::endl;
+    std::cout << "CTraderWrapper::init():Pushback管道地址为:" << pConfigure->pushbackPipe << std::endl;
     receiver.connect(pConfigure->pushbackPipe);
 
     // 连接交易系统
-    std::cout << "CApiWrapper::init():尝试连接服务器..." << std::endl;
+    std::cout << "CTraderWrapper::init():尝试连接服务器..." << std::endl;
     pTraderApi->Init();
 
     // 等待服务器发出OnFrontConnected事件
-    std::cout << "CApiWrapper::init():等待服务器响应消息..." << std::endl;
+    std::cout << "CTraderWrapper::init():等待服务器响应消息..." << std::endl;
     message.recv(receiver);
-    std::cout << "CApiWrapper::init():已收到服务器响应消息..." << std::endl;
+    std::cout << "CTraderWrapper::init():已收到服务器响应消息..." << std::endl;
 
     // 确认收到的返回信息是由OnFrontConnected发出
     assert(message.requestID.compare("0") == 0);
@@ -228,7 +228,7 @@ void CApiWrapper::init() {
     assert(message.respInfo.compare("") == 0);
 
     // 发出登陆请求
-    std::cout << "CApiWrapper::init():发出登录请求..." << std::endl;
+    std::cout << "CTraderWrapper::init():发出登录请求..." << std::endl;
     CThostFtdcReqUserLoginField userLoginField;
     strcpy(userLoginField.BrokerID,pConfigure->brokerID);
     strcpy(userLoginField.UserID,pConfigure->userID);
@@ -236,9 +236,9 @@ void CApiWrapper::init() {
     pTraderApi->ReqUserLogin(&userLoginField,getNextRequestID());
 
     // 等待登录成功返回信息
-    std::cout << "CApiWrapper::init():等待登录结果..." << std::endl;
+    std::cout << "CTraderWrapper::init():等待登录结果..." << std::endl;
     message.recv(receiver);
-    std::cout << "CApiWrapper::init():已收到登录返回信息..." << std::endl;
+    std::cout << "CTraderWrapper::init():已收到登录返回信息..." << std::endl;
 
     assert(message.requestID.compare("1") == 0);
     assert(message.apiName.compare("OnRspUserLogin") == 0);
@@ -253,29 +253,29 @@ void CApiWrapper::init() {
     int ErrorID = jsonData["Parameters"]["Data"]["RspInfo"]["ErrorID"].asInt();
     assert(ErrorID == 0);
 
-    std::cout << "CApiWrapper::init():登录成功..." << std::endl;
+    std::cout << "CTraderWrapper::init():登录成功..." << std::endl;
 
-    std::cout << "CApiWrapper::init():执行完毕..." << std::endl;
+    std::cout << "CTraderWrapper::init():执行完毕..." << std::endl;
 }
 
 
 /// 获取下一个RequestID序列
-int CApiWrapper::getNextRequestID() {
+int CTraderWrapper::getNextRequestID() {
     return 	++this->RequestID;
 }
 
 /// 获取当前RequestID序列
-int CApiWrapper::getCurrentRequestID() {
+int CTraderWrapper::getCurrentRequestID() {
     return 	this->RequestID;
 }
 
 /// 获取上次出错代码
-int CApiWrapper::getLastErrorID() {
+int CTraderWrapper::getLastErrorID() {
     return lastErrorID;
 }
 
 /// 获取上次错误信息
-std::string CApiWrapper::getLastErrorMsg() {
+std::string CTraderWrapper::getLastErrorMsg() {
     return lastErrorMsg;
 }
 
@@ -284,7 +284,7 @@ std::string CApiWrapper::getLastErrorMsg() {
 ///请求查询资金账户
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryTradingAccount(std::string jsonString)
+int CTraderWrapper::ReqQryTradingAccount(std::string jsonString)
 {
     printf("ReqQryTradingAccount():被执行...\n");
 
@@ -378,7 +378,7 @@ int CApiWrapper::ReqQryTradingAccount(std::string jsonString)
 ///请求查询保证金监管系统经纪公司资金账户密钥
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
+int CTraderWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
 {
     printf("ReqQryCFMMCTradingAccountKey():被执行...\n");
 
@@ -464,7 +464,7 @@ int CApiWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
 ///用户口令更新请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqUserPasswordUpdate(std::string jsonString)
+int CTraderWrapper::ReqUserPasswordUpdate(std::string jsonString)
 {
     printf("ReqUserPasswordUpdate():被执行...\n");
 
@@ -566,7 +566,7 @@ int CApiWrapper::ReqUserPasswordUpdate(std::string jsonString)
 ///预埋撤单录入请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqParkedOrderAction(std::string jsonString)
+int CTraderWrapper::ReqParkedOrderAction(std::string jsonString)
 {
     printf("ReqParkedOrderAction():被执行...\n");
 
@@ -778,7 +778,7 @@ int CApiWrapper::ReqParkedOrderAction(std::string jsonString)
 ///请求查询交易通知
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryTradingNotice(std::string jsonString)
+int CTraderWrapper::ReqQryTradingNotice(std::string jsonString)
 {
     printf("ReqQryTradingNotice():被执行...\n");
 
@@ -864,7 +864,7 @@ int CApiWrapper::ReqQryTradingNotice(std::string jsonString)
 ///请求查询成交
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryTrade(std::string jsonString)
+int CTraderWrapper::ReqQryTrade(std::string jsonString)
 {
     printf("ReqQryTrade():被执行...\n");
 
@@ -990,7 +990,7 @@ int CApiWrapper::ReqQryTrade(std::string jsonString)
 ///查询最大报单数量请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
+int CTraderWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
 {
     printf("ReqQueryMaxOrderVolume():被执行...\n");
 
@@ -1112,7 +1112,7 @@ int CApiWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
 ///投资者结算结果确认
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqSettlementInfoConfirm(std::string jsonString)
+int CTraderWrapper::ReqSettlementInfoConfirm(std::string jsonString)
 {
     printf("ReqSettlementInfoConfirm():被执行...\n");
 
@@ -1214,7 +1214,7 @@ int CApiWrapper::ReqSettlementInfoConfirm(std::string jsonString)
 ///请求查询投资者持仓
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryInvestorPosition(std::string jsonString)
+int CTraderWrapper::ReqQryInvestorPosition(std::string jsonString)
 {
     printf("ReqQryInvestorPosition():被执行...\n");
 
@@ -1308,7 +1308,7 @@ int CApiWrapper::ReqQryInvestorPosition(std::string jsonString)
 ///请求查询经纪公司交易算法
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
+int CTraderWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
 {
     printf("ReqQryBrokerTradingAlgos():被执行...\n");
 
@@ -1402,7 +1402,7 @@ int CApiWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
 ///请求查询报单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryOrder(std::string jsonString)
+int CTraderWrapper::ReqQryOrder(std::string jsonString)
 {
     printf("ReqQryOrder():被执行...\n");
 
@@ -1528,7 +1528,7 @@ int CApiWrapper::ReqQryOrder(std::string jsonString)
 ///请求查询交易所
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryExchange(std::string jsonString)
+int CTraderWrapper::ReqQryExchange(std::string jsonString)
 {
     printf("ReqQryExchange():被执行...\n");
 
@@ -1606,7 +1606,7 @@ int CApiWrapper::ReqQryExchange(std::string jsonString)
 ///用户登录请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqUserLogin(std::string jsonString)
+int CTraderWrapper::ReqUserLogin(std::string jsonString)
 {
     printf("ReqUserLogin():被执行...\n");
 
@@ -1756,7 +1756,7 @@ int CApiWrapper::ReqUserLogin(std::string jsonString)
 ///期货发起期货资金转银行请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
+int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
 {
     printf("ReqFromFutureToBankByFuture():被执行...\n");
 
@@ -2150,7 +2150,7 @@ int CApiWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
 ///期货发起银行资金转期货请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
+int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
 {
     printf("ReqFromBankToFutureByFuture():被执行...\n");
 
@@ -2544,7 +2544,7 @@ int CApiWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
 ///请求查询结算信息确认
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
+int CTraderWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
 {
     printf("ReqQrySettlementInfoConfirm():被执行...\n");
 
@@ -2630,7 +2630,7 @@ int CApiWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
 ///请求查询经纪公司交易参数
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryBrokerTradingParams(std::string jsonString)
+int CTraderWrapper::ReqQryBrokerTradingParams(std::string jsonString)
 {
     printf("ReqQryBrokerTradingParams():被执行...\n");
 
@@ -2724,7 +2724,7 @@ int CApiWrapper::ReqQryBrokerTradingParams(std::string jsonString)
 ///请求查询监控中心用户令牌
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
+int CTraderWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
 {
     printf("ReqQueryCFMMCTradingAccountToken():被执行...\n");
 
@@ -2810,7 +2810,7 @@ int CApiWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
 ///请求查询客户通知
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryNotice(std::string jsonString)
+int CTraderWrapper::ReqQryNotice(std::string jsonString)
 {
     printf("ReqQryNotice():被执行...\n");
 
@@ -2888,7 +2888,7 @@ int CApiWrapper::ReqQryNotice(std::string jsonString)
 ///请求查询汇率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryExchangeRate(std::string jsonString)
+int CTraderWrapper::ReqQryExchangeRate(std::string jsonString)
 {
     printf("ReqQryExchangeRate():被执行...\n");
 
@@ -2982,7 +2982,7 @@ int CApiWrapper::ReqQryExchangeRate(std::string jsonString)
 ///预埋单录入请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqParkedOrderInsert(std::string jsonString)
+int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString)
 {
     printf("ReqParkedOrderInsert():被执行...\n");
 
@@ -3267,7 +3267,7 @@ int CApiWrapper::ReqParkedOrderInsert(std::string jsonString)
 ///请求查询签约银行
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryContractBank(std::string jsonString)
+int CTraderWrapper::ReqQryContractBank(std::string jsonString)
 {
     printf("ReqQryContractBank():被执行...\n");
 
@@ -3361,7 +3361,7 @@ int CApiWrapper::ReqQryContractBank(std::string jsonString)
 ///请求查询投资者持仓明细
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
+int CTraderWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
 {
     printf("ReqQryInvestorPositionCombineDetail():被执行...\n");
 
@@ -3455,7 +3455,7 @@ int CApiWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
 ///请求查询交易所保证金率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryExchangeMarginRate(std::string jsonString)
+int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
 {
     printf("ReqQryExchangeMarginRate():被执行...\n");
 
@@ -3548,7 +3548,7 @@ int CApiWrapper::ReqQryExchangeMarginRate(std::string jsonString)
 ///请求查询二级代理操作员银期权限
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
+int CTraderWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
 {
     printf("ReqQrySecAgentACIDMap():被执行...\n");
 
@@ -3650,7 +3650,7 @@ int CApiWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
 ///请求查询转帐流水
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryTransferSerial(std::string jsonString)
+int CTraderWrapper::ReqQryTransferSerial(std::string jsonString)
 {
     printf("ReqQryTransferSerial():被执行...\n");
 
@@ -3752,7 +3752,7 @@ int CApiWrapper::ReqQryTransferSerial(std::string jsonString)
 ///期货发起查询银行余额请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
+int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
 {
     printf("ReqQueryBankAccountMoneyByFuture():被执行...\n");
 
@@ -4096,7 +4096,7 @@ int CApiWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
 ///请求查询预埋撤单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryParkedOrderAction(std::string jsonString)
+int CTraderWrapper::ReqQryParkedOrderAction(std::string jsonString)
 {
     printf("ReqQryParkedOrderAction():被执行...\n");
 
@@ -4198,7 +4198,7 @@ int CApiWrapper::ReqQryParkedOrderAction(std::string jsonString)
 ///客户端认证请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqAuthenticate(std::string jsonString)
+int CTraderWrapper::ReqAuthenticate(std::string jsonString)
 {
     printf("ReqAuthenticate():被执行...\n");
 
@@ -4300,7 +4300,7 @@ int CApiWrapper::ReqAuthenticate(std::string jsonString)
 ///报单录入请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqOrderInsert(std::string jsonString)
+int CTraderWrapper::ReqOrderInsert(std::string jsonString)
 {
     printf("ReqOrderInsert():被执行...\n");
 
@@ -4540,7 +4540,7 @@ int CApiWrapper::ReqOrderInsert(std::string jsonString)
 ///请求查询投资者结算结果
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQrySettlementInfo(std::string jsonString)
+int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString)
 {
     printf("ReqQrySettlementInfo():被执行...\n");
 
@@ -4634,7 +4634,7 @@ int CApiWrapper::ReqQrySettlementInfo(std::string jsonString)
 ///登出请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqUserLogout(std::string jsonString)
+int CTraderWrapper::ReqUserLogout(std::string jsonString)
 {
     printf("ReqUserLogout():被执行...\n");
 
@@ -4720,7 +4720,7 @@ int CApiWrapper::ReqUserLogout(std::string jsonString)
 ///请求查询合约
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryInstrument(std::string jsonString)
+int CTraderWrapper::ReqQryInstrument(std::string jsonString)
 {
     printf("ReqQryInstrument():被执行...\n");
 
@@ -4822,7 +4822,7 @@ int CApiWrapper::ReqQryInstrument(std::string jsonString)
 ///报单操作请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqOrderAction(std::string jsonString)
+int CTraderWrapper::ReqOrderAction(std::string jsonString)
 {
     printf("ReqOrderAction():被执行...\n");
 
@@ -4997,7 +4997,7 @@ int CApiWrapper::ReqOrderAction(std::string jsonString)
 ///请求查询合约手续费率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
+int CTraderWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
 {
     printf("ReqQryInstrumentCommissionRate():被执行...\n");
 
@@ -5091,7 +5091,7 @@ int CApiWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
 ///请求查询合约保证金率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
+int CTraderWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
 {
     printf("ReqQryInstrumentMarginRate():被执行...\n");
 
@@ -5192,7 +5192,7 @@ int CApiWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
 ///请求查询投资者
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryInvestor(std::string jsonString)
+int CTraderWrapper::ReqQryInvestor(std::string jsonString)
 {
     printf("ReqQryInvestor():被执行...\n");
 
@@ -5278,7 +5278,7 @@ int CApiWrapper::ReqQryInvestor(std::string jsonString)
 ///请求查询预埋单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryParkedOrder(std::string jsonString)
+int CTraderWrapper::ReqQryParkedOrder(std::string jsonString)
 {
     printf("ReqQryParkedOrder():被执行...\n");
 
@@ -5380,7 +5380,7 @@ int CApiWrapper::ReqQryParkedOrder(std::string jsonString)
 ///请求查询投资者品种/跨品种保证金
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
+int CTraderWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
 {
     printf("ReqQryInvestorProductGroupMargin():被执行...\n");
 
@@ -5481,7 +5481,7 @@ int CApiWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
 ///请求查询行情
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryDepthMarketData(std::string jsonString)
+int CTraderWrapper::ReqQryDepthMarketData(std::string jsonString)
 {
     printf("ReqQryDepthMarketData():被执行...\n");
 
@@ -5559,7 +5559,7 @@ int CApiWrapper::ReqQryDepthMarketData(std::string jsonString)
 ///请求查询转帐银行
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryTransferBank(std::string jsonString)
+int CTraderWrapper::ReqQryTransferBank(std::string jsonString)
 {
     printf("ReqQryTransferBank():被执行...\n");
 
@@ -5645,7 +5645,7 @@ int CApiWrapper::ReqQryTransferBank(std::string jsonString)
 ///请求删除预埋撤单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
+int CTraderWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
 {
     printf("ReqRemoveParkedOrderAction():被执行...\n");
 
@@ -5739,7 +5739,7 @@ int CApiWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
 ///请求查询产品
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryProduct(std::string jsonString)
+int CTraderWrapper::ReqQryProduct(std::string jsonString)
 {
     printf("ReqQryProduct():被执行...\n");
 
@@ -5817,7 +5817,7 @@ int CApiWrapper::ReqQryProduct(std::string jsonString)
 ///请求查询交易编码
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryTradingCode(std::string jsonString)
+int CTraderWrapper::ReqQryTradingCode(std::string jsonString)
 {
     printf("ReqQryTradingCode():被执行...\n");
 
@@ -5926,7 +5926,7 @@ int CApiWrapper::ReqQryTradingCode(std::string jsonString)
 ///资金账户口令更新请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
+int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
 {
     printf("ReqTradingAccountPasswordUpdate():被执行...\n");
 
@@ -6036,7 +6036,7 @@ int CApiWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
 ///请求查询银期签约关系
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryAccountregister(std::string jsonString)
+int CTraderWrapper::ReqQryAccountregister(std::string jsonString)
 {
     printf("ReqQryAccountregister():被执行...\n");
 
@@ -6146,7 +6146,7 @@ int CApiWrapper::ReqQryAccountregister(std::string jsonString)
 ///请求查询交易所调整保证金率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
+int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
 {
     printf("ReqQryExchangeMarginRateAdjust():被执行...\n");
 
@@ -6239,7 +6239,7 @@ int CApiWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
 ///请求查询仓单折抵信息
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryEWarrantOffset(std::string jsonString)
+int CTraderWrapper::ReqQryEWarrantOffset(std::string jsonString)
 {
     printf("ReqQryEWarrantOffset():被执行...\n");
 
@@ -6341,7 +6341,7 @@ int CApiWrapper::ReqQryEWarrantOffset(std::string jsonString)
 ///请求查询投资者持仓明细
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
+int CTraderWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
 {
     printf("ReqQryInvestorPositionDetail():被执行...\n");
 
@@ -6435,7 +6435,7 @@ int CApiWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
 ///请求删除预埋单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
+int CTraderWrapper::ReqRemoveParkedOrder(std::string jsonString)
 {
     printf("ReqRemoveParkedOrder():被执行...\n");
 
@@ -6528,7 +6528,7 @@ int CApiWrapper::ReqRemoveParkedOrder(std::string jsonString)
 
 
 // 通过名称调用api
-int CApiWrapper::callApiByName(std::string apiName,std::string jsonString) {
+int CTraderWrapper::callApiByName(std::string apiName,std::string jsonString) {
 
     if ( apiMap.find(apiName) != apiMap.end() ) {
         return (this->*apiMap[apiName])(jsonString);
