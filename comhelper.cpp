@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <iconv.h>
 #include <string.h>
+#include <string>
+#include <algorithm>
 
 void codeConvert(char * from,char * to,char * src,char * dst,size_t dstSize){
 	size_t sl,dl;
@@ -14,8 +16,21 @@ void codeConvert(char * from,char * to,char * src,char * dst,size_t dstSize){
 	iconv_close(conv);
 }
 
+
 void gbk2utf8(char * src,char * dst,size_t dstSize){
 	char * gbk = (char*)"GBK";
 	char * utf8 = (char*)"UTF-8";
 	codeConvert(gbk,utf8,src,dst,dstSize);
+}
+
+
+char* getCmdOption(int argc,char * argv[], const std::string & option)
+{
+    char ** begin = argv;
+    char ** end = argv + argc;
+    char ** itr = std::find(begin, end, option);
+    if (itr != end && ++itr != end) {
+        return *itr;
+    }
+    return NULL;
 }
