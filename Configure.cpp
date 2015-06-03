@@ -11,7 +11,7 @@ Configure::Configure() {
 
 }
 
-/// 读取配置信息
+/// 从环境变量中读取配置信息
 void Configure::loadFromEnvironment() {
     /// 服务器地址
     this->frontAddress = getenv("CTP_FRONT_ADDRESS");
@@ -36,6 +36,7 @@ void Configure::loadFromEnvironment() {
     assert(this->publishPipe);
 }
 
+/// 从命令行读取配置信息
 void  Configure::loadFromCommandLine(CommandOption commandOption){
 
     /// 服务器地址
@@ -72,5 +73,23 @@ void  Configure::loadFromCommandLine(CommandOption commandOption){
     char * publishPipe = commandOption.get("--PublishPipe");
     assert(publishPipe != NULL);
     this->publishPipe = publishPipe;
+
+}
+
+
+
+/// 构造函数
+MdConfigure::MdConfigure() {
+
+}
+
+/// 从环境变量中读取配置信息
+void MdConfigure::loadFromEnvironment(){
+
+}
+
+/// 从命令行读取配置信息
+void MdConfigure::loadFromCommandLine(CommandOption commandOption){
+
 
 }
