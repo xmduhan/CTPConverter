@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 //#include <comhelper.h>
 
 
@@ -84,6 +85,27 @@ MdConfigure::MdConfigure() {
 
 }
 
+
+void MdConfigure::loadInstrumentIDList(){
+    // 确保文件存在
+    assert(fileExists(this->instrumentIDConfigFile));
+    // 读取文件内容,并解析数据
+    Json::Reader jsonReader;
+    Json::Value instrumentIDList;
+    std::string fileContent = fileReadAll(this->instrumentIDConfigFile);
+    assert(jsonReader.parse(fileContent,instrumentIDList));
+    // 确保不超出品种数组的长度
+    assert(instrumentIDList.size()>0);
+    assert(instrumentIDList.size()<INSTRUMENT_ARRAY_SIZE);
+    // 读取品种订阅列表转化位ctp md api要求的格式
+    for (unsigned int i = 0; i < instrumentIDList.size(); i++){
+        const char * instrumentID = instrumentIDList[i].asString().c_str();
+        instrumentIDArray[i] = (char *) malloc(strlen(instrumentID)+1);
+        strcpy(instrumentIDArray[i],instrumentID);
+    }
+    instrumentCount = instrumentIDList.size();
+}
+
 /// 从环境变量中读取配置信息
 void MdConfigure::loadFromEnvironment(){
     /// 服务器地址
@@ -107,6 +129,14 @@ void MdConfigure::loadFromEnvironment(){
     /// 广播信息管道
     this->publishPipe = getenv("CTP_PUBLISH_PIPE");
     assert(this->publishPipe);
+    // 订阅品种列表配置文件
+    this->publishPipe = getenv("CTP_PUBLISH_PIPE");
+    assert(this->publishPipe);
+    // 读取品种列表配置文件
+    this->instrumentIDConfigFile = getenv("CTP_INSTRUMENT_ID_CONFIG_FILE");
+    assert(this->instrumentIDConfigFile != NULL);
+    assert(fileExists(this->instrumentIDConfigFile));
+    loadInstrumentIDList();
 }
 
 /// 从命令行读取配置信息
@@ -150,22 +180,8 @@ void MdConfigure::loadFromCommandLine(CommandOption commandOption){
     /// 品种列表配置文件
     char * instrumentIDConfigFile = commandOption.get("--InstrumentIDConfigFile");
     assert(instrumentIDConfigFile != NULL);
+    assert(fileExists(instrumentIDConfigFile));
     this->instrumentIDConfigFile = instrumentIDConfigFile;
-    // 确保文件存在
-    assert(fileExists(this->instrumentIDConfigFile));
-    // 读取文件内容,并解析数据
-    Json::Reader jsonReader;
-    Json::Value instrumentIDList;
-    std::string fileContent = fileReadAll(this->instrumentIDConfigFile);
-    assert(jsonReader.parse(fileContent,instrumentIDList));
-    // 确保不超出品种数组的长度
-    assert(instrumentIDList.size()<INSTRUMENT_ARRAY_SIZE);
-
-    for (unsigned int i = 0; i < instrumentIDList.size(); i++){
-        const char * instrumentID = instrumentIDList.asString().c_str();
-        instrumentIDArray[i] = (char *)malloc(strlen(instrumentID)+1);
-        strcpy(instrumentIDArray[i],instrumentID);
-    }
-    instrumentCount = instrumentIDList.size();
+    loadInstrumentIDList();
 
 }

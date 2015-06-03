@@ -62,4 +62,5 @@ public:
     /// 读取配置信息
     void loadFromEnvironment();
     void loadFromCommandLine(CommandOption commandOption);
+    void loadInstrumentIDList();
 };
