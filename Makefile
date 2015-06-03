@@ -38,6 +38,14 @@ include/CTraderHandler.h : template/CTraderHandler.h.tpl
 	python generate.py CTraderHandler.h.tpl include
 
 
+CMDHandler.cpp : template/CMDHandler.cpp.tpl
+	python generate.py CMDHandler.cpp.tpl
+
+
+include/CMDHandler.h : template/CMDHandler.h.tpl
+	python generate.py CMDHandler.h.tpl include
+
+
 test/channel.py : template/channel.py.tpl
 	python generate.py channel.py.tpl test
 
@@ -110,4 +118,4 @@ md.o : md.cpp include/*.h
 
 clean :
 	touch template/*
-	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk bin/trader bin/md bin/test 
+	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk bin/trader bin/md bin/test

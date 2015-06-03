@@ -4,4 +4,4 @@
 *.pk
 *.con
 *.txt~
-converter
+bin/*
