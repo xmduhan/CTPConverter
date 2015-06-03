@@ -37,12 +37,74 @@ CMdWrapper::CMdWrapper(MdConfigure * pConfigure){
 
 // 将所有api函数映射到名称
 void CMdWrapper::initApiMap(){
-
+	{% for method in mdReqMethodDict.itervalues() %}
+		//{{method['name']}}
+		apiMap["{{method['name']}}"] = &CMdWrapper::{{method['name']}};
+	{% endfor %}
 }
 
 
 /// 启动CTP连接
 void CMdWrapper::init(){
+	std::cout << "CMdWrapper::init():开始执行..." << std::endl;
+	// 初始化api名称对照表
+	initApiMap();
+
+	// 创建zmq通讯环境
+	zmq::context_t context(1);
+	zmq::socket_t receiver(context, ZMQ_PULL);
+	PushbackMessage message;
+
+	/// 设置服务器地址
+	pMdApi->RegisterFront(pConfigure->frontAddress);
+
+	// 连接spi的Pushback管道
+	std::cout << "CMdWrapper::init():Pushback管道地址为:" << pConfigure->pushbackPipe << std::endl;
+	receiver.connect(pConfigure->pushbackPipe);
+
+	// 连接交易系统
+	std::cout << "CMdWrapper::init():尝试连接服务器..." << std::endl;
+	pMdApi->Init();
+
+	// 等待服务器发出OnFrontConnected事件
+	std::cout << "CMdWrapper::init():等待服务器响应消息..." << std::endl;
+	message.recv(receiver);
+	std::cout << "CMdWrapper::init():已收到服务器响应消息..." << std::endl;
+
+	// 确认收到的返回信息是由OnFrontConnected发出
+	assert(message.requestID.compare("0") == 0);
+	assert(message.apiName.compare("OnFrontConnected") == 0);
+	assert(message.respInfo.compare("") == 0);
+
+	// 发出登陆请求
+	std::cout << "CMdWrapper::init():发出登录请求..." << std::endl;
+	CThostFtdcReqUserLoginField userLoginField;
+	strcpy(userLoginField.BrokerID,pConfigure->brokerID);
+	strcpy(userLoginField.UserID,pConfigure->userID);
+	strcpy(userLoginField.Password,pConfigure->password);
+	pMdApi->ReqUserLogin(&userLoginField,getNextRequestID());
+
+
+	// 等待登录成功返回信息
+	std::cout << "CMdWrapper::init():等待登录结果..." << std::endl;
+	message.recv(receiver);
+	std::cout << "CMdWrapper::init():已收到登录返回信息..." << std::endl;
+	assert(message.requestID.compare("1") == 0);
+	assert(message.apiName.compare("OnRspUserLogin") == 0);
+
+	// 检查是否登录成功,如果不成功将终止程序
+	Json::Reader jsonReader;
+	Json::Value jsonData;
+	if (!jsonReader.parse(message.respInfo,jsonData)){
+		throw std::exception();
+	}
+	int ErrorID = jsonData["Parameters"]["Data"]["RspInfo"]["ErrorID"].asInt();
+	assert(ErrorID == 0);
+
+	std::cout << "CMdWrapper::init():登录成功..." << std::endl;
+
+	std::cout << "CMdWrapper::init():执行完毕..." << std::endl;
+
 
 }
 
