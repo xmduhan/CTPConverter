@@ -53,8 +53,6 @@ CApiWrapper 自动编写部分（ok）
 1、让trader命令行参数而不是使用环境变量(ok)
 ------------------------------------------------------------------------------
 
-
-
 1、实线MD API
 
 1、需要处理服务器重启后不能执行之前缓存中的数据
@@ -116,11 +114,13 @@ from pandas.io.excel import ExcelWriter
 # 获取CThostFtdcTraderSpi的所有方法（以OnRsp,OnRtn,OnErrRtn开头)
 # 获取CThostFtdcTraderApi的所有方法（以Req开头）
 TraderApi_h = cppheader.getCppHeader('include/ThostFtdcTraderApi.h',['TRADER_API_EXPORT'])
+MDApi_h = cppheader.getCppHeader('include/ThostFtdcMDApi.h',['TRADER_API_EXPORT'])
 ApiStruct_h = cppheader.getCppHeader('include/ThostFtdcUserApiStruct.h')
 typedefDict = cppheader.getTypedefDict('include/ThostFtdcUserApiDataType.h')
 enumDict = cppheader.getEnumDict('include/ThostFtdcUserApiDataType.h')
 SpiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderSpi')
 ApiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderApi')
+
 #%% 读取api和spi类中的所有函数
 apiMethodInfoDict = cppheader.getClassMethods(ApiClass,'public')
 spiMethodInfoDict = cppheader.getClassMethods(SpiClass,'public')
