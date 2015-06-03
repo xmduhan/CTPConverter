@@ -24,6 +24,7 @@ def loadCtpHeaderData():
 
     # c++头文件的定义信息
     TraderApi_h = cppheader.getCppHeader('include/ThostFtdcTraderApi.h',['TRADER_API_EXPORT'])
+    MdApi_h = cppheader.getCppHeader('include/ThostFtdcMdApi.h',['MD_API_EXPORT'])
     ApiStruct_h = cppheader.getCppHeader('include/ThostFtdcUserApiStruct.h')
     typedefDict = cppheader.getTypedefDict('include/ThostFtdcUserApiDataType.h')
     enumDict = cppheader.getEnumDict('include/ThostFtdcUserApiDataType.h')
@@ -31,10 +32,14 @@ def loadCtpHeaderData():
     # 从头文件信息中获取API和SPI的类定义信息
     ApiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderApi')
     SpiClass = cppheader.getClass(TraderApi_h,'CThostFtdcTraderSpi')
+    MdSpiClass = cppheader.getClass(MdApi_h,'CThostFtdcMdSpi')
+    MdApiClass = cppheader.getClass(MdApi_h,'CThostFtdcMdApi')
 
     # 读取api和spi类中的所有函数
     apiMethodInfoDict = cppheader.getClassMethods(ApiClass,'public')
     spiMethodInfoDict = cppheader.getClassMethods(SpiClass,'public')
+    mdApiMethodInfoDict = cppheader.getClassMethods(MdApiClass,'public')
+    mdSpiMethodInfoDict = cppheader.getClassMethods(MdSpiClass,'public')
 
     # 合并生成一个API和SPI的函数全集,这样可以方便我们用名称类获取函数信息
     # API类和SPI类中没有重名的函数,所以可以这么做.
@@ -42,6 +47,10 @@ def loadCtpHeaderData():
     methodInfoDict = {}
     methodInfoDict.update(apiMethodInfoDict)
     methodInfoDict.update(spiMethodInfoDict)
+
+    mdMethodInfoDict = {}
+    mdMethodInfoDict.update(mdApiMethodInfoDict)
+    mdMethodInfoDict.update(mdSpiMethodInfoDict)
 
     # 简化函数信息保留我们需要信息，并对未解决类型进行处理
     methodDict = {}
@@ -62,6 +71,24 @@ def loadCtpHeaderData():
         method['parameters'] = parameters
         methodDict[method['name']] = method
 
+    mdMethodDict = {}
+    for mi in mdMethodInfoDict.itervalues() :
+        method = {}
+        method['name'] = mi['name']
+        method['returns'] = mi['returns']
+        method['remark'] = mi['doxygen'].decode('utf8')
+        parameters=[]
+        for pi in mi['parameters'] :
+            parameter = {}
+            parameter['name'] = pi['name']
+            parameter['type'] = pi['type']
+            parameter['raw_type'] = pi['raw_type']
+            parameter['pointer'] = pi['pointer']
+            parameter['unresolved'] = pi['unresolved']
+            parameters.append(parameter)
+        method['parameters'] = parameters
+        mdMethodDict[method['name']] = method
+
     # 将函数分成：Req,OnRsp,OnRtn,OnErrRtn,OnRspError五个大类
     # 每一类函数的参数结构都是相同的
     reqMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('Req')}
@@ -69,6 +96,9 @@ def loadCtpHeaderData():
     onRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnRtn')}
     onErrRtnMethodDict = {k:v for k,v in methodDict.iteritems() if k.startswith('OnErrRtn')}
     onRspErrorMethodDict = {k:v for k,v in methodDict.iteritems() if k == 'OnRspError'}
+
+    mdReqMethodDict = {k:v for k,v in mdMethodDict.iteritems() if k.startswith('Req')}
+    mdOnRspMethodDict = {k:v for k,v in mdMethodDict.iteritems() if k.startswith('OnRsp') and k != 'OnRspError'}
 
     # 生成所有结构体定义的关键信息的字典结构
     structDict = {}
@@ -98,6 +128,8 @@ def loadCtpHeaderData():
         'onRtnMethodDict':onRtnMethodDict,
         'onErrRtnMethodDict':onErrRtnMethodDict,
         'onRspErrorMethodDict':onRspErrorMethodDict,
+        'mdReqMethodDict':mdReqMethodDict,
+        'mdOnRspMethodDict':mdOnRspMethodDict,
         'structDict':structDict,
         'typedefDict':typedefDict,
     }
