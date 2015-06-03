@@ -1,7 +1,9 @@
 #pragma once
 #include <ThostFtdcUserApiDataType.h>
 #include <comhelper.h>
+#include <json/json.h>
 
+#define INSTRUMENT_ARRAY_SIZE 1024
 
 class Configure {
 
@@ -51,9 +53,9 @@ public:
     /// 广播信息管道
     char * publishPipe;
     /// 订阅品种配置文件的路径
-    char * instrumentIdConfigFile;
+    char * instrumentIDConfigFile;
     /// 需要订阅的品种标识
-    char * instrumentIdArray[2048];
+    char * instrumentIDArray[INSTRUMENT_ARRAY_SIZE];
     /// 要订阅品种的长度
     int instrumentCount;
 

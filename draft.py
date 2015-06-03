@@ -329,3 +329,10 @@ command = ' '.join(['bin/trader',
 command
 
 #bin/trader --FrontAddress tcp://101.231.96.18:51205 --BrokerID 66666 --UserID 60003010 --Password 060318 --RequestPipe tcp://127.0.0.1:10001 --PushbackPipe tcp://127.0.0.1:10002 --PublishPipe tcp://127.0.0.1:10003
+
+
+#%%
+import json
+content = json.dumps(['IF1506','IF1507'])
+with open('/tmp/config.json', 'w') as f:
+    f.write(content.encode('utf-8'))

@@ -1,4 +1,6 @@
 #include <comhelper.h>
+#include <fstream>
+#include <streambuf>
 
 
 void codeConvert(char * from,char * to,char * src,char * dst,size_t dstSize){
@@ -18,6 +20,24 @@ void gbk2utf8(char * src,char * dst,size_t dstSize){
 	char * gbk = (char*)"GBK";
 	char * utf8 = (char*)"UTF-8";
 	codeConvert(gbk,utf8,src,dst,dstSize);
+}
+
+
+bool fileExists (const std::string& name) {
+    if (FILE *file = fopen(name.c_str(), "r")) {
+        fclose(file);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+std::string fileReadAll(const std::string& name){
+	std::ifstream f(name);
+	std::string content((std::istreambuf_iterator<char>(f)),
+	                 std::istreambuf_iterator<char>());
+	return content;
 }
 
 

@@ -77,7 +77,7 @@ bin/trader : trader.o CTraderWrapper.o comhelper.o Configure.o CTraderHandler.o 
 
 
 bin/md : md.o comhelper.o Configure.o jsoncpp.o Message.o CMdHandler.o CMdWrapper.o
-	$(LD) md.o comhelper.o Configure.o jsoncpp.o Message.o CMdHandler.o \
+	$(LD) md.o comhelper.o Configure.o jsoncpp.o Message.o CMdHandler.o  \
 	CMdWrapper.o $(LFLAGS) -o bin/md
 
 
