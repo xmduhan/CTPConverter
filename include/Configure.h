@@ -45,11 +45,17 @@ public:
     ///密码
     char * password;
     /// 请求通信管道
-    char * requestPipe;
+    //char * requestPipe;
     /// 回调信息管道
     char * pushbackPipe;
     /// 广播信息管道
     char * publishPipe;
+    /// 订阅品种配置文件的路径
+    char * instrumentIdConfigFile;
+    /// 需要订阅的品种标识
+    char * instrumentIdArray[2048];
+    /// 要订阅品种的长度
+    int instrumentCount;
 
     /// 读取配置信息
     void loadFromEnvironment();

@@ -8,6 +8,7 @@
 class CMdHandler : public CThostFtdcMdSpi {
 public:
 
+    CMdHandler(MdConfigure * pConfigure);
 
     /// 配置信息
     MdConfigure * pConfigure;

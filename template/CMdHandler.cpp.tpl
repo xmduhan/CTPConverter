@@ -3,11 +3,35 @@
 static char buffer[1024*10];
 
 
+/// 构造函数
+CMdHandler::CMdHandler(MdConfigure * pConfigure) {
+
+	std::cout << "CMdHandler():开始执行..." << std::endl;
+
+	// 读取配置数据信息
+	this->pConfigure = pConfigure;
+	// 创建zmq通讯环境
+	pContext = new zmq::context_t(1);
+	pSender = new zmq::socket_t(*pContext, ZMQ_PUSH);
+	pSender->bind(pConfigure->pushbackPipe);
+
+	std::cout << "CMdHandler():执行结束..." << std::endl;
+}
+
+
+
 ///当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。
 void CMdHandler::OnFrontConnected(){
     std::cout << "OnFrontConnected():开始执行..." << std::endl;
 
-    std::cout << "OnFrontConnected():执行结束..." << std::endl;
+	zmq::socket_t & sender = *pSender;
+	PushbackMessage message;
+	message.requestID = "0";
+	message.apiName = "OnFrontConnected";
+	message.respInfo = "";
+	message.send(sender);
+
+	std::cout << "OnFrontConnected():执行结束..." << std::endl;
 }
 
 ///当客户端与交易后台通信连接断开时，该方法被调用。当发生这个情况后，API会自动重新连接，客户端可不做处理
@@ -29,10 +53,9 @@ void CMdHandler::OnRtnDepthMarketData(
     CThostFtdcDepthMarketDataField *pDepthMarketData
 ){
     std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
-
+    /// TODO 
     std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
 }
-
 
 
 /**********************************************************
