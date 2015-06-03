@@ -11,7 +11,8 @@ all : generate bin/trader bin/md bin/test
 
 generate: CTraderWrapper.cpp include/CTraderWrapper.h trader.cpp include/trader.h \
 	CTraderHandler.cpp include/CTraderHandler.h test/channel.py test/CTPStruct.py \
-	test/examples.py test/query_api_tests.py CMdHandler.cpp include/CMdHandler.h
+	test/examples.py test/query_api_tests.py CMdHandler.cpp include/CMdHandler.h \
+	CMdWrapper.cpp include/CMdWrapper.h
 
 
 CTraderWrapper.cpp : template/CTraderWrapper.cpp.tpl
@@ -46,6 +47,14 @@ include/CMdHandler.h : template/CMdHandler.h.tpl
 	python generate.py CMdHandler.h.tpl include
 
 
+CMdWrapper.cpp : template/CMdWrapper.cpp.tpl
+	python generate.py CMdWrapper.cpp.tpl
+
+
+include/CMdWrapper.h : template/CMdWrapper.h.tpl
+	python generate.py CMdWrapper.h.tpl include
+
+
 test/channel.py : template/channel.py.tpl
 	python generate.py channel.py.tpl test
 
@@ -67,8 +76,9 @@ bin/trader : trader.o CTraderWrapper.o comhelper.o Configure.o CTraderHandler.o 
 	jsoncpp.o Message.o $(LFLAGS) -o bin/trader
 
 
-bin/md : md.o comhelper.o Configure.o jsoncpp.o Message.o CMdHandler.o
-	$(LD) md.o comhelper.o Configure.o jsoncpp.o Message.o CMdHandler.o $(LFLAGS) -o bin/md
+bin/md : md.o comhelper.o Configure.o jsoncpp.o Message.o CMdHandler.o CMdWrapper.o
+	$(LD) md.o comhelper.o Configure.o jsoncpp.o Message.o CMdHandler.o \
+	CMdWrapper.o $(LFLAGS) -o bin/md
 
 
 bin/test : test.o CTraderWrapper.o comhelper.o Configure.o CTraderHandler.o jsoncpp.o Message.o
@@ -78,6 +88,10 @@ bin/test : test.o CTraderWrapper.o comhelper.o Configure.o CTraderHandler.o json
 
 CTraderWrapper.o : CTraderWrapper.cpp include/*.h
 	$(CC) -c CTraderWrapper.cpp $(CFLAGS)
+
+
+CMdWrapper.o : CMdWrapper.cpp include/*.h
+	$(CC) -c CMdWrapper.cpp $(CFLAGS)
 
 
 comhelper.o : comhelper.cpp include/*.h
@@ -95,6 +109,9 @@ trader.o : trader.cpp include/*.h
 CTraderHandler.o : CTraderHandler.cpp include/*.h
 	$(CC) -c CTraderHandler.cpp $(CFLAGS)
 
+CMdHandler.o : CMdHandler.cpp include/*.h
+	$(CC) -c CMdHandler.cpp $(CFLAGS)
+
 
 jsoncpp.o : jsoncpp.cpp include/*.h
 	$(CC) -c jsoncpp.cpp $(CFLAGS)
@@ -102,10 +119,6 @@ jsoncpp.o : jsoncpp.cpp include/*.h
 
 Message.o : Message.cpp include/*.h
 	$(CC) -c Message.cpp $(CFLAGS)
-
-
-CMdHandler.o : CMdHandler.cpp include/*.h
-	$(CC) -c CMdHandler.cpp $(CFLAGS)
 
 
 test.o : test.cpp include/*.h
