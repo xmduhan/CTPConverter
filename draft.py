@@ -334,6 +334,6 @@ command
 
 #%%
 import json
-content = json.dumps(['IF1506','IF1507','IF1504-1'])
+content = json.dumps(['IF1506','IF1507'])
 with open('/tmp/config.json', 'w') as f:
     f.write(content.encode('utf-8'))
