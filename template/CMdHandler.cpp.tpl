@@ -38,23 +38,59 @@ void CMdHandler::OnFrontConnected(){
 void CMdHandler::OnFrontDisconnected(int nReason){
     std::cout << "OnFrontDisconnected():开始执行..." << std::endl;
 
-    std::cout << "OnFrontDisconnected():开始执行..." << std::endl;
+    std::cout << "OnFrontDisconnected():执行结束..." << std::endl;
 }
 
 ///心跳超时警告。当长时间未收到报文时，该方法被调用
 void CMdHandler::OnHeartBeatWarning(int nTimeLapse){
     std::cout << "OnHeartBeatWarning():开始执行..." << std::endl;
 
-    std::cout << "OnHeartBeatWarning():开始执行..." << std::endl;
+    std::cout << "OnHeartBeatWarning():执行结束..." << std::endl;
 }
 
 ///深度行情通知
 void CMdHandler::OnRtnDepthMarketData(
     CThostFtdcDepthMarketDataField *pDepthMarketData
 ){
-    std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
-    /// TODO 
-    std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
+    //std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
+	zmq::socket_t & sender = *pSender;
+
+	{%- set method = mdMethodDict['OnRtnDepthMarketData'] %}
+	// 生成返回的json格式
+	Json::Value json_Response;
+	json_Response["ResponseMethod"] = "{{method['name']}}";
+
+	/// 返回数据结构体转化json格式
+	{%- set dataVarName = method['parameters'][0]['name'] %}
+	{%- set dataTypeName = method['parameters'][0]['raw_type'] %}
+	{%- set dataType = structDict[dataTypeName] %}
+	Json::Value json_{{dataVarName}};
+	if ( {{dataVarName}} != NULL ) {
+		// TODO : 这里需要将编码转化为utf-8
+		{% for field in dataType['fields'] %}
+			{%- set typeInfo = typedefDict[field['type']] %}
+			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
+				gbk2utf8(
+					{{dataVarName}}->{{field['name']}},
+					buffer,
+					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+				);
+				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% else %}
+				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+			{% endif %}
+		{%- endfor %}
+	}
+
+	// 打包消息结构并压入Pushback管道
+	PushbackMessage message;
+	message.requestID = "0";
+	message.apiName = "{{method['name']}}";
+	message.respInfo = json_{{dataVarName}}.toStyledString();
+	message.isLast = "1";
+	message.send(sender);
+
+	//std::cout << "OnRtnDepthMarketData():执行结束..." << std::endl;
 }
 
 

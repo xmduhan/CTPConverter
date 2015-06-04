@@ -132,6 +132,7 @@ def loadCtpHeaderData():
         'mdOnRspMethodDict':mdOnRspMethodDict,
         'structDict':structDict,
         'typedefDict':typedefDict,
+        'mdMethodDict':mdMethodDict,
     }
 
     #  保存模板数据以便下次访问提高速度

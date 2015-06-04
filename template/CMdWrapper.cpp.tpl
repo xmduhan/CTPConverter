@@ -89,7 +89,8 @@ void CMdWrapper::init(){
 	std::cout << "CMdWrapper::init():等待登录结果..." << std::endl;
 	message.recv(receiver);
 	std::cout << "CMdWrapper::init():已收到登录返回信息..." << std::endl;
-	assert(message.requestID.compare("1") == 0);
+	//std::cout << "message.requestID=" << message.requestID << std::endl;
+	//assert(message.requestID.compare("1") == 0);
 	assert(message.apiName.compare("OnRspUserLogin") == 0);
 
 	// 检查是否登录成功,如果不成功将终止程序
@@ -130,6 +131,16 @@ std::string CMdWrapper::getLastErrorMsg(){
 	return lastErrorMsg;
 }
 
+
+///订阅行情。
+int CMdWrapper::SubscribeMarketData(char *ppInstrumentID[], int nCount){
+	return pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
+}
+
+///退订行情。
+int CMdWrapper::UnSubscribeMarketData(char *ppInstrumentID[], int nCount){
+	return pMdApi->UnSubscribeMarketData(ppInstrumentID,nCount);
+}
 
 
 {% for method in mdReqMethodDict.itervalues() %}

@@ -236,3 +236,29 @@ void PushbackMessage::send(zmq::socket_t & socket){
     s_sendmore(socket,respInfo);
     s_send(socket,isLast);
 }
+
+//////////////////////////// MarketDataMessage ///////////////////////////////////
+
+/// MarketDataMessage的接收函数
+void MarketDataMessage::recv(zmq::socket_t & socket){
+    int n=4,i = 0;
+    do {
+        switch(i){
+            case 0: marketDataInfo = s_recv(socket); break;
+            default: s_recv(socket); break;
+        };
+        i++;
+    } while(s_more(socket));
+    // 消息格式出错检查
+    if ( i != n ){
+        // 执行到这里说明收到的消息和我们定义的帧数不一致
+        //std::cout << "消息格式不正确(帧数不一致)" << std::endl;
+        InvalidMessageFormat e;
+        throw e;
+    }
+}
+
+/// MarketDataMessage的发送函数
+void MarketDataMessage::send(zmq::socket_t & socket){
+    s_send(socket,marketDataInfo);
+}

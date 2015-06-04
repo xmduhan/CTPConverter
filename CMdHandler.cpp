@@ -38,23 +38,204 @@ void CMdHandler::OnFrontConnected() {
 void CMdHandler::OnFrontDisconnected(int nReason) {
     std::cout << "OnFrontDisconnected():开始执行..." << std::endl;
 
-    std::cout << "OnFrontDisconnected():开始执行..." << std::endl;
+    std::cout << "OnFrontDisconnected():执行结束..." << std::endl;
 }
 
 ///心跳超时警告。当长时间未收到报文时，该方法被调用
 void CMdHandler::OnHeartBeatWarning(int nTimeLapse) {
     std::cout << "OnHeartBeatWarning():开始执行..." << std::endl;
 
-    std::cout << "OnHeartBeatWarning():开始执行..." << std::endl;
+    std::cout << "OnHeartBeatWarning():执行结束..." << std::endl;
 }
 
 ///深度行情通知
 void CMdHandler::OnRtnDepthMarketData(
     CThostFtdcDepthMarketDataField *pDepthMarketData
 ) {
-    std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
-    /// TODO
-    std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
+    //std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
+    zmq::socket_t & sender = *pSender;
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnDepthMarketData";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pDepthMarketData;
+    if ( pDepthMarketData != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pDepthMarketData->TradingDay,
+            buffer,
+            sizeof(pDepthMarketData->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["TradingDay"] = buffer;
+
+
+        gbk2utf8(
+            pDepthMarketData->InstrumentID,
+            buffer,
+            sizeof(pDepthMarketData->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["InstrumentID"] = buffer;
+
+
+        gbk2utf8(
+            pDepthMarketData->ExchangeID,
+            buffer,
+            sizeof(pDepthMarketData->ExchangeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["ExchangeID"] = buffer;
+
+
+        gbk2utf8(
+            pDepthMarketData->ExchangeInstID,
+            buffer,
+            sizeof(pDepthMarketData->ExchangeInstID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["ExchangeInstID"] = buffer;
+
+
+        json_pDepthMarketData["LastPrice"] = pDepthMarketData->LastPrice;
+
+
+        json_pDepthMarketData["PreSettlementPrice"] = pDepthMarketData->PreSettlementPrice;
+
+
+        json_pDepthMarketData["PreClosePrice"] = pDepthMarketData->PreClosePrice;
+
+
+        json_pDepthMarketData["PreOpenInterest"] = pDepthMarketData->PreOpenInterest;
+
+
+        json_pDepthMarketData["OpenPrice"] = pDepthMarketData->OpenPrice;
+
+
+        json_pDepthMarketData["HighestPrice"] = pDepthMarketData->HighestPrice;
+
+
+        json_pDepthMarketData["LowestPrice"] = pDepthMarketData->LowestPrice;
+
+
+        json_pDepthMarketData["Volume"] = pDepthMarketData->Volume;
+
+
+        json_pDepthMarketData["Turnover"] = pDepthMarketData->Turnover;
+
+
+        json_pDepthMarketData["OpenInterest"] = pDepthMarketData->OpenInterest;
+
+
+        json_pDepthMarketData["ClosePrice"] = pDepthMarketData->ClosePrice;
+
+
+        json_pDepthMarketData["SettlementPrice"] = pDepthMarketData->SettlementPrice;
+
+
+        json_pDepthMarketData["UpperLimitPrice"] = pDepthMarketData->UpperLimitPrice;
+
+
+        json_pDepthMarketData["LowerLimitPrice"] = pDepthMarketData->LowerLimitPrice;
+
+
+        json_pDepthMarketData["PreDelta"] = pDepthMarketData->PreDelta;
+
+
+        json_pDepthMarketData["CurrDelta"] = pDepthMarketData->CurrDelta;
+
+
+        gbk2utf8(
+            pDepthMarketData->UpdateTime,
+            buffer,
+            sizeof(pDepthMarketData->UpdateTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["UpdateTime"] = buffer;
+
+
+        json_pDepthMarketData["UpdateMillisec"] = pDepthMarketData->UpdateMillisec;
+
+
+        json_pDepthMarketData["BidPrice1"] = pDepthMarketData->BidPrice1;
+
+
+        json_pDepthMarketData["BidVolume1"] = pDepthMarketData->BidVolume1;
+
+
+        json_pDepthMarketData["AskPrice1"] = pDepthMarketData->AskPrice1;
+
+
+        json_pDepthMarketData["AskVolume1"] = pDepthMarketData->AskVolume1;
+
+
+        json_pDepthMarketData["BidPrice2"] = pDepthMarketData->BidPrice2;
+
+
+        json_pDepthMarketData["BidVolume2"] = pDepthMarketData->BidVolume2;
+
+
+        json_pDepthMarketData["AskPrice2"] = pDepthMarketData->AskPrice2;
+
+
+        json_pDepthMarketData["AskVolume2"] = pDepthMarketData->AskVolume2;
+
+
+        json_pDepthMarketData["BidPrice3"] = pDepthMarketData->BidPrice3;
+
+
+        json_pDepthMarketData["BidVolume3"] = pDepthMarketData->BidVolume3;
+
+
+        json_pDepthMarketData["AskPrice3"] = pDepthMarketData->AskPrice3;
+
+
+        json_pDepthMarketData["AskVolume3"] = pDepthMarketData->AskVolume3;
+
+
+        json_pDepthMarketData["BidPrice4"] = pDepthMarketData->BidPrice4;
+
+
+        json_pDepthMarketData["BidVolume4"] = pDepthMarketData->BidVolume4;
+
+
+        json_pDepthMarketData["AskPrice4"] = pDepthMarketData->AskPrice4;
+
+
+        json_pDepthMarketData["AskVolume4"] = pDepthMarketData->AskVolume4;
+
+
+        json_pDepthMarketData["BidPrice5"] = pDepthMarketData->BidPrice5;
+
+
+        json_pDepthMarketData["BidVolume5"] = pDepthMarketData->BidVolume5;
+
+
+        json_pDepthMarketData["AskPrice5"] = pDepthMarketData->AskPrice5;
+
+
+        json_pDepthMarketData["AskVolume5"] = pDepthMarketData->AskVolume5;
+
+
+        json_pDepthMarketData["AveragePrice"] = pDepthMarketData->AveragePrice;
+
+
+        gbk2utf8(
+            pDepthMarketData->ActionDay,
+            buffer,
+            sizeof(pDepthMarketData->ActionDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pDepthMarketData["ActionDay"] = buffer;
+
+    }
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnDepthMarketData";
+    message.respInfo = json_pDepthMarketData.toStyledString();
+    message.isLast = "1";
+    message.send(sender);
+
+    //std::cout << "OnRtnDepthMarketData():执行结束..." << std::endl;
 }
 
 

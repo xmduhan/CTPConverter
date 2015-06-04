@@ -79,3 +79,12 @@ public:
     virtual void recv(zmq::socket_t & socket);
     virtual void send(zmq::socket_t & socket);
 };
+
+
+/// 行情消息
+class MarketDataMessage{
+public:
+    std::string marketDataInfo;
+    virtual void recv(zmq::socket_t & socket);
+    virtual void send(zmq::socket_t & socket);
+};

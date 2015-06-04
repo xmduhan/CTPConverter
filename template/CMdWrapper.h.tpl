@@ -1,3 +1,4 @@
+#pragma once
 #include <ThostFtdcMdApi.h>
 #include <ThostFtdcUserApiStruct.h>
 #include <ThostFtdcUserApiDataType.h>
@@ -29,8 +30,7 @@ public:
     int lastErrorID;
     /// 上次出错信息
     std::string lastErrorMsg;
-    /// 启动CTP连接
-    void init();
+
     /// 获取下一个RequestID序列
     int getNextRequestID();
     /// 获取当前RequestID序列
@@ -39,14 +39,22 @@ public:
     int getLastErrorID();
     /// 获取上次错误信息
     std::string getLastErrorMsg();
-
+    /// 初始化函数跳转表
     void initApiMap();
+    /// 启动CTP连接
+    void init();
+    ///订阅行情
+    virtual int SubscribeMarketData(char *ppInstrumentID[], int nCount);
+    ///退订行情
+    virtual int UnSubscribeMarketData(char *ppInstrumentID[], int nCount);
 
     ////////////// API方法的wrapper ///////////////
-    {% for method in reqMethodDict.itervalues() %}
+    {% for method in mdReqMethodDict.itervalues() %}
     	{{ method['remark'] }}
     	int {{method['name']}}(std::string jsonString);
     {% endfor %}
+
+
 
     std::map<std::string,int (CMdWrapper::*) (std::string)> apiMap;
 
