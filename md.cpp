@@ -30,14 +30,20 @@ int main(int argc,char * argv[]){
     pushback.connect(config.pushbackPipe);
     publish.bind(config.publishPipe);
 
+    std::cout << "main():行情广播地址为:" << config.publishPipe << std::endl;
+
     // 定义消息变量
     PushbackMessage pushbackMessage;
     MarketDataMessage marketDataMessage;
 
     long timeout = 1;
-    int i=0;
+    long lastTime = s_clock();
+    long thisTime = 0;
+    long timeDelta = 0;
+    long loopTimes = 0;
+    long mdCount = 0;
 
-    std::cout << "main():转发市场报价信息111" << std::endl;
+    std::cout << "main():转发市场报价信息..." << std::endl;
     api.SubscribeMarketData(config.instrumentIDArray,config.instrumentCount);
     while(1) {
         zmq::pollitem_t pullItems [] = {
@@ -47,13 +53,26 @@ int main(int argc,char * argv[]){
         if ( pullItems[0].revents & ZMQ_POLLIN) {
             pushbackMessage.recv(pushback);
             if (pushbackMessage.apiName == "OnRtnDepthMarketData") {
-                std::cout << "main():接收到行情消息" << i++ << std::endl;
+                //std::cout << "main():接收到行情消息" << i++ << std::endl;
                 marketDataMessage.marketDataInfo = pushbackMessage.respInfo;
                 marketDataMessage.send(publish);
+                mdCount++;
             }else{
-                // TODO
-                std::cout << "main():接收到其他消息****" << i++ << std::endl;
+                // TODO 需要增加订阅成功的判断和提示
+                std::cout << "main():接收到其他消息****" << std::endl;
             }
+
+        }
+
+        // 打印提示信息
+        thisTime = s_clock();
+        timeDelta = thisTime - lastTime;
+        lastTime = thisTime;
+        loopTimes += timeDelta;
+        if ( loopTimes >= 1000 ) {
+            loopTimes = 0;
+            std::cout << "main():" << "接收到行情数据:" << mdCount << std::endl;
+            mdCount = 0;
         }
     }
 }
