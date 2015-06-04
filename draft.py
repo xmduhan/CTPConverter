@@ -51,9 +51,10 @@ CApiWrapper 自动编写部分（ok）
 1、解决errorCode和errorId不一致问题(ok)
 1、在CTPChannel统一出错代码(ok)
 1、让trader命令行参数而不是使用环境变量(ok)
+1、实线MD API(ok)
 ------------------------------------------------------------------------------
 
-1、实线MD API
+
 
 1、需要处理服务器重启后不能执行之前缓存中的数据
 
@@ -333,6 +334,6 @@ command
 
 #%%
 import json
-content = json.dumps(['IF1506','IF1507'])
+content = json.dumps(['IF1506','IF1507','IF1504-1'])
 with open('/tmp/config.json', 'w') as f:
     f.write(content.encode('utf-8'))

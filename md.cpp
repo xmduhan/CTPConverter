@@ -1,6 +1,7 @@
 #include <CMdHandler.h>
 #include <CMdWrapper.h>
 #include <unistd.h>
+#include <json/json.h>
 
 static MdConfigure config;
 static char buffer[1024*10];
@@ -53,15 +54,20 @@ int main(int argc,char * argv[]){
         if ( pullItems[0].revents & ZMQ_POLLIN) {
             pushbackMessage.recv(pushback);
             if (pushbackMessage.apiName == "OnRtnDepthMarketData") {
-                //std::cout << "main():接收到行情消息" << i++ << std::endl;
                 marketDataMessage.marketDataInfo = pushbackMessage.respInfo;
                 marketDataMessage.send(publish);
                 mdCount++;
-            }else{
-                // TODO 需要增加订阅成功的判断和提示
-                std::cout << "main():接收到其他消息****" << std::endl;
             }
 
+            if (pushbackMessage.apiName == "OnRspSubMarketData") {
+                Json::Reader jsonReader;
+                Json::Value respInfo;
+                assert(jsonReader.parse(pushbackMessage.respInfo,respInfo));
+                int errorID = respInfo["Parameters"]["RspInfo"]["ErrorID"].asInt();
+                std::string instrumentID = respInfo["Parameters"]["Data"]["InstrumentID"].asString();
+                assert(errorID==0);
+                std::cout << instrumentID << ":行情订阅成功." << std::endl;
+            }
         }
 
         // 打印提示信息
