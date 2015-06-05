@@ -39,6 +39,9 @@ void CTraderWrapper::initApiMap() {
     //ReqUserPasswordUpdate
     apiMap["ReqUserPasswordUpdate"] = &CTraderWrapper::ReqUserPasswordUpdate;
 
+    //ReqParkedOrderAction
+    apiMap["ReqParkedOrderAction"] = &CTraderWrapper::ReqParkedOrderAction;
+
     //ReqQryTradingNotice
     apiMap["ReqQryTradingNotice"] = &CTraderWrapper::ReqQryTradingNotice;
 
@@ -69,11 +72,8 @@ void CTraderWrapper::initApiMap() {
     //ReqFromFutureToBankByFuture
     apiMap["ReqFromFutureToBankByFuture"] = &CTraderWrapper::ReqFromFutureToBankByFuture;
 
-    //ReqQryExchangeRate
-    apiMap["ReqQryExchangeRate"] = &CTraderWrapper::ReqQryExchangeRate;
-
-    //ReqQryInvestorPositionDetail
-    apiMap["ReqQryInvestorPositionDetail"] = &CTraderWrapper::ReqQryInvestorPositionDetail;
+    //ReqFromBankToFutureByFuture
+    apiMap["ReqFromBankToFutureByFuture"] = &CTraderWrapper::ReqFromBankToFutureByFuture;
 
     //ReqQrySettlementInfoConfirm
     apiMap["ReqQrySettlementInfoConfirm"] = &CTraderWrapper::ReqQrySettlementInfoConfirm;
@@ -87,23 +87,26 @@ void CTraderWrapper::initApiMap() {
     //ReqQryNotice
     apiMap["ReqQryNotice"] = &CTraderWrapper::ReqQryNotice;
 
-    //ReqFromBankToFutureByFuture
-    apiMap["ReqFromBankToFutureByFuture"] = &CTraderWrapper::ReqFromBankToFutureByFuture;
+    //ReqQryExchangeRate
+    apiMap["ReqQryExchangeRate"] = &CTraderWrapper::ReqQryExchangeRate;
 
     //ReqParkedOrderInsert
     apiMap["ReqParkedOrderInsert"] = &CTraderWrapper::ReqParkedOrderInsert;
 
+    //ReqQryContractBank
+    apiMap["ReqQryContractBank"] = &CTraderWrapper::ReqQryContractBank;
+
     //ReqQryInvestorPositionCombineDetail
     apiMap["ReqQryInvestorPositionCombineDetail"] = &CTraderWrapper::ReqQryInvestorPositionCombineDetail;
 
-    //ReqOrderInsert
-    apiMap["ReqOrderInsert"] = &CTraderWrapper::ReqOrderInsert;
+    //ReqQryExchangeMarginRate
+    apiMap["ReqQryExchangeMarginRate"] = &CTraderWrapper::ReqQryExchangeMarginRate;
 
     //ReqQrySecAgentACIDMap
     apiMap["ReqQrySecAgentACIDMap"] = &CTraderWrapper::ReqQrySecAgentACIDMap;
 
-    //ReqParkedOrderAction
-    apiMap["ReqParkedOrderAction"] = &CTraderWrapper::ReqParkedOrderAction;
+    //ReqQryTransferSerial
+    apiMap["ReqQryTransferSerial"] = &CTraderWrapper::ReqQryTransferSerial;
 
     //ReqQueryBankAccountMoneyByFuture
     apiMap["ReqQueryBankAccountMoneyByFuture"] = &CTraderWrapper::ReqQueryBankAccountMoneyByFuture;
@@ -114,11 +117,11 @@ void CTraderWrapper::initApiMap() {
     //ReqAuthenticate
     apiMap["ReqAuthenticate"] = &CTraderWrapper::ReqAuthenticate;
 
-    //ReqQryExchangeMarginRate
-    apiMap["ReqQryExchangeMarginRate"] = &CTraderWrapper::ReqQryExchangeMarginRate;
+    //ReqOrderInsert
+    apiMap["ReqOrderInsert"] = &CTraderWrapper::ReqOrderInsert;
 
-    //ReqTradingAccountPasswordUpdate
-    apiMap["ReqTradingAccountPasswordUpdate"] = &CTraderWrapper::ReqTradingAccountPasswordUpdate;
+    //ReqQrySettlementInfo
+    apiMap["ReqQrySettlementInfo"] = &CTraderWrapper::ReqQrySettlementInfo;
 
     //ReqUserLogout
     apiMap["ReqUserLogout"] = &CTraderWrapper::ReqUserLogout;
@@ -138,14 +141,11 @@ void CTraderWrapper::initApiMap() {
     //ReqQryInvestor
     apiMap["ReqQryInvestor"] = &CTraderWrapper::ReqQryInvestor;
 
-    //ReqQryExchangeMarginRateAdjust
-    apiMap["ReqQryExchangeMarginRateAdjust"] = &CTraderWrapper::ReqQryExchangeMarginRateAdjust;
+    //ReqQryParkedOrder
+    apiMap["ReqQryParkedOrder"] = &CTraderWrapper::ReqQryParkedOrder;
 
     //ReqQryInvestorProductGroupMargin
     apiMap["ReqQryInvestorProductGroupMargin"] = &CTraderWrapper::ReqQryInvestorProductGroupMargin;
-
-    //ReqQryEWarrantOffset
-    apiMap["ReqQryEWarrantOffset"] = &CTraderWrapper::ReqQryEWarrantOffset;
 
     //ReqQryDepthMarketData
     apiMap["ReqQryDepthMarketData"] = &CTraderWrapper::ReqQryDepthMarketData;
@@ -162,20 +162,20 @@ void CTraderWrapper::initApiMap() {
     //ReqQryTradingCode
     apiMap["ReqQryTradingCode"] = &CTraderWrapper::ReqQryTradingCode;
 
-    //ReqQrySettlementInfo
-    apiMap["ReqQrySettlementInfo"] = &CTraderWrapper::ReqQrySettlementInfo;
+    //ReqTradingAccountPasswordUpdate
+    apiMap["ReqTradingAccountPasswordUpdate"] = &CTraderWrapper::ReqTradingAccountPasswordUpdate;
 
     //ReqQryAccountregister
     apiMap["ReqQryAccountregister"] = &CTraderWrapper::ReqQryAccountregister;
 
-    //ReqQryParkedOrder
-    apiMap["ReqQryParkedOrder"] = &CTraderWrapper::ReqQryParkedOrder;
+    //ReqQryExchangeMarginRateAdjust
+    apiMap["ReqQryExchangeMarginRateAdjust"] = &CTraderWrapper::ReqQryExchangeMarginRateAdjust;
 
-    //ReqQryTransferSerial
-    apiMap["ReqQryTransferSerial"] = &CTraderWrapper::ReqQryTransferSerial;
+    //ReqQryEWarrantOffset
+    apiMap["ReqQryEWarrantOffset"] = &CTraderWrapper::ReqQryEWarrantOffset;
 
-    //ReqQryContractBank
-    apiMap["ReqQryContractBank"] = &CTraderWrapper::ReqQryContractBank;
+    //ReqQryInvestorPositionDetail
+    apiMap["ReqQryInvestorPositionDetail"] = &CTraderWrapper::ReqQryInvestorPositionDetail;
 
     //ReqRemoveParkedOrder
     apiMap["ReqRemoveParkedOrder"] = &CTraderWrapper::ReqRemoveParkedOrder;
@@ -534,6 +534,218 @@ int CTraderWrapper::ReqUserPasswordUpdate(std::string jsonString)
     // 调用对应的CTP API函数
     int result =
         pTraderApi->ReqUserPasswordUpdate(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
+///预埋撤单录入请求
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqParkedOrderAction(std::string jsonString)
+{
+    printf("ReqParkedOrderAction():被执行...\n");
+
+
+    CThostFtdcParkedOrderActionField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+        ///投资者代码 char InvestorID[13];
+        if (!Data["InvestorID"].empty()) {
+            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
+            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        } else {
+            strcpy(data.InvestorID,"");
+        }
+
+        ///报单操作引用 int OrderActionRef
+        if (!Data["OrderActionRef"].empty()) {
+            data.OrderActionRef = Data["OrderActionRef"].asInt();
+        } else {
+            data.OrderActionRef = 0;
+        }
+
+        ///报单引用 char OrderRef[13];
+        if (!Data["OrderRef"].empty()) {
+            data.OrderRef[sizeof(data.OrderRef)-1] = 0;
+            strncpy(data.OrderRef,Data["OrderRef"].asCString(),sizeof(data.OrderRef)-1);
+        } else {
+            strcpy(data.OrderRef,"");
+        }
+
+        ///请求编号 int RequestID
+        if (!Data["RequestID"].empty()) {
+            data.RequestID = Data["RequestID"].asInt();
+        } else {
+            data.RequestID = 0;
+        }
+
+        ///前置编号 int FrontID
+        if (!Data["FrontID"].empty()) {
+            data.FrontID = Data["FrontID"].asInt();
+        } else {
+            data.FrontID = 0;
+        }
+
+        ///会话编号 int SessionID
+        if (!Data["SessionID"].empty()) {
+            data.SessionID = Data["SessionID"].asInt();
+        } else {
+            data.SessionID = 0;
+        }
+
+        ///交易所代码 char ExchangeID[9];
+        if (!Data["ExchangeID"].empty()) {
+            data.ExchangeID[sizeof(data.ExchangeID)-1] = 0;
+            strncpy(data.ExchangeID,Data["ExchangeID"].asCString(),sizeof(data.ExchangeID)-1);
+        } else {
+            strcpy(data.ExchangeID,"");
+        }
+
+        ///报单编号 char OrderSysID[21];
+        if (!Data["OrderSysID"].empty()) {
+            data.OrderSysID[sizeof(data.OrderSysID)-1] = 0;
+            strncpy(data.OrderSysID,Data["OrderSysID"].asCString(),sizeof(data.OrderSysID)-1);
+        } else {
+            strcpy(data.OrderSysID,"");
+        }
+
+        ///操作标志 char ActionFlag
+        if ( !Data["ActionFlag"].empty()) {
+            data.ActionFlag = Data["ActionFlag"].asString()[0];
+        } else {
+            data.ActionFlag = '0';
+        }
+
+        ///价格 double LimitPrice
+        if (!Data["LimitPrice"].empty()) {
+            data.LimitPrice = Data["LimitPrice"].asDouble();
+        } else {
+            data.LimitPrice = 0;
+        }
+
+        ///数量变化 int VolumeChange
+        if (!Data["VolumeChange"].empty()) {
+            data.VolumeChange = Data["VolumeChange"].asInt();
+        } else {
+            data.VolumeChange = 0;
+        }
+
+        ///用户代码 char UserID[16];
+        if (!Data["UserID"].empty()) {
+            data.UserID[sizeof(data.UserID)-1] = 0;
+            strncpy(data.UserID,Data["UserID"].asCString(),sizeof(data.UserID)-1);
+        } else {
+            strcpy(data.UserID,"");
+        }
+
+        ///合约代码 char InstrumentID[31];
+        if (!Data["InstrumentID"].empty()) {
+            data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
+            strncpy(data.InstrumentID,Data["InstrumentID"].asCString(),sizeof(data.InstrumentID)-1);
+        } else {
+            strcpy(data.InstrumentID,"");
+        }
+
+        ///预埋撤单单编号 char ParkedOrderActionID[13];
+        if (!Data["ParkedOrderActionID"].empty()) {
+            data.ParkedOrderActionID[sizeof(data.ParkedOrderActionID)-1] = 0;
+            strncpy(data.ParkedOrderActionID,Data["ParkedOrderActionID"].asCString(),sizeof(data.ParkedOrderActionID)-1);
+        } else {
+            strcpy(data.ParkedOrderActionID,"");
+        }
+
+        ///用户类型 char UserType
+        if ( !Data["UserType"].empty()) {
+            data.UserType = Data["UserType"].asString()[0];
+        } else {
+            data.UserType = '0';
+        }
+
+        ///预埋撤单状态 char Status
+        if ( !Data["Status"].empty()) {
+            data.Status = Data["Status"].asString()[0];
+        } else {
+            data.Status = '0';
+        }
+
+        ///错误代码 int ErrorID
+        if (!Data["ErrorID"].empty()) {
+            data.ErrorID = Data["ErrorID"].asInt();
+        } else {
+            data.ErrorID = 0;
+        }
+
+        ///错误信息 char ErrorMsg[81];
+        if (!Data["ErrorMsg"].empty()) {
+            data.ErrorMsg[sizeof(data.ErrorMsg)-1] = 0;
+            strncpy(data.ErrorMsg,Data["ErrorMsg"].asCString(),sizeof(data.ErrorMsg)-1);
+        } else {
+            strcpy(data.ErrorMsg,"");
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqParkedOrderAction(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -1935,538 +2147,6 @@ int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
 }
 
 
-///请求查询汇率
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryExchangeRate(std::string jsonString)
-{
-    printf("ReqQryExchangeRate():被执行...\n");
-
-
-    CThostFtdcQryExchangeRateField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-        ///源币种 char FromCurrencyID[4];
-        if (!Data["FromCurrencyID"].empty()) {
-            data.FromCurrencyID[sizeof(data.FromCurrencyID)-1] = 0;
-            strncpy(data.FromCurrencyID,Data["FromCurrencyID"].asCString(),sizeof(data.FromCurrencyID)-1);
-        } else {
-            strcpy(data.FromCurrencyID,"");
-        }
-
-        ///目标币种 char ToCurrencyID[4];
-        if (!Data["ToCurrencyID"].empty()) {
-            data.ToCurrencyID[sizeof(data.ToCurrencyID)-1] = 0;
-            strncpy(data.ToCurrencyID,Data["ToCurrencyID"].asCString(),sizeof(data.ToCurrencyID)-1);
-        } else {
-            strcpy(data.ToCurrencyID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQryExchangeRate(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
-///请求查询投资者持仓明细
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
-{
-    printf("ReqQryInvestorPositionDetail():被执行...\n");
-
-
-    CThostFtdcQryInvestorPositionDetailField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-        ///投资者代码 char InvestorID[13];
-        if (!Data["InvestorID"].empty()) {
-            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
-            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
-        } else {
-            strcpy(data.InvestorID,"");
-        }
-
-        ///合约代码 char InstrumentID[31];
-        if (!Data["InstrumentID"].empty()) {
-            data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
-            strncpy(data.InstrumentID,Data["InstrumentID"].asCString(),sizeof(data.InstrumentID)-1);
-        } else {
-            strcpy(data.InstrumentID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQryInvestorPositionDetail(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
-///请求查询结算信息确认
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
-{
-    printf("ReqQrySettlementInfoConfirm():被执行...\n");
-
-
-    CThostFtdcQrySettlementInfoConfirmField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-        ///投资者代码 char InvestorID[13];
-        if (!Data["InvestorID"].empty()) {
-            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
-            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
-        } else {
-            strcpy(data.InvestorID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQrySettlementInfoConfirm(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
-///请求查询经纪公司交易参数
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryBrokerTradingParams(std::string jsonString)
-{
-    printf("ReqQryBrokerTradingParams():被执行...\n");
-
-
-    CThostFtdcQryBrokerTradingParamsField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-        ///投资者代码 char InvestorID[13];
-        if (!Data["InvestorID"].empty()) {
-            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
-            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
-        } else {
-            strcpy(data.InvestorID,"");
-        }
-
-        ///币种代码 char CurrencyID[4];
-        if (!Data["CurrencyID"].empty()) {
-            data.CurrencyID[sizeof(data.CurrencyID)-1] = 0;
-            strncpy(data.CurrencyID,Data["CurrencyID"].asCString(),sizeof(data.CurrencyID)-1);
-        } else {
-            strcpy(data.CurrencyID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQryBrokerTradingParams(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
-///请求查询监控中心用户令牌
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
-{
-    printf("ReqQueryCFMMCTradingAccountToken():被执行...\n");
-
-
-    CThostFtdcQueryCFMMCTradingAccountTokenField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-        ///投资者代码 char InvestorID[13];
-        if (!Data["InvestorID"].empty()) {
-            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
-            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
-        } else {
-            strcpy(data.InvestorID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQueryCFMMCTradingAccountToken(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
-///请求查询客户通知
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryNotice(std::string jsonString)
-{
-    printf("ReqQryNotice():被执行...\n");
-
-
-    CThostFtdcQryNoticeField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQryNotice(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
 ///期货发起银行资金转期货请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
@@ -2861,6 +2541,444 @@ int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
 }
 
 
+///请求查询结算信息确认
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
+{
+    printf("ReqQrySettlementInfoConfirm():被执行...\n");
+
+
+    CThostFtdcQrySettlementInfoConfirmField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+        ///投资者代码 char InvestorID[13];
+        if (!Data["InvestorID"].empty()) {
+            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
+            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        } else {
+            strcpy(data.InvestorID,"");
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqQrySettlementInfoConfirm(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
+///请求查询经纪公司交易参数
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqQryBrokerTradingParams(std::string jsonString)
+{
+    printf("ReqQryBrokerTradingParams():被执行...\n");
+
+
+    CThostFtdcQryBrokerTradingParamsField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+        ///投资者代码 char InvestorID[13];
+        if (!Data["InvestorID"].empty()) {
+            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
+            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        } else {
+            strcpy(data.InvestorID,"");
+        }
+
+        ///币种代码 char CurrencyID[4];
+        if (!Data["CurrencyID"].empty()) {
+            data.CurrencyID[sizeof(data.CurrencyID)-1] = 0;
+            strncpy(data.CurrencyID,Data["CurrencyID"].asCString(),sizeof(data.CurrencyID)-1);
+        } else {
+            strcpy(data.CurrencyID,"");
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqQryBrokerTradingParams(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
+///请求查询监控中心用户令牌
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
+{
+    printf("ReqQueryCFMMCTradingAccountToken():被执行...\n");
+
+
+    CThostFtdcQueryCFMMCTradingAccountTokenField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+        ///投资者代码 char InvestorID[13];
+        if (!Data["InvestorID"].empty()) {
+            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
+            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        } else {
+            strcpy(data.InvestorID,"");
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqQueryCFMMCTradingAccountToken(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
+///请求查询客户通知
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqQryNotice(std::string jsonString)
+{
+    printf("ReqQryNotice():被执行...\n");
+
+
+    CThostFtdcQryNoticeField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqQryNotice(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
+///请求查询汇率
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqQryExchangeRate(std::string jsonString)
+{
+    printf("ReqQryExchangeRate():被执行...\n");
+
+
+    CThostFtdcQryExchangeRateField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+        ///源币种 char FromCurrencyID[4];
+        if (!Data["FromCurrencyID"].empty()) {
+            data.FromCurrencyID[sizeof(data.FromCurrencyID)-1] = 0;
+            strncpy(data.FromCurrencyID,Data["FromCurrencyID"].asCString(),sizeof(data.FromCurrencyID)-1);
+        } else {
+            strcpy(data.FromCurrencyID,"");
+        }
+
+        ///目标币种 char ToCurrencyID[4];
+        if (!Data["ToCurrencyID"].empty()) {
+            data.ToCurrencyID[sizeof(data.ToCurrencyID)-1] = 0;
+            strncpy(data.ToCurrencyID,Data["ToCurrencyID"].asCString(),sizeof(data.ToCurrencyID)-1);
+        } else {
+            strcpy(data.ToCurrencyID,"");
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqQryExchangeRate(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
 ///预埋单录入请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
@@ -3146,6 +3264,100 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString)
 }
 
 
+///请求查询签约银行
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqQryContractBank(std::string jsonString)
+{
+    printf("ReqQryContractBank():被执行...\n");
+
+
+    CThostFtdcQryContractBankField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+        ///银行代码 char BankID[4];
+        if (!Data["BankID"].empty()) {
+            data.BankID[sizeof(data.BankID)-1] = 0;
+            strncpy(data.BankID,Data["BankID"].asCString(),sizeof(data.BankID)-1);
+        } else {
+            strcpy(data.BankID,"");
+        }
+
+        ///银行分中心代码 char BankBrchID[5];
+        if (!Data["BankBrchID"].empty()) {
+            data.BankBrchID[sizeof(data.BankBrchID)-1] = 0;
+            strncpy(data.BankBrchID,Data["BankBrchID"].asCString(),sizeof(data.BankBrchID)-1);
+        } else {
+            strcpy(data.BankBrchID,"");
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqQryContractBank(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
 ///请求查询投资者持仓明细
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
@@ -3240,15 +3452,15 @@ int CTraderWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
 }
 
 
-///报单录入请求
+///请求查询交易所保证金率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqOrderInsert(std::string jsonString)
+int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
 {
-    printf("ReqOrderInsert():被执行...\n");
+    printf("ReqQryExchangeMarginRate():被执行...\n");
 
 
-    CThostFtdcInputOrderField data;
+    CThostFtdcQryExchangeMarginRateField data;
     int nRequestID;
 
     // 解析json格式数据
@@ -3277,14 +3489,6 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString)
             strcpy(data.BrokerID,"");
         }
 
-        ///投资者代码 char InvestorID[13];
-        if (!Data["InvestorID"].empty()) {
-            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
-            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
-        } else {
-            strcpy(data.InvestorID,"");
-        }
-
         ///合约代码 char InstrumentID[31];
         if (!Data["InstrumentID"].empty()) {
             data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
@@ -3293,150 +3497,11 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString)
             strcpy(data.InstrumentID,"");
         }
 
-        ///报单引用 char OrderRef[13];
-        if (!Data["OrderRef"].empty()) {
-            data.OrderRef[sizeof(data.OrderRef)-1] = 0;
-            strncpy(data.OrderRef,Data["OrderRef"].asCString(),sizeof(data.OrderRef)-1);
+        ///投机套保标志 char HedgeFlag
+        if ( !Data["HedgeFlag"].empty()) {
+            data.HedgeFlag = Data["HedgeFlag"].asString()[0];
         } else {
-            strcpy(data.OrderRef,"");
-        }
-
-        ///用户代码 char UserID[16];
-        if (!Data["UserID"].empty()) {
-            data.UserID[sizeof(data.UserID)-1] = 0;
-            strncpy(data.UserID,Data["UserID"].asCString(),sizeof(data.UserID)-1);
-        } else {
-            strcpy(data.UserID,"");
-        }
-
-        ///报单价格条件 char OrderPriceType
-        if ( !Data["OrderPriceType"].empty()) {
-            data.OrderPriceType = Data["OrderPriceType"].asString()[0];
-        } else {
-            data.OrderPriceType = '0';
-        }
-
-        ///买卖方向 char Direction
-        if ( !Data["Direction"].empty()) {
-            data.Direction = Data["Direction"].asString()[0];
-        } else {
-            data.Direction = '0';
-        }
-
-        ///组合开平标志 char CombOffsetFlag[5];
-        if (!Data["CombOffsetFlag"].empty()) {
-            data.CombOffsetFlag[sizeof(data.CombOffsetFlag)-1] = 0;
-            strncpy(data.CombOffsetFlag,Data["CombOffsetFlag"].asCString(),sizeof(data.CombOffsetFlag)-1);
-        } else {
-            strcpy(data.CombOffsetFlag,"");
-        }
-
-        ///组合投机套保标志 char CombHedgeFlag[5];
-        if (!Data["CombHedgeFlag"].empty()) {
-            data.CombHedgeFlag[sizeof(data.CombHedgeFlag)-1] = 0;
-            strncpy(data.CombHedgeFlag,Data["CombHedgeFlag"].asCString(),sizeof(data.CombHedgeFlag)-1);
-        } else {
-            strcpy(data.CombHedgeFlag,"");
-        }
-
-        ///价格 double LimitPrice
-        if (!Data["LimitPrice"].empty()) {
-            data.LimitPrice = Data["LimitPrice"].asDouble();
-        } else {
-            data.LimitPrice = 0;
-        }
-
-        ///数量 int VolumeTotalOriginal
-        if (!Data["VolumeTotalOriginal"].empty()) {
-            data.VolumeTotalOriginal = Data["VolumeTotalOriginal"].asInt();
-        } else {
-            data.VolumeTotalOriginal = 0;
-        }
-
-        ///有效期类型 char TimeCondition
-        if ( !Data["TimeCondition"].empty()) {
-            data.TimeCondition = Data["TimeCondition"].asString()[0];
-        } else {
-            data.TimeCondition = '0';
-        }
-
-        ///GTD日期 char GTDDate[9];
-        if (!Data["GTDDate"].empty()) {
-            data.GTDDate[sizeof(data.GTDDate)-1] = 0;
-            strncpy(data.GTDDate,Data["GTDDate"].asCString(),sizeof(data.GTDDate)-1);
-        } else {
-            strcpy(data.GTDDate,"");
-        }
-
-        ///成交量类型 char VolumeCondition
-        if ( !Data["VolumeCondition"].empty()) {
-            data.VolumeCondition = Data["VolumeCondition"].asString()[0];
-        } else {
-            data.VolumeCondition = '0';
-        }
-
-        ///最小成交量 int MinVolume
-        if (!Data["MinVolume"].empty()) {
-            data.MinVolume = Data["MinVolume"].asInt();
-        } else {
-            data.MinVolume = 0;
-        }
-
-        ///触发条件 char ContingentCondition
-        if ( !Data["ContingentCondition"].empty()) {
-            data.ContingentCondition = Data["ContingentCondition"].asString()[0];
-        } else {
-            data.ContingentCondition = '0';
-        }
-
-        ///止损价 double StopPrice
-        if (!Data["StopPrice"].empty()) {
-            data.StopPrice = Data["StopPrice"].asDouble();
-        } else {
-            data.StopPrice = 0;
-        }
-
-        ///强平原因 char ForceCloseReason
-        if ( !Data["ForceCloseReason"].empty()) {
-            data.ForceCloseReason = Data["ForceCloseReason"].asString()[0];
-        } else {
-            data.ForceCloseReason = '0';
-        }
-
-        ///自动挂起标志 int IsAutoSuspend
-        if (!Data["IsAutoSuspend"].empty()) {
-            data.IsAutoSuspend = Data["IsAutoSuspend"].asInt();
-        } else {
-            data.IsAutoSuspend = 0;
-        }
-
-        ///业务单元 char BusinessUnit[21];
-        if (!Data["BusinessUnit"].empty()) {
-            data.BusinessUnit[sizeof(data.BusinessUnit)-1] = 0;
-            strncpy(data.BusinessUnit,Data["BusinessUnit"].asCString(),sizeof(data.BusinessUnit)-1);
-        } else {
-            strcpy(data.BusinessUnit,"");
-        }
-
-        ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
-
-        ///用户强评标志 int UserForceClose
-        if (!Data["UserForceClose"].empty()) {
-            data.UserForceClose = Data["UserForceClose"].asInt();
-        } else {
-            data.UserForceClose = 0;
-        }
-
-        ///互换单标志 int IsSwapOrder
-        if (!Data["IsSwapOrder"].empty()) {
-            data.IsSwapOrder = Data["IsSwapOrder"].asInt();
-        } else {
-            data.IsSwapOrder = 0;
+            data.HedgeFlag = '0';
         }
 
     } catch (...) {
@@ -3450,7 +3515,7 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString)
 
     // 调用对应的CTP API函数
     int result =
-        pTraderApi->ReqOrderInsert(&data, nRequestID);
+        pTraderApi->ReqQryExchangeMarginRate(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -3582,15 +3647,15 @@ int CTraderWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
 }
 
 
-///预埋撤单录入请求
+///请求查询转帐流水
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqParkedOrderAction(std::string jsonString)
+int CTraderWrapper::ReqQryTransferSerial(std::string jsonString)
 {
-    printf("ReqParkedOrderAction():被执行...\n");
+    printf("ReqQryTransferSerial():被执行...\n");
 
 
-    CThostFtdcParkedOrderActionField data;
+    CThostFtdcQryTransferSerialField data;
     int nRequestID;
 
     // 解析json格式数据
@@ -3619,138 +3684,28 @@ int CTraderWrapper::ReqParkedOrderAction(std::string jsonString)
             strcpy(data.BrokerID,"");
         }
 
-        ///投资者代码 char InvestorID[13];
-        if (!Data["InvestorID"].empty()) {
-            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
-            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        ///投资者帐号 char AccountID[13];
+        if (!Data["AccountID"].empty()) {
+            data.AccountID[sizeof(data.AccountID)-1] = 0;
+            strncpy(data.AccountID,Data["AccountID"].asCString(),sizeof(data.AccountID)-1);
         } else {
-            strcpy(data.InvestorID,"");
+            strcpy(data.AccountID,"");
         }
 
-        ///报单操作引用 int OrderActionRef
-        if (!Data["OrderActionRef"].empty()) {
-            data.OrderActionRef = Data["OrderActionRef"].asInt();
+        ///银行编码 char BankID[4];
+        if (!Data["BankID"].empty()) {
+            data.BankID[sizeof(data.BankID)-1] = 0;
+            strncpy(data.BankID,Data["BankID"].asCString(),sizeof(data.BankID)-1);
         } else {
-            data.OrderActionRef = 0;
+            strcpy(data.BankID,"");
         }
 
-        ///报单引用 char OrderRef[13];
-        if (!Data["OrderRef"].empty()) {
-            data.OrderRef[sizeof(data.OrderRef)-1] = 0;
-            strncpy(data.OrderRef,Data["OrderRef"].asCString(),sizeof(data.OrderRef)-1);
+        ///币种代码 char CurrencyID[4];
+        if (!Data["CurrencyID"].empty()) {
+            data.CurrencyID[sizeof(data.CurrencyID)-1] = 0;
+            strncpy(data.CurrencyID,Data["CurrencyID"].asCString(),sizeof(data.CurrencyID)-1);
         } else {
-            strcpy(data.OrderRef,"");
-        }
-
-        ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
-
-        ///前置编号 int FrontID
-        if (!Data["FrontID"].empty()) {
-            data.FrontID = Data["FrontID"].asInt();
-        } else {
-            data.FrontID = 0;
-        }
-
-        ///会话编号 int SessionID
-        if (!Data["SessionID"].empty()) {
-            data.SessionID = Data["SessionID"].asInt();
-        } else {
-            data.SessionID = 0;
-        }
-
-        ///交易所代码 char ExchangeID[9];
-        if (!Data["ExchangeID"].empty()) {
-            data.ExchangeID[sizeof(data.ExchangeID)-1] = 0;
-            strncpy(data.ExchangeID,Data["ExchangeID"].asCString(),sizeof(data.ExchangeID)-1);
-        } else {
-            strcpy(data.ExchangeID,"");
-        }
-
-        ///报单编号 char OrderSysID[21];
-        if (!Data["OrderSysID"].empty()) {
-            data.OrderSysID[sizeof(data.OrderSysID)-1] = 0;
-            strncpy(data.OrderSysID,Data["OrderSysID"].asCString(),sizeof(data.OrderSysID)-1);
-        } else {
-            strcpy(data.OrderSysID,"");
-        }
-
-        ///操作标志 char ActionFlag
-        if ( !Data["ActionFlag"].empty()) {
-            data.ActionFlag = Data["ActionFlag"].asString()[0];
-        } else {
-            data.ActionFlag = '0';
-        }
-
-        ///价格 double LimitPrice
-        if (!Data["LimitPrice"].empty()) {
-            data.LimitPrice = Data["LimitPrice"].asDouble();
-        } else {
-            data.LimitPrice = 0;
-        }
-
-        ///数量变化 int VolumeChange
-        if (!Data["VolumeChange"].empty()) {
-            data.VolumeChange = Data["VolumeChange"].asInt();
-        } else {
-            data.VolumeChange = 0;
-        }
-
-        ///用户代码 char UserID[16];
-        if (!Data["UserID"].empty()) {
-            data.UserID[sizeof(data.UserID)-1] = 0;
-            strncpy(data.UserID,Data["UserID"].asCString(),sizeof(data.UserID)-1);
-        } else {
-            strcpy(data.UserID,"");
-        }
-
-        ///合约代码 char InstrumentID[31];
-        if (!Data["InstrumentID"].empty()) {
-            data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
-            strncpy(data.InstrumentID,Data["InstrumentID"].asCString(),sizeof(data.InstrumentID)-1);
-        } else {
-            strcpy(data.InstrumentID,"");
-        }
-
-        ///预埋撤单单编号 char ParkedOrderActionID[13];
-        if (!Data["ParkedOrderActionID"].empty()) {
-            data.ParkedOrderActionID[sizeof(data.ParkedOrderActionID)-1] = 0;
-            strncpy(data.ParkedOrderActionID,Data["ParkedOrderActionID"].asCString(),sizeof(data.ParkedOrderActionID)-1);
-        } else {
-            strcpy(data.ParkedOrderActionID,"");
-        }
-
-        ///用户类型 char UserType
-        if ( !Data["UserType"].empty()) {
-            data.UserType = Data["UserType"].asString()[0];
-        } else {
-            data.UserType = '0';
-        }
-
-        ///预埋撤单状态 char Status
-        if ( !Data["Status"].empty()) {
-            data.Status = Data["Status"].asString()[0];
-        } else {
-            data.Status = '0';
-        }
-
-        ///错误代码 int ErrorID
-        if (!Data["ErrorID"].empty()) {
-            data.ErrorID = Data["ErrorID"].asInt();
-        } else {
-            data.ErrorID = 0;
-        }
-
-        ///错误信息 char ErrorMsg[81];
-        if (!Data["ErrorMsg"].empty()) {
-            data.ErrorMsg[sizeof(data.ErrorMsg)-1] = 0;
-            strncpy(data.ErrorMsg,Data["ErrorMsg"].asCString(),sizeof(data.ErrorMsg)-1);
-        } else {
-            strcpy(data.ErrorMsg,"");
+            strcpy(data.CurrencyID,"");
         }
 
     } catch (...) {
@@ -3764,7 +3719,7 @@ int CTraderWrapper::ReqParkedOrderAction(std::string jsonString)
 
     // 调用对应的CTP API函数
     int result =
-        pTraderApi->ReqParkedOrderAction(&data, nRequestID);
+        pTraderApi->ReqQryTransferSerial(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -4342,15 +4297,15 @@ int CTraderWrapper::ReqAuthenticate(std::string jsonString)
 }
 
 
-///请求查询交易所保证金率
+///报单录入请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
+int CTraderWrapper::ReqOrderInsert(std::string jsonString)
 {
-    printf("ReqQryExchangeMarginRate():被执行...\n");
+    printf("ReqOrderInsert():被执行...\n");
 
 
-    CThostFtdcQryExchangeMarginRateField data;
+    CThostFtdcInputOrderField data;
     int nRequestID;
 
     // 解析json格式数据
@@ -4379,6 +4334,14 @@ int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
             strcpy(data.BrokerID,"");
         }
 
+        ///投资者代码 char InvestorID[13];
+        if (!Data["InvestorID"].empty()) {
+            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
+            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        } else {
+            strcpy(data.InvestorID,"");
+        }
+
         ///合约代码 char InstrumentID[31];
         if (!Data["InstrumentID"].empty()) {
             data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
@@ -4387,11 +4350,150 @@ int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
             strcpy(data.InstrumentID,"");
         }
 
-        ///投机套保标志 char HedgeFlag
-        if ( !Data["HedgeFlag"].empty()) {
-            data.HedgeFlag = Data["HedgeFlag"].asString()[0];
+        ///报单引用 char OrderRef[13];
+        if (!Data["OrderRef"].empty()) {
+            data.OrderRef[sizeof(data.OrderRef)-1] = 0;
+            strncpy(data.OrderRef,Data["OrderRef"].asCString(),sizeof(data.OrderRef)-1);
         } else {
-            data.HedgeFlag = '0';
+            strcpy(data.OrderRef,"");
+        }
+
+        ///用户代码 char UserID[16];
+        if (!Data["UserID"].empty()) {
+            data.UserID[sizeof(data.UserID)-1] = 0;
+            strncpy(data.UserID,Data["UserID"].asCString(),sizeof(data.UserID)-1);
+        } else {
+            strcpy(data.UserID,"");
+        }
+
+        ///报单价格条件 char OrderPriceType
+        if ( !Data["OrderPriceType"].empty()) {
+            data.OrderPriceType = Data["OrderPriceType"].asString()[0];
+        } else {
+            data.OrderPriceType = '0';
+        }
+
+        ///买卖方向 char Direction
+        if ( !Data["Direction"].empty()) {
+            data.Direction = Data["Direction"].asString()[0];
+        } else {
+            data.Direction = '0';
+        }
+
+        ///组合开平标志 char CombOffsetFlag[5];
+        if (!Data["CombOffsetFlag"].empty()) {
+            data.CombOffsetFlag[sizeof(data.CombOffsetFlag)-1] = 0;
+            strncpy(data.CombOffsetFlag,Data["CombOffsetFlag"].asCString(),sizeof(data.CombOffsetFlag)-1);
+        } else {
+            strcpy(data.CombOffsetFlag,"");
+        }
+
+        ///组合投机套保标志 char CombHedgeFlag[5];
+        if (!Data["CombHedgeFlag"].empty()) {
+            data.CombHedgeFlag[sizeof(data.CombHedgeFlag)-1] = 0;
+            strncpy(data.CombHedgeFlag,Data["CombHedgeFlag"].asCString(),sizeof(data.CombHedgeFlag)-1);
+        } else {
+            strcpy(data.CombHedgeFlag,"");
+        }
+
+        ///价格 double LimitPrice
+        if (!Data["LimitPrice"].empty()) {
+            data.LimitPrice = Data["LimitPrice"].asDouble();
+        } else {
+            data.LimitPrice = 0;
+        }
+
+        ///数量 int VolumeTotalOriginal
+        if (!Data["VolumeTotalOriginal"].empty()) {
+            data.VolumeTotalOriginal = Data["VolumeTotalOriginal"].asInt();
+        } else {
+            data.VolumeTotalOriginal = 0;
+        }
+
+        ///有效期类型 char TimeCondition
+        if ( !Data["TimeCondition"].empty()) {
+            data.TimeCondition = Data["TimeCondition"].asString()[0];
+        } else {
+            data.TimeCondition = '0';
+        }
+
+        ///GTD日期 char GTDDate[9];
+        if (!Data["GTDDate"].empty()) {
+            data.GTDDate[sizeof(data.GTDDate)-1] = 0;
+            strncpy(data.GTDDate,Data["GTDDate"].asCString(),sizeof(data.GTDDate)-1);
+        } else {
+            strcpy(data.GTDDate,"");
+        }
+
+        ///成交量类型 char VolumeCondition
+        if ( !Data["VolumeCondition"].empty()) {
+            data.VolumeCondition = Data["VolumeCondition"].asString()[0];
+        } else {
+            data.VolumeCondition = '0';
+        }
+
+        ///最小成交量 int MinVolume
+        if (!Data["MinVolume"].empty()) {
+            data.MinVolume = Data["MinVolume"].asInt();
+        } else {
+            data.MinVolume = 0;
+        }
+
+        ///触发条件 char ContingentCondition
+        if ( !Data["ContingentCondition"].empty()) {
+            data.ContingentCondition = Data["ContingentCondition"].asString()[0];
+        } else {
+            data.ContingentCondition = '0';
+        }
+
+        ///止损价 double StopPrice
+        if (!Data["StopPrice"].empty()) {
+            data.StopPrice = Data["StopPrice"].asDouble();
+        } else {
+            data.StopPrice = 0;
+        }
+
+        ///强平原因 char ForceCloseReason
+        if ( !Data["ForceCloseReason"].empty()) {
+            data.ForceCloseReason = Data["ForceCloseReason"].asString()[0];
+        } else {
+            data.ForceCloseReason = '0';
+        }
+
+        ///自动挂起标志 int IsAutoSuspend
+        if (!Data["IsAutoSuspend"].empty()) {
+            data.IsAutoSuspend = Data["IsAutoSuspend"].asInt();
+        } else {
+            data.IsAutoSuspend = 0;
+        }
+
+        ///业务单元 char BusinessUnit[21];
+        if (!Data["BusinessUnit"].empty()) {
+            data.BusinessUnit[sizeof(data.BusinessUnit)-1] = 0;
+            strncpy(data.BusinessUnit,Data["BusinessUnit"].asCString(),sizeof(data.BusinessUnit)-1);
+        } else {
+            strcpy(data.BusinessUnit,"");
+        }
+
+        ///请求编号 int RequestID
+        if (!Data["RequestID"].empty()) {
+            data.RequestID = Data["RequestID"].asInt();
+        } else {
+            data.RequestID = 0;
+        }
+
+        ///用户强评标志 int UserForceClose
+        if (!Data["UserForceClose"].empty()) {
+            data.UserForceClose = Data["UserForceClose"].asInt();
+        } else {
+            data.UserForceClose = 0;
+        }
+
+        ///互换单标志 int IsSwapOrder
+        if (!Data["IsSwapOrder"].empty()) {
+            data.IsSwapOrder = Data["IsSwapOrder"].asInt();
+        } else {
+            data.IsSwapOrder = 0;
         }
 
     } catch (...) {
@@ -4405,7 +4507,7 @@ int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
 
     // 调用对应的CTP API函数
     int result =
-        pTraderApi->ReqQryExchangeMarginRate(&data, nRequestID);
+        pTraderApi->ReqOrderInsert(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -4435,15 +4537,15 @@ int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
 }
 
 
-///资金账户口令更新请求
+///请求查询投资者结算结果
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
+int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString)
 {
-    printf("ReqTradingAccountPasswordUpdate():被执行...\n");
+    printf("ReqQrySettlementInfo():被执行...\n");
 
 
-    CThostFtdcTradingAccountPasswordUpdateField data;
+    CThostFtdcQrySettlementInfoField data;
     int nRequestID;
 
     // 解析json格式数据
@@ -4472,36 +4574,20 @@ int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
             strcpy(data.BrokerID,"");
         }
 
-        ///投资者帐号 char AccountID[13];
-        if (!Data["AccountID"].empty()) {
-            data.AccountID[sizeof(data.AccountID)-1] = 0;
-            strncpy(data.AccountID,Data["AccountID"].asCString(),sizeof(data.AccountID)-1);
+        ///投资者代码 char InvestorID[13];
+        if (!Data["InvestorID"].empty()) {
+            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
+            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
         } else {
-            strcpy(data.AccountID,"");
+            strcpy(data.InvestorID,"");
         }
 
-        ///原来的口令 char OldPassword[41];
-        if (!Data["OldPassword"].empty()) {
-            data.OldPassword[sizeof(data.OldPassword)-1] = 0;
-            strncpy(data.OldPassword,Data["OldPassword"].asCString(),sizeof(data.OldPassword)-1);
+        ///交易日 char TradingDay[9];
+        if (!Data["TradingDay"].empty()) {
+            data.TradingDay[sizeof(data.TradingDay)-1] = 0;
+            strncpy(data.TradingDay,Data["TradingDay"].asCString(),sizeof(data.TradingDay)-1);
         } else {
-            strcpy(data.OldPassword,"");
-        }
-
-        ///新的口令 char NewPassword[41];
-        if (!Data["NewPassword"].empty()) {
-            data.NewPassword[sizeof(data.NewPassword)-1] = 0;
-            strncpy(data.NewPassword,Data["NewPassword"].asCString(),sizeof(data.NewPassword)-1);
-        } else {
-            strcpy(data.NewPassword,"");
-        }
-
-        ///币种代码 char CurrencyID[4];
-        if (!Data["CurrencyID"].empty()) {
-            data.CurrencyID[sizeof(data.CurrencyID)-1] = 0;
-            strncpy(data.CurrencyID,Data["CurrencyID"].asCString(),sizeof(data.CurrencyID)-1);
-        } else {
-            strcpy(data.CurrencyID,"");
+            strcpy(data.TradingDay,"");
         }
 
     } catch (...) {
@@ -4515,7 +4601,7 @@ int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
 
     // 调用对应的CTP API函数
     int result =
-        pTraderApi->ReqTradingAccountPasswordUpdate(&data, nRequestID);
+        pTraderApi->ReqQrySettlementInfo(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -5189,15 +5275,15 @@ int CTraderWrapper::ReqQryInvestor(std::string jsonString)
 }
 
 
-///请求查询交易所调整保证金率
+///请求查询预埋单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
+int CTraderWrapper::ReqQryParkedOrder(std::string jsonString)
 {
-    printf("ReqQryExchangeMarginRateAdjust():被执行...\n");
+    printf("ReqQryParkedOrder():被执行...\n");
 
 
-    CThostFtdcQryExchangeMarginRateAdjustField data;
+    CThostFtdcQryParkedOrderField data;
     int nRequestID;
 
     // 解析json格式数据
@@ -5226,6 +5312,14 @@ int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
             strcpy(data.BrokerID,"");
         }
 
+        ///投资者代码 char InvestorID[13];
+        if (!Data["InvestorID"].empty()) {
+            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
+            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        } else {
+            strcpy(data.InvestorID,"");
+        }
+
         ///合约代码 char InstrumentID[31];
         if (!Data["InstrumentID"].empty()) {
             data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
@@ -5234,11 +5328,12 @@ int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
             strcpy(data.InstrumentID,"");
         }
 
-        ///投机套保标志 char HedgeFlag
-        if ( !Data["HedgeFlag"].empty()) {
-            data.HedgeFlag = Data["HedgeFlag"].asString()[0];
+        ///交易所代码 char ExchangeID[9];
+        if (!Data["ExchangeID"].empty()) {
+            data.ExchangeID[sizeof(data.ExchangeID)-1] = 0;
+            strncpy(data.ExchangeID,Data["ExchangeID"].asCString(),sizeof(data.ExchangeID)-1);
         } else {
-            data.HedgeFlag = '0';
+            strcpy(data.ExchangeID,"");
         }
 
     } catch (...) {
@@ -5252,7 +5347,7 @@ int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
 
     // 调用对应的CTP API函数
     int result =
-        pTraderApi->ReqQryExchangeMarginRateAdjust(&data, nRequestID);
+        pTraderApi->ReqQryParkedOrder(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -5354,108 +5449,6 @@ int CTraderWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
     // 调用对应的CTP API函数
     int result =
         pTraderApi->ReqQryInvestorProductGroupMargin(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
-///请求查询仓单折抵信息
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryEWarrantOffset(std::string jsonString)
-{
-    printf("ReqQryEWarrantOffset():被执行...\n");
-
-
-    CThostFtdcQryEWarrantOffsetField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-        ///投资者代码 char InvestorID[13];
-        if (!Data["InvestorID"].empty()) {
-            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
-            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
-        } else {
-            strcpy(data.InvestorID,"");
-        }
-
-        ///交易所代码 char ExchangeID[9];
-        if (!Data["ExchangeID"].empty()) {
-            data.ExchangeID[sizeof(data.ExchangeID)-1] = 0;
-            strncpy(data.ExchangeID,Data["ExchangeID"].asCString(),sizeof(data.ExchangeID)-1);
-        } else {
-            strcpy(data.ExchangeID,"");
-        }
-
-        ///合约代码 char InstrumentID[31];
-        if (!Data["InstrumentID"].empty()) {
-            data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
-            strncpy(data.InstrumentID,Data["InstrumentID"].asCString(),sizeof(data.InstrumentID)-1);
-        } else {
-            strcpy(data.InstrumentID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQryEWarrantOffset(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -5930,15 +5923,15 @@ int CTraderWrapper::ReqQryTradingCode(std::string jsonString)
 }
 
 
-///请求查询投资者结算结果
+///资金账户口令更新请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString)
+int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
 {
-    printf("ReqQrySettlementInfo():被执行...\n");
+    printf("ReqTradingAccountPasswordUpdate():被执行...\n");
 
 
-    CThostFtdcQrySettlementInfoField data;
+    CThostFtdcTradingAccountPasswordUpdateField data;
     int nRequestID;
 
     // 解析json格式数据
@@ -5967,20 +5960,36 @@ int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString)
             strcpy(data.BrokerID,"");
         }
 
-        ///投资者代码 char InvestorID[13];
-        if (!Data["InvestorID"].empty()) {
-            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
-            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        ///投资者帐号 char AccountID[13];
+        if (!Data["AccountID"].empty()) {
+            data.AccountID[sizeof(data.AccountID)-1] = 0;
+            strncpy(data.AccountID,Data["AccountID"].asCString(),sizeof(data.AccountID)-1);
         } else {
-            strcpy(data.InvestorID,"");
+            strcpy(data.AccountID,"");
         }
 
-        ///交易日 char TradingDay[9];
-        if (!Data["TradingDay"].empty()) {
-            data.TradingDay[sizeof(data.TradingDay)-1] = 0;
-            strncpy(data.TradingDay,Data["TradingDay"].asCString(),sizeof(data.TradingDay)-1);
+        ///原来的口令 char OldPassword[41];
+        if (!Data["OldPassword"].empty()) {
+            data.OldPassword[sizeof(data.OldPassword)-1] = 0;
+            strncpy(data.OldPassword,Data["OldPassword"].asCString(),sizeof(data.OldPassword)-1);
         } else {
-            strcpy(data.TradingDay,"");
+            strcpy(data.OldPassword,"");
+        }
+
+        ///新的口令 char NewPassword[41];
+        if (!Data["NewPassword"].empty()) {
+            data.NewPassword[sizeof(data.NewPassword)-1] = 0;
+            strncpy(data.NewPassword,Data["NewPassword"].asCString(),sizeof(data.NewPassword)-1);
+        } else {
+            strcpy(data.NewPassword,"");
+        }
+
+        ///币种代码 char CurrencyID[4];
+        if (!Data["CurrencyID"].empty()) {
+            data.CurrencyID[sizeof(data.CurrencyID)-1] = 0;
+            strncpy(data.CurrencyID,Data["CurrencyID"].asCString(),sizeof(data.CurrencyID)-1);
+        } else {
+            strcpy(data.CurrencyID,"");
         }
 
     } catch (...) {
@@ -5994,7 +6003,7 @@ int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString)
 
     // 调用对应的CTP API函数
     int result =
-        pTraderApi->ReqQrySettlementInfo(&data, nRequestID);
+        pTraderApi->ReqTradingAccountPasswordUpdate(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -6134,15 +6143,210 @@ int CTraderWrapper::ReqQryAccountregister(std::string jsonString)
 }
 
 
-///请求查询预埋单
+///请求查询交易所调整保证金率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryParkedOrder(std::string jsonString)
+int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
 {
-    printf("ReqQryParkedOrder():被执行...\n");
+    printf("ReqQryExchangeMarginRateAdjust():被执行...\n");
 
 
-    CThostFtdcQryParkedOrderField data;
+    CThostFtdcQryExchangeMarginRateAdjustField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+        ///合约代码 char InstrumentID[31];
+        if (!Data["InstrumentID"].empty()) {
+            data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
+            strncpy(data.InstrumentID,Data["InstrumentID"].asCString(),sizeof(data.InstrumentID)-1);
+        } else {
+            strcpy(data.InstrumentID,"");
+        }
+
+        ///投机套保标志 char HedgeFlag
+        if ( !Data["HedgeFlag"].empty()) {
+            data.HedgeFlag = Data["HedgeFlag"].asString()[0];
+        } else {
+            data.HedgeFlag = '0';
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqQryExchangeMarginRateAdjust(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
+///请求查询仓单折抵信息
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqQryEWarrantOffset(std::string jsonString)
+{
+    printf("ReqQryEWarrantOffset():被执行...\n");
+
+
+    CThostFtdcQryEWarrantOffsetField data;
+    int nRequestID;
+
+    // 解析json格式数据
+    try {
+
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        //Assert<std::exception>(!Data.empty());
+
+
+        // TODO:这里将pJsonData转化为对应的结构参数
+
+        ///经纪公司代码 char BrokerID[11];
+        if (!Data["BrokerID"].empty()) {
+            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
+            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
+        } else {
+            strcpy(data.BrokerID,"");
+        }
+
+        ///投资者代码 char InvestorID[13];
+        if (!Data["InvestorID"].empty()) {
+            data.InvestorID[sizeof(data.InvestorID)-1] = 0;
+            strncpy(data.InvestorID,Data["InvestorID"].asCString(),sizeof(data.InvestorID)-1);
+        } else {
+            strcpy(data.InvestorID,"");
+        }
+
+        ///交易所代码 char ExchangeID[9];
+        if (!Data["ExchangeID"].empty()) {
+            data.ExchangeID[sizeof(data.ExchangeID)-1] = 0;
+            strncpy(data.ExchangeID,Data["ExchangeID"].asCString(),sizeof(data.ExchangeID)-1);
+        } else {
+            strcpy(data.ExchangeID,"");
+        }
+
+        ///合约代码 char InstrumentID[31];
+        if (!Data["InstrumentID"].empty()) {
+            data.InstrumentID[sizeof(data.InstrumentID)-1] = 0;
+            strncpy(data.InstrumentID,Data["InstrumentID"].asCString(),sizeof(data.InstrumentID)-1);
+        } else {
+            strcpy(data.InstrumentID,"");
+        }
+
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // 获取RequestID
+    nRequestID = getNextRequestID();
+
+    // 调用对应的CTP API函数
+    int result =
+        pTraderApi->ReqQryEWarrantOffset(&data, nRequestID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+
+        //return result;
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return nRequestID;
+}
+
+
+///请求查询投资者持仓明细
+/// 调用成功返回RequestID,失败返回-1
+/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
+int CTraderWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
+{
+    printf("ReqQryInvestorPositionDetail():被执行...\n");
+
+
+    CThostFtdcQryInvestorPositionDetailField data;
     int nRequestID;
 
     // 解析json格式数据
@@ -6187,14 +6391,6 @@ int CTraderWrapper::ReqQryParkedOrder(std::string jsonString)
             strcpy(data.InstrumentID,"");
         }
 
-        ///交易所代码 char ExchangeID[9];
-        if (!Data["ExchangeID"].empty()) {
-            data.ExchangeID[sizeof(data.ExchangeID)-1] = 0;
-            strncpy(data.ExchangeID,Data["ExchangeID"].asCString(),sizeof(data.ExchangeID)-1);
-        } else {
-            strcpy(data.ExchangeID,"");
-        }
-
     } catch (...) {
         lastErrorID = -1001;
         lastErrorMsg = "json数据格式错误";
@@ -6206,203 +6402,7 @@ int CTraderWrapper::ReqQryParkedOrder(std::string jsonString)
 
     // 调用对应的CTP API函数
     int result =
-        pTraderApi->ReqQryParkedOrder(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
-///请求查询转帐流水
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryTransferSerial(std::string jsonString)
-{
-    printf("ReqQryTransferSerial():被执行...\n");
-
-
-    CThostFtdcQryTransferSerialField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-        ///投资者帐号 char AccountID[13];
-        if (!Data["AccountID"].empty()) {
-            data.AccountID[sizeof(data.AccountID)-1] = 0;
-            strncpy(data.AccountID,Data["AccountID"].asCString(),sizeof(data.AccountID)-1);
-        } else {
-            strcpy(data.AccountID,"");
-        }
-
-        ///银行编码 char BankID[4];
-        if (!Data["BankID"].empty()) {
-            data.BankID[sizeof(data.BankID)-1] = 0;
-            strncpy(data.BankID,Data["BankID"].asCString(),sizeof(data.BankID)-1);
-        } else {
-            strcpy(data.BankID,"");
-        }
-
-        ///币种代码 char CurrencyID[4];
-        if (!Data["CurrencyID"].empty()) {
-            data.CurrencyID[sizeof(data.CurrencyID)-1] = 0;
-            strncpy(data.CurrencyID,Data["CurrencyID"].asCString(),sizeof(data.CurrencyID)-1);
-        } else {
-            strcpy(data.CurrencyID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQryTransferSerial(&data, nRequestID);
-
-    // TODO:检查API调用是否失败,并设置LastError信息
-    if ( result != 0 ) {
-        lastErrorID = result;
-        switch(result) {
-        case -1 :
-            lastErrorMsg = "网络连接失败";
-            break;
-        case -2 :
-            lastErrorMsg = "未处理请求超过许可数";
-            break;
-        case -3 :
-            lastErrorMsg = "每秒发送请求超过许可数";
-            break;
-        default :
-            lastErrorMsg = "未知错误";
-        }
-
-        //return result;
-        return -1;
-    }
-
-    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
-    lastErrorID = 0;
-    lastErrorMsg = "";
-    return nRequestID;
-}
-
-
-///请求查询签约银行
-/// 调用成功返回RequestID,失败返回-1
-/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryContractBank(std::string jsonString)
-{
-    printf("ReqQryContractBank():被执行...\n");
-
-
-    CThostFtdcQryContractBankField data;
-    int nRequestID;
-
-    // 解析json格式数据
-    try {
-
-        Json::Reader jsonReader;
-        Json::Value jsonData;
-
-        if (!jsonReader.parse(jsonString, jsonData)) {
-            throw std::exception();
-        }
-
-        Json::Value Parameters = jsonData["Parameters"];
-        Assert<std::exception>(!Parameters.empty());
-        Json::Value Data = Parameters["Data"];
-        //Assert<std::exception>(!Data.empty());
-
-
-        // TODO:这里将pJsonData转化为对应的结构参数
-
-        ///经纪公司代码 char BrokerID[11];
-        if (!Data["BrokerID"].empty()) {
-            data.BrokerID[sizeof(data.BrokerID)-1] = 0;
-            strncpy(data.BrokerID,Data["BrokerID"].asCString(),sizeof(data.BrokerID)-1);
-        } else {
-            strcpy(data.BrokerID,"");
-        }
-
-        ///银行代码 char BankID[4];
-        if (!Data["BankID"].empty()) {
-            data.BankID[sizeof(data.BankID)-1] = 0;
-            strncpy(data.BankID,Data["BankID"].asCString(),sizeof(data.BankID)-1);
-        } else {
-            strcpy(data.BankID,"");
-        }
-
-        ///银行分中心代码 char BankBrchID[5];
-        if (!Data["BankBrchID"].empty()) {
-            data.BankBrchID[sizeof(data.BankBrchID)-1] = 0;
-            strncpy(data.BankBrchID,Data["BankBrchID"].asCString(),sizeof(data.BankBrchID)-1);
-        } else {
-            strcpy(data.BankBrchID,"");
-        }
-
-    } catch (...) {
-        lastErrorID = -1001;
-        lastErrorMsg = "json数据格式错误";
-        return -1;
-    }
-
-    // 获取RequestID
-    nRequestID = getNextRequestID();
-
-    // 调用对应的CTP API函数
-    int result =
-        pTraderApi->ReqQryContractBank(&data, nRequestID);
+        pTraderApi->ReqQryInvestorPositionDetail(&data, nRequestID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {

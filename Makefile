@@ -1,5 +1,5 @@
 IDIR =include
-LIBS =lib/*.so
+LIBS =/etc/ctp/lib/*.so
 CC=g++
 LD=g++
 CFLAGS=-I$(IDIR) -g -std=gnu++11
