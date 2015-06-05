@@ -109,7 +109,7 @@ void MdConfigure::loadInstrumentIDList(){
 /// 从环境变量中读取配置信息
 void MdConfigure::loadFromEnvironment(){
     /// 服务器地址
-    this->frontAddress = getenv("CTP_FRONT_ADDRESS");
+    this->frontAddress = getenv("CTP_MD_FRONT_ADDRESS");
     assert(this->frontAddress);
     ///经纪公司代码
     this->brokerID = getenv("CTP_BROKER_ID");

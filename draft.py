@@ -316,6 +316,8 @@ pushbackPipe = os.environ.get('CTP_PUSHBACK_PIPE')
 assert pushbackPipe
 publishPipe = os.environ.get('CTP_PUBLISH_PIPE') 
 assert publishPipe
+instrumentIDConfigFile = os.environ.get('CTP_INSTRUMENT_ID_CONFIG_FILE') 
+assert instrumentIDConfigFile
 
 command = ' '.join(['bin/trader',
 '--FrontAddress %s' % frontAddress,
@@ -325,6 +327,7 @@ command = ' '.join(['bin/trader',
 '--RequestPipe %s' % requestPipe,
 '--PushbackPipe %s' % pushbackPipe,
 '--PublishPipe %s' % publishPipe,
+'--PnstrumentIDConfigFile %s' % instrumentIDConfigFile,
 ])
 
 
