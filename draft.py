@@ -301,6 +301,7 @@ print responeDataList[0].toDict()
 
 
 #%% 使用命令行启动trader
+import os
 frontAddress = os.environ.get('CTP_FRONT_ADDRESS') 
 assert frontAddress
 brokerID = os.environ.get('CTP_BROKER_ID') 
@@ -328,8 +329,6 @@ command = ' '.join(['bin/trader',
 
 
 command
-
-#bin/trader --FrontAddress tcp://101.231.96.18:51205 --BrokerID 66666 --UserID 60003010 --Password 060318 --RequestPipe tcp://127.0.0.1:10001 --PushbackPipe tcp://127.0.0.1:10002 --PublishPipe tcp://127.0.0.1:10003
 
 
 #%%
