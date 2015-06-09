@@ -1,5 +1,5 @@
 IDIR =include
-LIBS =/etc/ctp/lib/*.so
+LIBS =/usr/ctp/lib/*.so
 CC=g++
 LD=g++
 CFLAGS=-I$(IDIR) -g -std=gnu++11
@@ -132,3 +132,11 @@ md.o : md.cpp include/*.h
 clean :
 	touch template/*
 	rm -f *.o *.orig include/*.orig *.pyc *.con *.pk bin/trader bin/md bin/test
+
+instlib:
+	sudo mkdir -p /usr/ctp/lib
+	sudo cp lib/*.so lib/*.xml lib/*.dtd /usr/ctp/lib
+
+install:
+	sudo mkdir -p /usr/ctp/bin
+	sudo cp bin/trader bin/md /usr/ctp/bin
