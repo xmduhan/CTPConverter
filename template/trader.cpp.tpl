@@ -225,17 +225,20 @@ int main(int argc,char * argv[]){
                     delete pRouteTableItem;
                 }
             }
+
+            // 忠诚选项的处理
+            if (loyalty) {
+                // 检查父进程是否还在运行
+                pid_t ppid = getppid();
+                if ( ppid != originalPpid ) {
+                    // 如果父进程不在运行程序退出
+                    break;
+                }
+            }
+
+
         }
 
-        // 忠诚选项的处理
-        if (loyalty) {
-            // 检查父进程是否还在运行
-            pid_t ppid = getppid();
-            if ( ppid != originalPpid ) {
-                // 如果父进程不在运行程序退出
-                break;
-            }
-        }
     }
 
     return 0;
