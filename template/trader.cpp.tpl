@@ -37,6 +37,17 @@ int main(int argc,char * argv[]){
         config.loadFromCommandLine(commandOption);
     }
 
+    // 忠诚选项判断
+    // 即当父进程退出,本进程也退出
+    bool loyalty;
+    if( commandOption.exists("--loyalty") ) {
+        loyalty = true;
+    } else {
+        loyalty = false;
+    }
+    pid_t originalPpid = getppid();
+
+
     // 初始化api接口实例
     CTraderWrapper api(&config);
     api.init();
@@ -213,6 +224,16 @@ int main(int argc,char * argv[]){
                     routeTable.erase(iterRouteTable);
                     delete pRouteTableItem;
                 }
+            }
+        }
+
+        // 忠诚选项的处理
+        if (loyalty) {
+            // 检查父进程是否还在运行
+            pid_t ppid = getppid();
+            if ( ppid != originalPpid ) {
+                // 如果父进程不在运行程序退出
+                break;
             }
         }
     }

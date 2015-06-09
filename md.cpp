@@ -4,6 +4,7 @@
 #include <json/json.h>
 
 
+
 static MdConfigure config;
 static char buffer[1024*10];
 
@@ -17,6 +18,16 @@ int main(int argc,char * argv[]){
         // 使用命令行参数
         config.loadFromCommandLine(commandOption);
     }
+
+    // 忠诚选项判断
+    // 即当父进程退出,本进程也退出
+    bool loyalty;
+    if( commandOption.exists("--loyalty") ) {
+        loyalty = true;
+    } else {
+        loyalty = false;
+    }
+    pid_t originalPpid = getppid();
 
     // 初始化zmq环境
     zmq::context_t context(1);
@@ -93,6 +104,16 @@ int main(int argc,char * argv[]){
             loopTimes = 0;
             std::cout << "main():" << "接收到行情数据:" << mdCount << std::endl;
             mdCount = 0;
+        }
+
+        // 忠诚选项的处理
+        if (loyalty) {
+            // 检查父进程是否还在运行
+            pid_t ppid = getppid();
+            if ( ppid != originalPpid ) {
+                // 如果父进程不在运行程序退出
+                break;
+            }
         }
     }
 }
