@@ -104,6 +104,8 @@ int main(int argc,char * argv[]) {
 
             do {
                 std::cout << "main():接收到客户端的请求" << std::endl;
+
+                // 读取客户端消息
                 try {
                     requestMessage.recv(listener);
                     std::cout << "main():客户端请求调用:" << requestMessage.apiName << std::endl;
@@ -113,7 +115,30 @@ int main(int argc,char * argv[]) {
                     break;
                 }
 
-                // TODO 检查api名称是否正确
+                // 检查api名称是否存在
+                if ( api.apiExists(requestMessage.apiName) == false ) {
+                    // 通过requestID返回错误信息
+                    std::cout << "main():尝试调用不存在的api" << std::endl;
+                    errorID = -1000;
+                    errorMsg = "没有这个接口函数";
+                    Json::Value jsonErrorInfo;
+                    jsonErrorInfo["ErrorID"] = errorID;
+                    jsonErrorInfo["ErrorMsg"] = errorMsg;
+                    requestIDMessage.routeKey = requestMessage.routeKey;
+                    requestIDMessage.requestID = "0";
+                    requestIDMessage.header = "REQUESTID";
+                    requestIDMessage.apiName = requestMessage.apiName;
+                    requestIDMessage.errorInfo = jsonErrorInfo.toStyledString();
+                    requestIDMessage.metaData = requestMessage.metaData;
+                    try {
+                        requestIDMessage.send(listener);
+                        std::cout << "main():客户端请求结果已返回客户端"  << std::endl;
+                    } catch(std::exception & e) {
+                        std::cout << "main():异常:" << e.what() << std::endl;
+                        break;
+                    }
+                    break;
+                }
 
 
                 // 调用对应的api

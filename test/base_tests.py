@@ -23,8 +23,8 @@ def getDefaultReqInfo(apiName):
 	return reqInfo
 
 
-@attr('test_connet_to_ctp_converter')
-def test_connet_to_ctp_converter():
+@attr('test_connect_to_ctp_converter')
+def test_connect_to_ctp_converter():
 	'''
 	测试和CTPConverter的连接
 	用于检查与CTPConverter的连接是否正常和测试响应延时
@@ -100,3 +100,57 @@ def test_connet_to_ctp_converter():
 	endTime = datetime.now()
 	timeDelta = endTime - startTime
 	print timeDelta.total_seconds()
+
+
+@attr('test_call_not_exist_api')
+def test_call_not_exist_api():
+	'''
+	测试调用不在的api
+	'''
+	sleep(1)
+
+	requestApiName = 'unkown_api_name'
+	timeout = 1000
+	address = os.getenv('CTP_REQUEST_PIPE',None)
+	assert address
+
+	# 连接request通讯管道
+	context = zmq.Context()
+	socket = context.socket(zmq.DEALER)
+	socket.connect(address)
+	socket.setsockopt(zmq.LINGER,0)
+
+	# 准备调用接口数据
+	reqInfo = getDefaultReqInfo(requestApiName)
+	data = reqInfo['Parameters']['Data']
+	metaData = {}
+	# TODO 填写对应的请求参数(data)
+
+	requestMessage = RequestMessage()
+	requestMessage.header = 'REQUEST'
+	requestMessage.apiName = requestApiName
+	requestMessage.reqInfo = json.dumps(reqInfo)
+	requestMessage.metaData = json.dumps(metaData)
+
+	# 开始计时
+	startTime = datetime.now()
+	# 向协议转换器发出请求
+	requestMessage.send(socket)
+
+	################### 等待服务器的REQUESTID响应 ###################
+	poller = zmq.Poller()
+	poller.register(socket, zmq.POLLIN)
+	sockets = dict(poller.poll(timeout))
+	assert socket in sockets
+
+	# 从request通讯管道读取返回信息
+	requestIDMessage = RequestIDMessage()
+	requestIDMessage.recv(socket)
+	# 检查立即返回信息的格式
+	assert requestIDMessage.header == 'REQUESTID'
+	assert int(requestIDMessage.requestID) == 0
+	assert requestIDMessage.apiName == requestApiName
+	errorInfo = json.loads(requestIDMessage.errorInfo)
+	assert errorInfo['ErrorID'] == -1000
+	print errorInfo['ErrorID'],errorInfo['ErrorMsg'] 
+	assert requestIDMessage.metaData == json.dumps(metaData)
