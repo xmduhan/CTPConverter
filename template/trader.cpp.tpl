@@ -140,58 +140,76 @@ int main(int argc,char * argv[]){
                     break;
                 }
 
-
-                // 调用对应的api
-                result = api.callApiByName
-                    (requestMessage.apiName,requestMessage.reqInfo,++requestID);
-
-                // 初始化返回信息格式
-                requestIDMessage.routeKey = requestMessage.routeKey;
-                requestIDMessage.requestID = "0";
-                requestIDMessage.header = "REQUESTID";
-                requestIDMessage.apiName = requestMessage.apiName;
-                requestIDMessage.errorInfo = "";
-                requestIDMessage.metaData = requestMessage.metaData;
-
-                // 如果成功返回0,失败返回-1
-                if ( result == 0 ) {
-                    // 调用成功返回的是RequestID
-                    sprintf(buffer,"%d",requestID);
-                    requestIDMessage.requestID = buffer;
-                } else {
-                    errorID = api.getLastErrorID();
-                    errorMsg = api.getLastErrorMsg();
-                    //sprintf(buffer,"{ErrorID:%d,ErrorMsg:%s}",errorID,errorMsg.c_str());
-                    //requestIDMessage.errorInfo = buffer;
-                    Json::Value jsonErrorInfo;
-                    jsonErrorInfo["ErrorID"] = errorID;
-                    jsonErrorInfo["ErrorMsg"] = errorMsg;
-                    requestIDMessage.errorInfo = jsonErrorInfo.toStyledString();
-                    std::cout << "main():调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
-                    std::cout << "main():" << "ErrorID=" << errorID << std::endl << "," << "ErrorMsg=" << errorMsg << std::endl;
+                // 判断需要调用的是否查询api
+                bool isQueryApi;
+                {
+                    std::string apiName = requestMessage.apiName;
+                    isQueryApi =
+                        //stringStartsWith(apiName,"ReqQryTradingAccount");
+                        stringStartsWith(apiName,"ReqQry");
+                        //stringStartsWith(apiName,"ReqQry") || stringStartsWith(apiName,"ReqQuery");
                 }
 
-                // 将请求结果信息立即返回给客户端
-                try{
-                    requestIDMessage.send(listener);
-                    std::cout << "main():客户端请求结果已返回客户端"  << std::endl;
-                }catch(std::exception & e){
-                    std::cout << "main():异常:" << e.what() << std::endl;
-                    break;
-                }
+                if (isQueryApi){
+                    // 查询类api操作
+                    std::cout << "接收到查询类的api请求" << std::endl;
+                    // TODO 查询类api请求处理
 
-                // 如果调用是成功的，将请求数据放入信息路由路由表中
-                if (result == 0)
+
+
+                }else{
+                    // 非查询类api的处理
+                    result = api.callApiByName
+                        (requestMessage.apiName,requestMessage.reqInfo,++requestID);
+
+                    // 初始化返回信息格式
+                    requestIDMessage.routeKey = requestMessage.routeKey;
+                    requestIDMessage.requestID = "0";
+                    requestIDMessage.header = "REQUESTID";
+                    requestIDMessage.apiName = requestMessage.apiName;
+                    requestIDMessage.errorInfo = "";
+                    requestIDMessage.metaData = requestMessage.metaData;
+
+                    // 如果成功返回0,失败返回-1
+                    if ( result == 0 ) {
+                        // 调用成功返回的是RequestID
+                        sprintf(buffer,"%d",requestID);
+                        requestIDMessage.requestID = buffer;
+                    } else {
+                        errorID = api.getLastErrorID();
+                        errorMsg = api.getLastErrorMsg();
+                        //sprintf(buffer,"{ErrorID:%d,ErrorMsg:%s}",errorID,errorMsg.c_str());
+                        //requestIDMessage.errorInfo = buffer;
+                        Json::Value jsonErrorInfo;
+                        jsonErrorInfo["ErrorID"] = errorID;
+                        jsonErrorInfo["ErrorMsg"] = errorMsg;
+                        requestIDMessage.errorInfo = jsonErrorInfo.toStyledString();
+                        std::cout << "main():调用api" << requestMessage.apiName << "出错,错误信息如下:" << std::endl;
+                        std::cout << "main():" << "ErrorID=" << errorID << std::endl << "," << "ErrorMsg=" << errorMsg << std::endl;
+                    }
+
+                    // 将请求结果信息立即返回给客户端
                     try{
-                        RouteTableItem * pRouteTableItem = new RouteTableItem();
-                        pRouteTableItem -> routeKey = requestMessage.routeKey;
-                        pRouteTableItem -> metaData = requestMessage.metaData;
-                        pRouteTableItem -> ttl = ROUTE_TABLE_ITEM_TTL;
-                        routeTable[requestID] = pRouteTableItem;
+                        requestIDMessage.send(listener);
+                        std::cout << "main():客户端请求结果已返回客户端"  << std::endl;
                     }catch(std::exception & e){
                         std::cout << "main():异常:" << e.what() << std::endl;
                         break;
                     }
+
+                    // 如果调用是成功的，将请求数据放入信息路由路由表中
+                    if (result == 0)
+                        try{
+                            RouteTableItem * pRouteTableItem = new RouteTableItem();
+                            pRouteTableItem -> routeKey = requestMessage.routeKey;
+                            pRouteTableItem -> metaData = requestMessage.metaData;
+                            pRouteTableItem -> ttl = ROUTE_TABLE_ITEM_TTL;
+                            routeTable[requestID] = pRouteTableItem;
+                        }catch(std::exception & e){
+                            std::cout << "main():异常:" << e.what() << std::endl;
+                            break;
+                        }
+                }
 
 
             }while(false);

@@ -40,6 +40,17 @@ std::string fileReadAll(const std::string& name){
 	return content;
 }
 
+bool stringStartsWith(std::string str,std::string key){
+
+	if (str.find(key) == 0){
+        return true;
+    }else{
+		return false;
+	}
+	
+}
+
+
 
 CommandOption::CommandOption(int argc,char * argv[]){
 	this->argc = argc;
