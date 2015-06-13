@@ -100,7 +100,6 @@ int main(int argc,char * argv[]){
 
         if ( pullItems[0].revents & ZMQ_POLLIN){
             // 记时开始
-
             startTime = std::chrono::system_clock::now();
 
             do {
@@ -113,6 +112,9 @@ int main(int argc,char * argv[]){
                     std::cout << "main():消息被丢弃" << std::endl;
                     break;
                 }
+
+                // TODO 检查api名称是否正确
+
 
                 // 调用对应的api
                 result = api.callApiByName
