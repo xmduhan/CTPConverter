@@ -201,4 +201,6 @@ public:
 
     int callApiByName(std::string apiName,std::string jsonString,int requestID);
 
+    bool apiExists(std::string apiName);
+
 };

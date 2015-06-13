@@ -6581,7 +6581,7 @@ int CTraderWrapper::ReqRemoveParkedOrder(std::string jsonString,int requestID)
 // 通过名称调用api
 int CTraderWrapper::callApiByName(std::string apiName,std::string jsonString,int requestID) {
 
-    if ( apiMap.find(apiName) != apiMap.end() ) {
+    if (apiExists(apiName)) {
         return (this->*apiMap[apiName])(jsonString,requestID);
     } else {
         lastErrorID = -1000;
@@ -6589,4 +6589,15 @@ int CTraderWrapper::callApiByName(std::string apiName,std::string jsonString,int
         return -1;
     }
     return 0;
+
+}
+
+bool CTraderWrapper::apiExists(std::string apiName) {
+
+    if ( apiMap.find(apiName) != apiMap.end() ) {
+        return true;
+    } else {
+        return false;
+    }
+
 }
