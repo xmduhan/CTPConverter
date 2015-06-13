@@ -1,16 +1,13 @@
 
 #include <trader.h>
-#include <json/json.h>
-#include <comhelper.h>
-#include <Message.h>
 
-#include <chrono>
-#include <iostream>
 
 // 配置信息
 static Configure config;
 
 static char buffer[1024*10];
+
+int requestID = 0;
 
 #define ROUTE_TABLE_ITEM_TTL 60
 
@@ -23,7 +20,17 @@ struct RouteTableItem{
 static std::map<int,RouteTableItem *> routeTable;
 static std::map<int,RouteTableItem *> ::iterator iterRouteTable;
 static std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
-int requestID = 0;
+
+// 查询请求缓存队列
+struct QryRequestQueueItem{
+    std::string apiName;
+    std::string reqInfo;
+    std::string metaData;
+    std::string routeKey;
+    std::string requestID;
+};
+std::queue <QryRequestQueueItem> qryRequestQueue;
+
 
 
 int main(int argc,char * argv[]){
