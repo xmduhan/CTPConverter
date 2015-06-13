@@ -19,7 +19,7 @@ CTraderWrapper::CTraderWrapper(Configure * pConfigure) {
     pTraderApi->RegisterSpi(pTraderHandler);
 
     // 初始化RequestID序列
-    RequestID = 0;
+    //RequestID = 0;
 
     // 初始化上次出错代码和出错信息
     lastErrorID = 0;
@@ -233,14 +233,15 @@ void CTraderWrapper::init() {
     strcpy(userLoginField.BrokerID,pConfigure->brokerID);
     strcpy(userLoginField.UserID,pConfigure->userID);
     strcpy(userLoginField.Password,pConfigure->password);
-    pTraderApi->ReqUserLogin(&userLoginField,getNextRequestID());
+    int requestID = 0;
+    pTraderApi->ReqUserLogin(&userLoginField,requestID);
 
     // 等待登录成功返回信息
     std::cout << "CTraderWrapper::init():等待登录结果..." << std::endl;
     message.recv(receiver);
     std::cout << "CTraderWrapper::init():已收到登录返回信息..." << std::endl;
 
-    assert(message.requestID.compare("1") == 0);
+    assert(message.requestID.compare("0") == 0);
     assert(message.apiName.compare("OnRspUserLogin") == 0);
     //assert(message.respInfo.compare("") == 0);
     //std::cout << "message.respInfo=" << message.respInfo << std::endl;
@@ -260,14 +261,14 @@ void CTraderWrapper::init() {
 
 
 /// 获取下一个RequestID序列
-int CTraderWrapper::getNextRequestID() {
-    return 	++this->RequestID;
-}
+//int CTraderWrapper::getNextRequestID(){
+//	return 	++this->RequestID;
+//}
 
 /// 获取当前RequestID序列
-int CTraderWrapper::getCurrentRequestID() {
-    return 	this->RequestID;
-}
+//int CTraderWrapper::getCurrentRequestID(){
+//	return 	this->RequestID;
+//}
 
 /// 获取上次出错代码
 int CTraderWrapper::getLastErrorID() {
@@ -284,7 +285,7 @@ std::string CTraderWrapper::getLastErrorMsg() {
 ///请求查询资金账户
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryTradingAccount(std::string jsonString)
+int CTraderWrapper::ReqQryTradingAccount(std::string jsonString,int requestID)
 {
     printf("ReqQryTradingAccount():被执行...\n");
 
@@ -341,7 +342,8 @@ int CTraderWrapper::ReqQryTradingAccount(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -371,14 +373,14 @@ int CTraderWrapper::ReqQryTradingAccount(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询保证金监管系统经纪公司资金账户密钥
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
+int CTraderWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString,int requestID)
 {
     printf("ReqQryCFMMCTradingAccountKey():被执行...\n");
 
@@ -427,7 +429,8 @@ int CTraderWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -457,14 +460,14 @@ int CTraderWrapper::ReqQryCFMMCTradingAccountKey(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///用户口令更新请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqUserPasswordUpdate(std::string jsonString)
+int CTraderWrapper::ReqUserPasswordUpdate(std::string jsonString,int requestID)
 {
     printf("ReqUserPasswordUpdate():被执行...\n");
 
@@ -529,7 +532,8 @@ int CTraderWrapper::ReqUserPasswordUpdate(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -559,14 +563,14 @@ int CTraderWrapper::ReqUserPasswordUpdate(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///预埋撤单录入请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqParkedOrderAction(std::string jsonString)
+int CTraderWrapper::ReqParkedOrderAction(std::string jsonString,int requestID)
 {
     printf("ReqParkedOrderAction():被执行...\n");
 
@@ -741,7 +745,8 @@ int CTraderWrapper::ReqParkedOrderAction(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -771,14 +776,14 @@ int CTraderWrapper::ReqParkedOrderAction(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询交易通知
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryTradingNotice(std::string jsonString)
+int CTraderWrapper::ReqQryTradingNotice(std::string jsonString,int requestID)
 {
     printf("ReqQryTradingNotice():被执行...\n");
 
@@ -827,7 +832,8 @@ int CTraderWrapper::ReqQryTradingNotice(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -857,14 +863,14 @@ int CTraderWrapper::ReqQryTradingNotice(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询成交
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryTrade(std::string jsonString)
+int CTraderWrapper::ReqQryTrade(std::string jsonString,int requestID)
 {
     printf("ReqQryTrade():被执行...\n");
 
@@ -953,7 +959,8 @@ int CTraderWrapper::ReqQryTrade(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -983,14 +990,14 @@ int CTraderWrapper::ReqQryTrade(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///查询最大报单数量请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
+int CTraderWrapper::ReqQueryMaxOrderVolume(std::string jsonString,int requestID)
 {
     printf("ReqQueryMaxOrderVolume():被执行...\n");
 
@@ -1075,7 +1082,8 @@ int CTraderWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -1105,14 +1113,14 @@ int CTraderWrapper::ReqQueryMaxOrderVolume(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///投资者结算结果确认
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqSettlementInfoConfirm(std::string jsonString)
+int CTraderWrapper::ReqSettlementInfoConfirm(std::string jsonString,int requestID)
 {
     printf("ReqSettlementInfoConfirm():被执行...\n");
 
@@ -1177,7 +1185,8 @@ int CTraderWrapper::ReqSettlementInfoConfirm(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -1207,14 +1216,14 @@ int CTraderWrapper::ReqSettlementInfoConfirm(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询投资者持仓
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInvestorPosition(std::string jsonString)
+int CTraderWrapper::ReqQryInvestorPosition(std::string jsonString,int requestID)
 {
     printf("ReqQryInvestorPosition():被执行...\n");
 
@@ -1271,7 +1280,8 @@ int CTraderWrapper::ReqQryInvestorPosition(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -1301,14 +1311,14 @@ int CTraderWrapper::ReqQryInvestorPosition(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询经纪公司交易算法
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
+int CTraderWrapper::ReqQryBrokerTradingAlgos(std::string jsonString,int requestID)
 {
     printf("ReqQryBrokerTradingAlgos():被执行...\n");
 
@@ -1365,7 +1375,8 @@ int CTraderWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -1395,14 +1406,14 @@ int CTraderWrapper::ReqQryBrokerTradingAlgos(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询报单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryOrder(std::string jsonString)
+int CTraderWrapper::ReqQryOrder(std::string jsonString,int requestID)
 {
     printf("ReqQryOrder():被执行...\n");
 
@@ -1491,7 +1502,8 @@ int CTraderWrapper::ReqQryOrder(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -1521,14 +1533,14 @@ int CTraderWrapper::ReqQryOrder(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询交易所
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryExchange(std::string jsonString)
+int CTraderWrapper::ReqQryExchange(std::string jsonString,int requestID)
 {
     printf("ReqQryExchange():被执行...\n");
 
@@ -1569,7 +1581,8 @@ int CTraderWrapper::ReqQryExchange(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -1599,14 +1612,14 @@ int CTraderWrapper::ReqQryExchange(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///用户登录请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqUserLogin(std::string jsonString)
+int CTraderWrapper::ReqUserLogin(std::string jsonString,int requestID)
 {
     printf("ReqUserLogin():被执行...\n");
 
@@ -1719,7 +1732,8 @@ int CTraderWrapper::ReqUserLogin(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -1749,14 +1763,14 @@ int CTraderWrapper::ReqUserLogin(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///期货发起期货资金转银行请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
+int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString,int requestID)
 {
     printf("ReqFromFutureToBankByFuture():被执行...\n");
 
@@ -2113,7 +2127,8 @@ int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -2143,14 +2158,14 @@ int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///期货发起银行资金转期货请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
+int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString,int requestID)
 {
     printf("ReqFromBankToFutureByFuture():被执行...\n");
 
@@ -2507,7 +2522,8 @@ int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -2537,14 +2553,14 @@ int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询结算信息确认
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
+int CTraderWrapper::ReqQrySettlementInfoConfirm(std::string jsonString,int requestID)
 {
     printf("ReqQrySettlementInfoConfirm():被执行...\n");
 
@@ -2593,7 +2609,8 @@ int CTraderWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -2623,14 +2640,14 @@ int CTraderWrapper::ReqQrySettlementInfoConfirm(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询经纪公司交易参数
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryBrokerTradingParams(std::string jsonString)
+int CTraderWrapper::ReqQryBrokerTradingParams(std::string jsonString,int requestID)
 {
     printf("ReqQryBrokerTradingParams():被执行...\n");
 
@@ -2687,7 +2704,8 @@ int CTraderWrapper::ReqQryBrokerTradingParams(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -2717,14 +2735,14 @@ int CTraderWrapper::ReqQryBrokerTradingParams(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询监控中心用户令牌
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
+int CTraderWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString,int requestID)
 {
     printf("ReqQueryCFMMCTradingAccountToken():被执行...\n");
 
@@ -2773,7 +2791,8 @@ int CTraderWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -2803,14 +2822,14 @@ int CTraderWrapper::ReqQueryCFMMCTradingAccountToken(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询客户通知
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryNotice(std::string jsonString)
+int CTraderWrapper::ReqQryNotice(std::string jsonString,int requestID)
 {
     printf("ReqQryNotice():被执行...\n");
 
@@ -2851,7 +2870,8 @@ int CTraderWrapper::ReqQryNotice(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -2881,14 +2901,14 @@ int CTraderWrapper::ReqQryNotice(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询汇率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryExchangeRate(std::string jsonString)
+int CTraderWrapper::ReqQryExchangeRate(std::string jsonString,int requestID)
 {
     printf("ReqQryExchangeRate():被执行...\n");
 
@@ -2945,7 +2965,8 @@ int CTraderWrapper::ReqQryExchangeRate(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -2975,14 +2996,14 @@ int CTraderWrapper::ReqQryExchangeRate(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///预埋单录入请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString)
+int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString,int requestID)
 {
     printf("ReqParkedOrderInsert():被执行...\n");
 
@@ -3230,7 +3251,8 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -3260,14 +3282,14 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询签约银行
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryContractBank(std::string jsonString)
+int CTraderWrapper::ReqQryContractBank(std::string jsonString,int requestID)
 {
     printf("ReqQryContractBank():被执行...\n");
 
@@ -3324,7 +3346,8 @@ int CTraderWrapper::ReqQryContractBank(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -3354,14 +3377,14 @@ int CTraderWrapper::ReqQryContractBank(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询投资者持仓明细
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
+int CTraderWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString,int requestID)
 {
     printf("ReqQryInvestorPositionCombineDetail():被执行...\n");
 
@@ -3418,7 +3441,8 @@ int CTraderWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -3448,14 +3472,14 @@ int CTraderWrapper::ReqQryInvestorPositionCombineDetail(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询交易所保证金率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
+int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString,int requestID)
 {
     printf("ReqQryExchangeMarginRate():被执行...\n");
 
@@ -3511,7 +3535,8 @@ int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -3541,14 +3566,14 @@ int CTraderWrapper::ReqQryExchangeMarginRate(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询二级代理操作员银期权限
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
+int CTraderWrapper::ReqQrySecAgentACIDMap(std::string jsonString,int requestID)
 {
     printf("ReqQrySecAgentACIDMap():被执行...\n");
 
@@ -3613,7 +3638,8 @@ int CTraderWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -3643,14 +3669,14 @@ int CTraderWrapper::ReqQrySecAgentACIDMap(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询转帐流水
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryTransferSerial(std::string jsonString)
+int CTraderWrapper::ReqQryTransferSerial(std::string jsonString,int requestID)
 {
     printf("ReqQryTransferSerial():被执行...\n");
 
@@ -3715,7 +3741,8 @@ int CTraderWrapper::ReqQryTransferSerial(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -3745,14 +3772,14 @@ int CTraderWrapper::ReqQryTransferSerial(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///期货发起查询银行余额请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
+int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString,int requestID)
 {
     printf("ReqQueryBankAccountMoneyByFuture():被执行...\n");
 
@@ -4059,7 +4086,8 @@ int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -4089,14 +4117,14 @@ int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询预埋撤单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryParkedOrderAction(std::string jsonString)
+int CTraderWrapper::ReqQryParkedOrderAction(std::string jsonString,int requestID)
 {
     printf("ReqQryParkedOrderAction():被执行...\n");
 
@@ -4161,7 +4189,8 @@ int CTraderWrapper::ReqQryParkedOrderAction(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -4191,14 +4220,14 @@ int CTraderWrapper::ReqQryParkedOrderAction(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///客户端认证请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqAuthenticate(std::string jsonString)
+int CTraderWrapper::ReqAuthenticate(std::string jsonString,int requestID)
 {
     printf("ReqAuthenticate():被执行...\n");
 
@@ -4263,7 +4292,8 @@ int CTraderWrapper::ReqAuthenticate(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -4293,14 +4323,14 @@ int CTraderWrapper::ReqAuthenticate(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///报单录入请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqOrderInsert(std::string jsonString)
+int CTraderWrapper::ReqOrderInsert(std::string jsonString,int requestID)
 {
     printf("ReqOrderInsert():被执行...\n");
 
@@ -4503,7 +4533,8 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -4533,14 +4564,14 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询投资者结算结果
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString)
+int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString,int requestID)
 {
     printf("ReqQrySettlementInfo():被执行...\n");
 
@@ -4597,7 +4628,8 @@ int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -4627,14 +4659,14 @@ int CTraderWrapper::ReqQrySettlementInfo(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///登出请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqUserLogout(std::string jsonString)
+int CTraderWrapper::ReqUserLogout(std::string jsonString,int requestID)
 {
     printf("ReqUserLogout():被执行...\n");
 
@@ -4683,7 +4715,8 @@ int CTraderWrapper::ReqUserLogout(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -4713,14 +4746,14 @@ int CTraderWrapper::ReqUserLogout(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询合约
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInstrument(std::string jsonString)
+int CTraderWrapper::ReqQryInstrument(std::string jsonString,int requestID)
 {
     printf("ReqQryInstrument():被执行...\n");
 
@@ -4785,7 +4818,8 @@ int CTraderWrapper::ReqQryInstrument(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -4815,14 +4849,14 @@ int CTraderWrapper::ReqQryInstrument(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///报单操作请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqOrderAction(std::string jsonString)
+int CTraderWrapper::ReqOrderAction(std::string jsonString,int requestID)
 {
     printf("ReqOrderAction():被执行...\n");
 
@@ -4960,7 +4994,8 @@ int CTraderWrapper::ReqOrderAction(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -4990,14 +5025,14 @@ int CTraderWrapper::ReqOrderAction(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询合约手续费率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
+int CTraderWrapper::ReqQryInstrumentCommissionRate(std::string jsonString,int requestID)
 {
     printf("ReqQryInstrumentCommissionRate():被执行...\n");
 
@@ -5054,7 +5089,8 @@ int CTraderWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5084,14 +5120,14 @@ int CTraderWrapper::ReqQryInstrumentCommissionRate(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询合约保证金率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
+int CTraderWrapper::ReqQryInstrumentMarginRate(std::string jsonString,int requestID)
 {
     printf("ReqQryInstrumentMarginRate():被执行...\n");
 
@@ -5155,7 +5191,8 @@ int CTraderWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5185,14 +5222,14 @@ int CTraderWrapper::ReqQryInstrumentMarginRate(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询投资者
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInvestor(std::string jsonString)
+int CTraderWrapper::ReqQryInvestor(std::string jsonString,int requestID)
 {
     printf("ReqQryInvestor():被执行...\n");
 
@@ -5241,7 +5278,8 @@ int CTraderWrapper::ReqQryInvestor(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5271,14 +5309,14 @@ int CTraderWrapper::ReqQryInvestor(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询预埋单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryParkedOrder(std::string jsonString)
+int CTraderWrapper::ReqQryParkedOrder(std::string jsonString,int requestID)
 {
     printf("ReqQryParkedOrder():被执行...\n");
 
@@ -5343,7 +5381,8 @@ int CTraderWrapper::ReqQryParkedOrder(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5373,14 +5412,14 @@ int CTraderWrapper::ReqQryParkedOrder(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询投资者品种/跨品种保证金
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
+int CTraderWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString,int requestID)
 {
     printf("ReqQryInvestorProductGroupMargin():被执行...\n");
 
@@ -5444,7 +5483,8 @@ int CTraderWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5474,14 +5514,14 @@ int CTraderWrapper::ReqQryInvestorProductGroupMargin(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询行情
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryDepthMarketData(std::string jsonString)
+int CTraderWrapper::ReqQryDepthMarketData(std::string jsonString,int requestID)
 {
     printf("ReqQryDepthMarketData():被执行...\n");
 
@@ -5522,7 +5562,8 @@ int CTraderWrapper::ReqQryDepthMarketData(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5552,14 +5593,14 @@ int CTraderWrapper::ReqQryDepthMarketData(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询转帐银行
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryTransferBank(std::string jsonString)
+int CTraderWrapper::ReqQryTransferBank(std::string jsonString,int requestID)
 {
     printf("ReqQryTransferBank():被执行...\n");
 
@@ -5608,7 +5649,8 @@ int CTraderWrapper::ReqQryTransferBank(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5638,14 +5680,14 @@ int CTraderWrapper::ReqQryTransferBank(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求删除预埋撤单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
+int CTraderWrapper::ReqRemoveParkedOrderAction(std::string jsonString,int requestID)
 {
     printf("ReqRemoveParkedOrderAction():被执行...\n");
 
@@ -5702,7 +5744,8 @@ int CTraderWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5732,14 +5775,14 @@ int CTraderWrapper::ReqRemoveParkedOrderAction(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询产品
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryProduct(std::string jsonString)
+int CTraderWrapper::ReqQryProduct(std::string jsonString,int requestID)
 {
     printf("ReqQryProduct():被执行...\n");
 
@@ -5780,7 +5823,8 @@ int CTraderWrapper::ReqQryProduct(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5810,14 +5854,14 @@ int CTraderWrapper::ReqQryProduct(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询交易编码
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryTradingCode(std::string jsonString)
+int CTraderWrapper::ReqQryTradingCode(std::string jsonString,int requestID)
 {
     printf("ReqQryTradingCode():被执行...\n");
 
@@ -5889,7 +5933,8 @@ int CTraderWrapper::ReqQryTradingCode(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -5919,14 +5964,14 @@ int CTraderWrapper::ReqQryTradingCode(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///资金账户口令更新请求
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
+int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString,int requestID)
 {
     printf("ReqTradingAccountPasswordUpdate():被执行...\n");
 
@@ -5999,7 +6044,8 @@ int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -6029,14 +6075,14 @@ int CTraderWrapper::ReqTradingAccountPasswordUpdate(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询银期签约关系
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryAccountregister(std::string jsonString)
+int CTraderWrapper::ReqQryAccountregister(std::string jsonString,int requestID)
 {
     printf("ReqQryAccountregister():被执行...\n");
 
@@ -6109,7 +6155,8 @@ int CTraderWrapper::ReqQryAccountregister(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -6139,14 +6186,14 @@ int CTraderWrapper::ReqQryAccountregister(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询交易所调整保证金率
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
+int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString,int requestID)
 {
     printf("ReqQryExchangeMarginRateAdjust():被执行...\n");
 
@@ -6202,7 +6249,8 @@ int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -6232,14 +6280,14 @@ int CTraderWrapper::ReqQryExchangeMarginRateAdjust(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询仓单折抵信息
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryEWarrantOffset(std::string jsonString)
+int CTraderWrapper::ReqQryEWarrantOffset(std::string jsonString,int requestID)
 {
     printf("ReqQryEWarrantOffset():被执行...\n");
 
@@ -6304,7 +6352,8 @@ int CTraderWrapper::ReqQryEWarrantOffset(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -6334,14 +6383,14 @@ int CTraderWrapper::ReqQryEWarrantOffset(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求查询投资者持仓明细
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
+int CTraderWrapper::ReqQryInvestorPositionDetail(std::string jsonString,int requestID)
 {
     printf("ReqQryInvestorPositionDetail():被执行...\n");
 
@@ -6398,7 +6447,8 @@ int CTraderWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -6428,14 +6478,14 @@ int CTraderWrapper::ReqQryInvestorPositionDetail(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 ///请求删除预埋单
 /// 调用成功返回RequestID,失败返回-1
 /// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-int CTraderWrapper::ReqRemoveParkedOrder(std::string jsonString)
+int CTraderWrapper::ReqRemoveParkedOrder(std::string jsonString,int requestID)
 {
     printf("ReqRemoveParkedOrder():被执行...\n");
 
@@ -6492,7 +6542,8 @@ int CTraderWrapper::ReqRemoveParkedOrder(std::string jsonString)
     }
 
     // 获取RequestID
-    nRequestID = getNextRequestID();
+    //nRequestID = getNextRequestID();
+    nRequestID = requestID;
 
     // 调用对应的CTP API函数
     int result =
@@ -6522,16 +6573,16 @@ int CTraderWrapper::ReqRemoveParkedOrder(std::string jsonString)
     // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
     lastErrorID = 0;
     lastErrorMsg = "";
-    return nRequestID;
+    return 0;
 }
 
 
 
 // 通过名称调用api
-int CTraderWrapper::callApiByName(std::string apiName,std::string jsonString) {
+int CTraderWrapper::callApiByName(std::string apiName,std::string jsonString,int requestID) {
 
     if ( apiMap.find(apiName) != apiMap.end() ) {
-        return (this->*apiMap[apiName])(jsonString);
+        return (this->*apiMap[apiName])(jsonString,requestID);
     } else {
         lastErrorID = -1000;
         lastErrorMsg = "没有这个接口函数";

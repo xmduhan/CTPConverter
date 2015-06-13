@@ -26,7 +26,7 @@ public:
     /// 配置信息
     Configure * pConfigure;
     /// RequestID序列器
-    int RequestID;
+    //int RequestID;
     /// 上次出错代码
     int lastErrorID;
     /// 上次出错信息
@@ -34,9 +34,9 @@ public:
     /// 启动CTP连接
     void init();
     /// 获取下一个RequestID序列
-    int getNextRequestID();
+    //int getNextRequestID();
     /// 获取当前RequestID序列
-    int getCurrentRequestID();
+    //int getCurrentRequestID();
     /// 获取上次出错代码
     int getLastErrorID();
     /// 获取上次错误信息
@@ -47,11 +47,11 @@ public:
     ////////////// API方法的wrapper ///////////////
     {% for method in reqMethodDict.itervalues() %}
     	{{ method['remark'] }}
-    	int {{method['name']}}(std::string jsonString);
+    	int {{method['name']}}(std::string jsonString,int requestID);
     {% endfor %}
 
-    std::map<std::string,int (CTraderWrapper::*) (std::string)> apiMap;
+    std::map<std::string,int (CTraderWrapper::*) (std::string,int)> apiMap;
 
-    int callApiByName(std::string apiName,std::string jsonString);
+    int callApiByName(std::string apiName,std::string jsonString,int requestID);
 
 };

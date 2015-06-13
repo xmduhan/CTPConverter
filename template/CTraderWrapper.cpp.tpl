@@ -19,7 +19,7 @@ CTraderWrapper::CTraderWrapper(Configure * pConfigure){
 	pTraderApi->RegisterSpi(pTraderHandler);
 
 	// 初始化RequestID序列
-	RequestID = 0;
+	//RequestID = 0;
 
 	// 初始化上次出错代码和出错信息
 	lastErrorID = 0;
@@ -86,14 +86,15 @@ void CTraderWrapper::init(){
 	strcpy(userLoginField.BrokerID,pConfigure->brokerID);
 	strcpy(userLoginField.UserID,pConfigure->userID);
 	strcpy(userLoginField.Password,pConfigure->password);
-	pTraderApi->ReqUserLogin(&userLoginField,getNextRequestID());
+	int requestID = 0;
+	pTraderApi->ReqUserLogin(&userLoginField,requestID);
 
 	// 等待登录成功返回信息
 	std::cout << "CTraderWrapper::init():等待登录结果..." << std::endl;
 	message.recv(receiver);
 	std::cout << "CTraderWrapper::init():已收到登录返回信息..." << std::endl;
 
-	assert(message.requestID.compare("1") == 0);
+	assert(message.requestID.compare("0") == 0);
 	assert(message.apiName.compare("OnRspUserLogin") == 0);
 	//assert(message.respInfo.compare("") == 0);
 	//std::cout << "message.respInfo=" << message.respInfo << std::endl;
@@ -113,14 +114,14 @@ void CTraderWrapper::init(){
 
 
 /// 获取下一个RequestID序列
-int CTraderWrapper::getNextRequestID(){
-	return 	++this->RequestID;
-}
+//int CTraderWrapper::getNextRequestID(){
+//	return 	++this->RequestID;
+//}
 
 /// 获取当前RequestID序列
-int CTraderWrapper::getCurrentRequestID(){
-	return 	this->RequestID;
-}
+//int CTraderWrapper::getCurrentRequestID(){
+//	return 	this->RequestID;
+//}
 
 /// 获取上次出错代码
 int CTraderWrapper::getLastErrorID(){
@@ -137,7 +138,7 @@ std::string CTraderWrapper::getLastErrorMsg(){
 	{{ method['remark'] }}
 	/// 调用成功返回RequestID,失败返回-1
 	/// 通过查看lastErrorID和lastErrorMsg查看出错的原因
-	int CTraderWrapper::{{method['name']}}(std::string jsonString)
+	int CTraderWrapper::{{method['name']}}(std::string jsonString,int requestID)
 {
 	printf("{{method['name']}}():被执行...\n");
 
@@ -210,7 +211,8 @@ std::string CTraderWrapper::getLastErrorMsg(){
 	}
 
 	// 获取RequestID
-	nRequestID = getNextRequestID();
+	//nRequestID = getNextRequestID();
+	nRequestID = requestID;
 
 	// 调用对应的CTP API函数
 	{{method['returns']}} result =
@@ -233,16 +235,16 @@ std::string CTraderWrapper::getLastErrorMsg(){
 	// 如果执行成功重置最近错误信息，并将RequestID返回调用程序
 	lastErrorID = 0;
 	lastErrorMsg = "";
-	return nRequestID;
+	return 0;
 }
 
 {% endfor %}
 
 // 通过名称调用api
-int CTraderWrapper::callApiByName(std::string apiName,std::string jsonString){
+int CTraderWrapper::callApiByName(std::string apiName,std::string jsonString,int requestID){
 
 	if ( apiMap.find(apiName) != apiMap.end() ){
-		return (this->*apiMap[apiName])(jsonString);
+		return (this->*apiMap[apiName])(jsonString,requestID);
 	}else{
 		lastErrorID = -1000;
 		lastErrorMsg = "没有这个接口函数";

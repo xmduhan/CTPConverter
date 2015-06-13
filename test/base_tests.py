@@ -7,6 +7,7 @@ from time import sleep
 from message import *
 from channel import CTPChannel
 from CTPStruct import *
+from nose.plugins.attrib import attr
 
 
 def getDefaultReqInfo(apiName):
@@ -22,7 +23,7 @@ def getDefaultReqInfo(apiName):
 	return reqInfo
 
 
-
+@attr('test_connet_to_ctp_converter')
 def test_connet_to_ctp_converter():
 	'''
 	测试和CTPConverter的连接
@@ -96,7 +97,6 @@ def test_connet_to_ctp_converter():
 	assert responseMessage.metaData == json.dumps(metaData)
 
 	# TODO 显示关键信息
-
 	endTime = datetime.now()
 	timeDelta = endTime - startTime
 	print timeDelta.total_seconds()

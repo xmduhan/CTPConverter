@@ -23,6 +23,7 @@ struct RouteTableItem {
 static std::map<int,RouteTableItem *> routeTable;
 static std::map<int,RouteTableItem *> ::iterator iterRouteTable;
 static std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
+int requestID = 0;
 
 
 int main(int argc,char * argv[]) {
@@ -107,7 +108,8 @@ int main(int argc,char * argv[]) {
                 }
 
                 // 调用对应的api
-                result = api.callApiByName(requestMessage.apiName,requestMessage.reqInfo);
+                result = api.callApiByName
+                         (requestMessage.apiName,requestMessage.reqInfo,++requestID);
 
                 // 初始化返回信息格式
                 requestIDMessage.routeKey = requestMessage.routeKey;
@@ -117,10 +119,10 @@ int main(int argc,char * argv[]) {
                 requestIDMessage.errorInfo = "";
                 requestIDMessage.metaData = requestMessage.metaData;
 
-                // 判断api调用的结果,如果成功返回RequestID,失败返回错误信息
-                if ( result > 0 ) {
+                // 如果成功返回0,失败返回-1
+                if ( result == 0 ) {
                     // 调用成功返回的是RequestID
-                    sprintf(buffer,"%d",result);
+                    sprintf(buffer,"%d",requestID);
                     requestIDMessage.requestID = buffer;
                 } else {
                     errorID = api.getLastErrorID();
@@ -145,9 +147,8 @@ int main(int argc,char * argv[]) {
                 }
 
                 // 如果调用是成功的，将请求数据放入信息路由路由表中
-                if (result > 0)
+                if (result == 0)
                     try {
-                        int requestID = result;
                         RouteTableItem * pRouteTableItem = new RouteTableItem();
                         pRouteTableItem -> routeKey = requestMessage.routeKey;
                         pRouteTableItem -> metaData = requestMessage.metaData;
@@ -167,10 +168,9 @@ int main(int argc,char * argv[]) {
                 std::cout << "main():接收到服务器的响应信息" << std::endl;
                 try {
                     pushbackMessage.recv(pushback);
-                    // TODO : 这里编写消息处理方法
                     int requestID = atoi(pushbackMessage.requestID.c_str());
-                    // requestID如果为0是广播消息
-                    if (requestID != 0) {
+                    // requestID >0 为请求返回
+                    if (requestID > 0) {
                         // 处理客户端请求数据
                         // 检查RequestID是否在路由表中
                         if (routeTable.count(requestID) != 0) {
