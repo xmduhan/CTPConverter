@@ -7,7 +7,7 @@ static Configure config;
 
 static char buffer[1024*10];
 
-int requestID = 0;
+int seqRequestID = 0;
 
 #define ROUTE_TABLE_ITEM_TTL 60
 
@@ -22,14 +22,14 @@ static std::map<int,RouteTableItem *> ::iterator iterRouteTable;
 static std::chrono::time_point<std::chrono::system_clock> startTime, endTime;
 
 // 查询请求缓存队列
-struct QryRequestQueueItem{
+struct RequestQueueItem{
     std::string apiName;
     std::string reqInfo;
     std::string metaData;
     std::string routeKey;
     std::string requestID;
 };
-std::queue <QryRequestQueueItem> qryRequestQueue;
+std::queue <RequestQueueItem> requestQueue;
 
 
 
@@ -154,9 +154,9 @@ int main(int argc,char * argv[]){
                     // 查询类api操作
                     std::cout << "接收到查询类的api请求" << std::endl;
                     // TODO 查询类api请求处理
-                    int nRequestID = ++requestID;
+                    int requestID = ++seqRequestID;
                     requestIDMessage.routeKey = requestMessage.routeKey;
-                    sprintf(buffer,"%d",nRequestID);
+                    sprintf(buffer,"%d",requestID);
                     requestIDMessage.requestID = buffer;
                     requestIDMessage.header = "REQUESTID";
                     requestIDMessage.apiName = requestMessage.apiName;
@@ -173,13 +173,18 @@ int main(int argc,char * argv[]){
                     }
 
                     // TODO 放入请求缓存队列
-                    
+                    //requestQueueItem = RequestQueueItem();
+                    //requestQueueItem.apiName = ;
+                    //requestQueueItem.reqInfo = ;
+                    //requestQueueItem.metaData = ;
+                    //requestQueueItem.routeKey = ;
+                    //requestQueueItem.requestID = ;
 
                 }else{
-                    int nRequestID = ++requestID;
+                    int requestID = ++seqRequestID;
                     // 非查询类api的处理
                     result = api.callApiByName
-                        (requestMessage.apiName,requestMessage.reqInfo,nRequestID);
+                        (requestMessage.apiName,requestMessage.reqInfo,requestID);
 
                     // 初始化返回信息格式
                     requestIDMessage.routeKey = requestMessage.routeKey;
@@ -192,7 +197,7 @@ int main(int argc,char * argv[]){
                     // 如果成功返回0,失败返回-1
                     if ( result == 0 ) {
                         // 调用成功返回的是RequestID
-                        sprintf(buffer,"%d",nRequestID);
+                        sprintf(buffer,"%d",requestID);
                         requestIDMessage.requestID = buffer;
                     } else {
                         errorID = api.getLastErrorID();
@@ -223,7 +228,7 @@ int main(int argc,char * argv[]){
                             pRouteTableItem -> routeKey = requestMessage.routeKey;
                             pRouteTableItem -> metaData = requestMessage.metaData;
                             pRouteTableItem -> ttl = ROUTE_TABLE_ITEM_TTL;
-                            routeTable[nRequestID] = pRouteTableItem;
+                            routeTable[requestID] = pRouteTableItem;
                         }catch(std::exception & e){
                             std::cout << "main():异常:" << e.what() << std::endl;
                             break;
@@ -239,13 +244,13 @@ int main(int argc,char * argv[]){
                 std::cout << "main():接收到服务器的响应信息" << std::endl;
                 try{
                     pushbackMessage.recv(pushback);
-                    int nRequestID = atoi(pushbackMessage.requestID.c_str());
-                    // nRequestID >0 为请求返回
-                    if (nRequestID > 0){
+                    int requestID = atoi(pushbackMessage.requestID.c_str());
+                    // requestID >0 为请求返回
+                    if (requestID > 0){
                         // 处理客户端请求数据
                         // 检查RequestID是否在路由表中
-                        if (routeTable.count(nRequestID) != 0){
-                            RouteTableItem * pRouteTableItem = routeTable[nRequestID];
+                        if (routeTable.count(requestID) != 0){
+                            RouteTableItem * pRouteTableItem = routeTable[requestID];
                             std::cout << "main():找到路由信息,将信息返回客户端" << std::endl;
                             responseMessage.routeKey = pRouteTableItem->routeKey;
                             responseMessage.header = "RESPONSE";
