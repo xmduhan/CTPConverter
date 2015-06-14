@@ -98,6 +98,8 @@ int main(int argc,char * argv[]) {
         };
         zmq::poll (pullItems, 2, timeout);
 
+
+        // 接收到客户端的请求信息
         if ( pullItems[0].revents & ZMQ_POLLIN) {
             // 记时开始
             startTime = std::chrono::system_clock::now();
@@ -172,13 +174,15 @@ int main(int argc,char * argv[]) {
                         break;
                     }
 
-                    // TODO 放入请求缓存队列
-                    //requestQueueItem = RequestQueueItem();
-                    //requestQueueItem.apiName = ;
-                    //requestQueueItem.reqInfo = ;
-                    //requestQueueItem.metaData = ;
-                    //requestQueueItem.routeKey = ;
-                    //requestQueueItem.requestID = ;
+                    // 将放入请求缓存队列
+                    RequestQueueItem * pRequestQueueItem = new RequestQueueItem();
+                    pRequestQueueItem->apiName = requestMessage.apiName;
+                    pRequestQueueItem->reqInfo = requestMessage.reqInfo;
+                    pRequestQueueItem->metaData = requestMessage.metaData;
+                    pRequestQueueItem->routeKey = requestMessage.routeKey;
+                    sprintf(buffer,"%d",requestID);
+                    pRequestQueueItem->requestID = buffer;
+                    requestQueue.push(*pRequestQueueItem);
 
                 } else {
                     int requestID = ++seqRequestID;
@@ -235,10 +239,67 @@ int main(int argc,char * argv[]) {
                         }
                 }
 
-
             } while(false);
         }
 
+        // 请求队列不为空,处理队列中的请求数据
+        if (requestQueue.size()!=0) {
+            RequestQueueItem & requestQueueItem = requestQueue.front();
+            requestQueue.pop();
+
+            try {
+                int requestID = atoi(requestQueueItem.requestID.c_str());
+                result = api.callApiByName
+                         (requestQueueItem.apiName,requestQueueItem.reqInfo,requestID);
+                if ( result == 0 ) {
+                    // 如果请求成功将信息放入返回路由表中
+                    RouteTableItem * pRouteTableItem = new RouteTableItem();
+                    pRouteTableItem -> routeKey = requestQueueItem.routeKey;
+                    pRouteTableItem -> metaData = requestQueueItem.metaData;
+                    pRouteTableItem -> ttl = ROUTE_TABLE_ITEM_TTL;
+                    routeTable[requestID] = pRouteTableItem;
+                } else {
+                    // 如果失败需要通过Response消息返回错误信息给客户端
+                    // 获取api的错误信息
+                    errorID = api.getLastErrorID();
+                    errorMsg = api.getLastErrorMsg();
+
+                    // 打包json格式
+                    Json::Value json_pRspInfo;
+                    json_pRspInfo["ErrorID"] = errorID;
+                    json_pRspInfo["ErrorMsg"] = errorMsg;
+                    Json::Value json_bIsLast = false;
+                    Json::Value json_nRequestID = requestQueueItem.requestID;
+                    Json::Value json_Response;
+                    json_Response["ResponseMethod"] = requestQueueItem.apiName;
+                    Json::Value json_Data;
+                    Json::Value json_Parameters;
+                    json_Parameters["Data"] = json_Data;
+                    json_Parameters["RspInfo"] = json_pRspInfo;
+                    json_Parameters["RequestID"] = json_nRequestID;
+                    json_Parameters["IsLast"] = json_bIsLast;
+                    json_Response["Parameters"] = json_Parameters;
+
+                    // 生成返回消息格式
+                    responseMessage.routeKey = requestQueueItem.routeKey;
+                    responseMessage.header = "RESPONSE";
+                    responseMessage.requestID = requestQueueItem.requestID;
+                    responseMessage.apiName = requestQueueItem.apiName;
+                    responseMessage.respInfo = json_Response.toStyledString();
+                    responseMessage.isLast = "1";
+                    responseMessage.metaData = requestQueueItem.metaData;
+
+                    // 发送到客户端
+                    responseMessage.send(listener);
+                }
+                delete &requestQueueItem;
+            } catch(std::exception & e) {
+                std::cout << "main():异常:" << e.what() << std::endl;
+                delete &requestQueueItem;
+            }
+        }
+
+        // 接收到服务器的返回信息
         if ( pullItems[1].revents & ZMQ_POLLIN ) {
             do {
                 std::cout << "main():接收到服务器的响应信息" << std::endl;
