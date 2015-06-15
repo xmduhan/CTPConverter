@@ -56,6 +56,15 @@ int main(int argc,char * argv[]){
     pid_t originalPpid = getppid();
 
 
+    long lastQueryTime = 0;
+    long queryInterval = 0;
+    if( commandOption.exists("--queryInterval") ) {
+        char * queryIntervalString = commandOption.get("--queryInterval");
+        assert(queryIntervalString != NULL);
+        queryInterval = atoi(queryIntervalString);
+        assert(queryInterval>0);
+    }
+
     // 初始化api接口实例
     CTraderWrapper api(&config);
     api.init();
@@ -83,6 +92,7 @@ int main(int argc,char * argv[]){
     long thisTime = 0;
     long timeDelta = 0;
     long loopTimes = 0;
+
 
 
     int result;
@@ -243,59 +253,72 @@ int main(int argc,char * argv[]){
 
         // 请求队列不为空,处理队列中的请求数据
         if (requestQueue.size()!=0){
-            RequestQueueItem * pRequestQueueItem = requestQueue.front();
-            requestQueue.pop();
-
-            try{
-                int requestID = atoi(pRequestQueueItem->requestID.c_str());
-                result = api.callApiByName
-                    (pRequestQueueItem->apiName,pRequestQueueItem->reqInfo,requestID);
-                if ( result == 0 ) {
-                    // 如果请求成功将信息放入返回路由表中
-                    RouteTableItem * pRouteTableItem = new RouteTableItem();
-                    pRouteTableItem -> routeKey = pRequestQueueItem->routeKey;
-                    pRouteTableItem -> metaData = pRequestQueueItem->metaData;
-                    pRouteTableItem -> ttl = ROUTE_TABLE_ITEM_TTL;
-                    routeTable[requestID] = pRouteTableItem;
-                }else{
-                    // 如果失败需要通过Response消息返回错误信息给客户端
-                    // 获取api的错误信息
-                    errorID = api.getLastErrorID();
-                    errorMsg = api.getLastErrorMsg();
-
-                    // 打包json格式
-                    Json::Value json_pRspInfo;
-                    json_pRspInfo["ErrorID"] = errorID;
-                    json_pRspInfo["ErrorMsg"] = errorMsg;
-                    Json::Value json_bIsLast = false;
-                    Json::Value json_nRequestID = pRequestQueueItem->requestID;
-                    Json::Value json_Response;
-                	json_Response["ResponseMethod"] = pRequestQueueItem->apiName;
-                    Json::Value json_Data;
-                    Json::Value json_Parameters;
-                    json_Parameters["Data"] = json_Data;
-                    json_Parameters["RspInfo"] = json_pRspInfo;
-                    json_Parameters["RequestID"] = json_nRequestID;
-                    json_Parameters["IsLast"] = json_bIsLast;
-                    json_Response["Parameters"] = json_Parameters;
-
-                    // 生成返回消息格式
-                    responseMessage.routeKey = pRequestQueueItem->routeKey;
-                    responseMessage.header = "RESPONSE";
-                    responseMessage.requestID = pRequestQueueItem->requestID;
-                    responseMessage.apiName = pRequestQueueItem->apiName;
-                    responseMessage.respInfo = json_Response.toStyledString();
-                    responseMessage.isLast = "1";
-                    responseMessage.metaData = pRequestQueueItem->metaData;
-
-                    // 发送到客户端
-                    responseMessage.send(listener);
+            do{
+                // 判断是否到达查询调用间隔
+                long thisQueryTime = s_clock();
+                if (thisQueryTime - lastQueryTime < queryInterval){
+                    break;
                 }
-                delete pRequestQueueItem;
-            }catch(std::exception & e){
-                std::cout << "main():异常:" << e.what() << std::endl;
-                delete pRequestQueueItem;
-            }
+
+                // 请求出队
+                RequestQueueItem * pRequestQueueItem = requestQueue.front();
+                requestQueue.pop();
+
+                try{
+                    // 调用对应的API函数
+                    int requestID = atoi(pRequestQueueItem->requestID.c_str());
+                    result = api.callApiByName
+                        (pRequestQueueItem->apiName,pRequestQueueItem->reqInfo,requestID);
+                    lastQueryTime = s_clock();
+
+                    // 判断调用结果并做后续处理
+                    if ( result == 0 ) {
+                        // 如果请求成功将信息放入返回路由表中
+                        RouteTableItem * pRouteTableItem = new RouteTableItem();
+                        pRouteTableItem -> routeKey = pRequestQueueItem->routeKey;
+                        pRouteTableItem -> metaData = pRequestQueueItem->metaData;
+                        pRouteTableItem -> ttl = ROUTE_TABLE_ITEM_TTL;
+                        routeTable[requestID] = pRouteTableItem;
+                    }else{
+                        // 如果失败需要通过Response消息返回错误信息给客户端
+                        // 获取api的错误信息
+                        errorID = api.getLastErrorID();
+                        errorMsg = api.getLastErrorMsg();
+
+                        // 打包json格式
+                        Json::Value json_pRspInfo;
+                        json_pRspInfo["ErrorID"] = errorID;
+                        json_pRspInfo["ErrorMsg"] = errorMsg;
+                        Json::Value json_bIsLast = false;
+                        Json::Value json_nRequestID = pRequestQueueItem->requestID;
+                        Json::Value json_Response;
+                    	json_Response["ResponseMethod"] = pRequestQueueItem->apiName;
+                        Json::Value json_Data;
+                        Json::Value json_Parameters;
+                        json_Parameters["Data"] = json_Data;
+                        json_Parameters["RspInfo"] = json_pRspInfo;
+                        json_Parameters["RequestID"] = json_nRequestID;
+                        json_Parameters["IsLast"] = json_bIsLast;
+                        json_Response["Parameters"] = json_Parameters;
+
+                        // 生成返回消息格式
+                        responseMessage.routeKey = pRequestQueueItem->routeKey;
+                        responseMessage.header = "RESPONSE";
+                        responseMessage.requestID = pRequestQueueItem->requestID;
+                        responseMessage.apiName = pRequestQueueItem->apiName;
+                        responseMessage.respInfo = json_Response.toStyledString();
+                        responseMessage.isLast = "1";
+                        responseMessage.metaData = pRequestQueueItem->metaData;
+
+                        // 发送到客户端
+                        responseMessage.send(listener);
+                    }
+                    delete pRequestQueueItem;
+                }catch(std::exception & e){
+                    std::cout << "main():异常:" << e.what() << std::endl;
+                    delete pRequestQueueItem;
+                }
+            }while(false);
         }
 
         // 接收到服务器的返回信息
