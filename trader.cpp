@@ -29,7 +29,7 @@ struct RequestQueueItem {
     std::string routeKey;
     std::string requestID;
 };
-std::queue <RequestQueueItem*> requestQueue;
+std::queue <RequestQueueItem *> requestQueue;
 
 
 
@@ -150,7 +150,6 @@ int main(int argc,char * argv[]) {
                         stringStartsWith(apiName,"ReqQryTradingAccount");
                     //stringStartsWith(apiName,"ReqQry");
                     //stringStartsWith(apiName,"ReqQry") || stringStartsWith(apiName,"ReqQuery");
-                    //isQueryApi = false;
                 }
 
                 if (isQueryApi) {
@@ -249,9 +248,9 @@ int main(int argc,char * argv[]) {
             requestQueue.pop();
 
             try {
-                int requestID = atoi(pRequestQueueItem -> requestID.c_str());
+                int requestID = atoi(pRequestQueueItem->requestID.c_str());
                 result = api.callApiByName
-                         (pRequestQueueItem->apiName, pRequestQueueItem->reqInfo,requestID);
+                         (pRequestQueueItem->apiName,pRequestQueueItem->reqInfo,requestID);
                 if ( result == 0 ) {
                     // 如果请求成功将信息放入返回路由表中
                     RouteTableItem * pRouteTableItem = new RouteTableItem();

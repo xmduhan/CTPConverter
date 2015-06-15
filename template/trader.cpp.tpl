@@ -29,7 +29,7 @@ struct RequestQueueItem{
     std::string routeKey;
     std::string requestID;
 };
-std::queue <RequestQueueItem> requestQueue;
+std::queue <RequestQueueItem *> requestQueue;
 
 
 
@@ -182,7 +182,7 @@ int main(int argc,char * argv[]){
                     pRequestQueueItem->routeKey = requestMessage.routeKey;
                     sprintf(buffer,"%d",requestID);
                     pRequestQueueItem->requestID = buffer;
-                    requestQueue.push(*pRequestQueueItem);
+                    requestQueue.push(pRequestQueueItem);
 
                 }else{
                     int requestID = ++seqRequestID;
@@ -244,18 +244,18 @@ int main(int argc,char * argv[]){
 
         // 请求队列不为空,处理队列中的请求数据
         if (requestQueue.size()!=0){
-            RequestQueueItem & requestQueueItem = requestQueue.front();
+            RequestQueueItem * pRequestQueueItem = requestQueue.front();
             requestQueue.pop();
 
             try{
-                int requestID = atoi(requestQueueItem.requestID.c_str());
+                int requestID = atoi(pRequestQueueItem->requestID.c_str());
                 result = api.callApiByName
-                    (requestQueueItem.apiName,requestQueueItem.reqInfo,requestID);
+                    (pRequestQueueItem->apiName,pRequestQueueItem->reqInfo,requestID);
                 if ( result == 0 ) {
                     // 如果请求成功将信息放入返回路由表中
                     RouteTableItem * pRouteTableItem = new RouteTableItem();
-                    pRouteTableItem -> routeKey = requestQueueItem.routeKey;
-                    pRouteTableItem -> metaData = requestQueueItem.metaData;
+                    pRouteTableItem -> routeKey = pRequestQueueItem->routeKey;
+                    pRouteTableItem -> metaData = pRequestQueueItem->metaData;
                     pRouteTableItem -> ttl = ROUTE_TABLE_ITEM_TTL;
                     routeTable[requestID] = pRouteTableItem;
                 }else{
@@ -269,9 +269,9 @@ int main(int argc,char * argv[]){
                     json_pRspInfo["ErrorID"] = errorID;
                     json_pRspInfo["ErrorMsg"] = errorMsg;
                     Json::Value json_bIsLast = false;
-                    Json::Value json_nRequestID = requestQueueItem.requestID;
+                    Json::Value json_nRequestID = pRequestQueueItem->requestID;
                     Json::Value json_Response;
-                	json_Response["ResponseMethod"] = requestQueueItem.apiName;
+                	json_Response["ResponseMethod"] = pRequestQueueItem->apiName;
                     Json::Value json_Data;
                     Json::Value json_Parameters;
                     json_Parameters["Data"] = json_Data;
@@ -281,21 +281,21 @@ int main(int argc,char * argv[]){
                     json_Response["Parameters"] = json_Parameters;
 
                     // 生成返回消息格式
-                    responseMessage.routeKey = requestQueueItem.routeKey;
+                    responseMessage.routeKey = pRequestQueueItem->routeKey;
                     responseMessage.header = "RESPONSE";
-                    responseMessage.requestID = requestQueueItem.requestID;
-                    responseMessage.apiName = requestQueueItem.apiName;
+                    responseMessage.requestID = pRequestQueueItem->requestID;
+                    responseMessage.apiName = pRequestQueueItem->apiName;
                     responseMessage.respInfo = json_Response.toStyledString();
                     responseMessage.isLast = "1";
-                    responseMessage.metaData = requestQueueItem.metaData;
+                    responseMessage.metaData = pRequestQueueItem->metaData;
 
                     // 发送到客户端
                     responseMessage.send(listener);
                 }
-                delete &requestQueueItem;
+                delete pRequestQueueItem;
             }catch(std::exception & e){
                 std::cout << "main():异常:" << e.what() << std::endl;
-                delete &requestQueueItem;
+                delete pRequestQueueItem;
             }
         }
 
