@@ -147,9 +147,8 @@ int main(int argc,char * argv[]) {
                 {
                     std::string apiName = requestMessage.apiName;
                     isQueryApi =
-                        stringStartsWith(apiName,"ReqQryTradingAccount");
-                    //stringStartsWith(apiName,"ReqQry");
-                    //stringStartsWith(apiName,"ReqQry") || stringStartsWith(apiName,"ReqQuery");
+                        //stringStartsWith(apiName,"ReqQryTradingAccount");
+                        stringStartsWith(apiName,"ReqQry") || stringStartsWith(apiName,"ReqQuery");
                 }
 
                 if (isQueryApi) {
