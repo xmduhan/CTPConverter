@@ -62,7 +62,7 @@ int main(int argc,char * argv[]){
         char * queryIntervalString = commandOption.get("--queryInterval");
         assert(queryIntervalString != NULL);
         queryInterval = atoi(queryIntervalString);
-        assert(queryInterval>0);
+        assert(queryInterval>=0);
     }
 
     // 初始化api接口实例
