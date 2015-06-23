@@ -115,7 +115,7 @@ from pandas.io.excel import ExcelWriter
 # 获取CThostFtdcTraderSpi的所有方法（以OnRsp,OnRtn,OnErrRtn开头)
 # 获取CThostFtdcTraderApi的所有方法（以Req开头）
 TraderApi_h = cppheader.getCppHeader('include/ThostFtdcTraderApi.h',['TRADER_API_EXPORT'])
-MDApi_h = cppheader.getCppHeader('include/ThostFtdcMdApi.h',['MD_API_EXPORT'])
+MdApi_h = cppheader.getCppHeader('include/ThostFtdcMdApi.h',['MD_API_EXPORT'])
 ApiStruct_h = cppheader.getCppHeader('include/ThostFtdcUserApiStruct.h')
 typedefDict = cppheader.getTypedefDict('include/ThostFtdcUserApiDataType.h')
 enumDict = cppheader.getEnumDict('include/ThostFtdcUserApiDataType.h')
@@ -339,3 +339,27 @@ import json
 content = json.dumps(['IF1506','IF1507'])
 with open('/tmp/config.json', 'w') as f:
     f.write(content.encode('utf-8'))
+    
+#%% 为CThostFtdcDepthMarketDataField生成django model
+for field in structDict['CThostFtdcDepthMarketDataField']['fields'] :    
+    fieldName = field['name']
+    fieldRemark = field['remark'][3:]
+    fieldType = typedefDict[field['raw_type']]['type']
+    fieldLen = typedefDict[field['raw_type']]['len']    
+    #print fieldName,fieldType,fieldLen,type(fieldLen)
+    if fieldType == 'char':
+        print '''%s = models.CharField(u'%s', max_length=%s, default='') ''' \
+            % (fieldName,fieldRemark,fieldLen)
+    if fieldType == 'int':
+        print '''%s = models.IntegerField(u'%s', default=0) ''' \
+            % (fieldName,fieldRemark)
+    if fieldType == 'double':
+        print '''%s = models.FloatField(u'%s', default=0) ''' \
+            % (fieldName,fieldRemark)
+    
+#%% 生成admin的fields列表 
+fields = []
+for field in structDict['CThostFtdcDepthMarketDataField']['fields'] :    
+    fieldName = field['name']
+    fields.append(fieldName)
+fields

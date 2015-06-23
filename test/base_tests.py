@@ -33,7 +33,7 @@ def test_connect_to_ctp_converter():
 
 	requestApiName = 'ReqQryTradingAccount'
 	responseApiName = 'OnRspQryTradingAccount'
-	timeout = 1000
+	timeout = 1000*10
 
 	# 初始化变量
 	#address = 'tcp://localhost:10001'
@@ -152,5 +152,5 @@ def test_call_not_exist_api():
 	assert requestIDMessage.apiName == requestApiName
 	errorInfo = json.loads(requestIDMessage.errorInfo)
 	assert errorInfo['ErrorID'] == -1000
-	print errorInfo['ErrorID'],errorInfo['ErrorMsg'] 
+	print errorInfo['ErrorID'],errorInfo['ErrorMsg']
 	assert requestIDMessage.metaData == json.dumps(metaData)

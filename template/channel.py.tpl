@@ -43,7 +43,7 @@ class CTPChannel :
     	socket.setsockopt(zmq.LINGER,0)
 
         self.request = socket
-        self.timeout = 1000 * 1
+        self.timeout = 1000 * 10
 
 
 {% for method in reqMethodDict.itervalues() %}
