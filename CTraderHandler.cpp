@@ -7742,6 +7742,87 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
 ) {
     std::cout << "OnRtnQueryBankBalanceByFuture():开始执行..." << std::endl;
 
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pNotifyQueryAccount->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pNotifyQueryAccount->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pNotifyQueryAccount->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pNotifyQueryAccount->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pNotifyQueryAccount->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pNotifyQueryAccount->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pNotifyQueryAccount->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pNotifyQueryAccount->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pNotifyQueryAccount->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pNotifyQueryAccount->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pNotifyQueryAccount->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pNotifyQueryAccount->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pNotifyQueryAccount->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pNotifyQueryAccount->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pNotifyQueryAccount->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pNotifyQueryAccount->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pNotifyQueryAccount->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pNotifyQueryAccount->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pNotifyQueryAccount->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pNotifyQueryAccount->Password << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pNotifyQueryAccount->FutureSerial << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pNotifyQueryAccount->InstallID << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pNotifyQueryAccount->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pNotifyQueryAccount->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pNotifyQueryAccount->CurrencyID << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pNotifyQueryAccount->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pNotifyQueryAccount->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pNotifyQueryAccount->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pNotifyQueryAccount->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pNotifyQueryAccount->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pNotifyQueryAccount->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pNotifyQueryAccount->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pNotifyQueryAccount->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pNotifyQueryAccount->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pNotifyQueryAccount->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pNotifyQueryAccount->TID << std::endl;
+    // double BankUseAmount
+    std::cout << "BankUseAmount" << "="<< pNotifyQueryAccount->BankUseAmount << std::endl;
+    // double BankFetchAmount
+    std::cout << "BankFetchAmount" << "="<< pNotifyQueryAccount->BankFetchAmount << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pNotifyQueryAccount->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pNotifyQueryAccount->ErrorMsg << std::endl;
+
     std::cout << "OnRtnQueryBankBalanceByFuture():执行结束..." << std::endl;
 }
 
@@ -7750,6 +7831,111 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
     std::cout << "OnRtnRepealFromBankToFutureByFuture():开始执行..." << std::endl;
+
+    // int RepealTimeInterval
+    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
+    // int RepealedTimes
+    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
+    // char BankRepealFlag
+    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
+    // char BrokerRepealFlag
+    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
+    // int PlateRepealSerial
+    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
+    // char BankRepealSerial
+    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
+    // int FutureRepealSerial
+    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
 
     std::cout << "OnRtnRepealFromBankToFutureByFuture():执行结束..." << std::endl;
 }
@@ -7760,6 +7946,97 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
 ) {
     std::cout << "OnRtnFromBankToFutureByBank():开始执行..." << std::endl;
 
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspTransfer->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspTransfer->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspTransfer->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspTransfer->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspTransfer->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspTransfer->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspTransfer->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspTransfer->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspTransfer->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspTransfer->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspTransfer->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspTransfer->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspTransfer->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspTransfer->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspTransfer->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspTransfer->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspTransfer->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspTransfer->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspTransfer->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspTransfer->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspTransfer->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspTransfer->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspTransfer->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspTransfer->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspTransfer->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspTransfer->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspTransfer->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspTransfer->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspTransfer->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspTransfer->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspTransfer->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspTransfer->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspTransfer->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspTransfer->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspTransfer->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspTransfer->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspTransfer->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspTransfer->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspTransfer->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspTransfer->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspTransfer->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspTransfer->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspTransfer->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspTransfer->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspTransfer->ErrorMsg << std::endl;
+
     std::cout << "OnRtnFromBankToFutureByBank():执行结束..." << std::endl;
 }
 
@@ -7768,6 +8045,17 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
     CThostFtdcCFMMCTradingAccountTokenField * pCFMMCTradingAccountToken
 ) {
     std::cout << "OnRtnCFMMCTradingAccountToken():开始执行..." << std::endl;
+
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pCFMMCTradingAccountToken->BrokerID << std::endl;
+    // char ParticipantID
+    std::cout << "ParticipantID" << "="<< pCFMMCTradingAccountToken->ParticipantID << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pCFMMCTradingAccountToken->AccountID << std::endl;
+    // int KeyID
+    std::cout << "KeyID" << "="<< pCFMMCTradingAccountToken->KeyID << std::endl;
+    // char Token
+    std::cout << "Token" << "="<< pCFMMCTradingAccountToken->Token << std::endl;
 
     std::cout << "OnRtnCFMMCTradingAccountToken():执行结束..." << std::endl;
 }
@@ -7778,6 +8066,23 @@ void CTraderHandler::OnRtnInstrumentStatus(
 ) {
     std::cout << "OnRtnInstrumentStatus():开始执行..." << std::endl;
 
+    // char ExchangeID
+    std::cout << "ExchangeID" << "="<< pInstrumentStatus->ExchangeID << std::endl;
+    // char ExchangeInstID
+    std::cout << "ExchangeInstID" << "="<< pInstrumentStatus->ExchangeInstID << std::endl;
+    // char SettlementGroupID
+    std::cout << "SettlementGroupID" << "="<< pInstrumentStatus->SettlementGroupID << std::endl;
+    // char InstrumentID
+    std::cout << "InstrumentID" << "="<< pInstrumentStatus->InstrumentID << std::endl;
+    // char InstrumentStatus
+    std::cout << "InstrumentStatus" << "="<< pInstrumentStatus->InstrumentStatus << std::endl;
+    // int TradingSegmentSN
+    std::cout << "TradingSegmentSN" << "="<< pInstrumentStatus->TradingSegmentSN << std::endl;
+    // char EnterTime
+    std::cout << "EnterTime" << "="<< pInstrumentStatus->EnterTime << std::endl;
+    // char EnterReason
+    std::cout << "EnterReason" << "="<< pInstrumentStatus->EnterReason << std::endl;
+
     std::cout << "OnRtnInstrumentStatus():执行结束..." << std::endl;
 }
 
@@ -7786,6 +8091,19 @@ void CTraderHandler::OnRtnTradingNotice(
     CThostFtdcTradingNoticeInfoField * pTradingNoticeInfo
 ) {
     std::cout << "OnRtnTradingNotice():开始执行..." << std::endl;
+
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pTradingNoticeInfo->BrokerID << std::endl;
+    // char InvestorID
+    std::cout << "InvestorID" << "="<< pTradingNoticeInfo->InvestorID << std::endl;
+    // char SendTime
+    std::cout << "SendTime" << "="<< pTradingNoticeInfo->SendTime << std::endl;
+    // char FieldContent
+    std::cout << "FieldContent" << "="<< pTradingNoticeInfo->FieldContent << std::endl;
+    // short SequenceSeries
+    std::cout << "SequenceSeries" << "="<< pTradingNoticeInfo->SequenceSeries << std::endl;
+    // int SequenceNo
+    std::cout << "SequenceNo" << "="<< pTradingNoticeInfo->SequenceNo << std::endl;
 
     std::cout << "OnRtnTradingNotice():执行结束..." << std::endl;
 }
@@ -7796,6 +8114,111 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 ) {
     std::cout << "OnRtnRepealFromFutureToBankByFutureManual():开始执行..." << std::endl;
 
+    // int RepealTimeInterval
+    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
+    // int RepealedTimes
+    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
+    // char BankRepealFlag
+    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
+    // char BrokerRepealFlag
+    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
+    // int PlateRepealSerial
+    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
+    // char BankRepealSerial
+    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
+    // int FutureRepealSerial
+    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
+
     std::cout << "OnRtnRepealFromFutureToBankByFutureManual():执行结束..." << std::endl;
 }
 
@@ -7804,6 +8227,97 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
     std::cout << "OnRtnFromBankToFutureByFuture():开始执行..." << std::endl;
+
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspTransfer->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspTransfer->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspTransfer->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspTransfer->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspTransfer->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspTransfer->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspTransfer->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspTransfer->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspTransfer->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspTransfer->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspTransfer->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspTransfer->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspTransfer->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspTransfer->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspTransfer->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspTransfer->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspTransfer->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspTransfer->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspTransfer->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspTransfer->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspTransfer->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspTransfer->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspTransfer->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspTransfer->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspTransfer->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspTransfer->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspTransfer->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspTransfer->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspTransfer->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspTransfer->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspTransfer->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspTransfer->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspTransfer->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspTransfer->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspTransfer->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspTransfer->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspTransfer->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspTransfer->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspTransfer->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspTransfer->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspTransfer->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspTransfer->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspTransfer->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspTransfer->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspTransfer->ErrorMsg << std::endl;
 
     std::cout << "OnRtnFromBankToFutureByFuture():执行结束..." << std::endl;
 }
@@ -7814,6 +8328,97 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
 ) {
     std::cout << "OnRtnFromFutureToBankByBank():开始执行..." << std::endl;
 
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspTransfer->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspTransfer->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspTransfer->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspTransfer->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspTransfer->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspTransfer->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspTransfer->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspTransfer->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspTransfer->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspTransfer->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspTransfer->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspTransfer->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspTransfer->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspTransfer->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspTransfer->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspTransfer->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspTransfer->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspTransfer->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspTransfer->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspTransfer->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspTransfer->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspTransfer->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspTransfer->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspTransfer->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspTransfer->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspTransfer->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspTransfer->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspTransfer->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspTransfer->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspTransfer->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspTransfer->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspTransfer->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspTransfer->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspTransfer->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspTransfer->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspTransfer->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspTransfer->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspTransfer->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspTransfer->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspTransfer->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspTransfer->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspTransfer->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspTransfer->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspTransfer->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspTransfer->ErrorMsg << std::endl;
+
     std::cout << "OnRtnFromFutureToBankByBank():执行结束..." << std::endl;
 }
 
@@ -7822,6 +8427,111 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
     std::cout << "OnRtnRepealFromBankToFutureByFutureManual():开始执行..." << std::endl;
+
+    // int RepealTimeInterval
+    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
+    // int RepealedTimes
+    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
+    // char BankRepealFlag
+    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
+    // char BrokerRepealFlag
+    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
+    // int PlateRepealSerial
+    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
+    // char BankRepealSerial
+    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
+    // int FutureRepealSerial
+    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
 
     std::cout << "OnRtnRepealFromBankToFutureByFutureManual():执行结束..." << std::endl;
 }
@@ -7832,6 +8542,97 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
 ) {
     std::cout << "OnRtnFromFutureToBankByFuture():开始执行..." << std::endl;
 
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspTransfer->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspTransfer->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspTransfer->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspTransfer->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspTransfer->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspTransfer->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspTransfer->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspTransfer->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspTransfer->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspTransfer->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspTransfer->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspTransfer->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspTransfer->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspTransfer->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspTransfer->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspTransfer->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspTransfer->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspTransfer->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspTransfer->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspTransfer->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspTransfer->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspTransfer->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspTransfer->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspTransfer->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspTransfer->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspTransfer->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspTransfer->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspTransfer->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspTransfer->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspTransfer->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspTransfer->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspTransfer->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspTransfer->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspTransfer->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspTransfer->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspTransfer->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspTransfer->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspTransfer->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspTransfer->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspTransfer->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspTransfer->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspTransfer->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspTransfer->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspTransfer->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspTransfer->ErrorMsg << std::endl;
+
     std::cout << "OnRtnFromFutureToBankByFuture():执行结束..." << std::endl;
 }
 
@@ -7840,6 +8641,91 @@ void CTraderHandler::OnRtnChangeAccountByBank(
     CThostFtdcChangeAccountField * pChangeAccount
 ) {
     std::cout << "OnRtnChangeAccountByBank():开始执行..." << std::endl;
+
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pChangeAccount->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pChangeAccount->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pChangeAccount->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pChangeAccount->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pChangeAccount->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pChangeAccount->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pChangeAccount->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pChangeAccount->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pChangeAccount->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pChangeAccount->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pChangeAccount->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pChangeAccount->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pChangeAccount->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pChangeAccount->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pChangeAccount->IdentifiedCardNo << std::endl;
+    // char Gender
+    std::cout << "Gender" << "="<< pChangeAccount->Gender << std::endl;
+    // char CountryCode
+    std::cout << "CountryCode" << "="<< pChangeAccount->CountryCode << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pChangeAccount->CustType << std::endl;
+    // char Address
+    std::cout << "Address" << "="<< pChangeAccount->Address << std::endl;
+    // char ZipCode
+    std::cout << "ZipCode" << "="<< pChangeAccount->ZipCode << std::endl;
+    // char Telephone
+    std::cout << "Telephone" << "="<< pChangeAccount->Telephone << std::endl;
+    // char MobilePhone
+    std::cout << "MobilePhone" << "="<< pChangeAccount->MobilePhone << std::endl;
+    // char Fax
+    std::cout << "Fax" << "="<< pChangeAccount->Fax << std::endl;
+    // char EMail
+    std::cout << "EMail" << "="<< pChangeAccount->EMail << std::endl;
+    // char MoneyAccountStatus
+    std::cout << "MoneyAccountStatus" << "="<< pChangeAccount->MoneyAccountStatus << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pChangeAccount->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pChangeAccount->BankPassWord << std::endl;
+    // char NewBankAccount
+    std::cout << "NewBankAccount" << "="<< pChangeAccount->NewBankAccount << std::endl;
+    // char NewBankPassWord
+    std::cout << "NewBankPassWord" << "="<< pChangeAccount->NewBankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pChangeAccount->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pChangeAccount->Password << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pChangeAccount->BankAccType << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pChangeAccount->InstallID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pChangeAccount->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pChangeAccount->CurrencyID << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pChangeAccount->BrokerIDByBank << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pChangeAccount->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pChangeAccount->SecuPwdFlag << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pChangeAccount->TID << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pChangeAccount->Digest << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pChangeAccount->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pChangeAccount->ErrorMsg << std::endl;
 
     std::cout << "OnRtnChangeAccountByBank():执行结束..." << std::endl;
 }
@@ -7850,6 +8736,111 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 ) {
     std::cout << "OnRtnRepealFromFutureToBankByBank():开始执行..." << std::endl;
 
+    // int RepealTimeInterval
+    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
+    // int RepealedTimes
+    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
+    // char BankRepealFlag
+    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
+    // char BrokerRepealFlag
+    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
+    // int PlateRepealSerial
+    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
+    // char BankRepealSerial
+    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
+    // int FutureRepealSerial
+    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
+
     std::cout << "OnRtnRepealFromFutureToBankByBank():执行结束..." << std::endl;
 }
 
@@ -7858,6 +8849,99 @@ void CTraderHandler::OnRtnOpenAccountByBank(
     CThostFtdcOpenAccountField * pOpenAccount
 ) {
     std::cout << "OnRtnOpenAccountByBank():开始执行..." << std::endl;
+
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pOpenAccount->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pOpenAccount->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pOpenAccount->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pOpenAccount->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pOpenAccount->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pOpenAccount->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pOpenAccount->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pOpenAccount->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pOpenAccount->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pOpenAccount->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pOpenAccount->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pOpenAccount->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pOpenAccount->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pOpenAccount->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pOpenAccount->IdentifiedCardNo << std::endl;
+    // char Gender
+    std::cout << "Gender" << "="<< pOpenAccount->Gender << std::endl;
+    // char CountryCode
+    std::cout << "CountryCode" << "="<< pOpenAccount->CountryCode << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pOpenAccount->CustType << std::endl;
+    // char Address
+    std::cout << "Address" << "="<< pOpenAccount->Address << std::endl;
+    // char ZipCode
+    std::cout << "ZipCode" << "="<< pOpenAccount->ZipCode << std::endl;
+    // char Telephone
+    std::cout << "Telephone" << "="<< pOpenAccount->Telephone << std::endl;
+    // char MobilePhone
+    std::cout << "MobilePhone" << "="<< pOpenAccount->MobilePhone << std::endl;
+    // char Fax
+    std::cout << "Fax" << "="<< pOpenAccount->Fax << std::endl;
+    // char EMail
+    std::cout << "EMail" << "="<< pOpenAccount->EMail << std::endl;
+    // char MoneyAccountStatus
+    std::cout << "MoneyAccountStatus" << "="<< pOpenAccount->MoneyAccountStatus << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pOpenAccount->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pOpenAccount->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pOpenAccount->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pOpenAccount->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pOpenAccount->InstallID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pOpenAccount->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pOpenAccount->CurrencyID << std::endl;
+    // char CashExchangeCode
+    std::cout << "CashExchangeCode" << "="<< pOpenAccount->CashExchangeCode << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pOpenAccount->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pOpenAccount->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pOpenAccount->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pOpenAccount->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pOpenAccount->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pOpenAccount->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pOpenAccount->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pOpenAccount->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pOpenAccount->OperNo << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pOpenAccount->TID << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pOpenAccount->UserID << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pOpenAccount->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pOpenAccount->ErrorMsg << std::endl;
 
     std::cout << "OnRtnOpenAccountByBank():执行结束..." << std::endl;
 }
@@ -7868,6 +8952,67 @@ void CTraderHandler::OnRtnTrade(
 ) {
     std::cout << "OnRtnTrade():开始执行..." << std::endl;
 
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pTrade->BrokerID << std::endl;
+    // char InvestorID
+    std::cout << "InvestorID" << "="<< pTrade->InvestorID << std::endl;
+    // char InstrumentID
+    std::cout << "InstrumentID" << "="<< pTrade->InstrumentID << std::endl;
+    // char OrderRef
+    std::cout << "OrderRef" << "="<< pTrade->OrderRef << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pTrade->UserID << std::endl;
+    // char ExchangeID
+    std::cout << "ExchangeID" << "="<< pTrade->ExchangeID << std::endl;
+    // char TradeID
+    std::cout << "TradeID" << "="<< pTrade->TradeID << std::endl;
+    // char Direction
+    std::cout << "Direction" << "="<< pTrade->Direction << std::endl;
+    // char OrderSysID
+    std::cout << "OrderSysID" << "="<< pTrade->OrderSysID << std::endl;
+    // char ParticipantID
+    std::cout << "ParticipantID" << "="<< pTrade->ParticipantID << std::endl;
+    // char ClientID
+    std::cout << "ClientID" << "="<< pTrade->ClientID << std::endl;
+    // char TradingRole
+    std::cout << "TradingRole" << "="<< pTrade->TradingRole << std::endl;
+    // char ExchangeInstID
+    std::cout << "ExchangeInstID" << "="<< pTrade->ExchangeInstID << std::endl;
+    // char OffsetFlag
+    std::cout << "OffsetFlag" << "="<< pTrade->OffsetFlag << std::endl;
+    // char HedgeFlag
+    std::cout << "HedgeFlag" << "="<< pTrade->HedgeFlag << std::endl;
+    // double Price
+    std::cout << "Price" << "="<< pTrade->Price << std::endl;
+    // int Volume
+    std::cout << "Volume" << "="<< pTrade->Volume << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pTrade->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pTrade->TradeTime << std::endl;
+    // char TradeType
+    std::cout << "TradeType" << "="<< pTrade->TradeType << std::endl;
+    // char PriceSource
+    std::cout << "PriceSource" << "="<< pTrade->PriceSource << std::endl;
+    // char TraderID
+    std::cout << "TraderID" << "="<< pTrade->TraderID << std::endl;
+    // char OrderLocalID
+    std::cout << "OrderLocalID" << "="<< pTrade->OrderLocalID << std::endl;
+    // char ClearingPartID
+    std::cout << "ClearingPartID" << "="<< pTrade->ClearingPartID << std::endl;
+    // char BusinessUnit
+    std::cout << "BusinessUnit" << "="<< pTrade->BusinessUnit << std::endl;
+    // int SequenceNo
+    std::cout << "SequenceNo" << "="<< pTrade->SequenceNo << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pTrade->TradingDay << std::endl;
+    // int SettlementID
+    std::cout << "SettlementID" << "="<< pTrade->SettlementID << std::endl;
+    // int BrokerOrderSeq
+    std::cout << "BrokerOrderSeq" << "="<< pTrade->BrokerOrderSeq << std::endl;
+    // char TradeSource
+    std::cout << "TradeSource" << "="<< pTrade->TradeSource << std::endl;
+
     std::cout << "OnRtnTrade():执行结束..." << std::endl;
 }
 
@@ -7876,6 +9021,111 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
     std::cout << "OnRtnRepealFromFutureToBankByFuture():开始执行..." << std::endl;
+
+    // int RepealTimeInterval
+    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
+    // int RepealedTimes
+    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
+    // char BankRepealFlag
+    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
+    // char BrokerRepealFlag
+    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
+    // int PlateRepealSerial
+    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
+    // char BankRepealSerial
+    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
+    // int FutureRepealSerial
+    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
 
     std::cout << "OnRtnRepealFromFutureToBankByFuture():执行结束..." << std::endl;
 }
@@ -7886,6 +9136,125 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 ) {
     std::cout << "OnRtnErrorConditionalOrder():开始执行..." << std::endl;
 
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pErrorConditionalOrder->BrokerID << std::endl;
+    // char InvestorID
+    std::cout << "InvestorID" << "="<< pErrorConditionalOrder->InvestorID << std::endl;
+    // char InstrumentID
+    std::cout << "InstrumentID" << "="<< pErrorConditionalOrder->InstrumentID << std::endl;
+    // char OrderRef
+    std::cout << "OrderRef" << "="<< pErrorConditionalOrder->OrderRef << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pErrorConditionalOrder->UserID << std::endl;
+    // char OrderPriceType
+    std::cout << "OrderPriceType" << "="<< pErrorConditionalOrder->OrderPriceType << std::endl;
+    // char Direction
+    std::cout << "Direction" << "="<< pErrorConditionalOrder->Direction << std::endl;
+    // char CombOffsetFlag
+    std::cout << "CombOffsetFlag" << "="<< pErrorConditionalOrder->CombOffsetFlag << std::endl;
+    // char CombHedgeFlag
+    std::cout << "CombHedgeFlag" << "="<< pErrorConditionalOrder->CombHedgeFlag << std::endl;
+    // double LimitPrice
+    std::cout << "LimitPrice" << "="<< pErrorConditionalOrder->LimitPrice << std::endl;
+    // int VolumeTotalOriginal
+    std::cout << "VolumeTotalOriginal" << "="<< pErrorConditionalOrder->VolumeTotalOriginal << std::endl;
+    // char TimeCondition
+    std::cout << "TimeCondition" << "="<< pErrorConditionalOrder->TimeCondition << std::endl;
+    // char GTDDate
+    std::cout << "GTDDate" << "="<< pErrorConditionalOrder->GTDDate << std::endl;
+    // char VolumeCondition
+    std::cout << "VolumeCondition" << "="<< pErrorConditionalOrder->VolumeCondition << std::endl;
+    // int MinVolume
+    std::cout << "MinVolume" << "="<< pErrorConditionalOrder->MinVolume << std::endl;
+    // char ContingentCondition
+    std::cout << "ContingentCondition" << "="<< pErrorConditionalOrder->ContingentCondition << std::endl;
+    // double StopPrice
+    std::cout << "StopPrice" << "="<< pErrorConditionalOrder->StopPrice << std::endl;
+    // char ForceCloseReason
+    std::cout << "ForceCloseReason" << "="<< pErrorConditionalOrder->ForceCloseReason << std::endl;
+    // int IsAutoSuspend
+    std::cout << "IsAutoSuspend" << "="<< pErrorConditionalOrder->IsAutoSuspend << std::endl;
+    // char BusinessUnit
+    std::cout << "BusinessUnit" << "="<< pErrorConditionalOrder->BusinessUnit << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pErrorConditionalOrder->RequestID << std::endl;
+    // char OrderLocalID
+    std::cout << "OrderLocalID" << "="<< pErrorConditionalOrder->OrderLocalID << std::endl;
+    // char ExchangeID
+    std::cout << "ExchangeID" << "="<< pErrorConditionalOrder->ExchangeID << std::endl;
+    // char ParticipantID
+    std::cout << "ParticipantID" << "="<< pErrorConditionalOrder->ParticipantID << std::endl;
+    // char ClientID
+    std::cout << "ClientID" << "="<< pErrorConditionalOrder->ClientID << std::endl;
+    // char ExchangeInstID
+    std::cout << "ExchangeInstID" << "="<< pErrorConditionalOrder->ExchangeInstID << std::endl;
+    // char TraderID
+    std::cout << "TraderID" << "="<< pErrorConditionalOrder->TraderID << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pErrorConditionalOrder->InstallID << std::endl;
+    // char OrderSubmitStatus
+    std::cout << "OrderSubmitStatus" << "="<< pErrorConditionalOrder->OrderSubmitStatus << std::endl;
+    // int NotifySequence
+    std::cout << "NotifySequence" << "="<< pErrorConditionalOrder->NotifySequence << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pErrorConditionalOrder->TradingDay << std::endl;
+    // int SettlementID
+    std::cout << "SettlementID" << "="<< pErrorConditionalOrder->SettlementID << std::endl;
+    // char OrderSysID
+    std::cout << "OrderSysID" << "="<< pErrorConditionalOrder->OrderSysID << std::endl;
+    // char OrderSource
+    std::cout << "OrderSource" << "="<< pErrorConditionalOrder->OrderSource << std::endl;
+    // char OrderStatus
+    std::cout << "OrderStatus" << "="<< pErrorConditionalOrder->OrderStatus << std::endl;
+    // char OrderType
+    std::cout << "OrderType" << "="<< pErrorConditionalOrder->OrderType << std::endl;
+    // int VolumeTraded
+    std::cout << "VolumeTraded" << "="<< pErrorConditionalOrder->VolumeTraded << std::endl;
+    // int VolumeTotal
+    std::cout << "VolumeTotal" << "="<< pErrorConditionalOrder->VolumeTotal << std::endl;
+    // char InsertDate
+    std::cout << "InsertDate" << "="<< pErrorConditionalOrder->InsertDate << std::endl;
+    // char InsertTime
+    std::cout << "InsertTime" << "="<< pErrorConditionalOrder->InsertTime << std::endl;
+    // char ActiveTime
+    std::cout << "ActiveTime" << "="<< pErrorConditionalOrder->ActiveTime << std::endl;
+    // char SuspendTime
+    std::cout << "SuspendTime" << "="<< pErrorConditionalOrder->SuspendTime << std::endl;
+    // char UpdateTime
+    std::cout << "UpdateTime" << "="<< pErrorConditionalOrder->UpdateTime << std::endl;
+    // char CancelTime
+    std::cout << "CancelTime" << "="<< pErrorConditionalOrder->CancelTime << std::endl;
+    // char ActiveTraderID
+    std::cout << "ActiveTraderID" << "="<< pErrorConditionalOrder->ActiveTraderID << std::endl;
+    // char ClearingPartID
+    std::cout << "ClearingPartID" << "="<< pErrorConditionalOrder->ClearingPartID << std::endl;
+    // int SequenceNo
+    std::cout << "SequenceNo" << "="<< pErrorConditionalOrder->SequenceNo << std::endl;
+    // int FrontID
+    std::cout << "FrontID" << "="<< pErrorConditionalOrder->FrontID << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pErrorConditionalOrder->SessionID << std::endl;
+    // char UserProductInfo
+    std::cout << "UserProductInfo" << "="<< pErrorConditionalOrder->UserProductInfo << std::endl;
+    // char StatusMsg
+    std::cout << "StatusMsg" << "="<< pErrorConditionalOrder->StatusMsg << std::endl;
+    // int UserForceClose
+    std::cout << "UserForceClose" << "="<< pErrorConditionalOrder->UserForceClose << std::endl;
+    // char ActiveUserID
+    std::cout << "ActiveUserID" << "="<< pErrorConditionalOrder->ActiveUserID << std::endl;
+    // int BrokerOrderSeq
+    std::cout << "BrokerOrderSeq" << "="<< pErrorConditionalOrder->BrokerOrderSeq << std::endl;
+    // char RelativeOrderSysID
+    std::cout << "RelativeOrderSysID" << "="<< pErrorConditionalOrder->RelativeOrderSysID << std::endl;
+    // int ZCETotalTradedVolume
+    std::cout << "ZCETotalTradedVolume" << "="<< pErrorConditionalOrder->ZCETotalTradedVolume << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pErrorConditionalOrder->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pErrorConditionalOrder->ErrorMsg << std::endl;
+    // int IsSwapOrder
+    std::cout << "IsSwapOrder" << "="<< pErrorConditionalOrder->IsSwapOrder << std::endl;
+
     std::cout << "OnRtnErrorConditionalOrder():执行结束..." << std::endl;
 }
 
@@ -7894,6 +9263,111 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
     std::cout << "OnRtnRepealFromBankToFutureByBank():开始执行..." << std::endl;
+
+    // int RepealTimeInterval
+    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
+    // int RepealedTimes
+    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
+    // char BankRepealFlag
+    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
+    // char BrokerRepealFlag
+    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
+    // int PlateRepealSerial
+    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
+    // char BankRepealSerial
+    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
+    // int FutureRepealSerial
+    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
 
     std::cout << "OnRtnRepealFromBankToFutureByBank():执行结束..." << std::endl;
 }
@@ -7904,6 +9378,121 @@ void CTraderHandler::OnRtnOrder(
 ) {
     std::cout << "OnRtnOrder():开始执行..." << std::endl;
 
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pOrder->BrokerID << std::endl;
+    // char InvestorID
+    std::cout << "InvestorID" << "="<< pOrder->InvestorID << std::endl;
+    // char InstrumentID
+    std::cout << "InstrumentID" << "="<< pOrder->InstrumentID << std::endl;
+    // char OrderRef
+    std::cout << "OrderRef" << "="<< pOrder->OrderRef << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pOrder->UserID << std::endl;
+    // char OrderPriceType
+    std::cout << "OrderPriceType" << "="<< pOrder->OrderPriceType << std::endl;
+    // char Direction
+    std::cout << "Direction" << "="<< pOrder->Direction << std::endl;
+    // char CombOffsetFlag
+    std::cout << "CombOffsetFlag" << "="<< pOrder->CombOffsetFlag << std::endl;
+    // char CombHedgeFlag
+    std::cout << "CombHedgeFlag" << "="<< pOrder->CombHedgeFlag << std::endl;
+    // double LimitPrice
+    std::cout << "LimitPrice" << "="<< pOrder->LimitPrice << std::endl;
+    // int VolumeTotalOriginal
+    std::cout << "VolumeTotalOriginal" << "="<< pOrder->VolumeTotalOriginal << std::endl;
+    // char TimeCondition
+    std::cout << "TimeCondition" << "="<< pOrder->TimeCondition << std::endl;
+    // char GTDDate
+    std::cout << "GTDDate" << "="<< pOrder->GTDDate << std::endl;
+    // char VolumeCondition
+    std::cout << "VolumeCondition" << "="<< pOrder->VolumeCondition << std::endl;
+    // int MinVolume
+    std::cout << "MinVolume" << "="<< pOrder->MinVolume << std::endl;
+    // char ContingentCondition
+    std::cout << "ContingentCondition" << "="<< pOrder->ContingentCondition << std::endl;
+    // double StopPrice
+    std::cout << "StopPrice" << "="<< pOrder->StopPrice << std::endl;
+    // char ForceCloseReason
+    std::cout << "ForceCloseReason" << "="<< pOrder->ForceCloseReason << std::endl;
+    // int IsAutoSuspend
+    std::cout << "IsAutoSuspend" << "="<< pOrder->IsAutoSuspend << std::endl;
+    // char BusinessUnit
+    std::cout << "BusinessUnit" << "="<< pOrder->BusinessUnit << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pOrder->RequestID << std::endl;
+    // char OrderLocalID
+    std::cout << "OrderLocalID" << "="<< pOrder->OrderLocalID << std::endl;
+    // char ExchangeID
+    std::cout << "ExchangeID" << "="<< pOrder->ExchangeID << std::endl;
+    // char ParticipantID
+    std::cout << "ParticipantID" << "="<< pOrder->ParticipantID << std::endl;
+    // char ClientID
+    std::cout << "ClientID" << "="<< pOrder->ClientID << std::endl;
+    // char ExchangeInstID
+    std::cout << "ExchangeInstID" << "="<< pOrder->ExchangeInstID << std::endl;
+    // char TraderID
+    std::cout << "TraderID" << "="<< pOrder->TraderID << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pOrder->InstallID << std::endl;
+    // char OrderSubmitStatus
+    std::cout << "OrderSubmitStatus" << "="<< pOrder->OrderSubmitStatus << std::endl;
+    // int NotifySequence
+    std::cout << "NotifySequence" << "="<< pOrder->NotifySequence << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pOrder->TradingDay << std::endl;
+    // int SettlementID
+    std::cout << "SettlementID" << "="<< pOrder->SettlementID << std::endl;
+    // char OrderSysID
+    std::cout << "OrderSysID" << "="<< pOrder->OrderSysID << std::endl;
+    // char OrderSource
+    std::cout << "OrderSource" << "="<< pOrder->OrderSource << std::endl;
+    // char OrderStatus
+    std::cout << "OrderStatus" << "="<< pOrder->OrderStatus << std::endl;
+    // char OrderType
+    std::cout << "OrderType" << "="<< pOrder->OrderType << std::endl;
+    // int VolumeTraded
+    std::cout << "VolumeTraded" << "="<< pOrder->VolumeTraded << std::endl;
+    // int VolumeTotal
+    std::cout << "VolumeTotal" << "="<< pOrder->VolumeTotal << std::endl;
+    // char InsertDate
+    std::cout << "InsertDate" << "="<< pOrder->InsertDate << std::endl;
+    // char InsertTime
+    std::cout << "InsertTime" << "="<< pOrder->InsertTime << std::endl;
+    // char ActiveTime
+    std::cout << "ActiveTime" << "="<< pOrder->ActiveTime << std::endl;
+    // char SuspendTime
+    std::cout << "SuspendTime" << "="<< pOrder->SuspendTime << std::endl;
+    // char UpdateTime
+    std::cout << "UpdateTime" << "="<< pOrder->UpdateTime << std::endl;
+    // char CancelTime
+    std::cout << "CancelTime" << "="<< pOrder->CancelTime << std::endl;
+    // char ActiveTraderID
+    std::cout << "ActiveTraderID" << "="<< pOrder->ActiveTraderID << std::endl;
+    // char ClearingPartID
+    std::cout << "ClearingPartID" << "="<< pOrder->ClearingPartID << std::endl;
+    // int SequenceNo
+    std::cout << "SequenceNo" << "="<< pOrder->SequenceNo << std::endl;
+    // int FrontID
+    std::cout << "FrontID" << "="<< pOrder->FrontID << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pOrder->SessionID << std::endl;
+    // char UserProductInfo
+    std::cout << "UserProductInfo" << "="<< pOrder->UserProductInfo << std::endl;
+    // char StatusMsg
+    std::cout << "StatusMsg" << "="<< pOrder->StatusMsg << std::endl;
+    // int UserForceClose
+    std::cout << "UserForceClose" << "="<< pOrder->UserForceClose << std::endl;
+    // char ActiveUserID
+    std::cout << "ActiveUserID" << "="<< pOrder->ActiveUserID << std::endl;
+    // int BrokerOrderSeq
+    std::cout << "BrokerOrderSeq" << "="<< pOrder->BrokerOrderSeq << std::endl;
+    // char RelativeOrderSysID
+    std::cout << "RelativeOrderSysID" << "="<< pOrder->RelativeOrderSysID << std::endl;
+    // int ZCETotalTradedVolume
+    std::cout << "ZCETotalTradedVolume" << "="<< pOrder->ZCETotalTradedVolume << std::endl;
+    // int IsSwapOrder
+    std::cout << "IsSwapOrder" << "="<< pOrder->IsSwapOrder << std::endl;
+
     std::cout << "OnRtnOrder():执行结束..." << std::endl;
 }
 
@@ -7912,6 +9501,99 @@ void CTraderHandler::OnRtnCancelAccountByBank(
     CThostFtdcCancelAccountField * pCancelAccount
 ) {
     std::cout << "OnRtnCancelAccountByBank():开始执行..." << std::endl;
+
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pCancelAccount->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pCancelAccount->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pCancelAccount->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pCancelAccount->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pCancelAccount->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pCancelAccount->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pCancelAccount->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pCancelAccount->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pCancelAccount->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pCancelAccount->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pCancelAccount->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pCancelAccount->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pCancelAccount->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pCancelAccount->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pCancelAccount->IdentifiedCardNo << std::endl;
+    // char Gender
+    std::cout << "Gender" << "="<< pCancelAccount->Gender << std::endl;
+    // char CountryCode
+    std::cout << "CountryCode" << "="<< pCancelAccount->CountryCode << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pCancelAccount->CustType << std::endl;
+    // char Address
+    std::cout << "Address" << "="<< pCancelAccount->Address << std::endl;
+    // char ZipCode
+    std::cout << "ZipCode" << "="<< pCancelAccount->ZipCode << std::endl;
+    // char Telephone
+    std::cout << "Telephone" << "="<< pCancelAccount->Telephone << std::endl;
+    // char MobilePhone
+    std::cout << "MobilePhone" << "="<< pCancelAccount->MobilePhone << std::endl;
+    // char Fax
+    std::cout << "Fax" << "="<< pCancelAccount->Fax << std::endl;
+    // char EMail
+    std::cout << "EMail" << "="<< pCancelAccount->EMail << std::endl;
+    // char MoneyAccountStatus
+    std::cout << "MoneyAccountStatus" << "="<< pCancelAccount->MoneyAccountStatus << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pCancelAccount->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pCancelAccount->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pCancelAccount->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pCancelAccount->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pCancelAccount->InstallID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pCancelAccount->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pCancelAccount->CurrencyID << std::endl;
+    // char CashExchangeCode
+    std::cout << "CashExchangeCode" << "="<< pCancelAccount->CashExchangeCode << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pCancelAccount->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pCancelAccount->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pCancelAccount->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pCancelAccount->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pCancelAccount->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pCancelAccount->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pCancelAccount->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pCancelAccount->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pCancelAccount->OperNo << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pCancelAccount->TID << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pCancelAccount->UserID << std::endl;
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pCancelAccount->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pCancelAccount->ErrorMsg << std::endl;
 
     std::cout << "OnRtnCancelAccountByBank():执行结束..." << std::endl;
 }
@@ -7929,6 +9611,107 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
 ) {
     std::cout << "OnErrRtnRepealFutureToBankByFutureManual():开始执行..." << std::endl;
 
+    // int RepealTimeInterval
+    std::cout << "RepealTimeInterval" << "="<< pReqRepeal->RepealTimeInterval << std::endl;
+    // int RepealedTimes
+    std::cout << "RepealedTimes" << "="<< pReqRepeal->RepealedTimes << std::endl;
+    // char BankRepealFlag
+    std::cout << "BankRepealFlag" << "="<< pReqRepeal->BankRepealFlag << std::endl;
+    // char BrokerRepealFlag
+    std::cout << "BrokerRepealFlag" << "="<< pReqRepeal->BrokerRepealFlag << std::endl;
+    // int PlateRepealSerial
+    std::cout << "PlateRepealSerial" << "="<< pReqRepeal->PlateRepealSerial << std::endl;
+    // char BankRepealSerial
+    std::cout << "BankRepealSerial" << "="<< pReqRepeal->BankRepealSerial << std::endl;
+    // int FutureRepealSerial
+    std::cout << "FutureRepealSerial" << "="<< pReqRepeal->FutureRepealSerial << std::endl;
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pReqRepeal->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pReqRepeal->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pReqRepeal->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pReqRepeal->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pReqRepeal->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pReqRepeal->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pReqRepeal->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pReqRepeal->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pReqRepeal->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pReqRepeal->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pReqRepeal->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pReqRepeal->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pReqRepeal->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pReqRepeal->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pReqRepeal->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pReqRepeal->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pReqRepeal->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pReqRepeal->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pReqRepeal->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pReqRepeal->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pReqRepeal->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pReqRepeal->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pReqRepeal->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pReqRepeal->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pReqRepeal->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pReqRepeal->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pReqRepeal->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pReqRepeal->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pReqRepeal->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pReqRepeal->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pReqRepeal->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pReqRepeal->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pReqRepeal->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pReqRepeal->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pReqRepeal->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pReqRepeal->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pReqRepeal->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pReqRepeal->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pReqRepeal->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pReqRepeal->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pReqRepeal->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pReqRepeal->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pReqRepeal->TransferStatus << std::endl;
+
     std::cout << "OnErrRtnRepealFutureToBankByFutureManual():执行结束..." << std::endl;
 }
 
@@ -7938,6 +9721,93 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
     CThostFtdcRspInfoField * pRspInfo
 ) {
     std::cout << "OnErrRtnFutureToBankByFuture():开始执行..." << std::endl;
+
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pReqTransfer->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pReqTransfer->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pReqTransfer->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pReqTransfer->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pReqTransfer->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pReqTransfer->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pReqTransfer->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pReqTransfer->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pReqTransfer->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pReqTransfer->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pReqTransfer->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pReqTransfer->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pReqTransfer->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pReqTransfer->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pReqTransfer->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pReqTransfer->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pReqTransfer->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pReqTransfer->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pReqTransfer->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pReqTransfer->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pReqTransfer->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pReqTransfer->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pReqTransfer->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pReqTransfer->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pReqTransfer->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pReqTransfer->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pReqTransfer->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pReqTransfer->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pReqTransfer->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pReqTransfer->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pReqTransfer->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pReqTransfer->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pReqTransfer->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pReqTransfer->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pReqTransfer->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pReqTransfer->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pReqTransfer->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pReqTransfer->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pReqTransfer->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pReqTransfer->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pReqTransfer->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pReqTransfer->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pReqTransfer->TransferStatus << std::endl;
 
     std::cout << "OnErrRtnFutureToBankByFuture():执行结束..." << std::endl;
 }
@@ -7949,6 +9819,53 @@ void CTraderHandler::OnErrRtnOrderInsert(
 ) {
     std::cout << "OnErrRtnOrderInsert():开始执行..." << std::endl;
 
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pInputOrder->BrokerID << std::endl;
+    // char InvestorID
+    std::cout << "InvestorID" << "="<< pInputOrder->InvestorID << std::endl;
+    // char InstrumentID
+    std::cout << "InstrumentID" << "="<< pInputOrder->InstrumentID << std::endl;
+    // char OrderRef
+    std::cout << "OrderRef" << "="<< pInputOrder->OrderRef << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pInputOrder->UserID << std::endl;
+    // char OrderPriceType
+    std::cout << "OrderPriceType" << "="<< pInputOrder->OrderPriceType << std::endl;
+    // char Direction
+    std::cout << "Direction" << "="<< pInputOrder->Direction << std::endl;
+    // char CombOffsetFlag
+    std::cout << "CombOffsetFlag" << "="<< pInputOrder->CombOffsetFlag << std::endl;
+    // char CombHedgeFlag
+    std::cout << "CombHedgeFlag" << "="<< pInputOrder->CombHedgeFlag << std::endl;
+    // double LimitPrice
+    std::cout << "LimitPrice" << "="<< pInputOrder->LimitPrice << std::endl;
+    // int VolumeTotalOriginal
+    std::cout << "VolumeTotalOriginal" << "="<< pInputOrder->VolumeTotalOriginal << std::endl;
+    // char TimeCondition
+    std::cout << "TimeCondition" << "="<< pInputOrder->TimeCondition << std::endl;
+    // char GTDDate
+    std::cout << "GTDDate" << "="<< pInputOrder->GTDDate << std::endl;
+    // char VolumeCondition
+    std::cout << "VolumeCondition" << "="<< pInputOrder->VolumeCondition << std::endl;
+    // int MinVolume
+    std::cout << "MinVolume" << "="<< pInputOrder->MinVolume << std::endl;
+    // char ContingentCondition
+    std::cout << "ContingentCondition" << "="<< pInputOrder->ContingentCondition << std::endl;
+    // double StopPrice
+    std::cout << "StopPrice" << "="<< pInputOrder->StopPrice << std::endl;
+    // char ForceCloseReason
+    std::cout << "ForceCloseReason" << "="<< pInputOrder->ForceCloseReason << std::endl;
+    // int IsAutoSuspend
+    std::cout << "IsAutoSuspend" << "="<< pInputOrder->IsAutoSuspend << std::endl;
+    // char BusinessUnit
+    std::cout << "BusinessUnit" << "="<< pInputOrder->BusinessUnit << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pInputOrder->RequestID << std::endl;
+    // int UserForceClose
+    std::cout << "UserForceClose" << "="<< pInputOrder->UserForceClose << std::endl;
+    // int IsSwapOrder
+    std::cout << "IsSwapOrder" << "="<< pInputOrder->IsSwapOrder << std::endl;
+
     std::cout << "OnErrRtnOrderInsert():执行结束..." << std::endl;
 }
 
@@ -7958,6 +9875,107 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
     CThostFtdcRspInfoField * pRspInfo
 ) {
     std::cout << "OnErrRtnRepealBankToFutureByFutureManual():开始执行..." << std::endl;
+
+    // int RepealTimeInterval
+    std::cout << "RepealTimeInterval" << "="<< pReqRepeal->RepealTimeInterval << std::endl;
+    // int RepealedTimes
+    std::cout << "RepealedTimes" << "="<< pReqRepeal->RepealedTimes << std::endl;
+    // char BankRepealFlag
+    std::cout << "BankRepealFlag" << "="<< pReqRepeal->BankRepealFlag << std::endl;
+    // char BrokerRepealFlag
+    std::cout << "BrokerRepealFlag" << "="<< pReqRepeal->BrokerRepealFlag << std::endl;
+    // int PlateRepealSerial
+    std::cout << "PlateRepealSerial" << "="<< pReqRepeal->PlateRepealSerial << std::endl;
+    // char BankRepealSerial
+    std::cout << "BankRepealSerial" << "="<< pReqRepeal->BankRepealSerial << std::endl;
+    // int FutureRepealSerial
+    std::cout << "FutureRepealSerial" << "="<< pReqRepeal->FutureRepealSerial << std::endl;
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pReqRepeal->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pReqRepeal->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pReqRepeal->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pReqRepeal->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pReqRepeal->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pReqRepeal->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pReqRepeal->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pReqRepeal->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pReqRepeal->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pReqRepeal->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pReqRepeal->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pReqRepeal->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pReqRepeal->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pReqRepeal->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pReqRepeal->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pReqRepeal->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pReqRepeal->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pReqRepeal->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pReqRepeal->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pReqRepeal->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pReqRepeal->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pReqRepeal->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pReqRepeal->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pReqRepeal->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pReqRepeal->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pReqRepeal->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pReqRepeal->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pReqRepeal->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pReqRepeal->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pReqRepeal->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pReqRepeal->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pReqRepeal->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pReqRepeal->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pReqRepeal->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pReqRepeal->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pReqRepeal->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pReqRepeal->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pReqRepeal->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pReqRepeal->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pReqRepeal->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pReqRepeal->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pReqRepeal->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pReqRepeal->TransferStatus << std::endl;
 
     std::cout << "OnErrRtnRepealBankToFutureByFutureManual():执行结束..." << std::endl;
 }
@@ -7969,6 +9987,93 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
 ) {
     std::cout << "OnErrRtnBankToFutureByFuture():开始执行..." << std::endl;
 
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pReqTransfer->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pReqTransfer->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pReqTransfer->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pReqTransfer->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pReqTransfer->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pReqTransfer->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pReqTransfer->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pReqTransfer->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pReqTransfer->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pReqTransfer->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pReqTransfer->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pReqTransfer->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pReqTransfer->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pReqTransfer->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pReqTransfer->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pReqTransfer->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pReqTransfer->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pReqTransfer->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pReqTransfer->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pReqTransfer->Password << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pReqTransfer->InstallID << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pReqTransfer->FutureSerial << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pReqTransfer->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pReqTransfer->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pReqTransfer->CurrencyID << std::endl;
+    // double TradeAmount
+    std::cout << "TradeAmount" << "="<< pReqTransfer->TradeAmount << std::endl;
+    // double FutureFetchAmount
+    std::cout << "FutureFetchAmount" << "="<< pReqTransfer->FutureFetchAmount << std::endl;
+    // char FeePayFlag
+    std::cout << "FeePayFlag" << "="<< pReqTransfer->FeePayFlag << std::endl;
+    // double CustFee
+    std::cout << "CustFee" << "="<< pReqTransfer->CustFee << std::endl;
+    // double BrokerFee
+    std::cout << "BrokerFee" << "="<< pReqTransfer->BrokerFee << std::endl;
+    // char Message
+    std::cout << "Message" << "="<< pReqTransfer->Message << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pReqTransfer->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pReqTransfer->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pReqTransfer->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pReqTransfer->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pReqTransfer->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pReqTransfer->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pReqTransfer->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pReqTransfer->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pReqTransfer->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pReqTransfer->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pReqTransfer->TID << std::endl;
+    // char TransferStatus
+    std::cout << "TransferStatus" << "="<< pReqTransfer->TransferStatus << std::endl;
+
     std::cout << "OnErrRtnBankToFutureByFuture():执行结束..." << std::endl;
 }
 
@@ -7979,6 +10084,79 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
 ) {
     std::cout << "OnErrRtnQueryBankBalanceByFuture():开始执行..." << std::endl;
 
+    // char TradeCode
+    std::cout << "TradeCode" << "="<< pReqQueryAccount->TradeCode << std::endl;
+    // char BankID
+    std::cout << "BankID" << "="<< pReqQueryAccount->BankID << std::endl;
+    // char BankBranchID
+    std::cout << "BankBranchID" << "="<< pReqQueryAccount->BankBranchID << std::endl;
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pReqQueryAccount->BrokerID << std::endl;
+    // char BrokerBranchID
+    std::cout << "BrokerBranchID" << "="<< pReqQueryAccount->BrokerBranchID << std::endl;
+    // char TradeDate
+    std::cout << "TradeDate" << "="<< pReqQueryAccount->TradeDate << std::endl;
+    // char TradeTime
+    std::cout << "TradeTime" << "="<< pReqQueryAccount->TradeTime << std::endl;
+    // char BankSerial
+    std::cout << "BankSerial" << "="<< pReqQueryAccount->BankSerial << std::endl;
+    // char TradingDay
+    std::cout << "TradingDay" << "="<< pReqQueryAccount->TradingDay << std::endl;
+    // int PlateSerial
+    std::cout << "PlateSerial" << "="<< pReqQueryAccount->PlateSerial << std::endl;
+    // char LastFragment
+    std::cout << "LastFragment" << "="<< pReqQueryAccount->LastFragment << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pReqQueryAccount->SessionID << std::endl;
+    // char CustomerName
+    std::cout << "CustomerName" << "="<< pReqQueryAccount->CustomerName << std::endl;
+    // char IdCardType
+    std::cout << "IdCardType" << "="<< pReqQueryAccount->IdCardType << std::endl;
+    // char IdentifiedCardNo
+    std::cout << "IdentifiedCardNo" << "="<< pReqQueryAccount->IdentifiedCardNo << std::endl;
+    // char CustType
+    std::cout << "CustType" << "="<< pReqQueryAccount->CustType << std::endl;
+    // char BankAccount
+    std::cout << "BankAccount" << "="<< pReqQueryAccount->BankAccount << std::endl;
+    // char BankPassWord
+    std::cout << "BankPassWord" << "="<< pReqQueryAccount->BankPassWord << std::endl;
+    // char AccountID
+    std::cout << "AccountID" << "="<< pReqQueryAccount->AccountID << std::endl;
+    // char Password
+    std::cout << "Password" << "="<< pReqQueryAccount->Password << std::endl;
+    // int FutureSerial
+    std::cout << "FutureSerial" << "="<< pReqQueryAccount->FutureSerial << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pReqQueryAccount->InstallID << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pReqQueryAccount->UserID << std::endl;
+    // char VerifyCertNoFlag
+    std::cout << "VerifyCertNoFlag" << "="<< pReqQueryAccount->VerifyCertNoFlag << std::endl;
+    // char CurrencyID
+    std::cout << "CurrencyID" << "="<< pReqQueryAccount->CurrencyID << std::endl;
+    // char Digest
+    std::cout << "Digest" << "="<< pReqQueryAccount->Digest << std::endl;
+    // char BankAccType
+    std::cout << "BankAccType" << "="<< pReqQueryAccount->BankAccType << std::endl;
+    // char DeviceID
+    std::cout << "DeviceID" << "="<< pReqQueryAccount->DeviceID << std::endl;
+    // char BankSecuAccType
+    std::cout << "BankSecuAccType" << "="<< pReqQueryAccount->BankSecuAccType << std::endl;
+    // char BrokerIDByBank
+    std::cout << "BrokerIDByBank" << "="<< pReqQueryAccount->BrokerIDByBank << std::endl;
+    // char BankSecuAcc
+    std::cout << "BankSecuAcc" << "="<< pReqQueryAccount->BankSecuAcc << std::endl;
+    // char BankPwdFlag
+    std::cout << "BankPwdFlag" << "="<< pReqQueryAccount->BankPwdFlag << std::endl;
+    // char SecuPwdFlag
+    std::cout << "SecuPwdFlag" << "="<< pReqQueryAccount->SecuPwdFlag << std::endl;
+    // char OperNo
+    std::cout << "OperNo" << "="<< pReqQueryAccount->OperNo << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pReqQueryAccount->RequestID << std::endl;
+    // int TID
+    std::cout << "TID" << "="<< pReqQueryAccount->TID << std::endl;
+
     std::cout << "OnErrRtnQueryBankBalanceByFuture():执行结束..." << std::endl;
 }
 
@@ -7988,6 +10166,57 @@ void CTraderHandler::OnErrRtnOrderAction(
     CThostFtdcRspInfoField * pRspInfo
 ) {
     std::cout << "OnErrRtnOrderAction():开始执行..." << std::endl;
+
+    // char BrokerID
+    std::cout << "BrokerID" << "="<< pOrderAction->BrokerID << std::endl;
+    // char InvestorID
+    std::cout << "InvestorID" << "="<< pOrderAction->InvestorID << std::endl;
+    // int OrderActionRef
+    std::cout << "OrderActionRef" << "="<< pOrderAction->OrderActionRef << std::endl;
+    // char OrderRef
+    std::cout << "OrderRef" << "="<< pOrderAction->OrderRef << std::endl;
+    // int RequestID
+    std::cout << "RequestID" << "="<< pOrderAction->RequestID << std::endl;
+    // int FrontID
+    std::cout << "FrontID" << "="<< pOrderAction->FrontID << std::endl;
+    // int SessionID
+    std::cout << "SessionID" << "="<< pOrderAction->SessionID << std::endl;
+    // char ExchangeID
+    std::cout << "ExchangeID" << "="<< pOrderAction->ExchangeID << std::endl;
+    // char OrderSysID
+    std::cout << "OrderSysID" << "="<< pOrderAction->OrderSysID << std::endl;
+    // char ActionFlag
+    std::cout << "ActionFlag" << "="<< pOrderAction->ActionFlag << std::endl;
+    // double LimitPrice
+    std::cout << "LimitPrice" << "="<< pOrderAction->LimitPrice << std::endl;
+    // int VolumeChange
+    std::cout << "VolumeChange" << "="<< pOrderAction->VolumeChange << std::endl;
+    // char ActionDate
+    std::cout << "ActionDate" << "="<< pOrderAction->ActionDate << std::endl;
+    // char ActionTime
+    std::cout << "ActionTime" << "="<< pOrderAction->ActionTime << std::endl;
+    // char TraderID
+    std::cout << "TraderID" << "="<< pOrderAction->TraderID << std::endl;
+    // int InstallID
+    std::cout << "InstallID" << "="<< pOrderAction->InstallID << std::endl;
+    // char OrderLocalID
+    std::cout << "OrderLocalID" << "="<< pOrderAction->OrderLocalID << std::endl;
+    // char ActionLocalID
+    std::cout << "ActionLocalID" << "="<< pOrderAction->ActionLocalID << std::endl;
+    // char ParticipantID
+    std::cout << "ParticipantID" << "="<< pOrderAction->ParticipantID << std::endl;
+    // char ClientID
+    std::cout << "ClientID" << "="<< pOrderAction->ClientID << std::endl;
+    // char BusinessUnit
+    std::cout << "BusinessUnit" << "="<< pOrderAction->BusinessUnit << std::endl;
+    // char OrderActionStatus
+    std::cout << "OrderActionStatus" << "="<< pOrderAction->OrderActionStatus << std::endl;
+    // char UserID
+    std::cout << "UserID" << "="<< pOrderAction->UserID << std::endl;
+    // char StatusMsg
+    std::cout << "StatusMsg" << "="<< pOrderAction->StatusMsg << std::endl;
+    // char InstrumentID
+    std::cout << "InstrumentID" << "="<< pOrderAction->InstrumentID << std::endl;
 
     std::cout << "OnErrRtnOrderAction():执行结束..." << std::endl;
 }
@@ -8005,6 +10234,11 @@ void CTraderHandler::OnRspError(
     bool bIsLast
 ) {
     std::cout << "OnRspError():开始执行..." << std::endl;
+
+    // int ErrorID
+    std::cout << "ErrorID" << "="<< pRspInfo->ErrorID << std::endl;
+    // char ErrorMsg
+    std::cout << "ErrorMsg" << "="<< pRspInfo->ErrorMsg << std::endl;
 
     std::cout << "OnRspError():执行结束..." << std::endl;
 }

@@ -146,6 +146,21 @@ static char buffer[1024*10];
 ){
 	std::cout << "{{method['name']}}():开始执行..." << std::endl;
 
+	// 生成发送管道的引用
+	zmq::socket_t & sender = *pSender;
+
+	// 返回数据
+	Json::Value json_pRspInfo;
+	json_pRspInfo["ErrorID"] = 0;
+	json_pRspInfo["ErrorMsg"] = "";
+
+	// 生成返回的json格式
+	Json::Value json_Response;
+	json_Response["ResponseMethod"] = "{{method['name']}}";
+
+	
+
+
 	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
 {% endfor %}
@@ -165,6 +180,14 @@ static char buffer[1024*10];
 ){
 	std::cout << "{{method['name']}}():开始执行..." << std::endl;
 
+	{%- set dataVarName = method['parameters'][0]['name'] %}
+	{%- set dataTypeName = method['parameters'][0]['raw_type'] %}
+	{%- set dataType = structDict[dataTypeName] %}
+    {% for field in dataType['fields'] %}
+        // {{typedefDict[field['type']]['type']}} {{field['name']}}
+		std::cout << "{{field['name']}}" << "="<< {{dataVarName}}->{{field['name']}} << std::endl;
+    {%- endfor %}
+
 	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
 {% endfor %}
@@ -183,6 +206,14 @@ static char buffer[1024*10];
 	{%- endfor %}
 ){
 	std::cout << "{{method['name']}}():开始执行..." << std::endl;
+
+	{%- set dataVarName = method['parameters'][0]['name'] %}
+	{%- set dataTypeName = method['parameters'][0]['raw_type'] %}
+	{%- set dataType = structDict[dataTypeName] %}
+    {% for field in dataType['fields'] %}
+        // {{typedefDict[field['type']]['type']}} {{field['name']}}
+		std::cout << "{{field['name']}}" << "="<< {{dataVarName}}->{{field['name']}} << std::endl;
+    {%- endfor %}
 
 	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
