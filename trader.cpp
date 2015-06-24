@@ -349,8 +349,9 @@ int main(int argc,char * argv[]) {
                             std::cout << "main():无法找到返回路由,可能是路由信息已过期" << std::endl;
                         }
                     } else {
-                        // 处理广播消息
+                        // TODO 处理广播消息
                         std::cout << "main():收到一条广播消息" << std::endl;
+                        std::cout << "respInfo=" <<  pushbackMessage.respInfo << std::endl;
                     }
                 } catch(std::exception & e) {
                     std::cout << "main():异常:" << e.what() << std::endl;
