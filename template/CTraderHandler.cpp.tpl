@@ -87,13 +87,18 @@ static char buffer[1024*10];
 		// TODO : 这里需要将编码转化为utf-8
 		{% for field in dataType['fields'] %}
 			{%- set typeInfo = typedefDict[field['type']] %}
-			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
-				gbk2utf8(
-					{{dataVarName}}->{{field['name']}},
-					buffer,
-					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
-				);
-				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% if typeInfo['type'] == 'char' %}
+				{% if typeInfo['len'] != None %}
+					gbk2utf8(
+						{{dataVarName}}->{{field['name']}},
+						buffer,
+						sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+					);
+					json_{{dataVarName}}["{{field['name']}}"] = buffer;
+				{% else %}
+					sprintf(buffer,"%c",{{dataVarName}}->{{field['name']}});
+					json_{{dataVarName}}["{{field['name']}}"] = buffer;
+				{% endif %}
 			{% else %}
 				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
 			{% endif %}
@@ -162,13 +167,18 @@ static char buffer[1024*10];
 		// TODO : 这里需要将编码转化为utf-8
 		{% for field in dataType['fields'] %}
 			{%- set typeInfo = typedefDict[field['type']] %}
-			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
-				gbk2utf8(
-					{{dataVarName}}->{{field['name']}},
-					buffer,
-					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
-				);
-				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% if typeInfo['type'] == 'char' %}
+				{% if typeInfo['len'] != None %}
+					gbk2utf8(
+						{{dataVarName}}->{{field['name']}},
+						buffer,
+						sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+					);
+					json_{{dataVarName}}["{{field['name']}}"] = buffer;
+				{% else %}
+					sprintf(buffer,"%c",{{dataVarName}}->{{field['name']}});
+					json_{{dataVarName}}["{{field['name']}}"] = buffer;
+				{% endif %}
 			{% else %}
 				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
 			{% endif %}
@@ -223,13 +233,18 @@ static char buffer[1024*10];
 		// TODO : 这里需要将编码转化为utf-8
 		{% for field in dataType['fields'] %}
 			{%- set typeInfo = typedefDict[field['type']] %}
-			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
-				gbk2utf8(
-					{{dataVarName}}->{{field['name']}},
-					buffer,
-					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
-				);
-				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% if typeInfo['type'] == 'char' %}
+				{% if typeInfo['len'] != None %}
+					gbk2utf8(
+						{{dataVarName}}->{{field['name']}},
+						buffer,
+						sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+					);
+					json_{{dataVarName}}["{{field['name']}}"] = buffer;
+				{% else %}
+					sprintf(buffer,"%c",{{dataVarName}}->{{field['name']}});
+					json_{{dataVarName}}["{{field['name']}}"] = buffer;
+				{% endif %}
 			{% else %}
 				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
 			{% endif %}
@@ -284,13 +299,18 @@ static char buffer[1024*10];
 		// TODO : 这里需要将编码转化为utf-8
 		{% for field in dataType['fields'] %}
 			{%- set typeInfo = typedefDict[field['type']] %}
-			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
-				gbk2utf8(
-					{{dataVarName}}->{{field['name']}},
-					buffer,
-					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
-				);
-				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% if typeInfo['type'] == 'char' %}
+				{% if typeInfo['len'] != None %}
+					gbk2utf8(
+						{{dataVarName}}->{{field['name']}},
+						buffer,
+						sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+					);
+					json_{{dataVarName}}["{{field['name']}}"] = buffer;
+				{% else %}
+					sprintf(buffer,"%c",{{dataVarName}}->{{field['name']}});
+					json_{{dataVarName}}["{{field['name']}}"] = buffer;
+				{% endif %}
 			{% else %}
 				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
 			{% endif %}

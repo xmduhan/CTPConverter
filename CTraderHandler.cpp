@@ -83,12 +83,15 @@ void CTraderHandler::OnRspQryInstrument(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInstrument->InstrumentID,
             buffer,
             sizeof(pInstrument->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pInstrument["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -99,12 +102,16 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["ExchangeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInstrument->InstrumentName,
             buffer,
             sizeof(pInstrument->InstrumentName) * 3 // 字符串转化变长的风险保障
         );
         json_pInstrument["InstrumentName"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -115,6 +122,8 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["ExchangeInstID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInstrument->ProductID,
             buffer,
@@ -123,7 +132,11 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["ProductID"] = buffer;
 
 
-        json_pInstrument["ProductClass"] = pInstrument->ProductClass;
+
+
+        sprintf(buffer,"%c",pInstrument->ProductClass);
+        json_pInstrument["ProductClass"] = buffer;
+
 
 
         json_pInstrument["DeliveryYear"] = pInstrument->DeliveryYear;
@@ -150,12 +163,15 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["PriceTick"] = pInstrument->PriceTick;
 
 
+
         gbk2utf8(
             pInstrument->CreateDate,
             buffer,
             sizeof(pInstrument->CreateDate) * 3 // 字符串转化变长的风险保障
         );
         json_pInstrument["CreateDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -166,12 +182,16 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["OpenDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pInstrument->ExpireDate,
             buffer,
             sizeof(pInstrument->ExpireDate) * 3 // 字符串转化变长的风险保障
         );
         json_pInstrument["ExpireDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -182,6 +202,8 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["StartDelivDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pInstrument->EndDelivDate,
             buffer,
@@ -190,16 +212,26 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["EndDelivDate"] = buffer;
 
 
-        json_pInstrument["InstLifePhase"] = pInstrument->InstLifePhase;
+
+
+        sprintf(buffer,"%c",pInstrument->InstLifePhase);
+        json_pInstrument["InstLifePhase"] = buffer;
+
 
 
         json_pInstrument["IsTrading"] = pInstrument->IsTrading;
 
 
-        json_pInstrument["PositionType"] = pInstrument->PositionType;
+
+        sprintf(buffer,"%c",pInstrument->PositionType);
+        json_pInstrument["PositionType"] = buffer;
 
 
-        json_pInstrument["PositionDateType"] = pInstrument->PositionDateType;
+
+
+        sprintf(buffer,"%c",pInstrument->PositionDateType);
+        json_pInstrument["PositionDateType"] = buffer;
+
 
 
         json_pInstrument["LongMarginRatio"] = pInstrument->LongMarginRatio;
@@ -208,7 +240,10 @@ void CTraderHandler::OnRspQryInstrument(
         json_pInstrument["ShortMarginRatio"] = pInstrument->ShortMarginRatio;
 
 
-        json_pInstrument["MaxMarginSideAlgorithm"] = pInstrument->MaxMarginSideAlgorithm;
+
+        sprintf(buffer,"%c",pInstrument->MaxMarginSideAlgorithm);
+        json_pInstrument["MaxMarginSideAlgorithm"] = buffer;
+
 
     }
 
@@ -280,6 +315,7 @@ void CTraderHandler::OnRspQrySettlementInfo(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pSettlementInfo->TradingDay,
             buffer,
@@ -288,7 +324,9 @@ void CTraderHandler::OnRspQrySettlementInfo(
         json_pSettlementInfo["TradingDay"] = buffer;
 
 
+
         json_pSettlementInfo["SettlementID"] = pSettlementInfo->SettlementID;
+
 
 
         gbk2utf8(
@@ -299,6 +337,8 @@ void CTraderHandler::OnRspQrySettlementInfo(
         json_pSettlementInfo["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pSettlementInfo->InvestorID,
             buffer,
@@ -307,7 +347,9 @@ void CTraderHandler::OnRspQrySettlementInfo(
         json_pSettlementInfo["InvestorID"] = buffer;
 
 
+
         json_pSettlementInfo["SequenceNo"] = pSettlementInfo->SequenceNo;
+
 
 
         gbk2utf8(
@@ -316,6 +358,7 @@ void CTraderHandler::OnRspQrySettlementInfo(
             sizeof(pSettlementInfo->Content) * 3 // 字符串转化变长的风险保障
         );
         json_pSettlementInfo["Content"] = buffer;
+
 
     }
 
@@ -387,12 +430,15 @@ void CTraderHandler::OnRspParkedOrderInsert(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pParkedOrder->BrokerID,
             buffer,
             sizeof(pParkedOrder->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrder["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -403,12 +449,16 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrder->InstrumentID,
             buffer,
             sizeof(pParkedOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrder["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -419,6 +469,8 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrder->UserID,
             buffer,
@@ -427,10 +479,18 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["UserID"] = buffer;
 
 
-        json_pParkedOrder["OrderPriceType"] = pParkedOrder->OrderPriceType;
 
 
-        json_pParkedOrder["Direction"] = pParkedOrder->Direction;
+        sprintf(buffer,"%c",pParkedOrder->OrderPriceType);
+        json_pParkedOrder["OrderPriceType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pParkedOrder->Direction);
+        json_pParkedOrder["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -441,6 +501,8 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["CombOffsetFlag"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrder->CombHedgeFlag,
             buffer,
@@ -449,13 +511,18 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["CombHedgeFlag"] = buffer;
 
 
+
         json_pParkedOrder["LimitPrice"] = pParkedOrder->LimitPrice;
 
 
         json_pParkedOrder["VolumeTotalOriginal"] = pParkedOrder->VolumeTotalOriginal;
 
 
-        json_pParkedOrder["TimeCondition"] = pParkedOrder->TimeCondition;
+
+        sprintf(buffer,"%c",pParkedOrder->TimeCondition);
+        json_pParkedOrder["TimeCondition"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -466,22 +533,33 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["GTDDate"] = buffer;
 
 
-        json_pParkedOrder["VolumeCondition"] = pParkedOrder->VolumeCondition;
+
+
+        sprintf(buffer,"%c",pParkedOrder->VolumeCondition);
+        json_pParkedOrder["VolumeCondition"] = buffer;
+
 
 
         json_pParkedOrder["MinVolume"] = pParkedOrder->MinVolume;
 
 
-        json_pParkedOrder["ContingentCondition"] = pParkedOrder->ContingentCondition;
+
+        sprintf(buffer,"%c",pParkedOrder->ContingentCondition);
+        json_pParkedOrder["ContingentCondition"] = buffer;
+
 
 
         json_pParkedOrder["StopPrice"] = pParkedOrder->StopPrice;
 
 
-        json_pParkedOrder["ForceCloseReason"] = pParkedOrder->ForceCloseReason;
+
+        sprintf(buffer,"%c",pParkedOrder->ForceCloseReason);
+        json_pParkedOrder["ForceCloseReason"] = buffer;
+
 
 
         json_pParkedOrder["IsAutoSuspend"] = pParkedOrder->IsAutoSuspend;
+
 
 
         gbk2utf8(
@@ -492,10 +570,12 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["BusinessUnit"] = buffer;
 
 
+
         json_pParkedOrder["RequestID"] = pParkedOrder->RequestID;
 
 
         json_pParkedOrder["UserForceClose"] = pParkedOrder->UserForceClose;
+
 
 
         gbk2utf8(
@@ -506,6 +586,8 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["ExchangeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrder->ParkedOrderID,
             buffer,
@@ -514,13 +596,21 @@ void CTraderHandler::OnRspParkedOrderInsert(
         json_pParkedOrder["ParkedOrderID"] = buffer;
 
 
-        json_pParkedOrder["UserType"] = pParkedOrder->UserType;
 
 
-        json_pParkedOrder["Status"] = pParkedOrder->Status;
+        sprintf(buffer,"%c",pParkedOrder->UserType);
+        json_pParkedOrder["UserType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pParkedOrder->Status);
+        json_pParkedOrder["Status"] = buffer;
+
 
 
         json_pParkedOrder["ErrorID"] = pParkedOrder->ErrorID;
+
 
 
         gbk2utf8(
@@ -529,6 +619,7 @@ void CTraderHandler::OnRspParkedOrderInsert(
             sizeof(pParkedOrder->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrder["ErrorMsg"] = buffer;
+
 
 
         json_pParkedOrder["IsSwapOrder"] = pParkedOrder->IsSwapOrder;
@@ -603,12 +694,15 @@ void CTraderHandler::OnRspQryExchange(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pExchange->ExchangeID,
             buffer,
             sizeof(pExchange->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pExchange["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -619,7 +713,11 @@ void CTraderHandler::OnRspQryExchange(
         json_pExchange["ExchangeName"] = buffer;
 
 
-        json_pExchange["ExchangeProperty"] = pExchange->ExchangeProperty;
+
+
+        sprintf(buffer,"%c",pExchange->ExchangeProperty);
+        json_pExchange["ExchangeProperty"] = buffer;
+
 
     }
 
@@ -691,12 +789,15 @@ void CTraderHandler::OnRspOrderAction(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInputOrderAction->BrokerID,
             buffer,
             sizeof(pInputOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrderAction["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -707,7 +808,9 @@ void CTraderHandler::OnRspOrderAction(
         json_pInputOrderAction["InvestorID"] = buffer;
 
 
+
         json_pInputOrderAction["OrderActionRef"] = pInputOrderAction->OrderActionRef;
+
 
 
         gbk2utf8(
@@ -716,6 +819,7 @@ void CTraderHandler::OnRspOrderAction(
             sizeof(pInputOrderAction->OrderRef) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrderAction["OrderRef"] = buffer;
+
 
 
         json_pInputOrderAction["RequestID"] = pInputOrderAction->RequestID;
@@ -727,12 +831,15 @@ void CTraderHandler::OnRspOrderAction(
         json_pInputOrderAction["SessionID"] = pInputOrderAction->SessionID;
 
 
+
         gbk2utf8(
             pInputOrderAction->ExchangeID,
             buffer,
             sizeof(pInputOrderAction->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrderAction["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -743,13 +850,18 @@ void CTraderHandler::OnRspOrderAction(
         json_pInputOrderAction["OrderSysID"] = buffer;
 
 
-        json_pInputOrderAction["ActionFlag"] = pInputOrderAction->ActionFlag;
+
+
+        sprintf(buffer,"%c",pInputOrderAction->ActionFlag);
+        json_pInputOrderAction["ActionFlag"] = buffer;
+
 
 
         json_pInputOrderAction["LimitPrice"] = pInputOrderAction->LimitPrice;
 
 
         json_pInputOrderAction["VolumeChange"] = pInputOrderAction->VolumeChange;
+
 
 
         gbk2utf8(
@@ -760,12 +872,15 @@ void CTraderHandler::OnRspOrderAction(
         json_pInputOrderAction["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInputOrderAction->InstrumentID,
             buffer,
             sizeof(pInputOrderAction->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrderAction["InstrumentID"] = buffer;
+
 
     }
 
@@ -837,12 +952,15 @@ void CTraderHandler::OnRspQryInvestor(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInvestor->InvestorID,
             buffer,
             sizeof(pInvestor->InvestorID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestor["InvestorID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -853,12 +971,16 @@ void CTraderHandler::OnRspQryInvestor(
         json_pInvestor["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestor->InvestorGroupID,
             buffer,
             sizeof(pInvestor->InvestorGroupID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestor["InvestorGroupID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -869,7 +991,12 @@ void CTraderHandler::OnRspQryInvestor(
         json_pInvestor["InvestorName"] = buffer;
 
 
-        json_pInvestor["IdentifiedCardType"] = pInvestor->IdentifiedCardType;
+
+
+        sprintf(buffer,"%c",pInvestor->IdentifiedCardType);
+        json_pInvestor["IdentifiedCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -880,7 +1007,9 @@ void CTraderHandler::OnRspQryInvestor(
         json_pInvestor["IdentifiedCardNo"] = buffer;
 
 
+
         json_pInvestor["IsActive"] = pInvestor->IsActive;
+
 
 
         gbk2utf8(
@@ -891,12 +1020,16 @@ void CTraderHandler::OnRspQryInvestor(
         json_pInvestor["Telephone"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestor->Address,
             buffer,
             sizeof(pInvestor->Address) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestor["Address"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -907,12 +1040,16 @@ void CTraderHandler::OnRspQryInvestor(
         json_pInvestor["OpenDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestor->Mobile,
             buffer,
             sizeof(pInvestor->Mobile) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestor["Mobile"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -923,12 +1060,15 @@ void CTraderHandler::OnRspQryInvestor(
         json_pInvestor["CommModelID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestor->MarginModelID,
             buffer,
             sizeof(pInvestor->MarginModelID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestor["MarginModelID"] = buffer;
+
 
     }
 
@@ -1000,12 +1140,15 @@ void CTraderHandler::OnRspRemoveParkedOrder(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pRemoveParkedOrder->BrokerID,
             buffer,
             sizeof(pRemoveParkedOrder->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRemoveParkedOrder["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1016,12 +1159,15 @@ void CTraderHandler::OnRspRemoveParkedOrder(
         json_pRemoveParkedOrder["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRemoveParkedOrder->ParkedOrderID,
             buffer,
             sizeof(pRemoveParkedOrder->ParkedOrderID) * 3 // 字符串转化变长的风险保障
         );
         json_pRemoveParkedOrder["ParkedOrderID"] = buffer;
+
 
     }
 
@@ -1093,12 +1239,15 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInvestorProductGroupMargin->ProductGroupID,
             buffer,
             sizeof(pInvestorProductGroupMargin->ProductGroupID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorProductGroupMargin["ProductGroupID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1109,6 +1258,8 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
         json_pInvestorProductGroupMargin["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorProductGroupMargin->InvestorID,
             buffer,
@@ -1117,12 +1268,15 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
         json_pInvestorProductGroupMargin["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorProductGroupMargin->TradingDay,
             buffer,
             sizeof(pInvestorProductGroupMargin->TradingDay) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorProductGroupMargin["TradingDay"] = buffer;
+
 
 
         json_pInvestorProductGroupMargin["SettlementID"] = pInvestorProductGroupMargin->SettlementID;
@@ -1191,7 +1345,10 @@ void CTraderHandler::OnRspQryInvestorProductGroupMargin(
         json_pInvestorProductGroupMargin["ShortExchOffsetAmount"] = pInvestorProductGroupMargin->ShortExchOffsetAmount;
 
 
-        json_pInvestorProductGroupMargin["HedgeFlag"] = pInvestorProductGroupMargin->HedgeFlag;
+
+        sprintf(buffer,"%c",pInvestorProductGroupMargin->HedgeFlag);
+        json_pInvestorProductGroupMargin["HedgeFlag"] = buffer;
+
 
     }
 
@@ -1263,12 +1420,15 @@ void CTraderHandler::OnRspQryTransferBank(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pTransferBank->BankID,
             buffer,
             sizeof(pTransferBank->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pTransferBank["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1279,12 +1439,15 @@ void CTraderHandler::OnRspQryTransferBank(
         json_pTransferBank["BankBrchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTransferBank->BankName,
             buffer,
             sizeof(pTransferBank->BankName) * 3 // 字符串转化变长的风险保障
         );
         json_pTransferBank["BankName"] = buffer;
+
 
 
         json_pTransferBank["IsActive"] = pTransferBank->IsActive;
@@ -1359,12 +1522,15 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pBrokerTradingAlgos->BrokerID,
             buffer,
             sizeof(pBrokerTradingAlgos->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pBrokerTradingAlgos["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1375,6 +1541,8 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
         json_pBrokerTradingAlgos["ExchangeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pBrokerTradingAlgos->InstrumentID,
             buffer,
@@ -1383,13 +1551,23 @@ void CTraderHandler::OnRspQryBrokerTradingAlgos(
         json_pBrokerTradingAlgos["InstrumentID"] = buffer;
 
 
-        json_pBrokerTradingAlgos["HandlePositionAlgoID"] = pBrokerTradingAlgos->HandlePositionAlgoID;
 
 
-        json_pBrokerTradingAlgos["FindMarginRateAlgoID"] = pBrokerTradingAlgos->FindMarginRateAlgoID;
+        sprintf(buffer,"%c",pBrokerTradingAlgos->HandlePositionAlgoID);
+        json_pBrokerTradingAlgos["HandlePositionAlgoID"] = buffer;
 
 
-        json_pBrokerTradingAlgos["HandleTradingAccountAlgoID"] = pBrokerTradingAlgos->HandleTradingAccountAlgoID;
+
+
+        sprintf(buffer,"%c",pBrokerTradingAlgos->FindMarginRateAlgoID);
+        json_pBrokerTradingAlgos["FindMarginRateAlgoID"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pBrokerTradingAlgos->HandleTradingAccountAlgoID);
+        json_pBrokerTradingAlgos["HandleTradingAccountAlgoID"] = buffer;
+
 
     }
 
@@ -1461,12 +1639,15 @@ void CTraderHandler::OnRspQryProduct(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pProduct->ProductID,
             buffer,
             sizeof(pProduct->ProductID) * 3 // 字符串转化变长的风险保障
         );
         json_pProduct["ProductID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1477,6 +1658,8 @@ void CTraderHandler::OnRspQryProduct(
         json_pProduct["ProductName"] = buffer;
 
 
+
+
         gbk2utf8(
             pProduct->ExchangeID,
             buffer,
@@ -1485,7 +1668,11 @@ void CTraderHandler::OnRspQryProduct(
         json_pProduct["ExchangeID"] = buffer;
 
 
-        json_pProduct["ProductClass"] = pProduct->ProductClass;
+
+
+        sprintf(buffer,"%c",pProduct->ProductClass);
+        json_pProduct["ProductClass"] = buffer;
+
 
 
         json_pProduct["VolumeMultiple"] = pProduct->VolumeMultiple;
@@ -1506,13 +1693,23 @@ void CTraderHandler::OnRspQryProduct(
         json_pProduct["MinLimitOrderVolume"] = pProduct->MinLimitOrderVolume;
 
 
-        json_pProduct["PositionType"] = pProduct->PositionType;
+
+        sprintf(buffer,"%c",pProduct->PositionType);
+        json_pProduct["PositionType"] = buffer;
 
 
-        json_pProduct["PositionDateType"] = pProduct->PositionDateType;
 
 
-        json_pProduct["CloseDealType"] = pProduct->CloseDealType;
+        sprintf(buffer,"%c",pProduct->PositionDateType);
+        json_pProduct["PositionDateType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pProduct->CloseDealType);
+        json_pProduct["CloseDealType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1523,7 +1720,11 @@ void CTraderHandler::OnRspQryProduct(
         json_pProduct["TradeCurrencyID"] = buffer;
 
 
-        json_pProduct["MortgageFundUseRange"] = pProduct->MortgageFundUseRange;
+
+
+        sprintf(buffer,"%c",pProduct->MortgageFundUseRange);
+        json_pProduct["MortgageFundUseRange"] = buffer;
+
 
     }
 
@@ -1595,6 +1796,7 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInstrumentMarginRate->InstrumentID,
             buffer,
@@ -1603,7 +1805,12 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
         json_pInstrumentMarginRate["InstrumentID"] = buffer;
 
 
-        json_pInstrumentMarginRate["InvestorRange"] = pInstrumentMarginRate->InvestorRange;
+
+
+        sprintf(buffer,"%c",pInstrumentMarginRate->InvestorRange);
+        json_pInstrumentMarginRate["InvestorRange"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1614,6 +1821,8 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
         json_pInstrumentMarginRate["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInstrumentMarginRate->InvestorID,
             buffer,
@@ -1622,7 +1831,11 @@ void CTraderHandler::OnRspQryInstrumentMarginRate(
         json_pInstrumentMarginRate["InvestorID"] = buffer;
 
 
-        json_pInstrumentMarginRate["HedgeFlag"] = pInstrumentMarginRate->HedgeFlag;
+
+
+        sprintf(buffer,"%c",pInstrumentMarginRate->HedgeFlag);
+        json_pInstrumentMarginRate["HedgeFlag"] = buffer;
+
 
 
         json_pInstrumentMarginRate["LongMarginRatioByMoney"] = pInstrumentMarginRate->LongMarginRatioByMoney;
@@ -1709,12 +1922,15 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pCFMMCTradingAccountKey->BrokerID,
             buffer,
             sizeof(pCFMMCTradingAccountKey->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pCFMMCTradingAccountKey["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1725,6 +1941,8 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
         json_pCFMMCTradingAccountKey["ParticipantID"] = buffer;
 
 
+
+
         gbk2utf8(
             pCFMMCTradingAccountKey->AccountID,
             buffer,
@@ -1733,7 +1951,9 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
         json_pCFMMCTradingAccountKey["AccountID"] = buffer;
 
 
+
         json_pCFMMCTradingAccountKey["KeyID"] = pCFMMCTradingAccountKey->KeyID;
+
 
 
         gbk2utf8(
@@ -1742,6 +1962,7 @@ void CTraderHandler::OnRspQryCFMMCTradingAccountKey(
             sizeof(pCFMMCTradingAccountKey->CurrentKey) * 3 // 字符串转化变长的风险保障
         );
         json_pCFMMCTradingAccountKey["CurrentKey"] = buffer;
+
 
     }
 
@@ -1813,12 +2034,15 @@ void CTraderHandler::OnRspUserLogin(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pRspUserLogin->TradingDay,
             buffer,
             sizeof(pRspUserLogin->TradingDay) * 3 // 字符串转化变长的风险保障
         );
         json_pRspUserLogin["TradingDay"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1829,12 +2053,16 @@ void CTraderHandler::OnRspUserLogin(
         json_pRspUserLogin["LoginTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspUserLogin->BrokerID,
             buffer,
             sizeof(pRspUserLogin->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspUserLogin["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1845,6 +2073,8 @@ void CTraderHandler::OnRspUserLogin(
         json_pRspUserLogin["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspUserLogin->SystemName,
             buffer,
@@ -1853,10 +2083,12 @@ void CTraderHandler::OnRspUserLogin(
         json_pRspUserLogin["SystemName"] = buffer;
 
 
+
         json_pRspUserLogin["FrontID"] = pRspUserLogin->FrontID;
 
 
         json_pRspUserLogin["SessionID"] = pRspUserLogin->SessionID;
+
 
 
         gbk2utf8(
@@ -1867,12 +2099,16 @@ void CTraderHandler::OnRspUserLogin(
         json_pRspUserLogin["MaxOrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspUserLogin->SHFETime,
             buffer,
             sizeof(pRspUserLogin->SHFETime) * 3 // 字符串转化变长的风险保障
         );
         json_pRspUserLogin["SHFETime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1883,12 +2119,16 @@ void CTraderHandler::OnRspUserLogin(
         json_pRspUserLogin["DCETime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspUserLogin->CZCETime,
             buffer,
             sizeof(pRspUserLogin->CZCETime) * 3 // 字符串转化变长的风险保障
         );
         json_pRspUserLogin["CZCETime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1899,12 +2139,15 @@ void CTraderHandler::OnRspUserLogin(
         json_pRspUserLogin["FFEXTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspUserLogin->INETime,
             buffer,
             sizeof(pRspUserLogin->INETime) * 3 // 字符串转化变长的风险保障
         );
         json_pRspUserLogin["INETime"] = buffer;
+
 
     }
 
@@ -1976,12 +2219,15 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pReqTransfer->TradeCode,
             buffer,
             sizeof(pReqTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -1992,12 +2238,16 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankBranchID,
             buffer,
             sizeof(pReqTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2008,12 +2258,16 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BrokerBranchID,
             buffer,
             sizeof(pReqTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2024,12 +2278,16 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->TradeTime,
             buffer,
             sizeof(pReqTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2040,6 +2298,8 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->TradingDay,
             buffer,
@@ -2048,13 +2308,18 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["TradingDay"] = buffer;
 
 
+
         json_pReqTransfer["PlateSerial"] = pReqTransfer->PlateSerial;
 
 
-        json_pReqTransfer["LastFragment"] = pReqTransfer->LastFragment;
+
+        sprintf(buffer,"%c",pReqTransfer->LastFragment);
+        json_pReqTransfer["LastFragment"] = buffer;
+
 
 
         json_pReqTransfer["SessionID"] = pReqTransfer->SessionID;
+
 
 
         gbk2utf8(
@@ -2065,7 +2330,12 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["CustomerName"] = buffer;
 
 
-        json_pReqTransfer["IdCardType"] = pReqTransfer->IdCardType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->IdCardType);
+        json_pReqTransfer["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2076,7 +2346,12 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["IdentifiedCardNo"] = buffer;
 
 
-        json_pReqTransfer["CustType"] = pReqTransfer->CustType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->CustType);
+        json_pReqTransfer["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2087,12 +2362,16 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankPassWord,
             buffer,
             sizeof(pReqTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2103,6 +2382,8 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->Password,
             buffer,
@@ -2111,10 +2392,12 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["Password"] = buffer;
 
 
+
         json_pReqTransfer["InstallID"] = pReqTransfer->InstallID;
 
 
         json_pReqTransfer["FutureSerial"] = pReqTransfer->FutureSerial;
+
 
 
         gbk2utf8(
@@ -2125,7 +2408,12 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["UserID"] = buffer;
 
 
-        json_pReqTransfer["VerifyCertNoFlag"] = pReqTransfer->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pReqTransfer->VerifyCertNoFlag);
+        json_pReqTransfer["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2136,19 +2424,24 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["CurrencyID"] = buffer;
 
 
+
         json_pReqTransfer["TradeAmount"] = pReqTransfer->TradeAmount;
 
 
         json_pReqTransfer["FutureFetchAmount"] = pReqTransfer->FutureFetchAmount;
 
 
-        json_pReqTransfer["FeePayFlag"] = pReqTransfer->FeePayFlag;
+
+        sprintf(buffer,"%c",pReqTransfer->FeePayFlag);
+        json_pReqTransfer["FeePayFlag"] = buffer;
+
 
 
         json_pReqTransfer["CustFee"] = pReqTransfer->CustFee;
 
 
         json_pReqTransfer["BrokerFee"] = pReqTransfer->BrokerFee;
+
 
 
         gbk2utf8(
@@ -2159,6 +2452,8 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->Digest,
             buffer,
@@ -2167,7 +2462,12 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["Digest"] = buffer;
 
 
-        json_pReqTransfer["BankAccType"] = pReqTransfer->BankAccType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->BankAccType);
+        json_pReqTransfer["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2178,7 +2478,12 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["DeviceID"] = buffer;
 
 
-        json_pReqTransfer["BankSecuAccType"] = pReqTransfer->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->BankSecuAccType);
+        json_pReqTransfer["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2189,6 +2494,8 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankSecuAcc,
             buffer,
@@ -2197,10 +2504,18 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["BankSecuAcc"] = buffer;
 
 
-        json_pReqTransfer["BankPwdFlag"] = pReqTransfer->BankPwdFlag;
 
 
-        json_pReqTransfer["SecuPwdFlag"] = pReqTransfer->SecuPwdFlag;
+        sprintf(buffer,"%c",pReqTransfer->BankPwdFlag);
+        json_pReqTransfer["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pReqTransfer->SecuPwdFlag);
+        json_pReqTransfer["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2211,13 +2526,17 @@ void CTraderHandler::OnRspFromFutureToBankByFuture(
         json_pReqTransfer["OperNo"] = buffer;
 
 
+
         json_pReqTransfer["RequestID"] = pReqTransfer->RequestID;
 
 
         json_pReqTransfer["TID"] = pReqTransfer->TID;
 
 
-        json_pReqTransfer["TransferStatus"] = pReqTransfer->TransferStatus;
+
+        sprintf(buffer,"%c",pReqTransfer->TransferStatus);
+        json_pReqTransfer["TransferStatus"] = buffer;
+
 
     }
 
@@ -2289,6 +2608,7 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pQueryCFMMCTradingAccountToken->BrokerID,
             buffer,
@@ -2297,12 +2617,15 @@ void CTraderHandler::OnRspQueryCFMMCTradingAccountToken(
         json_pQueryCFMMCTradingAccountToken["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pQueryCFMMCTradingAccountToken->InvestorID,
             buffer,
             sizeof(pQueryCFMMCTradingAccountToken->InvestorID) * 3 // 字符串转化变长的风险保障
         );
         json_pQueryCFMMCTradingAccountToken["InvestorID"] = buffer;
+
 
     }
 
@@ -2374,12 +2697,15 @@ void CTraderHandler::OnRspQryContractBank(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pContractBank->BrokerID,
             buffer,
             sizeof(pContractBank->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pContractBank["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2390,6 +2716,8 @@ void CTraderHandler::OnRspQryContractBank(
         json_pContractBank["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pContractBank->BankBrchID,
             buffer,
@@ -2398,12 +2726,15 @@ void CTraderHandler::OnRspQryContractBank(
         json_pContractBank["BankBrchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pContractBank->BankName,
             buffer,
             sizeof(pContractBank->BankName) * 3 // 字符串转化变长的风险保障
         );
         json_pContractBank["BankName"] = buffer;
+
 
     }
 
@@ -2475,12 +2806,15 @@ void CTraderHandler::OnRspOrderInsert(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInputOrder->BrokerID,
             buffer,
             sizeof(pInputOrder->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrder["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2491,12 +2825,16 @@ void CTraderHandler::OnRspOrderInsert(
         json_pInputOrder["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInputOrder->InstrumentID,
             buffer,
             sizeof(pInputOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrder["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2507,6 +2845,8 @@ void CTraderHandler::OnRspOrderInsert(
         json_pInputOrder["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pInputOrder->UserID,
             buffer,
@@ -2515,10 +2855,18 @@ void CTraderHandler::OnRspOrderInsert(
         json_pInputOrder["UserID"] = buffer;
 
 
-        json_pInputOrder["OrderPriceType"] = pInputOrder->OrderPriceType;
 
 
-        json_pInputOrder["Direction"] = pInputOrder->Direction;
+        sprintf(buffer,"%c",pInputOrder->OrderPriceType);
+        json_pInputOrder["OrderPriceType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pInputOrder->Direction);
+        json_pInputOrder["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2529,6 +2877,8 @@ void CTraderHandler::OnRspOrderInsert(
         json_pInputOrder["CombOffsetFlag"] = buffer;
 
 
+
+
         gbk2utf8(
             pInputOrder->CombHedgeFlag,
             buffer,
@@ -2537,13 +2887,18 @@ void CTraderHandler::OnRspOrderInsert(
         json_pInputOrder["CombHedgeFlag"] = buffer;
 
 
+
         json_pInputOrder["LimitPrice"] = pInputOrder->LimitPrice;
 
 
         json_pInputOrder["VolumeTotalOriginal"] = pInputOrder->VolumeTotalOriginal;
 
 
-        json_pInputOrder["TimeCondition"] = pInputOrder->TimeCondition;
+
+        sprintf(buffer,"%c",pInputOrder->TimeCondition);
+        json_pInputOrder["TimeCondition"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2554,22 +2909,33 @@ void CTraderHandler::OnRspOrderInsert(
         json_pInputOrder["GTDDate"] = buffer;
 
 
-        json_pInputOrder["VolumeCondition"] = pInputOrder->VolumeCondition;
+
+
+        sprintf(buffer,"%c",pInputOrder->VolumeCondition);
+        json_pInputOrder["VolumeCondition"] = buffer;
+
 
 
         json_pInputOrder["MinVolume"] = pInputOrder->MinVolume;
 
 
-        json_pInputOrder["ContingentCondition"] = pInputOrder->ContingentCondition;
+
+        sprintf(buffer,"%c",pInputOrder->ContingentCondition);
+        json_pInputOrder["ContingentCondition"] = buffer;
+
 
 
         json_pInputOrder["StopPrice"] = pInputOrder->StopPrice;
 
 
-        json_pInputOrder["ForceCloseReason"] = pInputOrder->ForceCloseReason;
+
+        sprintf(buffer,"%c",pInputOrder->ForceCloseReason);
+        json_pInputOrder["ForceCloseReason"] = buffer;
+
 
 
         json_pInputOrder["IsAutoSuspend"] = pInputOrder->IsAutoSuspend;
+
 
 
         gbk2utf8(
@@ -2578,6 +2944,7 @@ void CTraderHandler::OnRspOrderInsert(
             sizeof(pInputOrder->BusinessUnit) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrder["BusinessUnit"] = buffer;
+
 
 
         json_pInputOrder["RequestID"] = pInputOrder->RequestID;
@@ -2658,12 +3025,15 @@ void CTraderHandler::OnRspQryEWarrantOffset(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pEWarrantOffset->TradingDay,
             buffer,
             sizeof(pEWarrantOffset->TradingDay) * 3 // 字符串转化变长的风险保障
         );
         json_pEWarrantOffset["TradingDay"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2674,12 +3044,16 @@ void CTraderHandler::OnRspQryEWarrantOffset(
         json_pEWarrantOffset["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pEWarrantOffset->InvestorID,
             buffer,
             sizeof(pEWarrantOffset->InvestorID) * 3 // 字符串转化变长的风险保障
         );
         json_pEWarrantOffset["InvestorID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2690,6 +3064,8 @@ void CTraderHandler::OnRspQryEWarrantOffset(
         json_pEWarrantOffset["ExchangeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pEWarrantOffset->InstrumentID,
             buffer,
@@ -2698,10 +3074,17 @@ void CTraderHandler::OnRspQryEWarrantOffset(
         json_pEWarrantOffset["InstrumentID"] = buffer;
 
 
-        json_pEWarrantOffset["Direction"] = pEWarrantOffset->Direction;
 
 
-        json_pEWarrantOffset["HedgeFlag"] = pEWarrantOffset->HedgeFlag;
+        sprintf(buffer,"%c",pEWarrantOffset->Direction);
+        json_pEWarrantOffset["Direction"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pEWarrantOffset->HedgeFlag);
+        json_pEWarrantOffset["HedgeFlag"] = buffer;
+
 
 
         json_pEWarrantOffset["Volume"] = pEWarrantOffset->Volume;
@@ -2776,12 +3159,15 @@ void CTraderHandler::OnRspUserPasswordUpdate(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pUserPasswordUpdate->BrokerID,
             buffer,
             sizeof(pUserPasswordUpdate->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pUserPasswordUpdate["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2792,6 +3178,8 @@ void CTraderHandler::OnRspUserPasswordUpdate(
         json_pUserPasswordUpdate["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pUserPasswordUpdate->OldPassword,
             buffer,
@@ -2800,12 +3188,15 @@ void CTraderHandler::OnRspUserPasswordUpdate(
         json_pUserPasswordUpdate["OldPassword"] = buffer;
 
 
+
+
         gbk2utf8(
             pUserPasswordUpdate->NewPassword,
             buffer,
             sizeof(pUserPasswordUpdate->NewPassword) * 3 // 字符串转化变长的风险保障
         );
         json_pUserPasswordUpdate["NewPassword"] = buffer;
+
 
     }
 
@@ -2877,12 +3268,15 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pExchangeMarginRateAdjust->BrokerID,
             buffer,
             sizeof(pExchangeMarginRateAdjust->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pExchangeMarginRateAdjust["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -2893,7 +3287,11 @@ void CTraderHandler::OnRspQryExchangeMarginRateAdjust(
         json_pExchangeMarginRateAdjust["InstrumentID"] = buffer;
 
 
-        json_pExchangeMarginRateAdjust["HedgeFlag"] = pExchangeMarginRateAdjust->HedgeFlag;
+
+
+        sprintf(buffer,"%c",pExchangeMarginRateAdjust->HedgeFlag);
+        json_pExchangeMarginRateAdjust["HedgeFlag"] = buffer;
+
 
 
         json_pExchangeMarginRateAdjust["LongMarginRatioByMoney"] = pExchangeMarginRateAdjust->LongMarginRatioByMoney;
@@ -3001,12 +3399,15 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pReqTransfer->TradeCode,
             buffer,
             sizeof(pReqTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3017,12 +3418,16 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankBranchID,
             buffer,
             sizeof(pReqTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3033,12 +3438,16 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BrokerBranchID,
             buffer,
             sizeof(pReqTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3049,12 +3458,16 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->TradeTime,
             buffer,
             sizeof(pReqTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3065,6 +3478,8 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->TradingDay,
             buffer,
@@ -3073,13 +3488,18 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["TradingDay"] = buffer;
 
 
+
         json_pReqTransfer["PlateSerial"] = pReqTransfer->PlateSerial;
 
 
-        json_pReqTransfer["LastFragment"] = pReqTransfer->LastFragment;
+
+        sprintf(buffer,"%c",pReqTransfer->LastFragment);
+        json_pReqTransfer["LastFragment"] = buffer;
+
 
 
         json_pReqTransfer["SessionID"] = pReqTransfer->SessionID;
+
 
 
         gbk2utf8(
@@ -3090,7 +3510,12 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["CustomerName"] = buffer;
 
 
-        json_pReqTransfer["IdCardType"] = pReqTransfer->IdCardType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->IdCardType);
+        json_pReqTransfer["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3101,7 +3526,12 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["IdentifiedCardNo"] = buffer;
 
 
-        json_pReqTransfer["CustType"] = pReqTransfer->CustType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->CustType);
+        json_pReqTransfer["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3112,12 +3542,16 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankPassWord,
             buffer,
             sizeof(pReqTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3128,6 +3562,8 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->Password,
             buffer,
@@ -3136,10 +3572,12 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["Password"] = buffer;
 
 
+
         json_pReqTransfer["InstallID"] = pReqTransfer->InstallID;
 
 
         json_pReqTransfer["FutureSerial"] = pReqTransfer->FutureSerial;
+
 
 
         gbk2utf8(
@@ -3150,7 +3588,12 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["UserID"] = buffer;
 
 
-        json_pReqTransfer["VerifyCertNoFlag"] = pReqTransfer->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pReqTransfer->VerifyCertNoFlag);
+        json_pReqTransfer["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3161,19 +3604,24 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["CurrencyID"] = buffer;
 
 
+
         json_pReqTransfer["TradeAmount"] = pReqTransfer->TradeAmount;
 
 
         json_pReqTransfer["FutureFetchAmount"] = pReqTransfer->FutureFetchAmount;
 
 
-        json_pReqTransfer["FeePayFlag"] = pReqTransfer->FeePayFlag;
+
+        sprintf(buffer,"%c",pReqTransfer->FeePayFlag);
+        json_pReqTransfer["FeePayFlag"] = buffer;
+
 
 
         json_pReqTransfer["CustFee"] = pReqTransfer->CustFee;
 
 
         json_pReqTransfer["BrokerFee"] = pReqTransfer->BrokerFee;
+
 
 
         gbk2utf8(
@@ -3184,6 +3632,8 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->Digest,
             buffer,
@@ -3192,7 +3642,12 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["Digest"] = buffer;
 
 
-        json_pReqTransfer["BankAccType"] = pReqTransfer->BankAccType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->BankAccType);
+        json_pReqTransfer["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3203,7 +3658,12 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["DeviceID"] = buffer;
 
 
-        json_pReqTransfer["BankSecuAccType"] = pReqTransfer->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->BankSecuAccType);
+        json_pReqTransfer["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3214,6 +3674,8 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankSecuAcc,
             buffer,
@@ -3222,10 +3684,18 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["BankSecuAcc"] = buffer;
 
 
-        json_pReqTransfer["BankPwdFlag"] = pReqTransfer->BankPwdFlag;
 
 
-        json_pReqTransfer["SecuPwdFlag"] = pReqTransfer->SecuPwdFlag;
+        sprintf(buffer,"%c",pReqTransfer->BankPwdFlag);
+        json_pReqTransfer["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pReqTransfer->SecuPwdFlag);
+        json_pReqTransfer["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3236,13 +3706,17 @@ void CTraderHandler::OnRspFromBankToFutureByFuture(
         json_pReqTransfer["OperNo"] = buffer;
 
 
+
         json_pReqTransfer["RequestID"] = pReqTransfer->RequestID;
 
 
         json_pReqTransfer["TID"] = pReqTransfer->TID;
 
 
-        json_pReqTransfer["TransferStatus"] = pReqTransfer->TransferStatus;
+
+        sprintf(buffer,"%c",pReqTransfer->TransferStatus);
+        json_pReqTransfer["TransferStatus"] = buffer;
+
 
     }
 
@@ -3314,12 +3788,15 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInvestorPositionCombineDetail->TradingDay,
             buffer,
             sizeof(pInvestorPositionCombineDetail->TradingDay) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorPositionCombineDetail["TradingDay"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3330,6 +3807,8 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
         json_pInvestorPositionCombineDetail["OpenDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorPositionCombineDetail->ExchangeID,
             buffer,
@@ -3338,7 +3817,9 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
         json_pInvestorPositionCombineDetail["ExchangeID"] = buffer;
 
 
+
         json_pInvestorPositionCombineDetail["SettlementID"] = pInvestorPositionCombineDetail->SettlementID;
+
 
 
         gbk2utf8(
@@ -3349,12 +3830,16 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
         json_pInvestorPositionCombineDetail["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorPositionCombineDetail->InvestorID,
             buffer,
             sizeof(pInvestorPositionCombineDetail->InvestorID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorPositionCombineDetail["InvestorID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3365,12 +3850,16 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
         json_pInvestorPositionCombineDetail["ComTradeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorPositionCombineDetail->TradeID,
             buffer,
             sizeof(pInvestorPositionCombineDetail->TradeID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorPositionCombineDetail["TradeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3381,10 +3870,17 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
         json_pInvestorPositionCombineDetail["InstrumentID"] = buffer;
 
 
-        json_pInvestorPositionCombineDetail["HedgeFlag"] = pInvestorPositionCombineDetail->HedgeFlag;
 
 
-        json_pInvestorPositionCombineDetail["Direction"] = pInvestorPositionCombineDetail->Direction;
+        sprintf(buffer,"%c",pInvestorPositionCombineDetail->HedgeFlag);
+        json_pInvestorPositionCombineDetail["HedgeFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pInvestorPositionCombineDetail->Direction);
+        json_pInvestorPositionCombineDetail["Direction"] = buffer;
+
 
 
         json_pInvestorPositionCombineDetail["TotalAmt"] = pInvestorPositionCombineDetail->TotalAmt;
@@ -3408,12 +3904,14 @@ void CTraderHandler::OnRspQryInvestorPositionCombineDetail(
         json_pInvestorPositionCombineDetail["LegMultiple"] = pInvestorPositionCombineDetail->LegMultiple;
 
 
+
         gbk2utf8(
             pInvestorPositionCombineDetail->CombInstrumentID,
             buffer,
             sizeof(pInvestorPositionCombineDetail->CombInstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorPositionCombineDetail["CombInstrumentID"] = buffer;
+
 
 
         json_pInvestorPositionCombineDetail["TradeGroupID"] = pInvestorPositionCombineDetail->TradeGroupID;
@@ -3488,12 +3986,15 @@ void CTraderHandler::OnRspQryAccountregister(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pAccountregister->TradeDay,
             buffer,
             sizeof(pAccountregister->TradeDay) * 3 // 字符串转化变长的风险保障
         );
         json_pAccountregister["TradeDay"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3504,12 +4005,16 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pAccountregister->BankBranchID,
             buffer,
             sizeof(pAccountregister->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pAccountregister["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3520,12 +4025,16 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pAccountregister->BrokerID,
             buffer,
             sizeof(pAccountregister->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pAccountregister["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3536,6 +4045,8 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pAccountregister->AccountID,
             buffer,
@@ -3544,7 +4055,12 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["AccountID"] = buffer;
 
 
-        json_pAccountregister["IdCardType"] = pAccountregister->IdCardType;
+
+
+        sprintf(buffer,"%c",pAccountregister->IdCardType);
+        json_pAccountregister["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3555,12 +4071,16 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["IdentifiedCardNo"] = buffer;
 
 
+
+
         gbk2utf8(
             pAccountregister->CustomerName,
             buffer,
             sizeof(pAccountregister->CustomerName) * 3 // 字符串转化变长的风险保障
         );
         json_pAccountregister["CustomerName"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3571,7 +4091,12 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["CurrencyID"] = buffer;
 
 
-        json_pAccountregister["OpenOrDestroy"] = pAccountregister->OpenOrDestroy;
+
+
+        sprintf(buffer,"%c",pAccountregister->OpenOrDestroy);
+        json_pAccountregister["OpenOrDestroy"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3582,6 +4107,8 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["RegDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pAccountregister->OutDate,
             buffer,
@@ -3590,13 +4117,20 @@ void CTraderHandler::OnRspQryAccountregister(
         json_pAccountregister["OutDate"] = buffer;
 
 
+
         json_pAccountregister["TID"] = pAccountregister->TID;
 
 
-        json_pAccountregister["CustType"] = pAccountregister->CustType;
+
+        sprintf(buffer,"%c",pAccountregister->CustType);
+        json_pAccountregister["CustType"] = buffer;
 
 
-        json_pAccountregister["BankAccType"] = pAccountregister->BankAccType;
+
+
+        sprintf(buffer,"%c",pAccountregister->BankAccType);
+        json_pAccountregister["BankAccType"] = buffer;
+
 
     }
 
@@ -3668,12 +4202,15 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pSecAgentACIDMap->BrokerID,
             buffer,
             sizeof(pSecAgentACIDMap->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pSecAgentACIDMap["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3684,12 +4221,16 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
         json_pSecAgentACIDMap["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pSecAgentACIDMap->AccountID,
             buffer,
             sizeof(pSecAgentACIDMap->AccountID) * 3 // 字符串转化变长的风险保障
         );
         json_pSecAgentACIDMap["AccountID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3700,12 +4241,15 @@ void CTraderHandler::OnRspQrySecAgentACIDMap(
         json_pSecAgentACIDMap["CurrencyID"] = buffer;
 
 
+
+
         gbk2utf8(
             pSecAgentACIDMap->BrokerSecAgentID,
             buffer,
             sizeof(pSecAgentACIDMap->BrokerSecAgentID) * 3 // 字符串转化变长的风险保障
         );
         json_pSecAgentACIDMap["BrokerSecAgentID"] = buffer;
+
 
     }
 
@@ -3777,12 +4321,15 @@ void CTraderHandler::OnRspQryTradingCode(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pTradingCode->InvestorID,
             buffer,
             sizeof(pTradingCode->InvestorID) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingCode["InvestorID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3793,12 +4340,16 @@ void CTraderHandler::OnRspQryTradingCode(
         json_pTradingCode["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTradingCode->ExchangeID,
             buffer,
             sizeof(pTradingCode->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingCode["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3809,10 +4360,14 @@ void CTraderHandler::OnRspQryTradingCode(
         json_pTradingCode["ClientID"] = buffer;
 
 
+
         json_pTradingCode["IsActive"] = pTradingCode->IsActive;
 
 
-        json_pTradingCode["ClientIDType"] = pTradingCode->ClientIDType;
+
+        sprintf(buffer,"%c",pTradingCode->ClientIDType);
+        json_pTradingCode["ClientIDType"] = buffer;
+
 
     }
 
@@ -3884,12 +4439,15 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pSettlementInfoConfirm->BrokerID,
             buffer,
             sizeof(pSettlementInfoConfirm->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pSettlementInfoConfirm["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -3900,6 +4458,8 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
         json_pSettlementInfoConfirm["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pSettlementInfoConfirm->ConfirmDate,
             buffer,
@@ -3908,12 +4468,15 @@ void CTraderHandler::OnRspQrySettlementInfoConfirm(
         json_pSettlementInfoConfirm["ConfirmDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pSettlementInfoConfirm->ConfirmTime,
             buffer,
             sizeof(pSettlementInfoConfirm->ConfirmTime) * 3 // 字符串转化变长的风险保障
         );
         json_pSettlementInfoConfirm["ConfirmTime"] = buffer;
+
 
     }
 
@@ -3988,12 +4551,15 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["PlateSerial"] = pTransferSerial->PlateSerial;
 
 
+
         gbk2utf8(
             pTransferSerial->TradeDate,
             buffer,
             sizeof(pTransferSerial->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pTransferSerial["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4004,12 +4570,16 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["TradingDay"] = buffer;
 
 
+
+
         gbk2utf8(
             pTransferSerial->TradeTime,
             buffer,
             sizeof(pTransferSerial->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pTransferSerial["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4020,7 +4590,9 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["TradeCode"] = buffer;
 
 
+
         json_pTransferSerial["SessionID"] = pTransferSerial->SessionID;
+
 
 
         gbk2utf8(
@@ -4031,6 +4603,8 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTransferSerial->BankBranchID,
             buffer,
@@ -4039,7 +4613,12 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["BankBranchID"] = buffer;
 
 
-        json_pTransferSerial["BankAccType"] = pTransferSerial->BankAccType;
+
+
+        sprintf(buffer,"%c",pTransferSerial->BankAccType);
+        json_pTransferSerial["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4050,12 +4629,16 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pTransferSerial->BankSerial,
             buffer,
             sizeof(pTransferSerial->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pTransferSerial["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4066,6 +4649,8 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTransferSerial->BrokerBranchID,
             buffer,
@@ -4074,7 +4659,12 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["BrokerBranchID"] = buffer;
 
 
-        json_pTransferSerial["FutureAccType"] = pTransferSerial->FutureAccType;
+
+
+        sprintf(buffer,"%c",pTransferSerial->FutureAccType);
+        json_pTransferSerial["FutureAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4085,6 +4675,8 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTransferSerial->InvestorID,
             buffer,
@@ -4093,10 +4685,15 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["InvestorID"] = buffer;
 
 
+
         json_pTransferSerial["FutureSerial"] = pTransferSerial->FutureSerial;
 
 
-        json_pTransferSerial["IdCardType"] = pTransferSerial->IdCardType;
+
+        sprintf(buffer,"%c",pTransferSerial->IdCardType);
+        json_pTransferSerial["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4107,12 +4704,15 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["IdentifiedCardNo"] = buffer;
 
 
+
+
         gbk2utf8(
             pTransferSerial->CurrencyID,
             buffer,
             sizeof(pTransferSerial->CurrencyID) * 3 // 字符串转化变长的风险保障
         );
         json_pTransferSerial["CurrencyID"] = buffer;
+
 
 
         json_pTransferSerial["TradeAmount"] = pTransferSerial->TradeAmount;
@@ -4124,7 +4724,11 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["BrokerFee"] = pTransferSerial->BrokerFee;
 
 
-        json_pTransferSerial["AvailabilityFlag"] = pTransferSerial->AvailabilityFlag;
+
+        sprintf(buffer,"%c",pTransferSerial->AvailabilityFlag);
+        json_pTransferSerial["AvailabilityFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4135,6 +4739,8 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["OperatorCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pTransferSerial->BankNewAccount,
             buffer,
@@ -4143,7 +4749,9 @@ void CTraderHandler::OnRspQryTransferSerial(
         json_pTransferSerial["BankNewAccount"] = buffer;
 
 
+
         json_pTransferSerial["ErrorID"] = pTransferSerial->ErrorID;
+
 
 
         gbk2utf8(
@@ -4152,6 +4760,7 @@ void CTraderHandler::OnRspQryTransferSerial(
             sizeof(pTransferSerial->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pTransferSerial["ErrorMsg"] = buffer;
+
 
     }
 
@@ -4223,12 +4832,15 @@ void CTraderHandler::OnRspQryInvestorPosition(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInvestorPosition->InstrumentID,
             buffer,
             sizeof(pInvestorPosition->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorPosition["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4239,6 +4851,8 @@ void CTraderHandler::OnRspQryInvestorPosition(
         json_pInvestorPosition["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorPosition->InvestorID,
             buffer,
@@ -4247,13 +4861,23 @@ void CTraderHandler::OnRspQryInvestorPosition(
         json_pInvestorPosition["InvestorID"] = buffer;
 
 
-        json_pInvestorPosition["PosiDirection"] = pInvestorPosition->PosiDirection;
 
 
-        json_pInvestorPosition["HedgeFlag"] = pInvestorPosition->HedgeFlag;
+        sprintf(buffer,"%c",pInvestorPosition->PosiDirection);
+        json_pInvestorPosition["PosiDirection"] = buffer;
 
 
-        json_pInvestorPosition["PositionDate"] = pInvestorPosition->PositionDate;
+
+
+        sprintf(buffer,"%c",pInvestorPosition->HedgeFlag);
+        json_pInvestorPosition["HedgeFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pInvestorPosition->PositionDate);
+        json_pInvestorPosition["PositionDate"] = buffer;
+
 
 
         json_pInvestorPosition["YdPosition"] = pInvestorPosition->YdPosition;
@@ -4322,12 +4946,14 @@ void CTraderHandler::OnRspQryInvestorPosition(
         json_pInvestorPosition["SettlementPrice"] = pInvestorPosition->SettlementPrice;
 
 
+
         gbk2utf8(
             pInvestorPosition->TradingDay,
             buffer,
             sizeof(pInvestorPosition->TradingDay) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorPosition["TradingDay"] = buffer;
+
 
 
         json_pInvestorPosition["SettlementID"] = pInvestorPosition->SettlementID;
@@ -4432,6 +5058,7 @@ void CTraderHandler::OnRspUserLogout(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pUserLogout->BrokerID,
             buffer,
@@ -4440,12 +5067,15 @@ void CTraderHandler::OnRspUserLogout(
         json_pUserLogout["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pUserLogout->UserID,
             buffer,
             sizeof(pUserLogout->UserID) * 3 // 字符串转化变长的风险保障
         );
         json_pUserLogout["UserID"] = buffer;
+
 
     }
 
@@ -4517,12 +5147,15 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInvestorPositionDetail->InstrumentID,
             buffer,
             sizeof(pInvestorPositionDetail->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorPositionDetail["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4533,6 +5166,8 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
         json_pInvestorPositionDetail["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorPositionDetail->InvestorID,
             buffer,
@@ -4541,10 +5176,18 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
         json_pInvestorPositionDetail["InvestorID"] = buffer;
 
 
-        json_pInvestorPositionDetail["HedgeFlag"] = pInvestorPositionDetail->HedgeFlag;
 
 
-        json_pInvestorPositionDetail["Direction"] = pInvestorPositionDetail->Direction;
+        sprintf(buffer,"%c",pInvestorPositionDetail->HedgeFlag);
+        json_pInvestorPositionDetail["HedgeFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pInvestorPositionDetail->Direction);
+        json_pInvestorPositionDetail["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4555,6 +5198,8 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
         json_pInvestorPositionDetail["OpenDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorPositionDetail->TradeID,
             buffer,
@@ -4563,10 +5208,12 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
         json_pInvestorPositionDetail["TradeID"] = buffer;
 
 
+
         json_pInvestorPositionDetail["Volume"] = pInvestorPositionDetail->Volume;
 
 
         json_pInvestorPositionDetail["OpenPrice"] = pInvestorPositionDetail->OpenPrice;
+
 
 
         gbk2utf8(
@@ -4577,10 +5224,15 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
         json_pInvestorPositionDetail["TradingDay"] = buffer;
 
 
+
         json_pInvestorPositionDetail["SettlementID"] = pInvestorPositionDetail->SettlementID;
 
 
-        json_pInvestorPositionDetail["TradeType"] = pInvestorPositionDetail->TradeType;
+
+        sprintf(buffer,"%c",pInvestorPositionDetail->TradeType);
+        json_pInvestorPositionDetail["TradeType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4591,12 +5243,15 @@ void CTraderHandler::OnRspQryInvestorPositionDetail(
         json_pInvestorPositionDetail["CombInstrumentID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInvestorPositionDetail->ExchangeID,
             buffer,
             sizeof(pInvestorPositionDetail->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pInvestorPositionDetail["ExchangeID"] = buffer;
+
 
 
         json_pInvestorPositionDetail["CloseProfitByDate"] = pInvestorPositionDetail->CloseProfitByDate;
@@ -4704,12 +5359,15 @@ void CTraderHandler::OnRspQryNotice(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pNotice->BrokerID,
             buffer,
             sizeof(pNotice->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pNotice["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4720,12 +5378,15 @@ void CTraderHandler::OnRspQryNotice(
         json_pNotice["Content"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotice->SequenceLabel,
             buffer,
             sizeof(pNotice->SequenceLabel) * 3 // 字符串转化变长的风险保障
         );
         json_pNotice["SequenceLabel"] = buffer;
+
 
     }
 
@@ -4797,12 +5458,15 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pBrokerTradingParams->BrokerID,
             buffer,
             sizeof(pBrokerTradingParams->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pBrokerTradingParams["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4813,13 +5477,24 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
         json_pBrokerTradingParams["InvestorID"] = buffer;
 
 
-        json_pBrokerTradingParams["MarginPriceType"] = pBrokerTradingParams->MarginPriceType;
 
 
-        json_pBrokerTradingParams["Algorithm"] = pBrokerTradingParams->Algorithm;
+        sprintf(buffer,"%c",pBrokerTradingParams->MarginPriceType);
+        json_pBrokerTradingParams["MarginPriceType"] = buffer;
 
 
-        json_pBrokerTradingParams["AvailIncludeCloseProfit"] = pBrokerTradingParams->AvailIncludeCloseProfit;
+
+
+        sprintf(buffer,"%c",pBrokerTradingParams->Algorithm);
+        json_pBrokerTradingParams["Algorithm"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pBrokerTradingParams->AvailIncludeCloseProfit);
+        json_pBrokerTradingParams["AvailIncludeCloseProfit"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4828,6 +5503,7 @@ void CTraderHandler::OnRspQryBrokerTradingParams(
             sizeof(pBrokerTradingParams->CurrencyID) * 3 // 字符串转化变长的风险保障
         );
         json_pBrokerTradingParams["CurrencyID"] = buffer;
+
 
     }
 
@@ -4899,12 +5575,15 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pExchangeMarginRate->BrokerID,
             buffer,
             sizeof(pExchangeMarginRate->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pExchangeMarginRate["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -4915,7 +5594,11 @@ void CTraderHandler::OnRspQryExchangeMarginRate(
         json_pExchangeMarginRate["InstrumentID"] = buffer;
 
 
-        json_pExchangeMarginRate["HedgeFlag"] = pExchangeMarginRate->HedgeFlag;
+
+
+        sprintf(buffer,"%c",pExchangeMarginRate->HedgeFlag);
+        json_pExchangeMarginRate["HedgeFlag"] = buffer;
+
 
 
         json_pExchangeMarginRate["LongMarginRatioByMoney"] = pExchangeMarginRate->LongMarginRatioByMoney;
@@ -4999,12 +5682,15 @@ void CTraderHandler::OnRspQryParkedOrder(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pParkedOrder->BrokerID,
             buffer,
             sizeof(pParkedOrder->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrder["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5015,12 +5701,16 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrder->InstrumentID,
             buffer,
             sizeof(pParkedOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrder["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5031,6 +5721,8 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrder->UserID,
             buffer,
@@ -5039,10 +5731,18 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["UserID"] = buffer;
 
 
-        json_pParkedOrder["OrderPriceType"] = pParkedOrder->OrderPriceType;
 
 
-        json_pParkedOrder["Direction"] = pParkedOrder->Direction;
+        sprintf(buffer,"%c",pParkedOrder->OrderPriceType);
+        json_pParkedOrder["OrderPriceType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pParkedOrder->Direction);
+        json_pParkedOrder["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5053,6 +5753,8 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["CombOffsetFlag"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrder->CombHedgeFlag,
             buffer,
@@ -5061,13 +5763,18 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["CombHedgeFlag"] = buffer;
 
 
+
         json_pParkedOrder["LimitPrice"] = pParkedOrder->LimitPrice;
 
 
         json_pParkedOrder["VolumeTotalOriginal"] = pParkedOrder->VolumeTotalOriginal;
 
 
-        json_pParkedOrder["TimeCondition"] = pParkedOrder->TimeCondition;
+
+        sprintf(buffer,"%c",pParkedOrder->TimeCondition);
+        json_pParkedOrder["TimeCondition"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5078,22 +5785,33 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["GTDDate"] = buffer;
 
 
-        json_pParkedOrder["VolumeCondition"] = pParkedOrder->VolumeCondition;
+
+
+        sprintf(buffer,"%c",pParkedOrder->VolumeCondition);
+        json_pParkedOrder["VolumeCondition"] = buffer;
+
 
 
         json_pParkedOrder["MinVolume"] = pParkedOrder->MinVolume;
 
 
-        json_pParkedOrder["ContingentCondition"] = pParkedOrder->ContingentCondition;
+
+        sprintf(buffer,"%c",pParkedOrder->ContingentCondition);
+        json_pParkedOrder["ContingentCondition"] = buffer;
+
 
 
         json_pParkedOrder["StopPrice"] = pParkedOrder->StopPrice;
 
 
-        json_pParkedOrder["ForceCloseReason"] = pParkedOrder->ForceCloseReason;
+
+        sprintf(buffer,"%c",pParkedOrder->ForceCloseReason);
+        json_pParkedOrder["ForceCloseReason"] = buffer;
+
 
 
         json_pParkedOrder["IsAutoSuspend"] = pParkedOrder->IsAutoSuspend;
+
 
 
         gbk2utf8(
@@ -5104,10 +5822,12 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["BusinessUnit"] = buffer;
 
 
+
         json_pParkedOrder["RequestID"] = pParkedOrder->RequestID;
 
 
         json_pParkedOrder["UserForceClose"] = pParkedOrder->UserForceClose;
+
 
 
         gbk2utf8(
@@ -5118,6 +5838,8 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["ExchangeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrder->ParkedOrderID,
             buffer,
@@ -5126,13 +5848,21 @@ void CTraderHandler::OnRspQryParkedOrder(
         json_pParkedOrder["ParkedOrderID"] = buffer;
 
 
-        json_pParkedOrder["UserType"] = pParkedOrder->UserType;
 
 
-        json_pParkedOrder["Status"] = pParkedOrder->Status;
+        sprintf(buffer,"%c",pParkedOrder->UserType);
+        json_pParkedOrder["UserType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pParkedOrder->Status);
+        json_pParkedOrder["Status"] = buffer;
+
 
 
         json_pParkedOrder["ErrorID"] = pParkedOrder->ErrorID;
+
 
 
         gbk2utf8(
@@ -5141,6 +5871,7 @@ void CTraderHandler::OnRspQryParkedOrder(
             sizeof(pParkedOrder->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrder["ErrorMsg"] = buffer;
+
 
 
         json_pParkedOrder["IsSwapOrder"] = pParkedOrder->IsSwapOrder;
@@ -5215,12 +5946,15 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pReqQueryAccount->TradeCode,
             buffer,
             sizeof(pReqQueryAccount->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5231,12 +5965,16 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->BankBranchID,
             buffer,
             sizeof(pReqQueryAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5247,12 +5985,16 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->BrokerBranchID,
             buffer,
             sizeof(pReqQueryAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5263,12 +6005,16 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->TradeTime,
             buffer,
             sizeof(pReqQueryAccount->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5279,6 +6025,8 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->TradingDay,
             buffer,
@@ -5287,13 +6035,18 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["TradingDay"] = buffer;
 
 
+
         json_pReqQueryAccount["PlateSerial"] = pReqQueryAccount->PlateSerial;
 
 
-        json_pReqQueryAccount["LastFragment"] = pReqQueryAccount->LastFragment;
+
+        sprintf(buffer,"%c",pReqQueryAccount->LastFragment);
+        json_pReqQueryAccount["LastFragment"] = buffer;
+
 
 
         json_pReqQueryAccount["SessionID"] = pReqQueryAccount->SessionID;
+
 
 
         gbk2utf8(
@@ -5304,7 +6057,12 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["CustomerName"] = buffer;
 
 
-        json_pReqQueryAccount["IdCardType"] = pReqQueryAccount->IdCardType;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->IdCardType);
+        json_pReqQueryAccount["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5315,7 +6073,12 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["IdentifiedCardNo"] = buffer;
 
 
-        json_pReqQueryAccount["CustType"] = pReqQueryAccount->CustType;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->CustType);
+        json_pReqQueryAccount["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5326,12 +6089,16 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->BankPassWord,
             buffer,
             sizeof(pReqQueryAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5342,6 +6109,8 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->Password,
             buffer,
@@ -5350,10 +6119,12 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["Password"] = buffer;
 
 
+
         json_pReqQueryAccount["FutureSerial"] = pReqQueryAccount->FutureSerial;
 
 
         json_pReqQueryAccount["InstallID"] = pReqQueryAccount->InstallID;
+
 
 
         gbk2utf8(
@@ -5364,7 +6135,12 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["UserID"] = buffer;
 
 
-        json_pReqQueryAccount["VerifyCertNoFlag"] = pReqQueryAccount->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->VerifyCertNoFlag);
+        json_pReqQueryAccount["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5375,6 +6151,8 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["CurrencyID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->Digest,
             buffer,
@@ -5383,7 +6161,12 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["Digest"] = buffer;
 
 
-        json_pReqQueryAccount["BankAccType"] = pReqQueryAccount->BankAccType;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->BankAccType);
+        json_pReqQueryAccount["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5394,7 +6177,12 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["DeviceID"] = buffer;
 
 
-        json_pReqQueryAccount["BankSecuAccType"] = pReqQueryAccount->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->BankSecuAccType);
+        json_pReqQueryAccount["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5405,6 +6193,8 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->BankSecuAcc,
             buffer,
@@ -5413,10 +6203,18 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
         json_pReqQueryAccount["BankSecuAcc"] = buffer;
 
 
-        json_pReqQueryAccount["BankPwdFlag"] = pReqQueryAccount->BankPwdFlag;
 
 
-        json_pReqQueryAccount["SecuPwdFlag"] = pReqQueryAccount->SecuPwdFlag;
+        sprintf(buffer,"%c",pReqQueryAccount->BankPwdFlag);
+        json_pReqQueryAccount["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->SecuPwdFlag);
+        json_pReqQueryAccount["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5425,6 +6223,7 @@ void CTraderHandler::OnRspQueryBankAccountMoneyByFuture(
             sizeof(pReqQueryAccount->OperNo) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["OperNo"] = buffer;
+
 
 
         json_pReqQueryAccount["RequestID"] = pReqQueryAccount->RequestID;
@@ -5502,12 +6301,15 @@ void CTraderHandler::OnRspAuthenticate(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pRspAuthenticateField->BrokerID,
             buffer,
             sizeof(pRspAuthenticateField->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspAuthenticateField["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5518,12 +6320,15 @@ void CTraderHandler::OnRspAuthenticate(
         json_pRspAuthenticateField["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspAuthenticateField->UserProductInfo,
             buffer,
             sizeof(pRspAuthenticateField->UserProductInfo) * 3 // 字符串转化变长的风险保障
         );
         json_pRspAuthenticateField["UserProductInfo"] = buffer;
+
 
     }
 
@@ -5595,12 +6400,15 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pQueryMaxOrderVolume->BrokerID,
             buffer,
             sizeof(pQueryMaxOrderVolume->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pQueryMaxOrderVolume["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5611,6 +6419,8 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
         json_pQueryMaxOrderVolume["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pQueryMaxOrderVolume->InstrumentID,
             buffer,
@@ -5619,13 +6429,23 @@ void CTraderHandler::OnRspQueryMaxOrderVolume(
         json_pQueryMaxOrderVolume["InstrumentID"] = buffer;
 
 
-        json_pQueryMaxOrderVolume["Direction"] = pQueryMaxOrderVolume->Direction;
 
 
-        json_pQueryMaxOrderVolume["OffsetFlag"] = pQueryMaxOrderVolume->OffsetFlag;
+        sprintf(buffer,"%c",pQueryMaxOrderVolume->Direction);
+        json_pQueryMaxOrderVolume["Direction"] = buffer;
 
 
-        json_pQueryMaxOrderVolume["HedgeFlag"] = pQueryMaxOrderVolume->HedgeFlag;
+
+
+        sprintf(buffer,"%c",pQueryMaxOrderVolume->OffsetFlag);
+        json_pQueryMaxOrderVolume["OffsetFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pQueryMaxOrderVolume->HedgeFlag);
+        json_pQueryMaxOrderVolume["HedgeFlag"] = buffer;
+
 
 
         json_pQueryMaxOrderVolume["MaxVolume"] = pQueryMaxOrderVolume->MaxVolume;
@@ -5700,12 +6520,15 @@ void CTraderHandler::OnRspQryExchangeRate(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pExchangeRate->BrokerID,
             buffer,
             sizeof(pExchangeRate->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pExchangeRate["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5716,7 +6539,9 @@ void CTraderHandler::OnRspQryExchangeRate(
         json_pExchangeRate["FromCurrencyID"] = buffer;
 
 
+
         json_pExchangeRate["FromCurrencyUnit"] = pExchangeRate->FromCurrencyUnit;
+
 
 
         gbk2utf8(
@@ -5725,6 +6550,7 @@ void CTraderHandler::OnRspQryExchangeRate(
             sizeof(pExchangeRate->ToCurrencyID) * 3 // 字符串转化变长的风险保障
         );
         json_pExchangeRate["ToCurrencyID"] = buffer;
+
 
 
         json_pExchangeRate["ExchangeRate"] = pExchangeRate->ExchangeRate;
@@ -5799,6 +6625,7 @@ void CTraderHandler::OnRspQryTradingNotice(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pTradingNotice->BrokerID,
             buffer,
@@ -5807,7 +6634,12 @@ void CTraderHandler::OnRspQryTradingNotice(
         json_pTradingNotice["BrokerID"] = buffer;
 
 
-        json_pTradingNotice["InvestorRange"] = pTradingNotice->InvestorRange;
+
+
+        sprintf(buffer,"%c",pTradingNotice->InvestorRange);
+        json_pTradingNotice["InvestorRange"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5818,7 +6650,9 @@ void CTraderHandler::OnRspQryTradingNotice(
         json_pTradingNotice["InvestorID"] = buffer;
 
 
+
         json_pTradingNotice["SequenceSeries"] = pTradingNotice->SequenceSeries;
+
 
 
         gbk2utf8(
@@ -5829,6 +6663,8 @@ void CTraderHandler::OnRspQryTradingNotice(
         json_pTradingNotice["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTradingNotice->SendTime,
             buffer,
@@ -5837,7 +6673,9 @@ void CTraderHandler::OnRspQryTradingNotice(
         json_pTradingNotice["SendTime"] = buffer;
 
 
+
         json_pTradingNotice["SequenceNo"] = pTradingNotice->SequenceNo;
+
 
 
         gbk2utf8(
@@ -5846,6 +6684,7 @@ void CTraderHandler::OnRspQryTradingNotice(
             sizeof(pTradingNotice->FieldContent) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingNotice["FieldContent"] = buffer;
+
 
     }
 
@@ -5917,12 +6756,15 @@ void CTraderHandler::OnRspParkedOrderAction(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pParkedOrderAction->BrokerID,
             buffer,
             sizeof(pParkedOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5933,7 +6775,9 @@ void CTraderHandler::OnRspParkedOrderAction(
         json_pParkedOrderAction["InvestorID"] = buffer;
 
 
+
         json_pParkedOrderAction["OrderActionRef"] = pParkedOrderAction->OrderActionRef;
+
 
 
         gbk2utf8(
@@ -5942,6 +6786,7 @@ void CTraderHandler::OnRspParkedOrderAction(
             sizeof(pParkedOrderAction->OrderRef) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["OrderRef"] = buffer;
+
 
 
         json_pParkedOrderAction["RequestID"] = pParkedOrderAction->RequestID;
@@ -5953,12 +6798,15 @@ void CTraderHandler::OnRspParkedOrderAction(
         json_pParkedOrderAction["SessionID"] = pParkedOrderAction->SessionID;
 
 
+
         gbk2utf8(
             pParkedOrderAction->ExchangeID,
             buffer,
             sizeof(pParkedOrderAction->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -5969,13 +6817,18 @@ void CTraderHandler::OnRspParkedOrderAction(
         json_pParkedOrderAction["OrderSysID"] = buffer;
 
 
-        json_pParkedOrderAction["ActionFlag"] = pParkedOrderAction->ActionFlag;
+
+
+        sprintf(buffer,"%c",pParkedOrderAction->ActionFlag);
+        json_pParkedOrderAction["ActionFlag"] = buffer;
+
 
 
         json_pParkedOrderAction["LimitPrice"] = pParkedOrderAction->LimitPrice;
 
 
         json_pParkedOrderAction["VolumeChange"] = pParkedOrderAction->VolumeChange;
+
 
 
         gbk2utf8(
@@ -5986,12 +6839,16 @@ void CTraderHandler::OnRspParkedOrderAction(
         json_pParkedOrderAction["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrderAction->InstrumentID,
             buffer,
             sizeof(pParkedOrderAction->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6002,13 +6859,21 @@ void CTraderHandler::OnRspParkedOrderAction(
         json_pParkedOrderAction["ParkedOrderActionID"] = buffer;
 
 
-        json_pParkedOrderAction["UserType"] = pParkedOrderAction->UserType;
 
 
-        json_pParkedOrderAction["Status"] = pParkedOrderAction->Status;
+        sprintf(buffer,"%c",pParkedOrderAction->UserType);
+        json_pParkedOrderAction["UserType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pParkedOrderAction->Status);
+        json_pParkedOrderAction["Status"] = buffer;
+
 
 
         json_pParkedOrderAction["ErrorID"] = pParkedOrderAction->ErrorID;
+
 
 
         gbk2utf8(
@@ -6017,6 +6882,7 @@ void CTraderHandler::OnRspParkedOrderAction(
             sizeof(pParkedOrderAction->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["ErrorMsg"] = buffer;
+
 
     }
 
@@ -6088,12 +6954,15 @@ void CTraderHandler::OnRspQryParkedOrderAction(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pParkedOrderAction->BrokerID,
             buffer,
             sizeof(pParkedOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6104,7 +6973,9 @@ void CTraderHandler::OnRspQryParkedOrderAction(
         json_pParkedOrderAction["InvestorID"] = buffer;
 
 
+
         json_pParkedOrderAction["OrderActionRef"] = pParkedOrderAction->OrderActionRef;
+
 
 
         gbk2utf8(
@@ -6113,6 +6984,7 @@ void CTraderHandler::OnRspQryParkedOrderAction(
             sizeof(pParkedOrderAction->OrderRef) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["OrderRef"] = buffer;
+
 
 
         json_pParkedOrderAction["RequestID"] = pParkedOrderAction->RequestID;
@@ -6124,12 +6996,15 @@ void CTraderHandler::OnRspQryParkedOrderAction(
         json_pParkedOrderAction["SessionID"] = pParkedOrderAction->SessionID;
 
 
+
         gbk2utf8(
             pParkedOrderAction->ExchangeID,
             buffer,
             sizeof(pParkedOrderAction->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6140,13 +7015,18 @@ void CTraderHandler::OnRspQryParkedOrderAction(
         json_pParkedOrderAction["OrderSysID"] = buffer;
 
 
-        json_pParkedOrderAction["ActionFlag"] = pParkedOrderAction->ActionFlag;
+
+
+        sprintf(buffer,"%c",pParkedOrderAction->ActionFlag);
+        json_pParkedOrderAction["ActionFlag"] = buffer;
+
 
 
         json_pParkedOrderAction["LimitPrice"] = pParkedOrderAction->LimitPrice;
 
 
         json_pParkedOrderAction["VolumeChange"] = pParkedOrderAction->VolumeChange;
+
 
 
         gbk2utf8(
@@ -6157,12 +7037,16 @@ void CTraderHandler::OnRspQryParkedOrderAction(
         json_pParkedOrderAction["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pParkedOrderAction->InstrumentID,
             buffer,
             sizeof(pParkedOrderAction->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6173,13 +7057,21 @@ void CTraderHandler::OnRspQryParkedOrderAction(
         json_pParkedOrderAction["ParkedOrderActionID"] = buffer;
 
 
-        json_pParkedOrderAction["UserType"] = pParkedOrderAction->UserType;
 
 
-        json_pParkedOrderAction["Status"] = pParkedOrderAction->Status;
+        sprintf(buffer,"%c",pParkedOrderAction->UserType);
+        json_pParkedOrderAction["UserType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pParkedOrderAction->Status);
+        json_pParkedOrderAction["Status"] = buffer;
+
 
 
         json_pParkedOrderAction["ErrorID"] = pParkedOrderAction->ErrorID;
+
 
 
         gbk2utf8(
@@ -6188,6 +7080,7 @@ void CTraderHandler::OnRspQryParkedOrderAction(
             sizeof(pParkedOrderAction->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pParkedOrderAction["ErrorMsg"] = buffer;
+
 
     }
 
@@ -6259,6 +7152,7 @@ void CTraderHandler::OnRspQryTradingAccount(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pTradingAccount->BrokerID,
             buffer,
@@ -6267,12 +7161,15 @@ void CTraderHandler::OnRspQryTradingAccount(
         json_pTradingAccount["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTradingAccount->AccountID,
             buffer,
             sizeof(pTradingAccount->AccountID) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingAccount["AccountID"] = buffer;
+
 
 
         json_pTradingAccount["PreMortgage"] = pTradingAccount->PreMortgage;
@@ -6338,12 +7235,14 @@ void CTraderHandler::OnRspQryTradingAccount(
         json_pTradingAccount["Reserve"] = pTradingAccount->Reserve;
 
 
+
         gbk2utf8(
             pTradingAccount->TradingDay,
             buffer,
             sizeof(pTradingAccount->TradingDay) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingAccount["TradingDay"] = buffer;
+
 
 
         json_pTradingAccount["SettlementID"] = pTradingAccount->SettlementID;
@@ -6367,12 +7266,14 @@ void CTraderHandler::OnRspQryTradingAccount(
         json_pTradingAccount["ReserveBalance"] = pTradingAccount->ReserveBalance;
 
 
+
         gbk2utf8(
             pTradingAccount->CurrencyID,
             buffer,
             sizeof(pTradingAccount->CurrencyID) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingAccount["CurrencyID"] = buffer;
+
 
 
         json_pTradingAccount["PreFundMortgageIn"] = pTradingAccount->PreFundMortgageIn;
@@ -6486,12 +7387,15 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pTradingAccountPasswordUpdate->BrokerID,
             buffer,
             sizeof(pTradingAccountPasswordUpdate->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingAccountPasswordUpdate["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6502,12 +7406,16 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
         json_pTradingAccountPasswordUpdate["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTradingAccountPasswordUpdate->OldPassword,
             buffer,
             sizeof(pTradingAccountPasswordUpdate->OldPassword) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingAccountPasswordUpdate["OldPassword"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6518,12 +7426,15 @@ void CTraderHandler::OnRspTradingAccountPasswordUpdate(
         json_pTradingAccountPasswordUpdate["NewPassword"] = buffer;
 
 
+
+
         gbk2utf8(
             pTradingAccountPasswordUpdate->CurrencyID,
             buffer,
             sizeof(pTradingAccountPasswordUpdate->CurrencyID) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingAccountPasswordUpdate["CurrencyID"] = buffer;
+
 
     }
 
@@ -6595,12 +7506,15 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pSettlementInfoConfirm->BrokerID,
             buffer,
             sizeof(pSettlementInfoConfirm->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pSettlementInfoConfirm["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6611,6 +7525,8 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
         json_pSettlementInfoConfirm["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pSettlementInfoConfirm->ConfirmDate,
             buffer,
@@ -6619,12 +7535,15 @@ void CTraderHandler::OnRspSettlementInfoConfirm(
         json_pSettlementInfoConfirm["ConfirmDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pSettlementInfoConfirm->ConfirmTime,
             buffer,
             sizeof(pSettlementInfoConfirm->ConfirmTime) * 3 // 字符串转化变长的风险保障
         );
         json_pSettlementInfoConfirm["ConfirmTime"] = buffer;
+
 
     }
 
@@ -6696,12 +7615,15 @@ void CTraderHandler::OnRspQryDepthMarketData(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pDepthMarketData->TradingDay,
             buffer,
             sizeof(pDepthMarketData->TradingDay) * 3 // 字符串转化变长的风险保障
         );
         json_pDepthMarketData["TradingDay"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6712,6 +7634,8 @@ void CTraderHandler::OnRspQryDepthMarketData(
         json_pDepthMarketData["InstrumentID"] = buffer;
 
 
+
+
         gbk2utf8(
             pDepthMarketData->ExchangeID,
             buffer,
@@ -6720,12 +7644,15 @@ void CTraderHandler::OnRspQryDepthMarketData(
         json_pDepthMarketData["ExchangeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pDepthMarketData->ExchangeInstID,
             buffer,
             sizeof(pDepthMarketData->ExchangeInstID) * 3 // 字符串转化变长的风险保障
         );
         json_pDepthMarketData["ExchangeInstID"] = buffer;
+
 
 
         json_pDepthMarketData["LastPrice"] = pDepthMarketData->LastPrice;
@@ -6776,12 +7703,14 @@ void CTraderHandler::OnRspQryDepthMarketData(
         json_pDepthMarketData["CurrDelta"] = pDepthMarketData->CurrDelta;
 
 
+
         gbk2utf8(
             pDepthMarketData->UpdateTime,
             buffer,
             sizeof(pDepthMarketData->UpdateTime) * 3 // 字符串转化变长的风险保障
         );
         json_pDepthMarketData["UpdateTime"] = buffer;
+
 
 
         json_pDepthMarketData["UpdateMillisec"] = pDepthMarketData->UpdateMillisec;
@@ -6850,12 +7779,14 @@ void CTraderHandler::OnRspQryDepthMarketData(
         json_pDepthMarketData["AveragePrice"] = pDepthMarketData->AveragePrice;
 
 
+
         gbk2utf8(
             pDepthMarketData->ActionDay,
             buffer,
             sizeof(pDepthMarketData->ActionDay) * 3 // 字符串转化变长的风险保障
         );
         json_pDepthMarketData["ActionDay"] = buffer;
+
 
     }
 
@@ -6927,12 +7858,15 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pRemoveParkedOrderAction->BrokerID,
             buffer,
             sizeof(pRemoveParkedOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRemoveParkedOrderAction["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -6943,12 +7877,15 @@ void CTraderHandler::OnRspRemoveParkedOrderAction(
         json_pRemoveParkedOrderAction["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRemoveParkedOrderAction->ParkedOrderActionID,
             buffer,
             sizeof(pRemoveParkedOrderAction->ParkedOrderActionID) * 3 // 字符串转化变长的风险保障
         );
         json_pRemoveParkedOrderAction["ParkedOrderActionID"] = buffer;
+
 
     }
 
@@ -7020,6 +7957,7 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInstrumentCommissionRate->InstrumentID,
             buffer,
@@ -7028,7 +7966,12 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
         json_pInstrumentCommissionRate["InstrumentID"] = buffer;
 
 
-        json_pInstrumentCommissionRate["InvestorRange"] = pInstrumentCommissionRate->InvestorRange;
+
+
+        sprintf(buffer,"%c",pInstrumentCommissionRate->InvestorRange);
+        json_pInstrumentCommissionRate["InvestorRange"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7039,12 +7982,15 @@ void CTraderHandler::OnRspQryInstrumentCommissionRate(
         json_pInstrumentCommissionRate["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInstrumentCommissionRate->InvestorID,
             buffer,
             sizeof(pInstrumentCommissionRate->InvestorID) * 3 // 字符串转化变长的风险保障
         );
         json_pInstrumentCommissionRate["InvestorID"] = buffer;
+
 
 
         json_pInstrumentCommissionRate["OpenRatioByMoney"] = pInstrumentCommissionRate->OpenRatioByMoney;
@@ -7134,12 +8080,15 @@ void CTraderHandler::OnRspQryOrder(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pOrder->BrokerID,
             buffer,
             sizeof(pOrder->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7150,12 +8099,16 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->InstrumentID,
             buffer,
             sizeof(pOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7166,6 +8119,8 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->UserID,
             buffer,
@@ -7174,10 +8129,18 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["UserID"] = buffer;
 
 
-        json_pOrder["OrderPriceType"] = pOrder->OrderPriceType;
 
 
-        json_pOrder["Direction"] = pOrder->Direction;
+        sprintf(buffer,"%c",pOrder->OrderPriceType);
+        json_pOrder["OrderPriceType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pOrder->Direction);
+        json_pOrder["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7188,6 +8151,8 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["CombOffsetFlag"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->CombHedgeFlag,
             buffer,
@@ -7196,13 +8161,18 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["CombHedgeFlag"] = buffer;
 
 
+
         json_pOrder["LimitPrice"] = pOrder->LimitPrice;
 
 
         json_pOrder["VolumeTotalOriginal"] = pOrder->VolumeTotalOriginal;
 
 
-        json_pOrder["TimeCondition"] = pOrder->TimeCondition;
+
+        sprintf(buffer,"%c",pOrder->TimeCondition);
+        json_pOrder["TimeCondition"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7213,22 +8183,33 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["GTDDate"] = buffer;
 
 
-        json_pOrder["VolumeCondition"] = pOrder->VolumeCondition;
+
+
+        sprintf(buffer,"%c",pOrder->VolumeCondition);
+        json_pOrder["VolumeCondition"] = buffer;
+
 
 
         json_pOrder["MinVolume"] = pOrder->MinVolume;
 
 
-        json_pOrder["ContingentCondition"] = pOrder->ContingentCondition;
+
+        sprintf(buffer,"%c",pOrder->ContingentCondition);
+        json_pOrder["ContingentCondition"] = buffer;
+
 
 
         json_pOrder["StopPrice"] = pOrder->StopPrice;
 
 
-        json_pOrder["ForceCloseReason"] = pOrder->ForceCloseReason;
+
+        sprintf(buffer,"%c",pOrder->ForceCloseReason);
+        json_pOrder["ForceCloseReason"] = buffer;
+
 
 
         json_pOrder["IsAutoSuspend"] = pOrder->IsAutoSuspend;
+
 
 
         gbk2utf8(
@@ -7239,7 +8220,9 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["BusinessUnit"] = buffer;
 
 
+
         json_pOrder["RequestID"] = pOrder->RequestID;
+
 
 
         gbk2utf8(
@@ -7250,12 +8233,16 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["OrderLocalID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->ExchangeID,
             buffer,
             sizeof(pOrder->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7266,12 +8253,16 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["ParticipantID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->ClientID,
             buffer,
             sizeof(pOrder->ClientID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["ClientID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7282,6 +8273,8 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["ExchangeInstID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->TraderID,
             buffer,
@@ -7290,13 +8283,18 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["TraderID"] = buffer;
 
 
+
         json_pOrder["InstallID"] = pOrder->InstallID;
 
 
-        json_pOrder["OrderSubmitStatus"] = pOrder->OrderSubmitStatus;
+
+        sprintf(buffer,"%c",pOrder->OrderSubmitStatus);
+        json_pOrder["OrderSubmitStatus"] = buffer;
+
 
 
         json_pOrder["NotifySequence"] = pOrder->NotifySequence;
+
 
 
         gbk2utf8(
@@ -7307,7 +8305,9 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["TradingDay"] = buffer;
 
 
+
         json_pOrder["SettlementID"] = pOrder->SettlementID;
+
 
 
         gbk2utf8(
@@ -7318,19 +8318,30 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["OrderSysID"] = buffer;
 
 
-        json_pOrder["OrderSource"] = pOrder->OrderSource;
 
 
-        json_pOrder["OrderStatus"] = pOrder->OrderStatus;
+        sprintf(buffer,"%c",pOrder->OrderSource);
+        json_pOrder["OrderSource"] = buffer;
 
 
-        json_pOrder["OrderType"] = pOrder->OrderType;
+
+
+        sprintf(buffer,"%c",pOrder->OrderStatus);
+        json_pOrder["OrderStatus"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pOrder->OrderType);
+        json_pOrder["OrderType"] = buffer;
+
 
 
         json_pOrder["VolumeTraded"] = pOrder->VolumeTraded;
 
 
         json_pOrder["VolumeTotal"] = pOrder->VolumeTotal;
+
 
 
         gbk2utf8(
@@ -7341,12 +8352,16 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["InsertDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->InsertTime,
             buffer,
             sizeof(pOrder->InsertTime) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["InsertTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7357,12 +8372,16 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["ActiveTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->SuspendTime,
             buffer,
             sizeof(pOrder->SuspendTime) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["SuspendTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7373,12 +8392,16 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["UpdateTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->CancelTime,
             buffer,
             sizeof(pOrder->CancelTime) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["CancelTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7389,12 +8412,15 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["ActiveTraderID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->ClearingPartID,
             buffer,
             sizeof(pOrder->ClearingPartID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["ClearingPartID"] = buffer;
+
 
 
         json_pOrder["SequenceNo"] = pOrder->SequenceNo;
@@ -7406,12 +8432,15 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["SessionID"] = pOrder->SessionID;
 
 
+
         gbk2utf8(
             pOrder->UserProductInfo,
             buffer,
             sizeof(pOrder->UserProductInfo) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["UserProductInfo"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7422,7 +8451,9 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["StatusMsg"] = buffer;
 
 
+
         json_pOrder["UserForceClose"] = pOrder->UserForceClose;
+
 
 
         gbk2utf8(
@@ -7433,7 +8464,9 @@ void CTraderHandler::OnRspQryOrder(
         json_pOrder["ActiveUserID"] = buffer;
 
 
+
         json_pOrder["BrokerOrderSeq"] = pOrder->BrokerOrderSeq;
+
 
 
         gbk2utf8(
@@ -7442,6 +8475,7 @@ void CTraderHandler::OnRspQryOrder(
             sizeof(pOrder->RelativeOrderSysID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["RelativeOrderSysID"] = buffer;
+
 
 
         json_pOrder["ZCETotalTradedVolume"] = pOrder->ZCETotalTradedVolume;
@@ -7519,12 +8553,15 @@ void CTraderHandler::OnRspQryTrade(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pTrade->BrokerID,
             buffer,
             sizeof(pTrade->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7535,12 +8572,16 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->InstrumentID,
             buffer,
             sizeof(pTrade->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7551,12 +8592,16 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->UserID,
             buffer,
             sizeof(pTrade->UserID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["UserID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7567,6 +8612,8 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["ExchangeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->TradeID,
             buffer,
@@ -7575,7 +8622,12 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["TradeID"] = buffer;
 
 
-        json_pTrade["Direction"] = pTrade->Direction;
+
+
+        sprintf(buffer,"%c",pTrade->Direction);
+        json_pTrade["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7586,12 +8638,16 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["OrderSysID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->ParticipantID,
             buffer,
             sizeof(pTrade->ParticipantID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["ParticipantID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7602,7 +8658,12 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["ClientID"] = buffer;
 
 
-        json_pTrade["TradingRole"] = pTrade->TradingRole;
+
+
+        sprintf(buffer,"%c",pTrade->TradingRole);
+        json_pTrade["TradingRole"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7613,16 +8674,24 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["ExchangeInstID"] = buffer;
 
 
-        json_pTrade["OffsetFlag"] = pTrade->OffsetFlag;
 
 
-        json_pTrade["HedgeFlag"] = pTrade->HedgeFlag;
+        sprintf(buffer,"%c",pTrade->OffsetFlag);
+        json_pTrade["OffsetFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pTrade->HedgeFlag);
+        json_pTrade["HedgeFlag"] = buffer;
+
 
 
         json_pTrade["Price"] = pTrade->Price;
 
 
         json_pTrade["Volume"] = pTrade->Volume;
+
 
 
         gbk2utf8(
@@ -7633,6 +8702,8 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->TradeTime,
             buffer,
@@ -7641,10 +8712,18 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["TradeTime"] = buffer;
 
 
-        json_pTrade["TradeType"] = pTrade->TradeType;
 
 
-        json_pTrade["PriceSource"] = pTrade->PriceSource;
+        sprintf(buffer,"%c",pTrade->TradeType);
+        json_pTrade["TradeType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pTrade->PriceSource);
+        json_pTrade["PriceSource"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7655,12 +8734,16 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["TraderID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->OrderLocalID,
             buffer,
             sizeof(pTrade->OrderLocalID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["OrderLocalID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7671,6 +8754,8 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["ClearingPartID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->BusinessUnit,
             buffer,
@@ -7679,7 +8764,9 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["BusinessUnit"] = buffer;
 
 
+
         json_pTrade["SequenceNo"] = pTrade->SequenceNo;
+
 
 
         gbk2utf8(
@@ -7690,13 +8777,17 @@ void CTraderHandler::OnRspQryTrade(
         json_pTrade["TradingDay"] = buffer;
 
 
+
         json_pTrade["SettlementID"] = pTrade->SettlementID;
 
 
         json_pTrade["BrokerOrderSeq"] = pTrade->BrokerOrderSeq;
 
 
-        json_pTrade["TradeSource"] = pTrade->TradeSource;
+
+        sprintf(buffer,"%c",pTrade->TradeSource);
+        json_pTrade["TradeSource"] = buffer;
+
 
     }
 
@@ -7755,12 +8846,15 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pNotifyQueryAccount->TradeCode,
             buffer,
             sizeof(pNotifyQueryAccount->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pNotifyQueryAccount["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7771,12 +8865,16 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotifyQueryAccount->BankBranchID,
             buffer,
             sizeof(pNotifyQueryAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pNotifyQueryAccount["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7787,12 +8885,16 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotifyQueryAccount->BrokerBranchID,
             buffer,
             sizeof(pNotifyQueryAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pNotifyQueryAccount["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7803,12 +8905,16 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotifyQueryAccount->TradeTime,
             buffer,
             sizeof(pNotifyQueryAccount->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pNotifyQueryAccount["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7819,6 +8925,8 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotifyQueryAccount->TradingDay,
             buffer,
@@ -7827,13 +8935,18 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["TradingDay"] = buffer;
 
 
+
         json_pNotifyQueryAccount["PlateSerial"] = pNotifyQueryAccount->PlateSerial;
 
 
-        json_pNotifyQueryAccount["LastFragment"] = pNotifyQueryAccount->LastFragment;
+
+        sprintf(buffer,"%c",pNotifyQueryAccount->LastFragment);
+        json_pNotifyQueryAccount["LastFragment"] = buffer;
+
 
 
         json_pNotifyQueryAccount["SessionID"] = pNotifyQueryAccount->SessionID;
+
 
 
         gbk2utf8(
@@ -7844,7 +8957,12 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["CustomerName"] = buffer;
 
 
-        json_pNotifyQueryAccount["IdCardType"] = pNotifyQueryAccount->IdCardType;
+
+
+        sprintf(buffer,"%c",pNotifyQueryAccount->IdCardType);
+        json_pNotifyQueryAccount["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7855,7 +8973,12 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["IdentifiedCardNo"] = buffer;
 
 
-        json_pNotifyQueryAccount["CustType"] = pNotifyQueryAccount->CustType;
+
+
+        sprintf(buffer,"%c",pNotifyQueryAccount->CustType);
+        json_pNotifyQueryAccount["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7866,12 +8989,16 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotifyQueryAccount->BankPassWord,
             buffer,
             sizeof(pNotifyQueryAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pNotifyQueryAccount["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7882,6 +9009,8 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotifyQueryAccount->Password,
             buffer,
@@ -7890,10 +9019,12 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["Password"] = buffer;
 
 
+
         json_pNotifyQueryAccount["FutureSerial"] = pNotifyQueryAccount->FutureSerial;
 
 
         json_pNotifyQueryAccount["InstallID"] = pNotifyQueryAccount->InstallID;
+
 
 
         gbk2utf8(
@@ -7904,7 +9035,12 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["UserID"] = buffer;
 
 
-        json_pNotifyQueryAccount["VerifyCertNoFlag"] = pNotifyQueryAccount->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pNotifyQueryAccount->VerifyCertNoFlag);
+        json_pNotifyQueryAccount["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7915,6 +9051,8 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["CurrencyID"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotifyQueryAccount->Digest,
             buffer,
@@ -7923,7 +9061,12 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["Digest"] = buffer;
 
 
-        json_pNotifyQueryAccount["BankAccType"] = pNotifyQueryAccount->BankAccType;
+
+
+        sprintf(buffer,"%c",pNotifyQueryAccount->BankAccType);
+        json_pNotifyQueryAccount["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7934,7 +9077,12 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["DeviceID"] = buffer;
 
 
-        json_pNotifyQueryAccount["BankSecuAccType"] = pNotifyQueryAccount->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pNotifyQueryAccount->BankSecuAccType);
+        json_pNotifyQueryAccount["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7945,6 +9093,8 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pNotifyQueryAccount->BankSecuAcc,
             buffer,
@@ -7953,10 +9103,18 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["BankSecuAcc"] = buffer;
 
 
-        json_pNotifyQueryAccount["BankPwdFlag"] = pNotifyQueryAccount->BankPwdFlag;
 
 
-        json_pNotifyQueryAccount["SecuPwdFlag"] = pNotifyQueryAccount->SecuPwdFlag;
+        sprintf(buffer,"%c",pNotifyQueryAccount->BankPwdFlag);
+        json_pNotifyQueryAccount["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pNotifyQueryAccount->SecuPwdFlag);
+        json_pNotifyQueryAccount["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -7965,6 +9123,7 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
             sizeof(pNotifyQueryAccount->OperNo) * 3 // 字符串转化变长的风险保障
         );
         json_pNotifyQueryAccount["OperNo"] = buffer;
+
 
 
         json_pNotifyQueryAccount["RequestID"] = pNotifyQueryAccount->RequestID;
@@ -7982,12 +9141,14 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["ErrorID"] = pNotifyQueryAccount->ErrorID;
 
 
+
         gbk2utf8(
             pNotifyQueryAccount->ErrorMsg,
             buffer,
             sizeof(pNotifyQueryAccount->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pNotifyQueryAccount["ErrorMsg"] = buffer;
+
 
     }
 
@@ -8032,13 +9193,20 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
 
 
-        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->BankRepealFlag);
+        json_pRspRepeal["BankRepealFlag"] = buffer;
 
 
-        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BrokerRepealFlag);
+        json_pRspRepeal["BrokerRepealFlag"] = buffer;
+
 
 
         json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
 
 
         gbk2utf8(
@@ -8049,7 +9217,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["BankRepealSerial"] = buffer;
 
 
+
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
         gbk2utf8(
@@ -8060,12 +9230,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["TradeCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankID,
             buffer,
             sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8076,12 +9250,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["BankBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BrokerID,
             buffer,
             sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8092,12 +9270,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->TradeDate,
             buffer,
             sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8108,12 +9290,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["TradeTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSerial,
             buffer,
             sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8124,13 +9310,18 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["TradingDay"] = buffer;
 
 
+
         json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
 
 
-        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+        sprintf(buffer,"%c",pRspRepeal->LastFragment);
+        json_pRspRepeal["LastFragment"] = buffer;
+
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
         gbk2utf8(
@@ -8141,7 +9332,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["CustomerName"] = buffer;
 
 
-        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->IdCardType);
+        json_pRspRepeal["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8152,7 +9348,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->CustType);
+        json_pRspRepeal["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8163,12 +9364,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankPassWord,
             buffer,
             sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8179,6 +9384,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Password,
             buffer,
@@ -8187,10 +9394,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["Password"] = buffer;
 
 
+
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
         gbk2utf8(
@@ -8201,7 +9410,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["UserID"] = buffer;
 
 
-        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->VerifyCertNoFlag);
+        json_pRspRepeal["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8212,19 +9426,24 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["CurrencyID"] = buffer;
 
 
+
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
 
 
-        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->FeePayFlag);
+        json_pRspRepeal["FeePayFlag"] = buffer;
+
 
 
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
         gbk2utf8(
@@ -8235,6 +9454,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Digest,
             buffer,
@@ -8243,7 +9464,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["Digest"] = buffer;
 
 
-        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankAccType);
+        json_pRspRepeal["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8254,7 +9480,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["DeviceID"] = buffer;
 
 
-        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankSecuAccType);
+        json_pRspRepeal["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8265,6 +9496,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSecuAcc,
             buffer,
@@ -8273,10 +9506,18 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["BankSecuAcc"] = buffer;
 
 
-        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
 
 
-        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspRepeal->BankPwdFlag);
+        json_pRspRepeal["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspRepeal->SecuPwdFlag);
+        json_pRspRepeal["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8287,16 +9528,21 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["OperNo"] = buffer;
 
 
+
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
 
 
-        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+        sprintf(buffer,"%c",pRspRepeal->TransferStatus);
+        json_pRspRepeal["TransferStatus"] = buffer;
+
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
         gbk2utf8(
@@ -8305,6 +9551,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
             sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["ErrorMsg"] = buffer;
+
 
     }
 
@@ -8343,12 +9590,15 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pRspTransfer->TradeCode,
             buffer,
             sizeof(pRspTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8359,12 +9609,16 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankBranchID,
             buffer,
             sizeof(pRspTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8375,12 +9629,16 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BrokerBranchID,
             buffer,
             sizeof(pRspTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8391,12 +9649,16 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->TradeTime,
             buffer,
             sizeof(pRspTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8407,6 +9669,8 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->TradingDay,
             buffer,
@@ -8415,13 +9679,18 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["TradingDay"] = buffer;
 
 
+
         json_pRspTransfer["PlateSerial"] = pRspTransfer->PlateSerial;
 
 
-        json_pRspTransfer["LastFragment"] = pRspTransfer->LastFragment;
+
+        sprintf(buffer,"%c",pRspTransfer->LastFragment);
+        json_pRspTransfer["LastFragment"] = buffer;
+
 
 
         json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
 
 
         gbk2utf8(
@@ -8432,7 +9701,12 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["CustomerName"] = buffer;
 
 
-        json_pRspTransfer["IdCardType"] = pRspTransfer->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->IdCardType);
+        json_pRspTransfer["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8443,7 +9717,12 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspTransfer["CustType"] = pRspTransfer->CustType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->CustType);
+        json_pRspTransfer["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8454,12 +9733,16 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankPassWord,
             buffer,
             sizeof(pRspTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8470,6 +9753,8 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->Password,
             buffer,
@@ -8478,10 +9763,12 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["Password"] = buffer;
 
 
+
         json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
 
 
         json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
 
 
         gbk2utf8(
@@ -8492,7 +9779,12 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["UserID"] = buffer;
 
 
-        json_pRspTransfer["VerifyCertNoFlag"] = pRspTransfer->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspTransfer->VerifyCertNoFlag);
+        json_pRspTransfer["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8503,19 +9795,24 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["CurrencyID"] = buffer;
 
 
+
         json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
 
 
         json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
 
 
-        json_pRspTransfer["FeePayFlag"] = pRspTransfer->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspTransfer->FeePayFlag);
+        json_pRspTransfer["FeePayFlag"] = buffer;
+
 
 
         json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
 
 
         json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
 
 
         gbk2utf8(
@@ -8526,6 +9823,8 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->Digest,
             buffer,
@@ -8534,7 +9833,12 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["Digest"] = buffer;
 
 
-        json_pRspTransfer["BankAccType"] = pRspTransfer->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->BankAccType);
+        json_pRspTransfer["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8545,7 +9849,12 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["DeviceID"] = buffer;
 
 
-        json_pRspTransfer["BankSecuAccType"] = pRspTransfer->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->BankSecuAccType);
+        json_pRspTransfer["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8556,6 +9865,8 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankSecuAcc,
             buffer,
@@ -8564,10 +9875,18 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["BankSecuAcc"] = buffer;
 
 
-        json_pRspTransfer["BankPwdFlag"] = pRspTransfer->BankPwdFlag;
 
 
-        json_pRspTransfer["SecuPwdFlag"] = pRspTransfer->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspTransfer->BankPwdFlag);
+        json_pRspTransfer["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspTransfer->SecuPwdFlag);
+        json_pRspTransfer["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8578,16 +9897,21 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["OperNo"] = buffer;
 
 
+
         json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
 
 
         json_pRspTransfer["TID"] = pRspTransfer->TID;
 
 
-        json_pRspTransfer["TransferStatus"] = pRspTransfer->TransferStatus;
+
+        sprintf(buffer,"%c",pRspTransfer->TransferStatus);
+        json_pRspTransfer["TransferStatus"] = buffer;
+
 
 
         json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
 
 
         gbk2utf8(
@@ -8596,6 +9920,7 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
             sizeof(pRspTransfer->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["ErrorMsg"] = buffer;
+
 
     }
 
@@ -8634,12 +9959,15 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pCFMMCTradingAccountToken->BrokerID,
             buffer,
             sizeof(pCFMMCTradingAccountToken->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pCFMMCTradingAccountToken["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8650,6 +9978,8 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
         json_pCFMMCTradingAccountToken["ParticipantID"] = buffer;
 
 
+
+
         gbk2utf8(
             pCFMMCTradingAccountToken->AccountID,
             buffer,
@@ -8658,7 +9988,9 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
         json_pCFMMCTradingAccountToken["AccountID"] = buffer;
 
 
+
         json_pCFMMCTradingAccountToken["KeyID"] = pCFMMCTradingAccountToken->KeyID;
+
 
 
         gbk2utf8(
@@ -8667,6 +9999,7 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
             sizeof(pCFMMCTradingAccountToken->Token) * 3 // 字符串转化变长的风险保障
         );
         json_pCFMMCTradingAccountToken["Token"] = buffer;
+
 
     }
 
@@ -8705,12 +10038,15 @@ void CTraderHandler::OnRtnInstrumentStatus(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInstrumentStatus->ExchangeID,
             buffer,
             sizeof(pInstrumentStatus->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pInstrumentStatus["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8721,12 +10057,16 @@ void CTraderHandler::OnRtnInstrumentStatus(
         json_pInstrumentStatus["ExchangeInstID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInstrumentStatus->SettlementGroupID,
             buffer,
             sizeof(pInstrumentStatus->SettlementGroupID) * 3 // 字符串转化变长的风险保障
         );
         json_pInstrumentStatus["SettlementGroupID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8737,10 +10077,15 @@ void CTraderHandler::OnRtnInstrumentStatus(
         json_pInstrumentStatus["InstrumentID"] = buffer;
 
 
-        json_pInstrumentStatus["InstrumentStatus"] = pInstrumentStatus->InstrumentStatus;
+
+
+        sprintf(buffer,"%c",pInstrumentStatus->InstrumentStatus);
+        json_pInstrumentStatus["InstrumentStatus"] = buffer;
+
 
 
         json_pInstrumentStatus["TradingSegmentSN"] = pInstrumentStatus->TradingSegmentSN;
+
 
 
         gbk2utf8(
@@ -8751,7 +10096,11 @@ void CTraderHandler::OnRtnInstrumentStatus(
         json_pInstrumentStatus["EnterTime"] = buffer;
 
 
-        json_pInstrumentStatus["EnterReason"] = pInstrumentStatus->EnterReason;
+
+
+        sprintf(buffer,"%c",pInstrumentStatus->EnterReason);
+        json_pInstrumentStatus["EnterReason"] = buffer;
+
 
     }
 
@@ -8790,12 +10139,15 @@ void CTraderHandler::OnRtnTradingNotice(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pTradingNoticeInfo->BrokerID,
             buffer,
             sizeof(pTradingNoticeInfo->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingNoticeInfo["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8806,6 +10158,8 @@ void CTraderHandler::OnRtnTradingNotice(
         json_pTradingNoticeInfo["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTradingNoticeInfo->SendTime,
             buffer,
@@ -8814,12 +10168,15 @@ void CTraderHandler::OnRtnTradingNotice(
         json_pTradingNoticeInfo["SendTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pTradingNoticeInfo->FieldContent,
             buffer,
             sizeof(pTradingNoticeInfo->FieldContent) * 3 // 字符串转化变长的风险保障
         );
         json_pTradingNoticeInfo["FieldContent"] = buffer;
+
 
 
         json_pTradingNoticeInfo["SequenceSeries"] = pTradingNoticeInfo->SequenceSeries;
@@ -8870,13 +10227,20 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
 
 
-        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->BankRepealFlag);
+        json_pRspRepeal["BankRepealFlag"] = buffer;
 
 
-        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BrokerRepealFlag);
+        json_pRspRepeal["BrokerRepealFlag"] = buffer;
+
 
 
         json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
 
 
         gbk2utf8(
@@ -8887,7 +10251,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["BankRepealSerial"] = buffer;
 
 
+
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
         gbk2utf8(
@@ -8898,12 +10264,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["TradeCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankID,
             buffer,
             sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8914,12 +10284,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["BankBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BrokerID,
             buffer,
             sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8930,12 +10304,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->TradeDate,
             buffer,
             sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8946,12 +10324,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["TradeTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSerial,
             buffer,
             sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8962,13 +10344,18 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["TradingDay"] = buffer;
 
 
+
         json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
 
 
-        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+        sprintf(buffer,"%c",pRspRepeal->LastFragment);
+        json_pRspRepeal["LastFragment"] = buffer;
+
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
         gbk2utf8(
@@ -8979,7 +10366,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["CustomerName"] = buffer;
 
 
-        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->IdCardType);
+        json_pRspRepeal["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -8990,7 +10382,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->CustType);
+        json_pRspRepeal["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9001,12 +10398,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankPassWord,
             buffer,
             sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9017,6 +10418,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Password,
             buffer,
@@ -9025,10 +10428,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["Password"] = buffer;
 
 
+
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
         gbk2utf8(
@@ -9039,7 +10444,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["UserID"] = buffer;
 
 
-        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->VerifyCertNoFlag);
+        json_pRspRepeal["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9050,19 +10460,24 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["CurrencyID"] = buffer;
 
 
+
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
 
 
-        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->FeePayFlag);
+        json_pRspRepeal["FeePayFlag"] = buffer;
+
 
 
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
         gbk2utf8(
@@ -9073,6 +10488,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Digest,
             buffer,
@@ -9081,7 +10498,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["Digest"] = buffer;
 
 
-        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankAccType);
+        json_pRspRepeal["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9092,7 +10514,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["DeviceID"] = buffer;
 
 
-        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankSecuAccType);
+        json_pRspRepeal["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9103,6 +10530,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSecuAcc,
             buffer,
@@ -9111,10 +10540,18 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["BankSecuAcc"] = buffer;
 
 
-        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
 
 
-        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspRepeal->BankPwdFlag);
+        json_pRspRepeal["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspRepeal->SecuPwdFlag);
+        json_pRspRepeal["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9125,16 +10562,21 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["OperNo"] = buffer;
 
 
+
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
 
 
-        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+        sprintf(buffer,"%c",pRspRepeal->TransferStatus);
+        json_pRspRepeal["TransferStatus"] = buffer;
+
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
         gbk2utf8(
@@ -9143,6 +10585,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
             sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["ErrorMsg"] = buffer;
+
 
     }
 
@@ -9181,12 +10624,15 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pRspTransfer->TradeCode,
             buffer,
             sizeof(pRspTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9197,12 +10643,16 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankBranchID,
             buffer,
             sizeof(pRspTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9213,12 +10663,16 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BrokerBranchID,
             buffer,
             sizeof(pRspTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9229,12 +10683,16 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->TradeTime,
             buffer,
             sizeof(pRspTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9245,6 +10703,8 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->TradingDay,
             buffer,
@@ -9253,13 +10713,18 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["TradingDay"] = buffer;
 
 
+
         json_pRspTransfer["PlateSerial"] = pRspTransfer->PlateSerial;
 
 
-        json_pRspTransfer["LastFragment"] = pRspTransfer->LastFragment;
+
+        sprintf(buffer,"%c",pRspTransfer->LastFragment);
+        json_pRspTransfer["LastFragment"] = buffer;
+
 
 
         json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
 
 
         gbk2utf8(
@@ -9270,7 +10735,12 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["CustomerName"] = buffer;
 
 
-        json_pRspTransfer["IdCardType"] = pRspTransfer->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->IdCardType);
+        json_pRspTransfer["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9281,7 +10751,12 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspTransfer["CustType"] = pRspTransfer->CustType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->CustType);
+        json_pRspTransfer["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9292,12 +10767,16 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankPassWord,
             buffer,
             sizeof(pRspTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9308,6 +10787,8 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->Password,
             buffer,
@@ -9316,10 +10797,12 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["Password"] = buffer;
 
 
+
         json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
 
 
         json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
 
 
         gbk2utf8(
@@ -9330,7 +10813,12 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["UserID"] = buffer;
 
 
-        json_pRspTransfer["VerifyCertNoFlag"] = pRspTransfer->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspTransfer->VerifyCertNoFlag);
+        json_pRspTransfer["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9341,19 +10829,24 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["CurrencyID"] = buffer;
 
 
+
         json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
 
 
         json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
 
 
-        json_pRspTransfer["FeePayFlag"] = pRspTransfer->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspTransfer->FeePayFlag);
+        json_pRspTransfer["FeePayFlag"] = buffer;
+
 
 
         json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
 
 
         json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
 
 
         gbk2utf8(
@@ -9364,6 +10857,8 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->Digest,
             buffer,
@@ -9372,7 +10867,12 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["Digest"] = buffer;
 
 
-        json_pRspTransfer["BankAccType"] = pRspTransfer->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->BankAccType);
+        json_pRspTransfer["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9383,7 +10883,12 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["DeviceID"] = buffer;
 
 
-        json_pRspTransfer["BankSecuAccType"] = pRspTransfer->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->BankSecuAccType);
+        json_pRspTransfer["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9394,6 +10899,8 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankSecuAcc,
             buffer,
@@ -9402,10 +10909,18 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["BankSecuAcc"] = buffer;
 
 
-        json_pRspTransfer["BankPwdFlag"] = pRspTransfer->BankPwdFlag;
 
 
-        json_pRspTransfer["SecuPwdFlag"] = pRspTransfer->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspTransfer->BankPwdFlag);
+        json_pRspTransfer["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspTransfer->SecuPwdFlag);
+        json_pRspTransfer["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9416,16 +10931,21 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["OperNo"] = buffer;
 
 
+
         json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
 
 
         json_pRspTransfer["TID"] = pRspTransfer->TID;
 
 
-        json_pRspTransfer["TransferStatus"] = pRspTransfer->TransferStatus;
+
+        sprintf(buffer,"%c",pRspTransfer->TransferStatus);
+        json_pRspTransfer["TransferStatus"] = buffer;
+
 
 
         json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
 
 
         gbk2utf8(
@@ -9434,6 +10954,7 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
             sizeof(pRspTransfer->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["ErrorMsg"] = buffer;
+
 
     }
 
@@ -9472,12 +10993,15 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pRspTransfer->TradeCode,
             buffer,
             sizeof(pRspTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9488,12 +11012,16 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankBranchID,
             buffer,
             sizeof(pRspTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9504,12 +11032,16 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BrokerBranchID,
             buffer,
             sizeof(pRspTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9520,12 +11052,16 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->TradeTime,
             buffer,
             sizeof(pRspTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9536,6 +11072,8 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->TradingDay,
             buffer,
@@ -9544,13 +11082,18 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["TradingDay"] = buffer;
 
 
+
         json_pRspTransfer["PlateSerial"] = pRspTransfer->PlateSerial;
 
 
-        json_pRspTransfer["LastFragment"] = pRspTransfer->LastFragment;
+
+        sprintf(buffer,"%c",pRspTransfer->LastFragment);
+        json_pRspTransfer["LastFragment"] = buffer;
+
 
 
         json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
 
 
         gbk2utf8(
@@ -9561,7 +11104,12 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["CustomerName"] = buffer;
 
 
-        json_pRspTransfer["IdCardType"] = pRspTransfer->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->IdCardType);
+        json_pRspTransfer["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9572,7 +11120,12 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspTransfer["CustType"] = pRspTransfer->CustType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->CustType);
+        json_pRspTransfer["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9583,12 +11136,16 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankPassWord,
             buffer,
             sizeof(pRspTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9599,6 +11156,8 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->Password,
             buffer,
@@ -9607,10 +11166,12 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["Password"] = buffer;
 
 
+
         json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
 
 
         json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
 
 
         gbk2utf8(
@@ -9621,7 +11182,12 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["UserID"] = buffer;
 
 
-        json_pRspTransfer["VerifyCertNoFlag"] = pRspTransfer->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspTransfer->VerifyCertNoFlag);
+        json_pRspTransfer["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9632,19 +11198,24 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["CurrencyID"] = buffer;
 
 
+
         json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
 
 
         json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
 
 
-        json_pRspTransfer["FeePayFlag"] = pRspTransfer->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspTransfer->FeePayFlag);
+        json_pRspTransfer["FeePayFlag"] = buffer;
+
 
 
         json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
 
 
         json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
 
 
         gbk2utf8(
@@ -9655,6 +11226,8 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->Digest,
             buffer,
@@ -9663,7 +11236,12 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["Digest"] = buffer;
 
 
-        json_pRspTransfer["BankAccType"] = pRspTransfer->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->BankAccType);
+        json_pRspTransfer["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9674,7 +11252,12 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["DeviceID"] = buffer;
 
 
-        json_pRspTransfer["BankSecuAccType"] = pRspTransfer->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->BankSecuAccType);
+        json_pRspTransfer["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9685,6 +11268,8 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankSecuAcc,
             buffer,
@@ -9693,10 +11278,18 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["BankSecuAcc"] = buffer;
 
 
-        json_pRspTransfer["BankPwdFlag"] = pRspTransfer->BankPwdFlag;
 
 
-        json_pRspTransfer["SecuPwdFlag"] = pRspTransfer->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspTransfer->BankPwdFlag);
+        json_pRspTransfer["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspTransfer->SecuPwdFlag);
+        json_pRspTransfer["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9707,16 +11300,21 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["OperNo"] = buffer;
 
 
+
         json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
 
 
         json_pRspTransfer["TID"] = pRspTransfer->TID;
 
 
-        json_pRspTransfer["TransferStatus"] = pRspTransfer->TransferStatus;
+
+        sprintf(buffer,"%c",pRspTransfer->TransferStatus);
+        json_pRspTransfer["TransferStatus"] = buffer;
+
 
 
         json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
 
 
         gbk2utf8(
@@ -9725,6 +11323,7 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
             sizeof(pRspTransfer->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["ErrorMsg"] = buffer;
+
 
     }
 
@@ -9769,13 +11368,20 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
 
 
-        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->BankRepealFlag);
+        json_pRspRepeal["BankRepealFlag"] = buffer;
 
 
-        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BrokerRepealFlag);
+        json_pRspRepeal["BrokerRepealFlag"] = buffer;
+
 
 
         json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
 
 
         gbk2utf8(
@@ -9786,7 +11392,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["BankRepealSerial"] = buffer;
 
 
+
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
         gbk2utf8(
@@ -9797,12 +11405,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["TradeCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankID,
             buffer,
             sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9813,12 +11425,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["BankBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BrokerID,
             buffer,
             sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9829,12 +11445,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->TradeDate,
             buffer,
             sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9845,12 +11465,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["TradeTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSerial,
             buffer,
             sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9861,13 +11485,18 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["TradingDay"] = buffer;
 
 
+
         json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
 
 
-        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+        sprintf(buffer,"%c",pRspRepeal->LastFragment);
+        json_pRspRepeal["LastFragment"] = buffer;
+
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
         gbk2utf8(
@@ -9878,7 +11507,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["CustomerName"] = buffer;
 
 
-        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->IdCardType);
+        json_pRspRepeal["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9889,7 +11523,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->CustType);
+        json_pRspRepeal["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9900,12 +11539,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankPassWord,
             buffer,
             sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9916,6 +11559,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Password,
             buffer,
@@ -9924,10 +11569,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["Password"] = buffer;
 
 
+
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
         gbk2utf8(
@@ -9938,7 +11585,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["UserID"] = buffer;
 
 
-        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->VerifyCertNoFlag);
+        json_pRspRepeal["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9949,19 +11601,24 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["CurrencyID"] = buffer;
 
 
+
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
 
 
-        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->FeePayFlag);
+        json_pRspRepeal["FeePayFlag"] = buffer;
+
 
 
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
         gbk2utf8(
@@ -9972,6 +11629,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Digest,
             buffer,
@@ -9980,7 +11639,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["Digest"] = buffer;
 
 
-        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankAccType);
+        json_pRspRepeal["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -9991,7 +11655,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["DeviceID"] = buffer;
 
 
-        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankSecuAccType);
+        json_pRspRepeal["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10002,6 +11671,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSecuAcc,
             buffer,
@@ -10010,10 +11681,18 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["BankSecuAcc"] = buffer;
 
 
-        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
 
 
-        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspRepeal->BankPwdFlag);
+        json_pRspRepeal["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspRepeal->SecuPwdFlag);
+        json_pRspRepeal["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10024,16 +11703,21 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["OperNo"] = buffer;
 
 
+
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
 
 
-        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+        sprintf(buffer,"%c",pRspRepeal->TransferStatus);
+        json_pRspRepeal["TransferStatus"] = buffer;
+
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
         gbk2utf8(
@@ -10042,6 +11726,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
             sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["ErrorMsg"] = buffer;
+
 
     }
 
@@ -10080,12 +11765,15 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pRspTransfer->TradeCode,
             buffer,
             sizeof(pRspTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10096,12 +11784,16 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankBranchID,
             buffer,
             sizeof(pRspTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10112,12 +11804,16 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BrokerBranchID,
             buffer,
             sizeof(pRspTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10128,12 +11824,16 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->TradeTime,
             buffer,
             sizeof(pRspTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10144,6 +11844,8 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->TradingDay,
             buffer,
@@ -10152,13 +11854,18 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["TradingDay"] = buffer;
 
 
+
         json_pRspTransfer["PlateSerial"] = pRspTransfer->PlateSerial;
 
 
-        json_pRspTransfer["LastFragment"] = pRspTransfer->LastFragment;
+
+        sprintf(buffer,"%c",pRspTransfer->LastFragment);
+        json_pRspTransfer["LastFragment"] = buffer;
+
 
 
         json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
 
 
         gbk2utf8(
@@ -10169,7 +11876,12 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["CustomerName"] = buffer;
 
 
-        json_pRspTransfer["IdCardType"] = pRspTransfer->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->IdCardType);
+        json_pRspTransfer["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10180,7 +11892,12 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspTransfer["CustType"] = pRspTransfer->CustType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->CustType);
+        json_pRspTransfer["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10191,12 +11908,16 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankPassWord,
             buffer,
             sizeof(pRspTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10207,6 +11928,8 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->Password,
             buffer,
@@ -10215,10 +11938,12 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["Password"] = buffer;
 
 
+
         json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
 
 
         json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
 
 
         gbk2utf8(
@@ -10229,7 +11954,12 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["UserID"] = buffer;
 
 
-        json_pRspTransfer["VerifyCertNoFlag"] = pRspTransfer->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspTransfer->VerifyCertNoFlag);
+        json_pRspTransfer["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10240,19 +11970,24 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["CurrencyID"] = buffer;
 
 
+
         json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
 
 
         json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
 
 
-        json_pRspTransfer["FeePayFlag"] = pRspTransfer->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspTransfer->FeePayFlag);
+        json_pRspTransfer["FeePayFlag"] = buffer;
+
 
 
         json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
 
 
         json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
 
 
         gbk2utf8(
@@ -10263,6 +11998,8 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->Digest,
             buffer,
@@ -10271,7 +12008,12 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["Digest"] = buffer;
 
 
-        json_pRspTransfer["BankAccType"] = pRspTransfer->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->BankAccType);
+        json_pRspTransfer["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10282,7 +12024,12 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["DeviceID"] = buffer;
 
 
-        json_pRspTransfer["BankSecuAccType"] = pRspTransfer->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspTransfer->BankSecuAccType);
+        json_pRspTransfer["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10293,6 +12040,8 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspTransfer->BankSecuAcc,
             buffer,
@@ -10301,10 +12050,18 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["BankSecuAcc"] = buffer;
 
 
-        json_pRspTransfer["BankPwdFlag"] = pRspTransfer->BankPwdFlag;
 
 
-        json_pRspTransfer["SecuPwdFlag"] = pRspTransfer->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspTransfer->BankPwdFlag);
+        json_pRspTransfer["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspTransfer->SecuPwdFlag);
+        json_pRspTransfer["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10315,16 +12072,21 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["OperNo"] = buffer;
 
 
+
         json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
 
 
         json_pRspTransfer["TID"] = pRspTransfer->TID;
 
 
-        json_pRspTransfer["TransferStatus"] = pRspTransfer->TransferStatus;
+
+        sprintf(buffer,"%c",pRspTransfer->TransferStatus);
+        json_pRspTransfer["TransferStatus"] = buffer;
+
 
 
         json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
 
 
         gbk2utf8(
@@ -10333,6 +12095,7 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
             sizeof(pRspTransfer->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspTransfer["ErrorMsg"] = buffer;
+
 
     }
 
@@ -10371,12 +12134,15 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pChangeAccount->TradeCode,
             buffer,
             sizeof(pChangeAccount->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10387,12 +12153,16 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->BankBranchID,
             buffer,
             sizeof(pChangeAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10403,12 +12173,16 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->BrokerBranchID,
             buffer,
             sizeof(pChangeAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10419,12 +12193,16 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->TradeTime,
             buffer,
             sizeof(pChangeAccount->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10435,6 +12213,8 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->TradingDay,
             buffer,
@@ -10443,13 +12223,18 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["TradingDay"] = buffer;
 
 
+
         json_pChangeAccount["PlateSerial"] = pChangeAccount->PlateSerial;
 
 
-        json_pChangeAccount["LastFragment"] = pChangeAccount->LastFragment;
+
+        sprintf(buffer,"%c",pChangeAccount->LastFragment);
+        json_pChangeAccount["LastFragment"] = buffer;
+
 
 
         json_pChangeAccount["SessionID"] = pChangeAccount->SessionID;
+
 
 
         gbk2utf8(
@@ -10460,7 +12245,12 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["CustomerName"] = buffer;
 
 
-        json_pChangeAccount["IdCardType"] = pChangeAccount->IdCardType;
+
+
+        sprintf(buffer,"%c",pChangeAccount->IdCardType);
+        json_pChangeAccount["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10471,7 +12261,12 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["IdentifiedCardNo"] = buffer;
 
 
-        json_pChangeAccount["Gender"] = pChangeAccount->Gender;
+
+
+        sprintf(buffer,"%c",pChangeAccount->Gender);
+        json_pChangeAccount["Gender"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10482,7 +12277,12 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["CountryCode"] = buffer;
 
 
-        json_pChangeAccount["CustType"] = pChangeAccount->CustType;
+
+
+        sprintf(buffer,"%c",pChangeAccount->CustType);
+        json_pChangeAccount["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10493,12 +12293,16 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["Address"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->ZipCode,
             buffer,
             sizeof(pChangeAccount->ZipCode) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["ZipCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10509,12 +12313,16 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["Telephone"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->MobilePhone,
             buffer,
             sizeof(pChangeAccount->MobilePhone) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["MobilePhone"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10525,6 +12333,8 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["Fax"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->EMail,
             buffer,
@@ -10533,7 +12343,12 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["EMail"] = buffer;
 
 
-        json_pChangeAccount["MoneyAccountStatus"] = pChangeAccount->MoneyAccountStatus;
+
+
+        sprintf(buffer,"%c",pChangeAccount->MoneyAccountStatus);
+        json_pChangeAccount["MoneyAccountStatus"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10544,12 +12359,16 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->BankPassWord,
             buffer,
             sizeof(pChangeAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10560,12 +12379,16 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["NewBankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->NewBankPassWord,
             buffer,
             sizeof(pChangeAccount->NewBankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["NewBankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10576,6 +12399,8 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->Password,
             buffer,
@@ -10584,13 +12409,21 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["Password"] = buffer;
 
 
-        json_pChangeAccount["BankAccType"] = pChangeAccount->BankAccType;
+
+
+        sprintf(buffer,"%c",pChangeAccount->BankAccType);
+        json_pChangeAccount["BankAccType"] = buffer;
+
 
 
         json_pChangeAccount["InstallID"] = pChangeAccount->InstallID;
 
 
-        json_pChangeAccount["VerifyCertNoFlag"] = pChangeAccount->VerifyCertNoFlag;
+
+        sprintf(buffer,"%c",pChangeAccount->VerifyCertNoFlag);
+        json_pChangeAccount["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10601,6 +12434,8 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["CurrencyID"] = buffer;
 
 
+
+
         gbk2utf8(
             pChangeAccount->BrokerIDByBank,
             buffer,
@@ -10609,13 +12444,21 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["BrokerIDByBank"] = buffer;
 
 
-        json_pChangeAccount["BankPwdFlag"] = pChangeAccount->BankPwdFlag;
 
 
-        json_pChangeAccount["SecuPwdFlag"] = pChangeAccount->SecuPwdFlag;
+        sprintf(buffer,"%c",pChangeAccount->BankPwdFlag);
+        json_pChangeAccount["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pChangeAccount->SecuPwdFlag);
+        json_pChangeAccount["SecuPwdFlag"] = buffer;
+
 
 
         json_pChangeAccount["TID"] = pChangeAccount->TID;
+
 
 
         gbk2utf8(
@@ -10626,7 +12469,9 @@ void CTraderHandler::OnRtnChangeAccountByBank(
         json_pChangeAccount["Digest"] = buffer;
 
 
+
         json_pChangeAccount["ErrorID"] = pChangeAccount->ErrorID;
+
 
 
         gbk2utf8(
@@ -10635,6 +12480,7 @@ void CTraderHandler::OnRtnChangeAccountByBank(
             sizeof(pChangeAccount->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pChangeAccount["ErrorMsg"] = buffer;
+
 
     }
 
@@ -10679,13 +12525,20 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
 
 
-        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->BankRepealFlag);
+        json_pRspRepeal["BankRepealFlag"] = buffer;
 
 
-        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BrokerRepealFlag);
+        json_pRspRepeal["BrokerRepealFlag"] = buffer;
+
 
 
         json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
 
 
         gbk2utf8(
@@ -10696,7 +12549,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["BankRepealSerial"] = buffer;
 
 
+
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
         gbk2utf8(
@@ -10707,12 +12562,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["TradeCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankID,
             buffer,
             sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10723,12 +12582,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["BankBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BrokerID,
             buffer,
             sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10739,12 +12602,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->TradeDate,
             buffer,
             sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10755,12 +12622,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["TradeTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSerial,
             buffer,
             sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10771,13 +12642,18 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["TradingDay"] = buffer;
 
 
+
         json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
 
 
-        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+        sprintf(buffer,"%c",pRspRepeal->LastFragment);
+        json_pRspRepeal["LastFragment"] = buffer;
+
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
         gbk2utf8(
@@ -10788,7 +12664,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["CustomerName"] = buffer;
 
 
-        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->IdCardType);
+        json_pRspRepeal["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10799,7 +12680,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->CustType);
+        json_pRspRepeal["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10810,12 +12696,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankPassWord,
             buffer,
             sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10826,6 +12716,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Password,
             buffer,
@@ -10834,10 +12726,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["Password"] = buffer;
 
 
+
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
         gbk2utf8(
@@ -10848,7 +12742,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["UserID"] = buffer;
 
 
-        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->VerifyCertNoFlag);
+        json_pRspRepeal["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10859,19 +12758,24 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["CurrencyID"] = buffer;
 
 
+
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
 
 
-        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->FeePayFlag);
+        json_pRspRepeal["FeePayFlag"] = buffer;
+
 
 
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
         gbk2utf8(
@@ -10882,6 +12786,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Digest,
             buffer,
@@ -10890,7 +12796,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["Digest"] = buffer;
 
 
-        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankAccType);
+        json_pRspRepeal["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10901,7 +12812,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["DeviceID"] = buffer;
 
 
-        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankSecuAccType);
+        json_pRspRepeal["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10912,6 +12828,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSecuAcc,
             buffer,
@@ -10920,10 +12838,18 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["BankSecuAcc"] = buffer;
 
 
-        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
 
 
-        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspRepeal->BankPwdFlag);
+        json_pRspRepeal["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspRepeal->SecuPwdFlag);
+        json_pRspRepeal["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -10934,16 +12860,21 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["OperNo"] = buffer;
 
 
+
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
 
 
-        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+        sprintf(buffer,"%c",pRspRepeal->TransferStatus);
+        json_pRspRepeal["TransferStatus"] = buffer;
+
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
         gbk2utf8(
@@ -10952,6 +12883,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
             sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["ErrorMsg"] = buffer;
+
 
     }
 
@@ -10990,12 +12922,15 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pOpenAccount->TradeCode,
             buffer,
             sizeof(pOpenAccount->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pOpenAccount["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11006,12 +12941,16 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->BankBranchID,
             buffer,
             sizeof(pOpenAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pOpenAccount["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11022,12 +12961,16 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->BrokerBranchID,
             buffer,
             sizeof(pOpenAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pOpenAccount["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11038,12 +12981,16 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->TradeTime,
             buffer,
             sizeof(pOpenAccount->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pOpenAccount["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11054,6 +13001,8 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->TradingDay,
             buffer,
@@ -11062,13 +13011,18 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["TradingDay"] = buffer;
 
 
+
         json_pOpenAccount["PlateSerial"] = pOpenAccount->PlateSerial;
 
 
-        json_pOpenAccount["LastFragment"] = pOpenAccount->LastFragment;
+
+        sprintf(buffer,"%c",pOpenAccount->LastFragment);
+        json_pOpenAccount["LastFragment"] = buffer;
+
 
 
         json_pOpenAccount["SessionID"] = pOpenAccount->SessionID;
+
 
 
         gbk2utf8(
@@ -11079,7 +13033,12 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["CustomerName"] = buffer;
 
 
-        json_pOpenAccount["IdCardType"] = pOpenAccount->IdCardType;
+
+
+        sprintf(buffer,"%c",pOpenAccount->IdCardType);
+        json_pOpenAccount["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11090,7 +13049,12 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["IdentifiedCardNo"] = buffer;
 
 
-        json_pOpenAccount["Gender"] = pOpenAccount->Gender;
+
+
+        sprintf(buffer,"%c",pOpenAccount->Gender);
+        json_pOpenAccount["Gender"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11101,7 +13065,12 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["CountryCode"] = buffer;
 
 
-        json_pOpenAccount["CustType"] = pOpenAccount->CustType;
+
+
+        sprintf(buffer,"%c",pOpenAccount->CustType);
+        json_pOpenAccount["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11112,12 +13081,16 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["Address"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->ZipCode,
             buffer,
             sizeof(pOpenAccount->ZipCode) * 3 // 字符串转化变长的风险保障
         );
         json_pOpenAccount["ZipCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11128,12 +13101,16 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["Telephone"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->MobilePhone,
             buffer,
             sizeof(pOpenAccount->MobilePhone) * 3 // 字符串转化变长的风险保障
         );
         json_pOpenAccount["MobilePhone"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11144,6 +13121,8 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["Fax"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->EMail,
             buffer,
@@ -11152,7 +13131,12 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["EMail"] = buffer;
 
 
-        json_pOpenAccount["MoneyAccountStatus"] = pOpenAccount->MoneyAccountStatus;
+
+
+        sprintf(buffer,"%c",pOpenAccount->MoneyAccountStatus);
+        json_pOpenAccount["MoneyAccountStatus"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11163,12 +13147,16 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->BankPassWord,
             buffer,
             sizeof(pOpenAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pOpenAccount["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11179,6 +13167,8 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->Password,
             buffer,
@@ -11187,10 +13177,15 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["Password"] = buffer;
 
 
+
         json_pOpenAccount["InstallID"] = pOpenAccount->InstallID;
 
 
-        json_pOpenAccount["VerifyCertNoFlag"] = pOpenAccount->VerifyCertNoFlag;
+
+        sprintf(buffer,"%c",pOpenAccount->VerifyCertNoFlag);
+        json_pOpenAccount["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11201,7 +13196,12 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["CurrencyID"] = buffer;
 
 
-        json_pOpenAccount["CashExchangeCode"] = pOpenAccount->CashExchangeCode;
+
+
+        sprintf(buffer,"%c",pOpenAccount->CashExchangeCode);
+        json_pOpenAccount["CashExchangeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11212,7 +13212,12 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["Digest"] = buffer;
 
 
-        json_pOpenAccount["BankAccType"] = pOpenAccount->BankAccType;
+
+
+        sprintf(buffer,"%c",pOpenAccount->BankAccType);
+        json_pOpenAccount["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11223,7 +13228,12 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["DeviceID"] = buffer;
 
 
-        json_pOpenAccount["BankSecuAccType"] = pOpenAccount->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pOpenAccount->BankSecuAccType);
+        json_pOpenAccount["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11234,6 +13244,8 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pOpenAccount->BankSecuAcc,
             buffer,
@@ -11242,10 +13254,18 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["BankSecuAcc"] = buffer;
 
 
-        json_pOpenAccount["BankPwdFlag"] = pOpenAccount->BankPwdFlag;
 
 
-        json_pOpenAccount["SecuPwdFlag"] = pOpenAccount->SecuPwdFlag;
+        sprintf(buffer,"%c",pOpenAccount->BankPwdFlag);
+        json_pOpenAccount["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pOpenAccount->SecuPwdFlag);
+        json_pOpenAccount["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11256,7 +13276,9 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["OperNo"] = buffer;
 
 
+
         json_pOpenAccount["TID"] = pOpenAccount->TID;
+
 
 
         gbk2utf8(
@@ -11267,7 +13289,9 @@ void CTraderHandler::OnRtnOpenAccountByBank(
         json_pOpenAccount["UserID"] = buffer;
 
 
+
         json_pOpenAccount["ErrorID"] = pOpenAccount->ErrorID;
+
 
 
         gbk2utf8(
@@ -11276,6 +13300,7 @@ void CTraderHandler::OnRtnOpenAccountByBank(
             sizeof(pOpenAccount->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pOpenAccount["ErrorMsg"] = buffer;
+
 
     }
 
@@ -11314,12 +13339,15 @@ void CTraderHandler::OnRtnTrade(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pTrade->BrokerID,
             buffer,
             sizeof(pTrade->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11330,12 +13358,16 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->InstrumentID,
             buffer,
             sizeof(pTrade->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11346,12 +13378,16 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->UserID,
             buffer,
             sizeof(pTrade->UserID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["UserID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11362,6 +13398,8 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["ExchangeID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->TradeID,
             buffer,
@@ -11370,7 +13408,12 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["TradeID"] = buffer;
 
 
-        json_pTrade["Direction"] = pTrade->Direction;
+
+
+        sprintf(buffer,"%c",pTrade->Direction);
+        json_pTrade["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11381,12 +13424,16 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["OrderSysID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->ParticipantID,
             buffer,
             sizeof(pTrade->ParticipantID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["ParticipantID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11397,7 +13444,12 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["ClientID"] = buffer;
 
 
-        json_pTrade["TradingRole"] = pTrade->TradingRole;
+
+
+        sprintf(buffer,"%c",pTrade->TradingRole);
+        json_pTrade["TradingRole"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11408,16 +13460,24 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["ExchangeInstID"] = buffer;
 
 
-        json_pTrade["OffsetFlag"] = pTrade->OffsetFlag;
 
 
-        json_pTrade["HedgeFlag"] = pTrade->HedgeFlag;
+        sprintf(buffer,"%c",pTrade->OffsetFlag);
+        json_pTrade["OffsetFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pTrade->HedgeFlag);
+        json_pTrade["HedgeFlag"] = buffer;
+
 
 
         json_pTrade["Price"] = pTrade->Price;
 
 
         json_pTrade["Volume"] = pTrade->Volume;
+
 
 
         gbk2utf8(
@@ -11428,6 +13488,8 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->TradeTime,
             buffer,
@@ -11436,10 +13498,18 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["TradeTime"] = buffer;
 
 
-        json_pTrade["TradeType"] = pTrade->TradeType;
 
 
-        json_pTrade["PriceSource"] = pTrade->PriceSource;
+        sprintf(buffer,"%c",pTrade->TradeType);
+        json_pTrade["TradeType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pTrade->PriceSource);
+        json_pTrade["PriceSource"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11450,12 +13520,16 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["TraderID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->OrderLocalID,
             buffer,
             sizeof(pTrade->OrderLocalID) * 3 // 字符串转化变长的风险保障
         );
         json_pTrade["OrderLocalID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11466,6 +13540,8 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["ClearingPartID"] = buffer;
 
 
+
+
         gbk2utf8(
             pTrade->BusinessUnit,
             buffer,
@@ -11474,7 +13550,9 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["BusinessUnit"] = buffer;
 
 
+
         json_pTrade["SequenceNo"] = pTrade->SequenceNo;
+
 
 
         gbk2utf8(
@@ -11485,13 +13563,17 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["TradingDay"] = buffer;
 
 
+
         json_pTrade["SettlementID"] = pTrade->SettlementID;
 
 
         json_pTrade["BrokerOrderSeq"] = pTrade->BrokerOrderSeq;
 
 
-        json_pTrade["TradeSource"] = pTrade->TradeSource;
+
+        sprintf(buffer,"%c",pTrade->TradeSource);
+        json_pTrade["TradeSource"] = buffer;
+
 
     }
 
@@ -11536,13 +13618,20 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
 
 
-        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->BankRepealFlag);
+        json_pRspRepeal["BankRepealFlag"] = buffer;
 
 
-        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BrokerRepealFlag);
+        json_pRspRepeal["BrokerRepealFlag"] = buffer;
+
 
 
         json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
 
 
         gbk2utf8(
@@ -11553,7 +13642,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["BankRepealSerial"] = buffer;
 
 
+
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
         gbk2utf8(
@@ -11564,12 +13655,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["TradeCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankID,
             buffer,
             sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11580,12 +13675,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["BankBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BrokerID,
             buffer,
             sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11596,12 +13695,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->TradeDate,
             buffer,
             sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11612,12 +13715,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["TradeTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSerial,
             buffer,
             sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11628,13 +13735,18 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["TradingDay"] = buffer;
 
 
+
         json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
 
 
-        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+        sprintf(buffer,"%c",pRspRepeal->LastFragment);
+        json_pRspRepeal["LastFragment"] = buffer;
+
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
         gbk2utf8(
@@ -11645,7 +13757,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["CustomerName"] = buffer;
 
 
-        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->IdCardType);
+        json_pRspRepeal["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11656,7 +13773,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->CustType);
+        json_pRspRepeal["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11667,12 +13789,16 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankPassWord,
             buffer,
             sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11683,6 +13809,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Password,
             buffer,
@@ -11691,10 +13819,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["Password"] = buffer;
 
 
+
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
         gbk2utf8(
@@ -11705,7 +13835,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["UserID"] = buffer;
 
 
-        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->VerifyCertNoFlag);
+        json_pRspRepeal["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11716,19 +13851,24 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["CurrencyID"] = buffer;
 
 
+
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
 
 
-        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->FeePayFlag);
+        json_pRspRepeal["FeePayFlag"] = buffer;
+
 
 
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
         gbk2utf8(
@@ -11739,6 +13879,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Digest,
             buffer,
@@ -11747,7 +13889,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["Digest"] = buffer;
 
 
-        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankAccType);
+        json_pRspRepeal["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11758,7 +13905,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["DeviceID"] = buffer;
 
 
-        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankSecuAccType);
+        json_pRspRepeal["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11769,6 +13921,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSecuAcc,
             buffer,
@@ -11777,10 +13931,18 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["BankSecuAcc"] = buffer;
 
 
-        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
 
 
-        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspRepeal->BankPwdFlag);
+        json_pRspRepeal["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspRepeal->SecuPwdFlag);
+        json_pRspRepeal["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11791,16 +13953,21 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["OperNo"] = buffer;
 
 
+
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
 
 
-        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+        sprintf(buffer,"%c",pRspRepeal->TransferStatus);
+        json_pRspRepeal["TransferStatus"] = buffer;
+
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
         gbk2utf8(
@@ -11809,6 +13976,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
             sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["ErrorMsg"] = buffer;
+
 
     }
 
@@ -11847,12 +14015,15 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pErrorConditionalOrder->BrokerID,
             buffer,
             sizeof(pErrorConditionalOrder->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11863,12 +14034,16 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->InstrumentID,
             buffer,
             sizeof(pErrorConditionalOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11879,6 +14054,8 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->UserID,
             buffer,
@@ -11887,10 +14064,18 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["UserID"] = buffer;
 
 
-        json_pErrorConditionalOrder["OrderPriceType"] = pErrorConditionalOrder->OrderPriceType;
 
 
-        json_pErrorConditionalOrder["Direction"] = pErrorConditionalOrder->Direction;
+        sprintf(buffer,"%c",pErrorConditionalOrder->OrderPriceType);
+        json_pErrorConditionalOrder["OrderPriceType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pErrorConditionalOrder->Direction);
+        json_pErrorConditionalOrder["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11901,6 +14086,8 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["CombOffsetFlag"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->CombHedgeFlag,
             buffer,
@@ -11909,13 +14096,18 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["CombHedgeFlag"] = buffer;
 
 
+
         json_pErrorConditionalOrder["LimitPrice"] = pErrorConditionalOrder->LimitPrice;
 
 
         json_pErrorConditionalOrder["VolumeTotalOriginal"] = pErrorConditionalOrder->VolumeTotalOriginal;
 
 
-        json_pErrorConditionalOrder["TimeCondition"] = pErrorConditionalOrder->TimeCondition;
+
+        sprintf(buffer,"%c",pErrorConditionalOrder->TimeCondition);
+        json_pErrorConditionalOrder["TimeCondition"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11926,22 +14118,33 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["GTDDate"] = buffer;
 
 
-        json_pErrorConditionalOrder["VolumeCondition"] = pErrorConditionalOrder->VolumeCondition;
+
+
+        sprintf(buffer,"%c",pErrorConditionalOrder->VolumeCondition);
+        json_pErrorConditionalOrder["VolumeCondition"] = buffer;
+
 
 
         json_pErrorConditionalOrder["MinVolume"] = pErrorConditionalOrder->MinVolume;
 
 
-        json_pErrorConditionalOrder["ContingentCondition"] = pErrorConditionalOrder->ContingentCondition;
+
+        sprintf(buffer,"%c",pErrorConditionalOrder->ContingentCondition);
+        json_pErrorConditionalOrder["ContingentCondition"] = buffer;
+
 
 
         json_pErrorConditionalOrder["StopPrice"] = pErrorConditionalOrder->StopPrice;
 
 
-        json_pErrorConditionalOrder["ForceCloseReason"] = pErrorConditionalOrder->ForceCloseReason;
+
+        sprintf(buffer,"%c",pErrorConditionalOrder->ForceCloseReason);
+        json_pErrorConditionalOrder["ForceCloseReason"] = buffer;
+
 
 
         json_pErrorConditionalOrder["IsAutoSuspend"] = pErrorConditionalOrder->IsAutoSuspend;
+
 
 
         gbk2utf8(
@@ -11952,7 +14155,9 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["BusinessUnit"] = buffer;
 
 
+
         json_pErrorConditionalOrder["RequestID"] = pErrorConditionalOrder->RequestID;
+
 
 
         gbk2utf8(
@@ -11963,12 +14168,16 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["OrderLocalID"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->ExchangeID,
             buffer,
             sizeof(pErrorConditionalOrder->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11979,12 +14188,16 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["ParticipantID"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->ClientID,
             buffer,
             sizeof(pErrorConditionalOrder->ClientID) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["ClientID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -11995,6 +14208,8 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["ExchangeInstID"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->TraderID,
             buffer,
@@ -12003,13 +14218,18 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["TraderID"] = buffer;
 
 
+
         json_pErrorConditionalOrder["InstallID"] = pErrorConditionalOrder->InstallID;
 
 
-        json_pErrorConditionalOrder["OrderSubmitStatus"] = pErrorConditionalOrder->OrderSubmitStatus;
+
+        sprintf(buffer,"%c",pErrorConditionalOrder->OrderSubmitStatus);
+        json_pErrorConditionalOrder["OrderSubmitStatus"] = buffer;
+
 
 
         json_pErrorConditionalOrder["NotifySequence"] = pErrorConditionalOrder->NotifySequence;
+
 
 
         gbk2utf8(
@@ -12020,7 +14240,9 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["TradingDay"] = buffer;
 
 
+
         json_pErrorConditionalOrder["SettlementID"] = pErrorConditionalOrder->SettlementID;
+
 
 
         gbk2utf8(
@@ -12031,19 +14253,30 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["OrderSysID"] = buffer;
 
 
-        json_pErrorConditionalOrder["OrderSource"] = pErrorConditionalOrder->OrderSource;
 
 
-        json_pErrorConditionalOrder["OrderStatus"] = pErrorConditionalOrder->OrderStatus;
+        sprintf(buffer,"%c",pErrorConditionalOrder->OrderSource);
+        json_pErrorConditionalOrder["OrderSource"] = buffer;
 
 
-        json_pErrorConditionalOrder["OrderType"] = pErrorConditionalOrder->OrderType;
+
+
+        sprintf(buffer,"%c",pErrorConditionalOrder->OrderStatus);
+        json_pErrorConditionalOrder["OrderStatus"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pErrorConditionalOrder->OrderType);
+        json_pErrorConditionalOrder["OrderType"] = buffer;
+
 
 
         json_pErrorConditionalOrder["VolumeTraded"] = pErrorConditionalOrder->VolumeTraded;
 
 
         json_pErrorConditionalOrder["VolumeTotal"] = pErrorConditionalOrder->VolumeTotal;
+
 
 
         gbk2utf8(
@@ -12054,12 +14287,16 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["InsertDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->InsertTime,
             buffer,
             sizeof(pErrorConditionalOrder->InsertTime) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["InsertTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12070,12 +14307,16 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["ActiveTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->SuspendTime,
             buffer,
             sizeof(pErrorConditionalOrder->SuspendTime) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["SuspendTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12086,12 +14327,16 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["UpdateTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->CancelTime,
             buffer,
             sizeof(pErrorConditionalOrder->CancelTime) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["CancelTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12102,12 +14347,15 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["ActiveTraderID"] = buffer;
 
 
+
+
         gbk2utf8(
             pErrorConditionalOrder->ClearingPartID,
             buffer,
             sizeof(pErrorConditionalOrder->ClearingPartID) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["ClearingPartID"] = buffer;
+
 
 
         json_pErrorConditionalOrder["SequenceNo"] = pErrorConditionalOrder->SequenceNo;
@@ -12119,12 +14367,15 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["SessionID"] = pErrorConditionalOrder->SessionID;
 
 
+
         gbk2utf8(
             pErrorConditionalOrder->UserProductInfo,
             buffer,
             sizeof(pErrorConditionalOrder->UserProductInfo) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["UserProductInfo"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12135,7 +14386,9 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["StatusMsg"] = buffer;
 
 
+
         json_pErrorConditionalOrder["UserForceClose"] = pErrorConditionalOrder->UserForceClose;
+
 
 
         gbk2utf8(
@@ -12146,7 +14399,9 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["ActiveUserID"] = buffer;
 
 
+
         json_pErrorConditionalOrder["BrokerOrderSeq"] = pErrorConditionalOrder->BrokerOrderSeq;
+
 
 
         gbk2utf8(
@@ -12157,10 +14412,12 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["RelativeOrderSysID"] = buffer;
 
 
+
         json_pErrorConditionalOrder["ZCETotalTradedVolume"] = pErrorConditionalOrder->ZCETotalTradedVolume;
 
 
         json_pErrorConditionalOrder["ErrorID"] = pErrorConditionalOrder->ErrorID;
+
 
 
         gbk2utf8(
@@ -12169,6 +14426,7 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
             sizeof(pErrorConditionalOrder->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pErrorConditionalOrder["ErrorMsg"] = buffer;
+
 
 
         json_pErrorConditionalOrder["IsSwapOrder"] = pErrorConditionalOrder->IsSwapOrder;
@@ -12216,13 +14474,20 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
 
 
-        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->BankRepealFlag);
+        json_pRspRepeal["BankRepealFlag"] = buffer;
 
 
-        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BrokerRepealFlag);
+        json_pRspRepeal["BrokerRepealFlag"] = buffer;
+
 
 
         json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
 
 
         gbk2utf8(
@@ -12233,7 +14498,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["BankRepealSerial"] = buffer;
 
 
+
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
         gbk2utf8(
@@ -12244,12 +14511,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["TradeCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankID,
             buffer,
             sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12260,12 +14531,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["BankBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BrokerID,
             buffer,
             sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12276,12 +14551,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->TradeDate,
             buffer,
             sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12292,12 +14571,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["TradeTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSerial,
             buffer,
             sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12308,13 +14591,18 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["TradingDay"] = buffer;
 
 
+
         json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
 
 
-        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+        sprintf(buffer,"%c",pRspRepeal->LastFragment);
+        json_pRspRepeal["LastFragment"] = buffer;
+
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
         gbk2utf8(
@@ -12325,7 +14613,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["CustomerName"] = buffer;
 
 
-        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->IdCardType);
+        json_pRspRepeal["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12336,7 +14629,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["IdentifiedCardNo"] = buffer;
 
 
-        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->CustType);
+        json_pRspRepeal["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12347,12 +14645,16 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankPassWord,
             buffer,
             sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12363,6 +14665,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Password,
             buffer,
@@ -12371,10 +14675,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["Password"] = buffer;
 
 
+
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
         gbk2utf8(
@@ -12385,7 +14691,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["UserID"] = buffer;
 
 
-        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pRspRepeal->VerifyCertNoFlag);
+        json_pRspRepeal["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12396,19 +14707,24 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["CurrencyID"] = buffer;
 
 
+
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
 
 
-        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+        sprintf(buffer,"%c",pRspRepeal->FeePayFlag);
+        json_pRspRepeal["FeePayFlag"] = buffer;
+
 
 
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
         gbk2utf8(
@@ -12419,6 +14735,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->Digest,
             buffer,
@@ -12427,7 +14745,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["Digest"] = buffer;
 
 
-        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankAccType);
+        json_pRspRepeal["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12438,7 +14761,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["DeviceID"] = buffer;
 
 
-        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pRspRepeal->BankSecuAccType);
+        json_pRspRepeal["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12449,6 +14777,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pRspRepeal->BankSecuAcc,
             buffer,
@@ -12457,10 +14787,18 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["BankSecuAcc"] = buffer;
 
 
-        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
 
 
-        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+        sprintf(buffer,"%c",pRspRepeal->BankPwdFlag);
+        json_pRspRepeal["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pRspRepeal->SecuPwdFlag);
+        json_pRspRepeal["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12471,16 +14809,21 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["OperNo"] = buffer;
 
 
+
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
 
 
-        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+        sprintf(buffer,"%c",pRspRepeal->TransferStatus);
+        json_pRspRepeal["TransferStatus"] = buffer;
+
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
         gbk2utf8(
@@ -12489,6 +14832,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
             sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspRepeal["ErrorMsg"] = buffer;
+
 
     }
 
@@ -12527,12 +14871,15 @@ void CTraderHandler::OnRtnOrder(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pOrder->BrokerID,
             buffer,
             sizeof(pOrder->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12543,12 +14890,16 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->InstrumentID,
             buffer,
             sizeof(pOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12559,6 +14910,8 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->UserID,
             buffer,
@@ -12567,10 +14920,18 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["UserID"] = buffer;
 
 
-        json_pOrder["OrderPriceType"] = pOrder->OrderPriceType;
 
 
-        json_pOrder["Direction"] = pOrder->Direction;
+        sprintf(buffer,"%c",pOrder->OrderPriceType);
+        json_pOrder["OrderPriceType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pOrder->Direction);
+        json_pOrder["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12581,6 +14942,8 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["CombOffsetFlag"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->CombHedgeFlag,
             buffer,
@@ -12589,13 +14952,18 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["CombHedgeFlag"] = buffer;
 
 
+
         json_pOrder["LimitPrice"] = pOrder->LimitPrice;
 
 
         json_pOrder["VolumeTotalOriginal"] = pOrder->VolumeTotalOriginal;
 
 
-        json_pOrder["TimeCondition"] = pOrder->TimeCondition;
+
+        sprintf(buffer,"%c",pOrder->TimeCondition);
+        json_pOrder["TimeCondition"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12606,22 +14974,33 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["GTDDate"] = buffer;
 
 
-        json_pOrder["VolumeCondition"] = pOrder->VolumeCondition;
+
+
+        sprintf(buffer,"%c",pOrder->VolumeCondition);
+        json_pOrder["VolumeCondition"] = buffer;
+
 
 
         json_pOrder["MinVolume"] = pOrder->MinVolume;
 
 
-        json_pOrder["ContingentCondition"] = pOrder->ContingentCondition;
+
+        sprintf(buffer,"%c",pOrder->ContingentCondition);
+        json_pOrder["ContingentCondition"] = buffer;
+
 
 
         json_pOrder["StopPrice"] = pOrder->StopPrice;
 
 
-        json_pOrder["ForceCloseReason"] = pOrder->ForceCloseReason;
+
+        sprintf(buffer,"%c",pOrder->ForceCloseReason);
+        json_pOrder["ForceCloseReason"] = buffer;
+
 
 
         json_pOrder["IsAutoSuspend"] = pOrder->IsAutoSuspend;
+
 
 
         gbk2utf8(
@@ -12632,7 +15011,9 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["BusinessUnit"] = buffer;
 
 
+
         json_pOrder["RequestID"] = pOrder->RequestID;
+
 
 
         gbk2utf8(
@@ -12643,12 +15024,16 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["OrderLocalID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->ExchangeID,
             buffer,
             sizeof(pOrder->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12659,12 +15044,16 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["ParticipantID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->ClientID,
             buffer,
             sizeof(pOrder->ClientID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["ClientID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12675,6 +15064,8 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["ExchangeInstID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->TraderID,
             buffer,
@@ -12683,13 +15074,18 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["TraderID"] = buffer;
 
 
+
         json_pOrder["InstallID"] = pOrder->InstallID;
 
 
-        json_pOrder["OrderSubmitStatus"] = pOrder->OrderSubmitStatus;
+
+        sprintf(buffer,"%c",pOrder->OrderSubmitStatus);
+        json_pOrder["OrderSubmitStatus"] = buffer;
+
 
 
         json_pOrder["NotifySequence"] = pOrder->NotifySequence;
+
 
 
         gbk2utf8(
@@ -12700,7 +15096,9 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["TradingDay"] = buffer;
 
 
+
         json_pOrder["SettlementID"] = pOrder->SettlementID;
+
 
 
         gbk2utf8(
@@ -12711,19 +15109,30 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["OrderSysID"] = buffer;
 
 
-        json_pOrder["OrderSource"] = pOrder->OrderSource;
 
 
-        json_pOrder["OrderStatus"] = pOrder->OrderStatus;
+        sprintf(buffer,"%c",pOrder->OrderSource);
+        json_pOrder["OrderSource"] = buffer;
 
 
-        json_pOrder["OrderType"] = pOrder->OrderType;
+
+
+        sprintf(buffer,"%c",pOrder->OrderStatus);
+        json_pOrder["OrderStatus"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pOrder->OrderType);
+        json_pOrder["OrderType"] = buffer;
+
 
 
         json_pOrder["VolumeTraded"] = pOrder->VolumeTraded;
 
 
         json_pOrder["VolumeTotal"] = pOrder->VolumeTotal;
+
 
 
         gbk2utf8(
@@ -12734,12 +15143,16 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["InsertDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->InsertTime,
             buffer,
             sizeof(pOrder->InsertTime) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["InsertTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12750,12 +15163,16 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["ActiveTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->SuspendTime,
             buffer,
             sizeof(pOrder->SuspendTime) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["SuspendTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12766,12 +15183,16 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["UpdateTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->CancelTime,
             buffer,
             sizeof(pOrder->CancelTime) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["CancelTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12782,12 +15203,15 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["ActiveTraderID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrder->ClearingPartID,
             buffer,
             sizeof(pOrder->ClearingPartID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["ClearingPartID"] = buffer;
+
 
 
         json_pOrder["SequenceNo"] = pOrder->SequenceNo;
@@ -12799,12 +15223,15 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["SessionID"] = pOrder->SessionID;
 
 
+
         gbk2utf8(
             pOrder->UserProductInfo,
             buffer,
             sizeof(pOrder->UserProductInfo) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["UserProductInfo"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12815,7 +15242,9 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["StatusMsg"] = buffer;
 
 
+
         json_pOrder["UserForceClose"] = pOrder->UserForceClose;
+
 
 
         gbk2utf8(
@@ -12826,7 +15255,9 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["ActiveUserID"] = buffer;
 
 
+
         json_pOrder["BrokerOrderSeq"] = pOrder->BrokerOrderSeq;
+
 
 
         gbk2utf8(
@@ -12835,6 +15266,7 @@ void CTraderHandler::OnRtnOrder(
             sizeof(pOrder->RelativeOrderSysID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrder["RelativeOrderSysID"] = buffer;
+
 
 
         json_pOrder["ZCETotalTradedVolume"] = pOrder->ZCETotalTradedVolume;
@@ -12879,12 +15311,15 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pCancelAccount->TradeCode,
             buffer,
             sizeof(pCancelAccount->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pCancelAccount["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12895,12 +15330,16 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->BankBranchID,
             buffer,
             sizeof(pCancelAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pCancelAccount["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12911,12 +15350,16 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->BrokerBranchID,
             buffer,
             sizeof(pCancelAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pCancelAccount["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12927,12 +15370,16 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->TradeTime,
             buffer,
             sizeof(pCancelAccount->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pCancelAccount["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12943,6 +15390,8 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->TradingDay,
             buffer,
@@ -12951,13 +15400,18 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["TradingDay"] = buffer;
 
 
+
         json_pCancelAccount["PlateSerial"] = pCancelAccount->PlateSerial;
 
 
-        json_pCancelAccount["LastFragment"] = pCancelAccount->LastFragment;
+
+        sprintf(buffer,"%c",pCancelAccount->LastFragment);
+        json_pCancelAccount["LastFragment"] = buffer;
+
 
 
         json_pCancelAccount["SessionID"] = pCancelAccount->SessionID;
+
 
 
         gbk2utf8(
@@ -12968,7 +15422,12 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["CustomerName"] = buffer;
 
 
-        json_pCancelAccount["IdCardType"] = pCancelAccount->IdCardType;
+
+
+        sprintf(buffer,"%c",pCancelAccount->IdCardType);
+        json_pCancelAccount["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12979,7 +15438,12 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["IdentifiedCardNo"] = buffer;
 
 
-        json_pCancelAccount["Gender"] = pCancelAccount->Gender;
+
+
+        sprintf(buffer,"%c",pCancelAccount->Gender);
+        json_pCancelAccount["Gender"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -12990,7 +15454,12 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["CountryCode"] = buffer;
 
 
-        json_pCancelAccount["CustType"] = pCancelAccount->CustType;
+
+
+        sprintf(buffer,"%c",pCancelAccount->CustType);
+        json_pCancelAccount["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13001,12 +15470,16 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["Address"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->ZipCode,
             buffer,
             sizeof(pCancelAccount->ZipCode) * 3 // 字符串转化变长的风险保障
         );
         json_pCancelAccount["ZipCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13017,12 +15490,16 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["Telephone"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->MobilePhone,
             buffer,
             sizeof(pCancelAccount->MobilePhone) * 3 // 字符串转化变长的风险保障
         );
         json_pCancelAccount["MobilePhone"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13033,6 +15510,8 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["Fax"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->EMail,
             buffer,
@@ -13041,7 +15520,12 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["EMail"] = buffer;
 
 
-        json_pCancelAccount["MoneyAccountStatus"] = pCancelAccount->MoneyAccountStatus;
+
+
+        sprintf(buffer,"%c",pCancelAccount->MoneyAccountStatus);
+        json_pCancelAccount["MoneyAccountStatus"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13052,12 +15536,16 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->BankPassWord,
             buffer,
             sizeof(pCancelAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pCancelAccount["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13068,6 +15556,8 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->Password,
             buffer,
@@ -13076,10 +15566,15 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["Password"] = buffer;
 
 
+
         json_pCancelAccount["InstallID"] = pCancelAccount->InstallID;
 
 
-        json_pCancelAccount["VerifyCertNoFlag"] = pCancelAccount->VerifyCertNoFlag;
+
+        sprintf(buffer,"%c",pCancelAccount->VerifyCertNoFlag);
+        json_pCancelAccount["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13090,7 +15585,12 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["CurrencyID"] = buffer;
 
 
-        json_pCancelAccount["CashExchangeCode"] = pCancelAccount->CashExchangeCode;
+
+
+        sprintf(buffer,"%c",pCancelAccount->CashExchangeCode);
+        json_pCancelAccount["CashExchangeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13101,7 +15601,12 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["Digest"] = buffer;
 
 
-        json_pCancelAccount["BankAccType"] = pCancelAccount->BankAccType;
+
+
+        sprintf(buffer,"%c",pCancelAccount->BankAccType);
+        json_pCancelAccount["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13112,7 +15617,12 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["DeviceID"] = buffer;
 
 
-        json_pCancelAccount["BankSecuAccType"] = pCancelAccount->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pCancelAccount->BankSecuAccType);
+        json_pCancelAccount["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13123,6 +15633,8 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pCancelAccount->BankSecuAcc,
             buffer,
@@ -13131,10 +15643,18 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["BankSecuAcc"] = buffer;
 
 
-        json_pCancelAccount["BankPwdFlag"] = pCancelAccount->BankPwdFlag;
 
 
-        json_pCancelAccount["SecuPwdFlag"] = pCancelAccount->SecuPwdFlag;
+        sprintf(buffer,"%c",pCancelAccount->BankPwdFlag);
+        json_pCancelAccount["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pCancelAccount->SecuPwdFlag);
+        json_pCancelAccount["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13145,7 +15665,9 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["OperNo"] = buffer;
 
 
+
         json_pCancelAccount["TID"] = pCancelAccount->TID;
+
 
 
         gbk2utf8(
@@ -13156,7 +15678,9 @@ void CTraderHandler::OnRtnCancelAccountByBank(
         json_pCancelAccount["UserID"] = buffer;
 
 
+
         json_pCancelAccount["ErrorID"] = pCancelAccount->ErrorID;
+
 
 
         gbk2utf8(
@@ -13165,6 +15689,7 @@ void CTraderHandler::OnRtnCancelAccountByBank(
             sizeof(pCancelAccount->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pCancelAccount["ErrorMsg"] = buffer;
+
 
     }
 
@@ -13216,13 +15741,20 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["RepealedTimes"] = pReqRepeal->RepealedTimes;
 
 
-        json_pReqRepeal["BankRepealFlag"] = pReqRepeal->BankRepealFlag;
+
+        sprintf(buffer,"%c",pReqRepeal->BankRepealFlag);
+        json_pReqRepeal["BankRepealFlag"] = buffer;
 
 
-        json_pReqRepeal["BrokerRepealFlag"] = pReqRepeal->BrokerRepealFlag;
+
+
+        sprintf(buffer,"%c",pReqRepeal->BrokerRepealFlag);
+        json_pReqRepeal["BrokerRepealFlag"] = buffer;
+
 
 
         json_pReqRepeal["PlateRepealSerial"] = pReqRepeal->PlateRepealSerial;
+
 
 
         gbk2utf8(
@@ -13233,7 +15765,9 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["BankRepealSerial"] = buffer;
 
 
+
         json_pReqRepeal["FutureRepealSerial"] = pReqRepeal->FutureRepealSerial;
+
 
 
         gbk2utf8(
@@ -13244,12 +15778,16 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["TradeCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BankID,
             buffer,
             sizeof(pReqRepeal->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13260,12 +15798,16 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["BankBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BrokerID,
             buffer,
             sizeof(pReqRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13276,12 +15818,16 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->TradeDate,
             buffer,
             sizeof(pReqRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13292,12 +15838,16 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["TradeTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BankSerial,
             buffer,
             sizeof(pReqRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13308,13 +15858,18 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["TradingDay"] = buffer;
 
 
+
         json_pReqRepeal["PlateSerial"] = pReqRepeal->PlateSerial;
 
 
-        json_pReqRepeal["LastFragment"] = pReqRepeal->LastFragment;
+
+        sprintf(buffer,"%c",pReqRepeal->LastFragment);
+        json_pReqRepeal["LastFragment"] = buffer;
+
 
 
         json_pReqRepeal["SessionID"] = pReqRepeal->SessionID;
+
 
 
         gbk2utf8(
@@ -13325,7 +15880,12 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["CustomerName"] = buffer;
 
 
-        json_pReqRepeal["IdCardType"] = pReqRepeal->IdCardType;
+
+
+        sprintf(buffer,"%c",pReqRepeal->IdCardType);
+        json_pReqRepeal["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13336,7 +15896,12 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["IdentifiedCardNo"] = buffer;
 
 
-        json_pReqRepeal["CustType"] = pReqRepeal->CustType;
+
+
+        sprintf(buffer,"%c",pReqRepeal->CustType);
+        json_pReqRepeal["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13347,12 +15912,16 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BankPassWord,
             buffer,
             sizeof(pReqRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13363,6 +15932,8 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->Password,
             buffer,
@@ -13371,10 +15942,12 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["Password"] = buffer;
 
 
+
         json_pReqRepeal["InstallID"] = pReqRepeal->InstallID;
 
 
         json_pReqRepeal["FutureSerial"] = pReqRepeal->FutureSerial;
+
 
 
         gbk2utf8(
@@ -13385,7 +15958,12 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["UserID"] = buffer;
 
 
-        json_pReqRepeal["VerifyCertNoFlag"] = pReqRepeal->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pReqRepeal->VerifyCertNoFlag);
+        json_pReqRepeal["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13396,19 +15974,24 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["CurrencyID"] = buffer;
 
 
+
         json_pReqRepeal["TradeAmount"] = pReqRepeal->TradeAmount;
 
 
         json_pReqRepeal["FutureFetchAmount"] = pReqRepeal->FutureFetchAmount;
 
 
-        json_pReqRepeal["FeePayFlag"] = pReqRepeal->FeePayFlag;
+
+        sprintf(buffer,"%c",pReqRepeal->FeePayFlag);
+        json_pReqRepeal["FeePayFlag"] = buffer;
+
 
 
         json_pReqRepeal["CustFee"] = pReqRepeal->CustFee;
 
 
         json_pReqRepeal["BrokerFee"] = pReqRepeal->BrokerFee;
+
 
 
         gbk2utf8(
@@ -13419,6 +16002,8 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->Digest,
             buffer,
@@ -13427,7 +16012,12 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["Digest"] = buffer;
 
 
-        json_pReqRepeal["BankAccType"] = pReqRepeal->BankAccType;
+
+
+        sprintf(buffer,"%c",pReqRepeal->BankAccType);
+        json_pReqRepeal["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13438,7 +16028,12 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["DeviceID"] = buffer;
 
 
-        json_pReqRepeal["BankSecuAccType"] = pReqRepeal->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pReqRepeal->BankSecuAccType);
+        json_pReqRepeal["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13449,6 +16044,8 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BankSecuAcc,
             buffer,
@@ -13457,10 +16054,18 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["BankSecuAcc"] = buffer;
 
 
-        json_pReqRepeal["BankPwdFlag"] = pReqRepeal->BankPwdFlag;
 
 
-        json_pReqRepeal["SecuPwdFlag"] = pReqRepeal->SecuPwdFlag;
+        sprintf(buffer,"%c",pReqRepeal->BankPwdFlag);
+        json_pReqRepeal["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pReqRepeal->SecuPwdFlag);
+        json_pReqRepeal["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13471,13 +16076,17 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["OperNo"] = buffer;
 
 
+
         json_pReqRepeal["RequestID"] = pReqRepeal->RequestID;
 
 
         json_pReqRepeal["TID"] = pReqRepeal->TID;
 
 
-        json_pReqRepeal["TransferStatus"] = pReqRepeal->TransferStatus;
+
+        sprintf(buffer,"%c",pReqRepeal->TransferStatus);
+        json_pReqRepeal["TransferStatus"] = buffer;
+
 
     }
 
@@ -13517,12 +16126,15 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pReqTransfer->TradeCode,
             buffer,
             sizeof(pReqTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13533,12 +16145,16 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankBranchID,
             buffer,
             sizeof(pReqTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13549,12 +16165,16 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BrokerBranchID,
             buffer,
             sizeof(pReqTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13565,12 +16185,16 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->TradeTime,
             buffer,
             sizeof(pReqTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13581,6 +16205,8 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->TradingDay,
             buffer,
@@ -13589,13 +16215,18 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["TradingDay"] = buffer;
 
 
+
         json_pReqTransfer["PlateSerial"] = pReqTransfer->PlateSerial;
 
 
-        json_pReqTransfer["LastFragment"] = pReqTransfer->LastFragment;
+
+        sprintf(buffer,"%c",pReqTransfer->LastFragment);
+        json_pReqTransfer["LastFragment"] = buffer;
+
 
 
         json_pReqTransfer["SessionID"] = pReqTransfer->SessionID;
+
 
 
         gbk2utf8(
@@ -13606,7 +16237,12 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["CustomerName"] = buffer;
 
 
-        json_pReqTransfer["IdCardType"] = pReqTransfer->IdCardType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->IdCardType);
+        json_pReqTransfer["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13617,7 +16253,12 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["IdentifiedCardNo"] = buffer;
 
 
-        json_pReqTransfer["CustType"] = pReqTransfer->CustType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->CustType);
+        json_pReqTransfer["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13628,12 +16269,16 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankPassWord,
             buffer,
             sizeof(pReqTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13644,6 +16289,8 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->Password,
             buffer,
@@ -13652,10 +16299,12 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["Password"] = buffer;
 
 
+
         json_pReqTransfer["InstallID"] = pReqTransfer->InstallID;
 
 
         json_pReqTransfer["FutureSerial"] = pReqTransfer->FutureSerial;
+
 
 
         gbk2utf8(
@@ -13666,7 +16315,12 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["UserID"] = buffer;
 
 
-        json_pReqTransfer["VerifyCertNoFlag"] = pReqTransfer->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pReqTransfer->VerifyCertNoFlag);
+        json_pReqTransfer["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13677,19 +16331,24 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["CurrencyID"] = buffer;
 
 
+
         json_pReqTransfer["TradeAmount"] = pReqTransfer->TradeAmount;
 
 
         json_pReqTransfer["FutureFetchAmount"] = pReqTransfer->FutureFetchAmount;
 
 
-        json_pReqTransfer["FeePayFlag"] = pReqTransfer->FeePayFlag;
+
+        sprintf(buffer,"%c",pReqTransfer->FeePayFlag);
+        json_pReqTransfer["FeePayFlag"] = buffer;
+
 
 
         json_pReqTransfer["CustFee"] = pReqTransfer->CustFee;
 
 
         json_pReqTransfer["BrokerFee"] = pReqTransfer->BrokerFee;
+
 
 
         gbk2utf8(
@@ -13700,6 +16359,8 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->Digest,
             buffer,
@@ -13708,7 +16369,12 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["Digest"] = buffer;
 
 
-        json_pReqTransfer["BankAccType"] = pReqTransfer->BankAccType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->BankAccType);
+        json_pReqTransfer["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13719,7 +16385,12 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["DeviceID"] = buffer;
 
 
-        json_pReqTransfer["BankSecuAccType"] = pReqTransfer->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->BankSecuAccType);
+        json_pReqTransfer["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13730,6 +16401,8 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankSecuAcc,
             buffer,
@@ -13738,10 +16411,18 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["BankSecuAcc"] = buffer;
 
 
-        json_pReqTransfer["BankPwdFlag"] = pReqTransfer->BankPwdFlag;
 
 
-        json_pReqTransfer["SecuPwdFlag"] = pReqTransfer->SecuPwdFlag;
+        sprintf(buffer,"%c",pReqTransfer->BankPwdFlag);
+        json_pReqTransfer["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pReqTransfer->SecuPwdFlag);
+        json_pReqTransfer["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13752,13 +16433,17 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["OperNo"] = buffer;
 
 
+
         json_pReqTransfer["RequestID"] = pReqTransfer->RequestID;
 
 
         json_pReqTransfer["TID"] = pReqTransfer->TID;
 
 
-        json_pReqTransfer["TransferStatus"] = pReqTransfer->TransferStatus;
+
+        sprintf(buffer,"%c",pReqTransfer->TransferStatus);
+        json_pReqTransfer["TransferStatus"] = buffer;
+
 
     }
 
@@ -13798,12 +16483,15 @@ void CTraderHandler::OnErrRtnOrderInsert(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pInputOrder->BrokerID,
             buffer,
             sizeof(pInputOrder->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrder["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13814,12 +16502,16 @@ void CTraderHandler::OnErrRtnOrderInsert(
         json_pInputOrder["InvestorID"] = buffer;
 
 
+
+
         gbk2utf8(
             pInputOrder->InstrumentID,
             buffer,
             sizeof(pInputOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrder["InstrumentID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13830,6 +16522,8 @@ void CTraderHandler::OnErrRtnOrderInsert(
         json_pInputOrder["OrderRef"] = buffer;
 
 
+
+
         gbk2utf8(
             pInputOrder->UserID,
             buffer,
@@ -13838,10 +16532,18 @@ void CTraderHandler::OnErrRtnOrderInsert(
         json_pInputOrder["UserID"] = buffer;
 
 
-        json_pInputOrder["OrderPriceType"] = pInputOrder->OrderPriceType;
 
 
-        json_pInputOrder["Direction"] = pInputOrder->Direction;
+        sprintf(buffer,"%c",pInputOrder->OrderPriceType);
+        json_pInputOrder["OrderPriceType"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pInputOrder->Direction);
+        json_pInputOrder["Direction"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13852,6 +16554,8 @@ void CTraderHandler::OnErrRtnOrderInsert(
         json_pInputOrder["CombOffsetFlag"] = buffer;
 
 
+
+
         gbk2utf8(
             pInputOrder->CombHedgeFlag,
             buffer,
@@ -13860,13 +16564,18 @@ void CTraderHandler::OnErrRtnOrderInsert(
         json_pInputOrder["CombHedgeFlag"] = buffer;
 
 
+
         json_pInputOrder["LimitPrice"] = pInputOrder->LimitPrice;
 
 
         json_pInputOrder["VolumeTotalOriginal"] = pInputOrder->VolumeTotalOriginal;
 
 
-        json_pInputOrder["TimeCondition"] = pInputOrder->TimeCondition;
+
+        sprintf(buffer,"%c",pInputOrder->TimeCondition);
+        json_pInputOrder["TimeCondition"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13877,22 +16586,33 @@ void CTraderHandler::OnErrRtnOrderInsert(
         json_pInputOrder["GTDDate"] = buffer;
 
 
-        json_pInputOrder["VolumeCondition"] = pInputOrder->VolumeCondition;
+
+
+        sprintf(buffer,"%c",pInputOrder->VolumeCondition);
+        json_pInputOrder["VolumeCondition"] = buffer;
+
 
 
         json_pInputOrder["MinVolume"] = pInputOrder->MinVolume;
 
 
-        json_pInputOrder["ContingentCondition"] = pInputOrder->ContingentCondition;
+
+        sprintf(buffer,"%c",pInputOrder->ContingentCondition);
+        json_pInputOrder["ContingentCondition"] = buffer;
+
 
 
         json_pInputOrder["StopPrice"] = pInputOrder->StopPrice;
 
 
-        json_pInputOrder["ForceCloseReason"] = pInputOrder->ForceCloseReason;
+
+        sprintf(buffer,"%c",pInputOrder->ForceCloseReason);
+        json_pInputOrder["ForceCloseReason"] = buffer;
+
 
 
         json_pInputOrder["IsAutoSuspend"] = pInputOrder->IsAutoSuspend;
+
 
 
         gbk2utf8(
@@ -13901,6 +16621,7 @@ void CTraderHandler::OnErrRtnOrderInsert(
             sizeof(pInputOrder->BusinessUnit) * 3 // 字符串转化变长的风险保障
         );
         json_pInputOrder["BusinessUnit"] = buffer;
+
 
 
         json_pInputOrder["RequestID"] = pInputOrder->RequestID;
@@ -13955,13 +16676,20 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["RepealedTimes"] = pReqRepeal->RepealedTimes;
 
 
-        json_pReqRepeal["BankRepealFlag"] = pReqRepeal->BankRepealFlag;
+
+        sprintf(buffer,"%c",pReqRepeal->BankRepealFlag);
+        json_pReqRepeal["BankRepealFlag"] = buffer;
 
 
-        json_pReqRepeal["BrokerRepealFlag"] = pReqRepeal->BrokerRepealFlag;
+
+
+        sprintf(buffer,"%c",pReqRepeal->BrokerRepealFlag);
+        json_pReqRepeal["BrokerRepealFlag"] = buffer;
+
 
 
         json_pReqRepeal["PlateRepealSerial"] = pReqRepeal->PlateRepealSerial;
+
 
 
         gbk2utf8(
@@ -13972,7 +16700,9 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["BankRepealSerial"] = buffer;
 
 
+
         json_pReqRepeal["FutureRepealSerial"] = pReqRepeal->FutureRepealSerial;
+
 
 
         gbk2utf8(
@@ -13983,12 +16713,16 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["TradeCode"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BankID,
             buffer,
             sizeof(pReqRepeal->BankID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["BankID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -13999,12 +16733,16 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["BankBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BrokerID,
             buffer,
             sizeof(pReqRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14015,12 +16753,16 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["BrokerBranchID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->TradeDate,
             buffer,
             sizeof(pReqRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["TradeDate"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14031,12 +16773,16 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["TradeTime"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BankSerial,
             buffer,
             sizeof(pReqRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["BankSerial"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14047,13 +16793,18 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["TradingDay"] = buffer;
 
 
+
         json_pReqRepeal["PlateSerial"] = pReqRepeal->PlateSerial;
 
 
-        json_pReqRepeal["LastFragment"] = pReqRepeal->LastFragment;
+
+        sprintf(buffer,"%c",pReqRepeal->LastFragment);
+        json_pReqRepeal["LastFragment"] = buffer;
+
 
 
         json_pReqRepeal["SessionID"] = pReqRepeal->SessionID;
+
 
 
         gbk2utf8(
@@ -14064,7 +16815,12 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["CustomerName"] = buffer;
 
 
-        json_pReqRepeal["IdCardType"] = pReqRepeal->IdCardType;
+
+
+        sprintf(buffer,"%c",pReqRepeal->IdCardType);
+        json_pReqRepeal["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14075,7 +16831,12 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["IdentifiedCardNo"] = buffer;
 
 
-        json_pReqRepeal["CustType"] = pReqRepeal->CustType;
+
+
+        sprintf(buffer,"%c",pReqRepeal->CustType);
+        json_pReqRepeal["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14086,12 +16847,16 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BankPassWord,
             buffer,
             sizeof(pReqRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pReqRepeal["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14102,6 +16867,8 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->Password,
             buffer,
@@ -14110,10 +16877,12 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["Password"] = buffer;
 
 
+
         json_pReqRepeal["InstallID"] = pReqRepeal->InstallID;
 
 
         json_pReqRepeal["FutureSerial"] = pReqRepeal->FutureSerial;
+
 
 
         gbk2utf8(
@@ -14124,7 +16893,12 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["UserID"] = buffer;
 
 
-        json_pReqRepeal["VerifyCertNoFlag"] = pReqRepeal->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pReqRepeal->VerifyCertNoFlag);
+        json_pReqRepeal["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14135,19 +16909,24 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["CurrencyID"] = buffer;
 
 
+
         json_pReqRepeal["TradeAmount"] = pReqRepeal->TradeAmount;
 
 
         json_pReqRepeal["FutureFetchAmount"] = pReqRepeal->FutureFetchAmount;
 
 
-        json_pReqRepeal["FeePayFlag"] = pReqRepeal->FeePayFlag;
+
+        sprintf(buffer,"%c",pReqRepeal->FeePayFlag);
+        json_pReqRepeal["FeePayFlag"] = buffer;
+
 
 
         json_pReqRepeal["CustFee"] = pReqRepeal->CustFee;
 
 
         json_pReqRepeal["BrokerFee"] = pReqRepeal->BrokerFee;
+
 
 
         gbk2utf8(
@@ -14158,6 +16937,8 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->Digest,
             buffer,
@@ -14166,7 +16947,12 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["Digest"] = buffer;
 
 
-        json_pReqRepeal["BankAccType"] = pReqRepeal->BankAccType;
+
+
+        sprintf(buffer,"%c",pReqRepeal->BankAccType);
+        json_pReqRepeal["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14177,7 +16963,12 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["DeviceID"] = buffer;
 
 
-        json_pReqRepeal["BankSecuAccType"] = pReqRepeal->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pReqRepeal->BankSecuAccType);
+        json_pReqRepeal["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14188,6 +16979,8 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqRepeal->BankSecuAcc,
             buffer,
@@ -14196,10 +16989,18 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["BankSecuAcc"] = buffer;
 
 
-        json_pReqRepeal["BankPwdFlag"] = pReqRepeal->BankPwdFlag;
 
 
-        json_pReqRepeal["SecuPwdFlag"] = pReqRepeal->SecuPwdFlag;
+        sprintf(buffer,"%c",pReqRepeal->BankPwdFlag);
+        json_pReqRepeal["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pReqRepeal->SecuPwdFlag);
+        json_pReqRepeal["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14210,13 +17011,17 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["OperNo"] = buffer;
 
 
+
         json_pReqRepeal["RequestID"] = pReqRepeal->RequestID;
 
 
         json_pReqRepeal["TID"] = pReqRepeal->TID;
 
 
-        json_pReqRepeal["TransferStatus"] = pReqRepeal->TransferStatus;
+
+        sprintf(buffer,"%c",pReqRepeal->TransferStatus);
+        json_pReqRepeal["TransferStatus"] = buffer;
+
 
     }
 
@@ -14256,12 +17061,15 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pReqTransfer->TradeCode,
             buffer,
             sizeof(pReqTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14272,12 +17080,16 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankBranchID,
             buffer,
             sizeof(pReqTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14288,12 +17100,16 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BrokerBranchID,
             buffer,
             sizeof(pReqTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14304,12 +17120,16 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->TradeTime,
             buffer,
             sizeof(pReqTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14320,6 +17140,8 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->TradingDay,
             buffer,
@@ -14328,13 +17150,18 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["TradingDay"] = buffer;
 
 
+
         json_pReqTransfer["PlateSerial"] = pReqTransfer->PlateSerial;
 
 
-        json_pReqTransfer["LastFragment"] = pReqTransfer->LastFragment;
+
+        sprintf(buffer,"%c",pReqTransfer->LastFragment);
+        json_pReqTransfer["LastFragment"] = buffer;
+
 
 
         json_pReqTransfer["SessionID"] = pReqTransfer->SessionID;
+
 
 
         gbk2utf8(
@@ -14345,7 +17172,12 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["CustomerName"] = buffer;
 
 
-        json_pReqTransfer["IdCardType"] = pReqTransfer->IdCardType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->IdCardType);
+        json_pReqTransfer["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14356,7 +17188,12 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["IdentifiedCardNo"] = buffer;
 
 
-        json_pReqTransfer["CustType"] = pReqTransfer->CustType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->CustType);
+        json_pReqTransfer["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14367,12 +17204,16 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankPassWord,
             buffer,
             sizeof(pReqTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pReqTransfer["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14383,6 +17224,8 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->Password,
             buffer,
@@ -14391,10 +17234,12 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["Password"] = buffer;
 
 
+
         json_pReqTransfer["InstallID"] = pReqTransfer->InstallID;
 
 
         json_pReqTransfer["FutureSerial"] = pReqTransfer->FutureSerial;
+
 
 
         gbk2utf8(
@@ -14405,7 +17250,12 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["UserID"] = buffer;
 
 
-        json_pReqTransfer["VerifyCertNoFlag"] = pReqTransfer->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pReqTransfer->VerifyCertNoFlag);
+        json_pReqTransfer["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14416,19 +17266,24 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["CurrencyID"] = buffer;
 
 
+
         json_pReqTransfer["TradeAmount"] = pReqTransfer->TradeAmount;
 
 
         json_pReqTransfer["FutureFetchAmount"] = pReqTransfer->FutureFetchAmount;
 
 
-        json_pReqTransfer["FeePayFlag"] = pReqTransfer->FeePayFlag;
+
+        sprintf(buffer,"%c",pReqTransfer->FeePayFlag);
+        json_pReqTransfer["FeePayFlag"] = buffer;
+
 
 
         json_pReqTransfer["CustFee"] = pReqTransfer->CustFee;
 
 
         json_pReqTransfer["BrokerFee"] = pReqTransfer->BrokerFee;
+
 
 
         gbk2utf8(
@@ -14439,6 +17294,8 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["Message"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->Digest,
             buffer,
@@ -14447,7 +17304,12 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["Digest"] = buffer;
 
 
-        json_pReqTransfer["BankAccType"] = pReqTransfer->BankAccType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->BankAccType);
+        json_pReqTransfer["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14458,7 +17320,12 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["DeviceID"] = buffer;
 
 
-        json_pReqTransfer["BankSecuAccType"] = pReqTransfer->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pReqTransfer->BankSecuAccType);
+        json_pReqTransfer["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14469,6 +17336,8 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqTransfer->BankSecuAcc,
             buffer,
@@ -14477,10 +17346,18 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["BankSecuAcc"] = buffer;
 
 
-        json_pReqTransfer["BankPwdFlag"] = pReqTransfer->BankPwdFlag;
 
 
-        json_pReqTransfer["SecuPwdFlag"] = pReqTransfer->SecuPwdFlag;
+        sprintf(buffer,"%c",pReqTransfer->BankPwdFlag);
+        json_pReqTransfer["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pReqTransfer->SecuPwdFlag);
+        json_pReqTransfer["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14491,13 +17368,17 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["OperNo"] = buffer;
 
 
+
         json_pReqTransfer["RequestID"] = pReqTransfer->RequestID;
 
 
         json_pReqTransfer["TID"] = pReqTransfer->TID;
 
 
-        json_pReqTransfer["TransferStatus"] = pReqTransfer->TransferStatus;
+
+        sprintf(buffer,"%c",pReqTransfer->TransferStatus);
+        json_pReqTransfer["TransferStatus"] = buffer;
+
 
     }
 
@@ -14537,12 +17418,15 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pReqQueryAccount->TradeCode,
             buffer,
             sizeof(pReqQueryAccount->TradeCode) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["TradeCode"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14553,12 +17437,16 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["BankID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->BankBranchID,
             buffer,
             sizeof(pReqQueryAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["BankBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14569,12 +17457,16 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["BrokerID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->BrokerBranchID,
             buffer,
             sizeof(pReqQueryAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["BrokerBranchID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14585,12 +17477,16 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["TradeDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->TradeTime,
             buffer,
             sizeof(pReqQueryAccount->TradeTime) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["TradeTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14601,6 +17497,8 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["BankSerial"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->TradingDay,
             buffer,
@@ -14609,13 +17507,18 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["TradingDay"] = buffer;
 
 
+
         json_pReqQueryAccount["PlateSerial"] = pReqQueryAccount->PlateSerial;
 
 
-        json_pReqQueryAccount["LastFragment"] = pReqQueryAccount->LastFragment;
+
+        sprintf(buffer,"%c",pReqQueryAccount->LastFragment);
+        json_pReqQueryAccount["LastFragment"] = buffer;
+
 
 
         json_pReqQueryAccount["SessionID"] = pReqQueryAccount->SessionID;
+
 
 
         gbk2utf8(
@@ -14626,7 +17529,12 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["CustomerName"] = buffer;
 
 
-        json_pReqQueryAccount["IdCardType"] = pReqQueryAccount->IdCardType;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->IdCardType);
+        json_pReqQueryAccount["IdCardType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14637,7 +17545,12 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["IdentifiedCardNo"] = buffer;
 
 
-        json_pReqQueryAccount["CustType"] = pReqQueryAccount->CustType;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->CustType);
+        json_pReqQueryAccount["CustType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14648,12 +17561,16 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["BankAccount"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->BankPassWord,
             buffer,
             sizeof(pReqQueryAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["BankPassWord"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14664,6 +17581,8 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["AccountID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->Password,
             buffer,
@@ -14672,10 +17591,12 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["Password"] = buffer;
 
 
+
         json_pReqQueryAccount["FutureSerial"] = pReqQueryAccount->FutureSerial;
 
 
         json_pReqQueryAccount["InstallID"] = pReqQueryAccount->InstallID;
+
 
 
         gbk2utf8(
@@ -14686,7 +17607,12 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["UserID"] = buffer;
 
 
-        json_pReqQueryAccount["VerifyCertNoFlag"] = pReqQueryAccount->VerifyCertNoFlag;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->VerifyCertNoFlag);
+        json_pReqQueryAccount["VerifyCertNoFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14697,6 +17623,8 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["CurrencyID"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->Digest,
             buffer,
@@ -14705,7 +17633,12 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["Digest"] = buffer;
 
 
-        json_pReqQueryAccount["BankAccType"] = pReqQueryAccount->BankAccType;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->BankAccType);
+        json_pReqQueryAccount["BankAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14716,7 +17649,12 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["DeviceID"] = buffer;
 
 
-        json_pReqQueryAccount["BankSecuAccType"] = pReqQueryAccount->BankSecuAccType;
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->BankSecuAccType);
+        json_pReqQueryAccount["BankSecuAccType"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14727,6 +17665,8 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["BrokerIDByBank"] = buffer;
 
 
+
+
         gbk2utf8(
             pReqQueryAccount->BankSecuAcc,
             buffer,
@@ -14735,10 +17675,18 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["BankSecuAcc"] = buffer;
 
 
-        json_pReqQueryAccount["BankPwdFlag"] = pReqQueryAccount->BankPwdFlag;
 
 
-        json_pReqQueryAccount["SecuPwdFlag"] = pReqQueryAccount->SecuPwdFlag;
+        sprintf(buffer,"%c",pReqQueryAccount->BankPwdFlag);
+        json_pReqQueryAccount["BankPwdFlag"] = buffer;
+
+
+
+
+        sprintf(buffer,"%c",pReqQueryAccount->SecuPwdFlag);
+        json_pReqQueryAccount["SecuPwdFlag"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14747,6 +17695,7 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
             sizeof(pReqQueryAccount->OperNo) * 3 // 字符串转化变长的风险保障
         );
         json_pReqQueryAccount["OperNo"] = buffer;
+
 
 
         json_pReqQueryAccount["RequestID"] = pReqQueryAccount->RequestID;
@@ -14792,12 +17741,15 @@ void CTraderHandler::OnErrRtnOrderAction(
         // TODO : 这里需要将编码转化为utf-8
 
 
+
         gbk2utf8(
             pOrderAction->BrokerID,
             buffer,
             sizeof(pOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrderAction["BrokerID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14808,7 +17760,9 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["InvestorID"] = buffer;
 
 
+
         json_pOrderAction["OrderActionRef"] = pOrderAction->OrderActionRef;
+
 
 
         gbk2utf8(
@@ -14817,6 +17771,7 @@ void CTraderHandler::OnErrRtnOrderAction(
             sizeof(pOrderAction->OrderRef) * 3 // 字符串转化变长的风险保障
         );
         json_pOrderAction["OrderRef"] = buffer;
+
 
 
         json_pOrderAction["RequestID"] = pOrderAction->RequestID;
@@ -14828,12 +17783,15 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["SessionID"] = pOrderAction->SessionID;
 
 
+
         gbk2utf8(
             pOrderAction->ExchangeID,
             buffer,
             sizeof(pOrderAction->ExchangeID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrderAction["ExchangeID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14844,13 +17802,18 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["OrderSysID"] = buffer;
 
 
-        json_pOrderAction["ActionFlag"] = pOrderAction->ActionFlag;
+
+
+        sprintf(buffer,"%c",pOrderAction->ActionFlag);
+        json_pOrderAction["ActionFlag"] = buffer;
+
 
 
         json_pOrderAction["LimitPrice"] = pOrderAction->LimitPrice;
 
 
         json_pOrderAction["VolumeChange"] = pOrderAction->VolumeChange;
+
 
 
         gbk2utf8(
@@ -14861,12 +17824,16 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["ActionDate"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrderAction->ActionTime,
             buffer,
             sizeof(pOrderAction->ActionTime) * 3 // 字符串转化变长的风险保障
         );
         json_pOrderAction["ActionTime"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14877,7 +17844,9 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["TraderID"] = buffer;
 
 
+
         json_pOrderAction["InstallID"] = pOrderAction->InstallID;
+
 
 
         gbk2utf8(
@@ -14888,12 +17857,16 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["OrderLocalID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrderAction->ActionLocalID,
             buffer,
             sizeof(pOrderAction->ActionLocalID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrderAction["ActionLocalID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14904,12 +17877,16 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["ParticipantID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrderAction->ClientID,
             buffer,
             sizeof(pOrderAction->ClientID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrderAction["ClientID"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14920,7 +17897,12 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["BusinessUnit"] = buffer;
 
 
-        json_pOrderAction["OrderActionStatus"] = pOrderAction->OrderActionStatus;
+
+
+        sprintf(buffer,"%c",pOrderAction->OrderActionStatus);
+        json_pOrderAction["OrderActionStatus"] = buffer;
+
+
 
 
         gbk2utf8(
@@ -14931,6 +17913,8 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["UserID"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrderAction->StatusMsg,
             buffer,
@@ -14939,12 +17923,15 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["StatusMsg"] = buffer;
 
 
+
+
         gbk2utf8(
             pOrderAction->InstrumentID,
             buffer,
             sizeof(pOrderAction->InstrumentID) * 3 // 字符串转化变长的风险保障
         );
         json_pOrderAction["InstrumentID"] = buffer;
+
 
     }
 
@@ -14994,12 +17981,14 @@ void CTraderHandler::OnRspError(
         json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
 
 
+
         gbk2utf8(
             pRspInfo->ErrorMsg,
             buffer,
             sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
         );
         json_pRspInfo["ErrorMsg"] = buffer;
+
 
     }
 

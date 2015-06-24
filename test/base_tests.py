@@ -272,12 +272,43 @@ def test_call_OrderInsert():
     publishMessage.recv(publish)
     assert publishMessage.header == 'PUBLISH'
     assert publishMessage.apiName == 'OnRtnOrder'
-    #print publishMessage.respInfo
+    print publishMessage.respInfo
 
     # 读取返回信息
     respInfo = json.loads(publishMessage.respInfo)
+    responseData = respInfo['Parameters']['Data']
 
     # 检查开单的状态
+    assert responseData['OrderSubmitStatus'] == '0'  # 订单已提交
+    assert responseData['OrderStatus'] == 'a'  # 未知状态
+
+
+    # 接收第2条OnRtnOrder消息
+    poller = zmq.Poller()
+    poller.register(publish, zmq.POLLIN)
+    sockets = dict(poller.poll(timeout))
+    # 应该至少能收到OnRtnOrder消息
+    assert publish in sockets
+
+    #  读取消息
+    publishMessage = PublishMessage()
+    publishMessage.recv(publish)
+    assert publishMessage.header == 'PUBLISH'
+    assert publishMessage.apiName == 'OnRtnOrder'
+    print publishMessage.respInfo
+
+    # 读取返回信息
+    respInfo = json.loads(publishMessage.respInfo)
     responseData = respInfo['Parameters']['Data']
-    #assert responseData['OrderSubmitStatus'] == '0'
-    #assert responseData['OrderStatus'] == 'a'
+
+    #print 'OrderSubmitStatus=',responseData['OrderSubmitStatus']
+    #print 'OrderStatus=',responseData['OrderStatus']
+    assert responseData['OrderSubmitStatus'] in ('4','')  # 被拒绝
+    assert responseData['OrderStatus'] in ('5','')  # 撤单
+
+    if responseData['OrderSubmitStatus'] == '4':
+        # 这是由于市场不在交易状态造成的拒绝
+        assert responseData['StatusMsg'] == u'已撤单报单被拒绝CFFEX:结算组数据没有同步'
+        return
+
+    assert False
