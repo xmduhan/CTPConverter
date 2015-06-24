@@ -7742,86 +7742,267 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
 ) {
     std::cout << "OnRtnQueryBankBalanceByFuture():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pNotifyQueryAccount->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pNotifyQueryAccount->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pNotifyQueryAccount->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pNotifyQueryAccount->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pNotifyQueryAccount->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pNotifyQueryAccount->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pNotifyQueryAccount->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pNotifyQueryAccount->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pNotifyQueryAccount->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pNotifyQueryAccount->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pNotifyQueryAccount->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pNotifyQueryAccount->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pNotifyQueryAccount->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pNotifyQueryAccount->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pNotifyQueryAccount->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pNotifyQueryAccount->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pNotifyQueryAccount->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pNotifyQueryAccount->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pNotifyQueryAccount->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pNotifyQueryAccount->Password << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pNotifyQueryAccount->FutureSerial << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pNotifyQueryAccount->InstallID << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pNotifyQueryAccount->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pNotifyQueryAccount->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pNotifyQueryAccount->CurrencyID << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pNotifyQueryAccount->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pNotifyQueryAccount->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pNotifyQueryAccount->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pNotifyQueryAccount->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pNotifyQueryAccount->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pNotifyQueryAccount->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pNotifyQueryAccount->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pNotifyQueryAccount->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pNotifyQueryAccount->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pNotifyQueryAccount->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pNotifyQueryAccount->TID << std::endl;
-    // double BankUseAmount
-    std::cout << "BankUseAmount" << "="<< pNotifyQueryAccount->BankUseAmount << std::endl;
-    // double BankFetchAmount
-    std::cout << "BankFetchAmount" << "="<< pNotifyQueryAccount->BankFetchAmount << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pNotifyQueryAccount->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pNotifyQueryAccount->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnQueryBankBalanceByFuture";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pNotifyQueryAccount;
+    if ( pNotifyQueryAccount != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->TradeCode,
+            buffer,
+            sizeof(pNotifyQueryAccount->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BankID,
+            buffer,
+            sizeof(pNotifyQueryAccount->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BankBranchID,
+            buffer,
+            sizeof(pNotifyQueryAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BrokerID,
+            buffer,
+            sizeof(pNotifyQueryAccount->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BrokerBranchID,
+            buffer,
+            sizeof(pNotifyQueryAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->TradeDate,
+            buffer,
+            sizeof(pNotifyQueryAccount->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->TradeTime,
+            buffer,
+            sizeof(pNotifyQueryAccount->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BankSerial,
+            buffer,
+            sizeof(pNotifyQueryAccount->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->TradingDay,
+            buffer,
+            sizeof(pNotifyQueryAccount->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["TradingDay"] = buffer;
+
+
+        json_pNotifyQueryAccount["PlateSerial"] = pNotifyQueryAccount->PlateSerial;
+
+
+        json_pNotifyQueryAccount["LastFragment"] = pNotifyQueryAccount->LastFragment;
+
+
+        json_pNotifyQueryAccount["SessionID"] = pNotifyQueryAccount->SessionID;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->CustomerName,
+            buffer,
+            sizeof(pNotifyQueryAccount->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["CustomerName"] = buffer;
+
+
+        json_pNotifyQueryAccount["IdCardType"] = pNotifyQueryAccount->IdCardType;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->IdentifiedCardNo,
+            buffer,
+            sizeof(pNotifyQueryAccount->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["IdentifiedCardNo"] = buffer;
+
+
+        json_pNotifyQueryAccount["CustType"] = pNotifyQueryAccount->CustType;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BankAccount,
+            buffer,
+            sizeof(pNotifyQueryAccount->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BankPassWord,
+            buffer,
+            sizeof(pNotifyQueryAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->AccountID,
+            buffer,
+            sizeof(pNotifyQueryAccount->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->Password,
+            buffer,
+            sizeof(pNotifyQueryAccount->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["Password"] = buffer;
+
+
+        json_pNotifyQueryAccount["FutureSerial"] = pNotifyQueryAccount->FutureSerial;
+
+
+        json_pNotifyQueryAccount["InstallID"] = pNotifyQueryAccount->InstallID;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->UserID,
+            buffer,
+            sizeof(pNotifyQueryAccount->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["UserID"] = buffer;
+
+
+        json_pNotifyQueryAccount["VerifyCertNoFlag"] = pNotifyQueryAccount->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->CurrencyID,
+            buffer,
+            sizeof(pNotifyQueryAccount->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["CurrencyID"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->Digest,
+            buffer,
+            sizeof(pNotifyQueryAccount->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["Digest"] = buffer;
+
+
+        json_pNotifyQueryAccount["BankAccType"] = pNotifyQueryAccount->BankAccType;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->DeviceID,
+            buffer,
+            sizeof(pNotifyQueryAccount->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["DeviceID"] = buffer;
+
+
+        json_pNotifyQueryAccount["BankSecuAccType"] = pNotifyQueryAccount->BankSecuAccType;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BrokerIDByBank,
+            buffer,
+            sizeof(pNotifyQueryAccount->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->BankSecuAcc,
+            buffer,
+            sizeof(pNotifyQueryAccount->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["BankSecuAcc"] = buffer;
+
+
+        json_pNotifyQueryAccount["BankPwdFlag"] = pNotifyQueryAccount->BankPwdFlag;
+
+
+        json_pNotifyQueryAccount["SecuPwdFlag"] = pNotifyQueryAccount->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->OperNo,
+            buffer,
+            sizeof(pNotifyQueryAccount->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["OperNo"] = buffer;
+
+
+        json_pNotifyQueryAccount["RequestID"] = pNotifyQueryAccount->RequestID;
+
+
+        json_pNotifyQueryAccount["TID"] = pNotifyQueryAccount->TID;
+
+
+        json_pNotifyQueryAccount["BankUseAmount"] = pNotifyQueryAccount->BankUseAmount;
+
+
+        json_pNotifyQueryAccount["BankFetchAmount"] = pNotifyQueryAccount->BankFetchAmount;
+
+
+        json_pNotifyQueryAccount["ErrorID"] = pNotifyQueryAccount->ErrorID;
+
+
+        gbk2utf8(
+            pNotifyQueryAccount->ErrorMsg,
+            buffer,
+            sizeof(pNotifyQueryAccount->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pNotifyQueryAccount["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pNotifyQueryAccount;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnQueryBankBalanceByFuture";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnQueryBankBalanceByFuture():执行结束..." << std::endl;
 }
@@ -7832,110 +8013,313 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
 ) {
     std::cout << "OnRtnRepealFromBankToFutureByFuture():开始执行..." << std::endl;
 
-    // int RepealTimeInterval
-    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
-    // int RepealedTimes
-    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
-    // char BankRepealFlag
-    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
-    // char BrokerRepealFlag
-    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
-    // int PlateRepealSerial
-    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
-    // char BankRepealSerial
-    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
-    // int FutureRepealSerial
-    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnRepealFromBankToFutureByFuture";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspRepeal;
+    if ( pRspRepeal != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
+
+
+        json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
+
+        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+
+        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->BankRepealSerial,
+            buffer,
+            sizeof(pRspRepeal->BankRepealSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankRepealSerial"] = buffer;
+
+
+        json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeCode,
+            buffer,
+            sizeof(pRspRepeal->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankID,
+            buffer,
+            sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankBranchID,
+            buffer,
+            sizeof(pRspRepeal->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerID,
+            buffer,
+            sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerBranchID,
+            buffer,
+            sizeof(pRspRepeal->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeDate,
+            buffer,
+            sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeTime,
+            buffer,
+            sizeof(pRspRepeal->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSerial,
+            buffer,
+            sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradingDay,
+            buffer,
+            sizeof(pRspRepeal->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradingDay"] = buffer;
+
+
+        json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
+
+
+        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+
+        json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
+
+        gbk2utf8(
+            pRspRepeal->CustomerName,
+            buffer,
+            sizeof(pRspRepeal->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CustomerName"] = buffer;
+
+
+        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        gbk2utf8(
+            pRspRepeal->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspRepeal->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        gbk2utf8(
+            pRspRepeal->BankAccount,
+            buffer,
+            sizeof(pRspRepeal->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankPassWord,
+            buffer,
+            sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->AccountID,
+            buffer,
+            sizeof(pRspRepeal->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Password,
+            buffer,
+            sizeof(pRspRepeal->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Password"] = buffer;
+
+
+        json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
+
+
+        json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->UserID,
+            buffer,
+            sizeof(pRspRepeal->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["UserID"] = buffer;
+
+
+        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->CurrencyID,
+            buffer,
+            sizeof(pRspRepeal->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CurrencyID"] = buffer;
+
+
+        json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
+
+
+        json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
+
+        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+
+        json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
+
+
+        json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
+
+        gbk2utf8(
+            pRspRepeal->Message,
+            buffer,
+            sizeof(pRspRepeal->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Digest,
+            buffer,
+            sizeof(pRspRepeal->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Digest"] = buffer;
+
+
+        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->DeviceID,
+            buffer,
+            sizeof(pRspRepeal->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["DeviceID"] = buffer;
+
+
+        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerIDByBank,
+            buffer,
+            sizeof(pRspRepeal->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSecuAcc,
+            buffer,
+            sizeof(pRspRepeal->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSecuAcc"] = buffer;
+
+
+        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
+
+
+        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->OperNo,
+            buffer,
+            sizeof(pRspRepeal->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["OperNo"] = buffer;
+
+
+        json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
+
+
+        json_pRspRepeal["TID"] = pRspRepeal->TID;
+
+
+        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+
+        json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
+
+        gbk2utf8(
+            pRspRepeal->ErrorMsg,
+            buffer,
+            sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspRepeal;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnRepealFromBankToFutureByFuture";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnRepealFromBankToFutureByFuture():执行结束..." << std::endl;
 }
@@ -7946,96 +8330,287 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
 ) {
     std::cout << "OnRtnFromBankToFutureByBank():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspTransfer->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspTransfer->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspTransfer->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspTransfer->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspTransfer->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspTransfer->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspTransfer->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspTransfer->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspTransfer->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspTransfer->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspTransfer->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspTransfer->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspTransfer->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspTransfer->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspTransfer->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspTransfer->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspTransfer->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspTransfer->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspTransfer->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspTransfer->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspTransfer->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspTransfer->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspTransfer->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspTransfer->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspTransfer->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspTransfer->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspTransfer->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspTransfer->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspTransfer->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspTransfer->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspTransfer->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspTransfer->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspTransfer->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspTransfer->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspTransfer->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspTransfer->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspTransfer->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspTransfer->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspTransfer->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspTransfer->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspTransfer->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspTransfer->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspTransfer->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspTransfer->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspTransfer->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnFromBankToFutureByBank";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspTransfer;
+    if ( pRspTransfer != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pRspTransfer->TradeCode,
+            buffer,
+            sizeof(pRspTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankID,
+            buffer,
+            sizeof(pRspTransfer->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankBranchID,
+            buffer,
+            sizeof(pRspTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerID,
+            buffer,
+            sizeof(pRspTransfer->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerBranchID,
+            buffer,
+            sizeof(pRspTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradeDate,
+            buffer,
+            sizeof(pRspTransfer->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradeTime,
+            buffer,
+            sizeof(pRspTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankSerial,
+            buffer,
+            sizeof(pRspTransfer->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradingDay,
+            buffer,
+            sizeof(pRspTransfer->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradingDay"] = buffer;
+
+
+        json_pRspTransfer["PlateSerial"] = pRspTransfer->PlateSerial;
+
+
+        json_pRspTransfer["LastFragment"] = pRspTransfer->LastFragment;
+
+
+        json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
+
+        gbk2utf8(
+            pRspTransfer->CustomerName,
+            buffer,
+            sizeof(pRspTransfer->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["CustomerName"] = buffer;
+
+
+        json_pRspTransfer["IdCardType"] = pRspTransfer->IdCardType;
+
+
+        gbk2utf8(
+            pRspTransfer->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspTransfer->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspTransfer["CustType"] = pRspTransfer->CustType;
+
+
+        gbk2utf8(
+            pRspTransfer->BankAccount,
+            buffer,
+            sizeof(pRspTransfer->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankPassWord,
+            buffer,
+            sizeof(pRspTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->AccountID,
+            buffer,
+            sizeof(pRspTransfer->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->Password,
+            buffer,
+            sizeof(pRspTransfer->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Password"] = buffer;
+
+
+        json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
+
+
+        json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
+
+        gbk2utf8(
+            pRspTransfer->UserID,
+            buffer,
+            sizeof(pRspTransfer->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["UserID"] = buffer;
+
+
+        json_pRspTransfer["VerifyCertNoFlag"] = pRspTransfer->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspTransfer->CurrencyID,
+            buffer,
+            sizeof(pRspTransfer->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["CurrencyID"] = buffer;
+
+
+        json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
+
+
+        json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
+
+
+        json_pRspTransfer["FeePayFlag"] = pRspTransfer->FeePayFlag;
+
+
+        json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
+
+
+        json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
+
+        gbk2utf8(
+            pRspTransfer->Message,
+            buffer,
+            sizeof(pRspTransfer->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->Digest,
+            buffer,
+            sizeof(pRspTransfer->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Digest"] = buffer;
+
+
+        json_pRspTransfer["BankAccType"] = pRspTransfer->BankAccType;
+
+
+        gbk2utf8(
+            pRspTransfer->DeviceID,
+            buffer,
+            sizeof(pRspTransfer->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["DeviceID"] = buffer;
+
+
+        json_pRspTransfer["BankSecuAccType"] = pRspTransfer->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerIDByBank,
+            buffer,
+            sizeof(pRspTransfer->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankSecuAcc,
+            buffer,
+            sizeof(pRspTransfer->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankSecuAcc"] = buffer;
+
+
+        json_pRspTransfer["BankPwdFlag"] = pRspTransfer->BankPwdFlag;
+
+
+        json_pRspTransfer["SecuPwdFlag"] = pRspTransfer->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspTransfer->OperNo,
+            buffer,
+            sizeof(pRspTransfer->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["OperNo"] = buffer;
+
+
+        json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
+
+
+        json_pRspTransfer["TID"] = pRspTransfer->TID;
+
+
+        json_pRspTransfer["TransferStatus"] = pRspTransfer->TransferStatus;
+
+
+        json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
+
+        gbk2utf8(
+            pRspTransfer->ErrorMsg,
+            buffer,
+            sizeof(pRspTransfer->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspTransfer;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnFromBankToFutureByBank";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnFromBankToFutureByBank():执行结束..." << std::endl;
 }
@@ -8046,16 +8621,67 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
 ) {
     std::cout << "OnRtnCFMMCTradingAccountToken():开始执行..." << std::endl;
 
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pCFMMCTradingAccountToken->BrokerID << std::endl;
-    // char ParticipantID
-    std::cout << "ParticipantID" << "="<< pCFMMCTradingAccountToken->ParticipantID << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pCFMMCTradingAccountToken->AccountID << std::endl;
-    // int KeyID
-    std::cout << "KeyID" << "="<< pCFMMCTradingAccountToken->KeyID << std::endl;
-    // char Token
-    std::cout << "Token" << "="<< pCFMMCTradingAccountToken->Token << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnCFMMCTradingAccountToken";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pCFMMCTradingAccountToken;
+    if ( pCFMMCTradingAccountToken != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pCFMMCTradingAccountToken->BrokerID,
+            buffer,
+            sizeof(pCFMMCTradingAccountToken->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCFMMCTradingAccountToken["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pCFMMCTradingAccountToken->ParticipantID,
+            buffer,
+            sizeof(pCFMMCTradingAccountToken->ParticipantID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCFMMCTradingAccountToken["ParticipantID"] = buffer;
+
+
+        gbk2utf8(
+            pCFMMCTradingAccountToken->AccountID,
+            buffer,
+            sizeof(pCFMMCTradingAccountToken->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCFMMCTradingAccountToken["AccountID"] = buffer;
+
+
+        json_pCFMMCTradingAccountToken["KeyID"] = pCFMMCTradingAccountToken->KeyID;
+
+
+        gbk2utf8(
+            pCFMMCTradingAccountToken->Token,
+            buffer,
+            sizeof(pCFMMCTradingAccountToken->Token) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCFMMCTradingAccountToken["Token"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pCFMMCTradingAccountToken;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnCFMMCTradingAccountToken";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnCFMMCTradingAccountToken():执行结束..." << std::endl;
 }
@@ -8066,22 +8692,81 @@ void CTraderHandler::OnRtnInstrumentStatus(
 ) {
     std::cout << "OnRtnInstrumentStatus():开始执行..." << std::endl;
 
-    // char ExchangeID
-    std::cout << "ExchangeID" << "="<< pInstrumentStatus->ExchangeID << std::endl;
-    // char ExchangeInstID
-    std::cout << "ExchangeInstID" << "="<< pInstrumentStatus->ExchangeInstID << std::endl;
-    // char SettlementGroupID
-    std::cout << "SettlementGroupID" << "="<< pInstrumentStatus->SettlementGroupID << std::endl;
-    // char InstrumentID
-    std::cout << "InstrumentID" << "="<< pInstrumentStatus->InstrumentID << std::endl;
-    // char InstrumentStatus
-    std::cout << "InstrumentStatus" << "="<< pInstrumentStatus->InstrumentStatus << std::endl;
-    // int TradingSegmentSN
-    std::cout << "TradingSegmentSN" << "="<< pInstrumentStatus->TradingSegmentSN << std::endl;
-    // char EnterTime
-    std::cout << "EnterTime" << "="<< pInstrumentStatus->EnterTime << std::endl;
-    // char EnterReason
-    std::cout << "EnterReason" << "="<< pInstrumentStatus->EnterReason << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnInstrumentStatus";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pInstrumentStatus;
+    if ( pInstrumentStatus != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pInstrumentStatus->ExchangeID,
+            buffer,
+            sizeof(pInstrumentStatus->ExchangeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInstrumentStatus["ExchangeID"] = buffer;
+
+
+        gbk2utf8(
+            pInstrumentStatus->ExchangeInstID,
+            buffer,
+            sizeof(pInstrumentStatus->ExchangeInstID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInstrumentStatus["ExchangeInstID"] = buffer;
+
+
+        gbk2utf8(
+            pInstrumentStatus->SettlementGroupID,
+            buffer,
+            sizeof(pInstrumentStatus->SettlementGroupID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInstrumentStatus["SettlementGroupID"] = buffer;
+
+
+        gbk2utf8(
+            pInstrumentStatus->InstrumentID,
+            buffer,
+            sizeof(pInstrumentStatus->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInstrumentStatus["InstrumentID"] = buffer;
+
+
+        json_pInstrumentStatus["InstrumentStatus"] = pInstrumentStatus->InstrumentStatus;
+
+
+        json_pInstrumentStatus["TradingSegmentSN"] = pInstrumentStatus->TradingSegmentSN;
+
+
+        gbk2utf8(
+            pInstrumentStatus->EnterTime,
+            buffer,
+            sizeof(pInstrumentStatus->EnterTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInstrumentStatus["EnterTime"] = buffer;
+
+
+        json_pInstrumentStatus["EnterReason"] = pInstrumentStatus->EnterReason;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pInstrumentStatus;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnInstrumentStatus";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnInstrumentStatus():执行结束..." << std::endl;
 }
@@ -8092,18 +8777,70 @@ void CTraderHandler::OnRtnTradingNotice(
 ) {
     std::cout << "OnRtnTradingNotice():开始执行..." << std::endl;
 
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pTradingNoticeInfo->BrokerID << std::endl;
-    // char InvestorID
-    std::cout << "InvestorID" << "="<< pTradingNoticeInfo->InvestorID << std::endl;
-    // char SendTime
-    std::cout << "SendTime" << "="<< pTradingNoticeInfo->SendTime << std::endl;
-    // char FieldContent
-    std::cout << "FieldContent" << "="<< pTradingNoticeInfo->FieldContent << std::endl;
-    // short SequenceSeries
-    std::cout << "SequenceSeries" << "="<< pTradingNoticeInfo->SequenceSeries << std::endl;
-    // int SequenceNo
-    std::cout << "SequenceNo" << "="<< pTradingNoticeInfo->SequenceNo << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnTradingNotice";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pTradingNoticeInfo;
+    if ( pTradingNoticeInfo != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pTradingNoticeInfo->BrokerID,
+            buffer,
+            sizeof(pTradingNoticeInfo->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTradingNoticeInfo["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pTradingNoticeInfo->InvestorID,
+            buffer,
+            sizeof(pTradingNoticeInfo->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTradingNoticeInfo["InvestorID"] = buffer;
+
+
+        gbk2utf8(
+            pTradingNoticeInfo->SendTime,
+            buffer,
+            sizeof(pTradingNoticeInfo->SendTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTradingNoticeInfo["SendTime"] = buffer;
+
+
+        gbk2utf8(
+            pTradingNoticeInfo->FieldContent,
+            buffer,
+            sizeof(pTradingNoticeInfo->FieldContent) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTradingNoticeInfo["FieldContent"] = buffer;
+
+
+        json_pTradingNoticeInfo["SequenceSeries"] = pTradingNoticeInfo->SequenceSeries;
+
+
+        json_pTradingNoticeInfo["SequenceNo"] = pTradingNoticeInfo->SequenceNo;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pTradingNoticeInfo;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnTradingNotice";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnTradingNotice():执行结束..." << std::endl;
 }
@@ -8114,110 +8851,313 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 ) {
     std::cout << "OnRtnRepealFromFutureToBankByFutureManual():开始执行..." << std::endl;
 
-    // int RepealTimeInterval
-    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
-    // int RepealedTimes
-    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
-    // char BankRepealFlag
-    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
-    // char BrokerRepealFlag
-    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
-    // int PlateRepealSerial
-    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
-    // char BankRepealSerial
-    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
-    // int FutureRepealSerial
-    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnRepealFromFutureToBankByFutureManual";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspRepeal;
+    if ( pRspRepeal != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
+
+
+        json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
+
+        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+
+        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->BankRepealSerial,
+            buffer,
+            sizeof(pRspRepeal->BankRepealSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankRepealSerial"] = buffer;
+
+
+        json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeCode,
+            buffer,
+            sizeof(pRspRepeal->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankID,
+            buffer,
+            sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankBranchID,
+            buffer,
+            sizeof(pRspRepeal->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerID,
+            buffer,
+            sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerBranchID,
+            buffer,
+            sizeof(pRspRepeal->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeDate,
+            buffer,
+            sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeTime,
+            buffer,
+            sizeof(pRspRepeal->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSerial,
+            buffer,
+            sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradingDay,
+            buffer,
+            sizeof(pRspRepeal->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradingDay"] = buffer;
+
+
+        json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
+
+
+        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+
+        json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
+
+        gbk2utf8(
+            pRspRepeal->CustomerName,
+            buffer,
+            sizeof(pRspRepeal->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CustomerName"] = buffer;
+
+
+        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        gbk2utf8(
+            pRspRepeal->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspRepeal->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        gbk2utf8(
+            pRspRepeal->BankAccount,
+            buffer,
+            sizeof(pRspRepeal->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankPassWord,
+            buffer,
+            sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->AccountID,
+            buffer,
+            sizeof(pRspRepeal->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Password,
+            buffer,
+            sizeof(pRspRepeal->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Password"] = buffer;
+
+
+        json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
+
+
+        json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->UserID,
+            buffer,
+            sizeof(pRspRepeal->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["UserID"] = buffer;
+
+
+        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->CurrencyID,
+            buffer,
+            sizeof(pRspRepeal->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CurrencyID"] = buffer;
+
+
+        json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
+
+
+        json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
+
+        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+
+        json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
+
+
+        json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
+
+        gbk2utf8(
+            pRspRepeal->Message,
+            buffer,
+            sizeof(pRspRepeal->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Digest,
+            buffer,
+            sizeof(pRspRepeal->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Digest"] = buffer;
+
+
+        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->DeviceID,
+            buffer,
+            sizeof(pRspRepeal->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["DeviceID"] = buffer;
+
+
+        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerIDByBank,
+            buffer,
+            sizeof(pRspRepeal->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSecuAcc,
+            buffer,
+            sizeof(pRspRepeal->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSecuAcc"] = buffer;
+
+
+        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
+
+
+        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->OperNo,
+            buffer,
+            sizeof(pRspRepeal->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["OperNo"] = buffer;
+
+
+        json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
+
+
+        json_pRspRepeal["TID"] = pRspRepeal->TID;
+
+
+        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+
+        json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
+
+        gbk2utf8(
+            pRspRepeal->ErrorMsg,
+            buffer,
+            sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspRepeal;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnRepealFromFutureToBankByFutureManual";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnRepealFromFutureToBankByFutureManual():执行结束..." << std::endl;
 }
@@ -8228,96 +9168,287 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
 ) {
     std::cout << "OnRtnFromBankToFutureByFuture():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspTransfer->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspTransfer->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspTransfer->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspTransfer->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspTransfer->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspTransfer->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspTransfer->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspTransfer->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspTransfer->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspTransfer->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspTransfer->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspTransfer->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspTransfer->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspTransfer->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspTransfer->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspTransfer->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspTransfer->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspTransfer->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspTransfer->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspTransfer->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspTransfer->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspTransfer->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspTransfer->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspTransfer->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspTransfer->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspTransfer->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspTransfer->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspTransfer->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspTransfer->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspTransfer->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspTransfer->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspTransfer->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspTransfer->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspTransfer->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspTransfer->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspTransfer->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspTransfer->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspTransfer->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspTransfer->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspTransfer->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspTransfer->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspTransfer->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspTransfer->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspTransfer->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspTransfer->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnFromBankToFutureByFuture";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspTransfer;
+    if ( pRspTransfer != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pRspTransfer->TradeCode,
+            buffer,
+            sizeof(pRspTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankID,
+            buffer,
+            sizeof(pRspTransfer->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankBranchID,
+            buffer,
+            sizeof(pRspTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerID,
+            buffer,
+            sizeof(pRspTransfer->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerBranchID,
+            buffer,
+            sizeof(pRspTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradeDate,
+            buffer,
+            sizeof(pRspTransfer->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradeTime,
+            buffer,
+            sizeof(pRspTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankSerial,
+            buffer,
+            sizeof(pRspTransfer->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradingDay,
+            buffer,
+            sizeof(pRspTransfer->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradingDay"] = buffer;
+
+
+        json_pRspTransfer["PlateSerial"] = pRspTransfer->PlateSerial;
+
+
+        json_pRspTransfer["LastFragment"] = pRspTransfer->LastFragment;
+
+
+        json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
+
+        gbk2utf8(
+            pRspTransfer->CustomerName,
+            buffer,
+            sizeof(pRspTransfer->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["CustomerName"] = buffer;
+
+
+        json_pRspTransfer["IdCardType"] = pRspTransfer->IdCardType;
+
+
+        gbk2utf8(
+            pRspTransfer->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspTransfer->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspTransfer["CustType"] = pRspTransfer->CustType;
+
+
+        gbk2utf8(
+            pRspTransfer->BankAccount,
+            buffer,
+            sizeof(pRspTransfer->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankPassWord,
+            buffer,
+            sizeof(pRspTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->AccountID,
+            buffer,
+            sizeof(pRspTransfer->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->Password,
+            buffer,
+            sizeof(pRspTransfer->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Password"] = buffer;
+
+
+        json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
+
+
+        json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
+
+        gbk2utf8(
+            pRspTransfer->UserID,
+            buffer,
+            sizeof(pRspTransfer->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["UserID"] = buffer;
+
+
+        json_pRspTransfer["VerifyCertNoFlag"] = pRspTransfer->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspTransfer->CurrencyID,
+            buffer,
+            sizeof(pRspTransfer->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["CurrencyID"] = buffer;
+
+
+        json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
+
+
+        json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
+
+
+        json_pRspTransfer["FeePayFlag"] = pRspTransfer->FeePayFlag;
+
+
+        json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
+
+
+        json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
+
+        gbk2utf8(
+            pRspTransfer->Message,
+            buffer,
+            sizeof(pRspTransfer->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->Digest,
+            buffer,
+            sizeof(pRspTransfer->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Digest"] = buffer;
+
+
+        json_pRspTransfer["BankAccType"] = pRspTransfer->BankAccType;
+
+
+        gbk2utf8(
+            pRspTransfer->DeviceID,
+            buffer,
+            sizeof(pRspTransfer->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["DeviceID"] = buffer;
+
+
+        json_pRspTransfer["BankSecuAccType"] = pRspTransfer->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerIDByBank,
+            buffer,
+            sizeof(pRspTransfer->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankSecuAcc,
+            buffer,
+            sizeof(pRspTransfer->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankSecuAcc"] = buffer;
+
+
+        json_pRspTransfer["BankPwdFlag"] = pRspTransfer->BankPwdFlag;
+
+
+        json_pRspTransfer["SecuPwdFlag"] = pRspTransfer->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspTransfer->OperNo,
+            buffer,
+            sizeof(pRspTransfer->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["OperNo"] = buffer;
+
+
+        json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
+
+
+        json_pRspTransfer["TID"] = pRspTransfer->TID;
+
+
+        json_pRspTransfer["TransferStatus"] = pRspTransfer->TransferStatus;
+
+
+        json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
+
+        gbk2utf8(
+            pRspTransfer->ErrorMsg,
+            buffer,
+            sizeof(pRspTransfer->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspTransfer;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnFromBankToFutureByFuture";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnFromBankToFutureByFuture():执行结束..." << std::endl;
 }
@@ -8328,96 +9459,287 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
 ) {
     std::cout << "OnRtnFromFutureToBankByBank():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspTransfer->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspTransfer->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspTransfer->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspTransfer->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspTransfer->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspTransfer->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspTransfer->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspTransfer->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspTransfer->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspTransfer->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspTransfer->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspTransfer->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspTransfer->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspTransfer->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspTransfer->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspTransfer->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspTransfer->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspTransfer->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspTransfer->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspTransfer->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspTransfer->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspTransfer->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspTransfer->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspTransfer->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspTransfer->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspTransfer->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspTransfer->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspTransfer->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspTransfer->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspTransfer->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspTransfer->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspTransfer->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspTransfer->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspTransfer->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspTransfer->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspTransfer->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspTransfer->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspTransfer->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspTransfer->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspTransfer->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspTransfer->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspTransfer->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspTransfer->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspTransfer->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspTransfer->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnFromFutureToBankByBank";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspTransfer;
+    if ( pRspTransfer != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pRspTransfer->TradeCode,
+            buffer,
+            sizeof(pRspTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankID,
+            buffer,
+            sizeof(pRspTransfer->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankBranchID,
+            buffer,
+            sizeof(pRspTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerID,
+            buffer,
+            sizeof(pRspTransfer->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerBranchID,
+            buffer,
+            sizeof(pRspTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradeDate,
+            buffer,
+            sizeof(pRspTransfer->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradeTime,
+            buffer,
+            sizeof(pRspTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankSerial,
+            buffer,
+            sizeof(pRspTransfer->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradingDay,
+            buffer,
+            sizeof(pRspTransfer->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradingDay"] = buffer;
+
+
+        json_pRspTransfer["PlateSerial"] = pRspTransfer->PlateSerial;
+
+
+        json_pRspTransfer["LastFragment"] = pRspTransfer->LastFragment;
+
+
+        json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
+
+        gbk2utf8(
+            pRspTransfer->CustomerName,
+            buffer,
+            sizeof(pRspTransfer->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["CustomerName"] = buffer;
+
+
+        json_pRspTransfer["IdCardType"] = pRspTransfer->IdCardType;
+
+
+        gbk2utf8(
+            pRspTransfer->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspTransfer->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspTransfer["CustType"] = pRspTransfer->CustType;
+
+
+        gbk2utf8(
+            pRspTransfer->BankAccount,
+            buffer,
+            sizeof(pRspTransfer->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankPassWord,
+            buffer,
+            sizeof(pRspTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->AccountID,
+            buffer,
+            sizeof(pRspTransfer->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->Password,
+            buffer,
+            sizeof(pRspTransfer->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Password"] = buffer;
+
+
+        json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
+
+
+        json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
+
+        gbk2utf8(
+            pRspTransfer->UserID,
+            buffer,
+            sizeof(pRspTransfer->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["UserID"] = buffer;
+
+
+        json_pRspTransfer["VerifyCertNoFlag"] = pRspTransfer->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspTransfer->CurrencyID,
+            buffer,
+            sizeof(pRspTransfer->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["CurrencyID"] = buffer;
+
+
+        json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
+
+
+        json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
+
+
+        json_pRspTransfer["FeePayFlag"] = pRspTransfer->FeePayFlag;
+
+
+        json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
+
+
+        json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
+
+        gbk2utf8(
+            pRspTransfer->Message,
+            buffer,
+            sizeof(pRspTransfer->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->Digest,
+            buffer,
+            sizeof(pRspTransfer->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Digest"] = buffer;
+
+
+        json_pRspTransfer["BankAccType"] = pRspTransfer->BankAccType;
+
+
+        gbk2utf8(
+            pRspTransfer->DeviceID,
+            buffer,
+            sizeof(pRspTransfer->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["DeviceID"] = buffer;
+
+
+        json_pRspTransfer["BankSecuAccType"] = pRspTransfer->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerIDByBank,
+            buffer,
+            sizeof(pRspTransfer->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankSecuAcc,
+            buffer,
+            sizeof(pRspTransfer->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankSecuAcc"] = buffer;
+
+
+        json_pRspTransfer["BankPwdFlag"] = pRspTransfer->BankPwdFlag;
+
+
+        json_pRspTransfer["SecuPwdFlag"] = pRspTransfer->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspTransfer->OperNo,
+            buffer,
+            sizeof(pRspTransfer->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["OperNo"] = buffer;
+
+
+        json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
+
+
+        json_pRspTransfer["TID"] = pRspTransfer->TID;
+
+
+        json_pRspTransfer["TransferStatus"] = pRspTransfer->TransferStatus;
+
+
+        json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
+
+        gbk2utf8(
+            pRspTransfer->ErrorMsg,
+            buffer,
+            sizeof(pRspTransfer->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspTransfer;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnFromFutureToBankByBank";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnFromFutureToBankByBank():执行结束..." << std::endl;
 }
@@ -8428,110 +9750,313 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
 ) {
     std::cout << "OnRtnRepealFromBankToFutureByFutureManual():开始执行..." << std::endl;
 
-    // int RepealTimeInterval
-    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
-    // int RepealedTimes
-    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
-    // char BankRepealFlag
-    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
-    // char BrokerRepealFlag
-    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
-    // int PlateRepealSerial
-    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
-    // char BankRepealSerial
-    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
-    // int FutureRepealSerial
-    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnRepealFromBankToFutureByFutureManual";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspRepeal;
+    if ( pRspRepeal != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
+
+
+        json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
+
+        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+
+        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->BankRepealSerial,
+            buffer,
+            sizeof(pRspRepeal->BankRepealSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankRepealSerial"] = buffer;
+
+
+        json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeCode,
+            buffer,
+            sizeof(pRspRepeal->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankID,
+            buffer,
+            sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankBranchID,
+            buffer,
+            sizeof(pRspRepeal->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerID,
+            buffer,
+            sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerBranchID,
+            buffer,
+            sizeof(pRspRepeal->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeDate,
+            buffer,
+            sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeTime,
+            buffer,
+            sizeof(pRspRepeal->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSerial,
+            buffer,
+            sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradingDay,
+            buffer,
+            sizeof(pRspRepeal->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradingDay"] = buffer;
+
+
+        json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
+
+
+        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+
+        json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
+
+        gbk2utf8(
+            pRspRepeal->CustomerName,
+            buffer,
+            sizeof(pRspRepeal->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CustomerName"] = buffer;
+
+
+        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        gbk2utf8(
+            pRspRepeal->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspRepeal->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        gbk2utf8(
+            pRspRepeal->BankAccount,
+            buffer,
+            sizeof(pRspRepeal->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankPassWord,
+            buffer,
+            sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->AccountID,
+            buffer,
+            sizeof(pRspRepeal->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Password,
+            buffer,
+            sizeof(pRspRepeal->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Password"] = buffer;
+
+
+        json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
+
+
+        json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->UserID,
+            buffer,
+            sizeof(pRspRepeal->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["UserID"] = buffer;
+
+
+        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->CurrencyID,
+            buffer,
+            sizeof(pRspRepeal->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CurrencyID"] = buffer;
+
+
+        json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
+
+
+        json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
+
+        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+
+        json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
+
+
+        json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
+
+        gbk2utf8(
+            pRspRepeal->Message,
+            buffer,
+            sizeof(pRspRepeal->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Digest,
+            buffer,
+            sizeof(pRspRepeal->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Digest"] = buffer;
+
+
+        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->DeviceID,
+            buffer,
+            sizeof(pRspRepeal->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["DeviceID"] = buffer;
+
+
+        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerIDByBank,
+            buffer,
+            sizeof(pRspRepeal->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSecuAcc,
+            buffer,
+            sizeof(pRspRepeal->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSecuAcc"] = buffer;
+
+
+        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
+
+
+        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->OperNo,
+            buffer,
+            sizeof(pRspRepeal->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["OperNo"] = buffer;
+
+
+        json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
+
+
+        json_pRspRepeal["TID"] = pRspRepeal->TID;
+
+
+        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+
+        json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
+
+        gbk2utf8(
+            pRspRepeal->ErrorMsg,
+            buffer,
+            sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspRepeal;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnRepealFromBankToFutureByFutureManual";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnRepealFromBankToFutureByFutureManual():执行结束..." << std::endl;
 }
@@ -8542,96 +10067,287 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
 ) {
     std::cout << "OnRtnFromFutureToBankByFuture():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspTransfer->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspTransfer->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspTransfer->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspTransfer->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspTransfer->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspTransfer->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspTransfer->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspTransfer->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspTransfer->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspTransfer->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspTransfer->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspTransfer->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspTransfer->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspTransfer->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspTransfer->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspTransfer->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspTransfer->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspTransfer->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspTransfer->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspTransfer->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspTransfer->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspTransfer->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspTransfer->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspTransfer->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspTransfer->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspTransfer->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspTransfer->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspTransfer->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspTransfer->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspTransfer->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspTransfer->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspTransfer->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspTransfer->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspTransfer->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspTransfer->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspTransfer->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspTransfer->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspTransfer->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspTransfer->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspTransfer->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspTransfer->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspTransfer->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspTransfer->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspTransfer->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspTransfer->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnFromFutureToBankByFuture";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspTransfer;
+    if ( pRspTransfer != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pRspTransfer->TradeCode,
+            buffer,
+            sizeof(pRspTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankID,
+            buffer,
+            sizeof(pRspTransfer->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankBranchID,
+            buffer,
+            sizeof(pRspTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerID,
+            buffer,
+            sizeof(pRspTransfer->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerBranchID,
+            buffer,
+            sizeof(pRspTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradeDate,
+            buffer,
+            sizeof(pRspTransfer->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradeTime,
+            buffer,
+            sizeof(pRspTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankSerial,
+            buffer,
+            sizeof(pRspTransfer->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->TradingDay,
+            buffer,
+            sizeof(pRspTransfer->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["TradingDay"] = buffer;
+
+
+        json_pRspTransfer["PlateSerial"] = pRspTransfer->PlateSerial;
+
+
+        json_pRspTransfer["LastFragment"] = pRspTransfer->LastFragment;
+
+
+        json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
+
+        gbk2utf8(
+            pRspTransfer->CustomerName,
+            buffer,
+            sizeof(pRspTransfer->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["CustomerName"] = buffer;
+
+
+        json_pRspTransfer["IdCardType"] = pRspTransfer->IdCardType;
+
+
+        gbk2utf8(
+            pRspTransfer->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspTransfer->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspTransfer["CustType"] = pRspTransfer->CustType;
+
+
+        gbk2utf8(
+            pRspTransfer->BankAccount,
+            buffer,
+            sizeof(pRspTransfer->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankPassWord,
+            buffer,
+            sizeof(pRspTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->AccountID,
+            buffer,
+            sizeof(pRspTransfer->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->Password,
+            buffer,
+            sizeof(pRspTransfer->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Password"] = buffer;
+
+
+        json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
+
+
+        json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
+
+        gbk2utf8(
+            pRspTransfer->UserID,
+            buffer,
+            sizeof(pRspTransfer->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["UserID"] = buffer;
+
+
+        json_pRspTransfer["VerifyCertNoFlag"] = pRspTransfer->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspTransfer->CurrencyID,
+            buffer,
+            sizeof(pRspTransfer->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["CurrencyID"] = buffer;
+
+
+        json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
+
+
+        json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
+
+
+        json_pRspTransfer["FeePayFlag"] = pRspTransfer->FeePayFlag;
+
+
+        json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
+
+
+        json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
+
+        gbk2utf8(
+            pRspTransfer->Message,
+            buffer,
+            sizeof(pRspTransfer->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->Digest,
+            buffer,
+            sizeof(pRspTransfer->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["Digest"] = buffer;
+
+
+        json_pRspTransfer["BankAccType"] = pRspTransfer->BankAccType;
+
+
+        gbk2utf8(
+            pRspTransfer->DeviceID,
+            buffer,
+            sizeof(pRspTransfer->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["DeviceID"] = buffer;
+
+
+        json_pRspTransfer["BankSecuAccType"] = pRspTransfer->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspTransfer->BrokerIDByBank,
+            buffer,
+            sizeof(pRspTransfer->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspTransfer->BankSecuAcc,
+            buffer,
+            sizeof(pRspTransfer->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["BankSecuAcc"] = buffer;
+
+
+        json_pRspTransfer["BankPwdFlag"] = pRspTransfer->BankPwdFlag;
+
+
+        json_pRspTransfer["SecuPwdFlag"] = pRspTransfer->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspTransfer->OperNo,
+            buffer,
+            sizeof(pRspTransfer->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["OperNo"] = buffer;
+
+
+        json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
+
+
+        json_pRspTransfer["TID"] = pRspTransfer->TID;
+
+
+        json_pRspTransfer["TransferStatus"] = pRspTransfer->TransferStatus;
+
+
+        json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
+
+        gbk2utf8(
+            pRspTransfer->ErrorMsg,
+            buffer,
+            sizeof(pRspTransfer->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspTransfer["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspTransfer;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnFromFutureToBankByFuture";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnFromFutureToBankByFuture():执行结束..." << std::endl;
 }
@@ -8642,90 +10358,298 @@ void CTraderHandler::OnRtnChangeAccountByBank(
 ) {
     std::cout << "OnRtnChangeAccountByBank():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pChangeAccount->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pChangeAccount->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pChangeAccount->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pChangeAccount->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pChangeAccount->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pChangeAccount->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pChangeAccount->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pChangeAccount->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pChangeAccount->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pChangeAccount->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pChangeAccount->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pChangeAccount->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pChangeAccount->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pChangeAccount->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pChangeAccount->IdentifiedCardNo << std::endl;
-    // char Gender
-    std::cout << "Gender" << "="<< pChangeAccount->Gender << std::endl;
-    // char CountryCode
-    std::cout << "CountryCode" << "="<< pChangeAccount->CountryCode << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pChangeAccount->CustType << std::endl;
-    // char Address
-    std::cout << "Address" << "="<< pChangeAccount->Address << std::endl;
-    // char ZipCode
-    std::cout << "ZipCode" << "="<< pChangeAccount->ZipCode << std::endl;
-    // char Telephone
-    std::cout << "Telephone" << "="<< pChangeAccount->Telephone << std::endl;
-    // char MobilePhone
-    std::cout << "MobilePhone" << "="<< pChangeAccount->MobilePhone << std::endl;
-    // char Fax
-    std::cout << "Fax" << "="<< pChangeAccount->Fax << std::endl;
-    // char EMail
-    std::cout << "EMail" << "="<< pChangeAccount->EMail << std::endl;
-    // char MoneyAccountStatus
-    std::cout << "MoneyAccountStatus" << "="<< pChangeAccount->MoneyAccountStatus << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pChangeAccount->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pChangeAccount->BankPassWord << std::endl;
-    // char NewBankAccount
-    std::cout << "NewBankAccount" << "="<< pChangeAccount->NewBankAccount << std::endl;
-    // char NewBankPassWord
-    std::cout << "NewBankPassWord" << "="<< pChangeAccount->NewBankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pChangeAccount->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pChangeAccount->Password << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pChangeAccount->BankAccType << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pChangeAccount->InstallID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pChangeAccount->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pChangeAccount->CurrencyID << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pChangeAccount->BrokerIDByBank << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pChangeAccount->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pChangeAccount->SecuPwdFlag << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pChangeAccount->TID << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pChangeAccount->Digest << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pChangeAccount->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pChangeAccount->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnChangeAccountByBank";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pChangeAccount;
+    if ( pChangeAccount != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pChangeAccount->TradeCode,
+            buffer,
+            sizeof(pChangeAccount->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->BankID,
+            buffer,
+            sizeof(pChangeAccount->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->BankBranchID,
+            buffer,
+            sizeof(pChangeAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->BrokerID,
+            buffer,
+            sizeof(pChangeAccount->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->BrokerBranchID,
+            buffer,
+            sizeof(pChangeAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->TradeDate,
+            buffer,
+            sizeof(pChangeAccount->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->TradeTime,
+            buffer,
+            sizeof(pChangeAccount->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->BankSerial,
+            buffer,
+            sizeof(pChangeAccount->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->TradingDay,
+            buffer,
+            sizeof(pChangeAccount->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["TradingDay"] = buffer;
+
+
+        json_pChangeAccount["PlateSerial"] = pChangeAccount->PlateSerial;
+
+
+        json_pChangeAccount["LastFragment"] = pChangeAccount->LastFragment;
+
+
+        json_pChangeAccount["SessionID"] = pChangeAccount->SessionID;
+
+
+        gbk2utf8(
+            pChangeAccount->CustomerName,
+            buffer,
+            sizeof(pChangeAccount->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["CustomerName"] = buffer;
+
+
+        json_pChangeAccount["IdCardType"] = pChangeAccount->IdCardType;
+
+
+        gbk2utf8(
+            pChangeAccount->IdentifiedCardNo,
+            buffer,
+            sizeof(pChangeAccount->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["IdentifiedCardNo"] = buffer;
+
+
+        json_pChangeAccount["Gender"] = pChangeAccount->Gender;
+
+
+        gbk2utf8(
+            pChangeAccount->CountryCode,
+            buffer,
+            sizeof(pChangeAccount->CountryCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["CountryCode"] = buffer;
+
+
+        json_pChangeAccount["CustType"] = pChangeAccount->CustType;
+
+
+        gbk2utf8(
+            pChangeAccount->Address,
+            buffer,
+            sizeof(pChangeAccount->Address) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["Address"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->ZipCode,
+            buffer,
+            sizeof(pChangeAccount->ZipCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["ZipCode"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->Telephone,
+            buffer,
+            sizeof(pChangeAccount->Telephone) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["Telephone"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->MobilePhone,
+            buffer,
+            sizeof(pChangeAccount->MobilePhone) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["MobilePhone"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->Fax,
+            buffer,
+            sizeof(pChangeAccount->Fax) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["Fax"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->EMail,
+            buffer,
+            sizeof(pChangeAccount->EMail) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["EMail"] = buffer;
+
+
+        json_pChangeAccount["MoneyAccountStatus"] = pChangeAccount->MoneyAccountStatus;
+
+
+        gbk2utf8(
+            pChangeAccount->BankAccount,
+            buffer,
+            sizeof(pChangeAccount->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->BankPassWord,
+            buffer,
+            sizeof(pChangeAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->NewBankAccount,
+            buffer,
+            sizeof(pChangeAccount->NewBankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["NewBankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->NewBankPassWord,
+            buffer,
+            sizeof(pChangeAccount->NewBankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["NewBankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->AccountID,
+            buffer,
+            sizeof(pChangeAccount->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->Password,
+            buffer,
+            sizeof(pChangeAccount->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["Password"] = buffer;
+
+
+        json_pChangeAccount["BankAccType"] = pChangeAccount->BankAccType;
+
+
+        json_pChangeAccount["InstallID"] = pChangeAccount->InstallID;
+
+
+        json_pChangeAccount["VerifyCertNoFlag"] = pChangeAccount->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pChangeAccount->CurrencyID,
+            buffer,
+            sizeof(pChangeAccount->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["CurrencyID"] = buffer;
+
+
+        gbk2utf8(
+            pChangeAccount->BrokerIDByBank,
+            buffer,
+            sizeof(pChangeAccount->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["BrokerIDByBank"] = buffer;
+
+
+        json_pChangeAccount["BankPwdFlag"] = pChangeAccount->BankPwdFlag;
+
+
+        json_pChangeAccount["SecuPwdFlag"] = pChangeAccount->SecuPwdFlag;
+
+
+        json_pChangeAccount["TID"] = pChangeAccount->TID;
+
+
+        gbk2utf8(
+            pChangeAccount->Digest,
+            buffer,
+            sizeof(pChangeAccount->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["Digest"] = buffer;
+
+
+        json_pChangeAccount["ErrorID"] = pChangeAccount->ErrorID;
+
+
+        gbk2utf8(
+            pChangeAccount->ErrorMsg,
+            buffer,
+            sizeof(pChangeAccount->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pChangeAccount["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pChangeAccount;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnChangeAccountByBank";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnChangeAccountByBank():执行结束..." << std::endl;
 }
@@ -8736,110 +10660,313 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 ) {
     std::cout << "OnRtnRepealFromFutureToBankByBank():开始执行..." << std::endl;
 
-    // int RepealTimeInterval
-    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
-    // int RepealedTimes
-    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
-    // char BankRepealFlag
-    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
-    // char BrokerRepealFlag
-    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
-    // int PlateRepealSerial
-    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
-    // char BankRepealSerial
-    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
-    // int FutureRepealSerial
-    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnRepealFromFutureToBankByBank";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspRepeal;
+    if ( pRspRepeal != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
+
+
+        json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
+
+        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+
+        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->BankRepealSerial,
+            buffer,
+            sizeof(pRspRepeal->BankRepealSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankRepealSerial"] = buffer;
+
+
+        json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeCode,
+            buffer,
+            sizeof(pRspRepeal->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankID,
+            buffer,
+            sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankBranchID,
+            buffer,
+            sizeof(pRspRepeal->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerID,
+            buffer,
+            sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerBranchID,
+            buffer,
+            sizeof(pRspRepeal->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeDate,
+            buffer,
+            sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeTime,
+            buffer,
+            sizeof(pRspRepeal->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSerial,
+            buffer,
+            sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradingDay,
+            buffer,
+            sizeof(pRspRepeal->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradingDay"] = buffer;
+
+
+        json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
+
+
+        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+
+        json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
+
+        gbk2utf8(
+            pRspRepeal->CustomerName,
+            buffer,
+            sizeof(pRspRepeal->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CustomerName"] = buffer;
+
+
+        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        gbk2utf8(
+            pRspRepeal->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspRepeal->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        gbk2utf8(
+            pRspRepeal->BankAccount,
+            buffer,
+            sizeof(pRspRepeal->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankPassWord,
+            buffer,
+            sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->AccountID,
+            buffer,
+            sizeof(pRspRepeal->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Password,
+            buffer,
+            sizeof(pRspRepeal->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Password"] = buffer;
+
+
+        json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
+
+
+        json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->UserID,
+            buffer,
+            sizeof(pRspRepeal->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["UserID"] = buffer;
+
+
+        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->CurrencyID,
+            buffer,
+            sizeof(pRspRepeal->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CurrencyID"] = buffer;
+
+
+        json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
+
+
+        json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
+
+        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+
+        json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
+
+
+        json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
+
+        gbk2utf8(
+            pRspRepeal->Message,
+            buffer,
+            sizeof(pRspRepeal->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Digest,
+            buffer,
+            sizeof(pRspRepeal->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Digest"] = buffer;
+
+
+        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->DeviceID,
+            buffer,
+            sizeof(pRspRepeal->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["DeviceID"] = buffer;
+
+
+        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerIDByBank,
+            buffer,
+            sizeof(pRspRepeal->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSecuAcc,
+            buffer,
+            sizeof(pRspRepeal->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSecuAcc"] = buffer;
+
+
+        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
+
+
+        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->OperNo,
+            buffer,
+            sizeof(pRspRepeal->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["OperNo"] = buffer;
+
+
+        json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
+
+
+        json_pRspRepeal["TID"] = pRspRepeal->TID;
+
+
+        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+
+        json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
+
+        gbk2utf8(
+            pRspRepeal->ErrorMsg,
+            buffer,
+            sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspRepeal;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnRepealFromFutureToBankByBank";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnRepealFromFutureToBankByBank():执行结束..." << std::endl;
 }
@@ -8850,98 +10977,320 @@ void CTraderHandler::OnRtnOpenAccountByBank(
 ) {
     std::cout << "OnRtnOpenAccountByBank():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pOpenAccount->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pOpenAccount->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pOpenAccount->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pOpenAccount->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pOpenAccount->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pOpenAccount->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pOpenAccount->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pOpenAccount->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pOpenAccount->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pOpenAccount->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pOpenAccount->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pOpenAccount->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pOpenAccount->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pOpenAccount->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pOpenAccount->IdentifiedCardNo << std::endl;
-    // char Gender
-    std::cout << "Gender" << "="<< pOpenAccount->Gender << std::endl;
-    // char CountryCode
-    std::cout << "CountryCode" << "="<< pOpenAccount->CountryCode << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pOpenAccount->CustType << std::endl;
-    // char Address
-    std::cout << "Address" << "="<< pOpenAccount->Address << std::endl;
-    // char ZipCode
-    std::cout << "ZipCode" << "="<< pOpenAccount->ZipCode << std::endl;
-    // char Telephone
-    std::cout << "Telephone" << "="<< pOpenAccount->Telephone << std::endl;
-    // char MobilePhone
-    std::cout << "MobilePhone" << "="<< pOpenAccount->MobilePhone << std::endl;
-    // char Fax
-    std::cout << "Fax" << "="<< pOpenAccount->Fax << std::endl;
-    // char EMail
-    std::cout << "EMail" << "="<< pOpenAccount->EMail << std::endl;
-    // char MoneyAccountStatus
-    std::cout << "MoneyAccountStatus" << "="<< pOpenAccount->MoneyAccountStatus << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pOpenAccount->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pOpenAccount->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pOpenAccount->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pOpenAccount->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pOpenAccount->InstallID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pOpenAccount->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pOpenAccount->CurrencyID << std::endl;
-    // char CashExchangeCode
-    std::cout << "CashExchangeCode" << "="<< pOpenAccount->CashExchangeCode << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pOpenAccount->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pOpenAccount->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pOpenAccount->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pOpenAccount->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pOpenAccount->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pOpenAccount->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pOpenAccount->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pOpenAccount->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pOpenAccount->OperNo << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pOpenAccount->TID << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pOpenAccount->UserID << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pOpenAccount->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pOpenAccount->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnOpenAccountByBank";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pOpenAccount;
+    if ( pOpenAccount != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pOpenAccount->TradeCode,
+            buffer,
+            sizeof(pOpenAccount->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->BankID,
+            buffer,
+            sizeof(pOpenAccount->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->BankBranchID,
+            buffer,
+            sizeof(pOpenAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->BrokerID,
+            buffer,
+            sizeof(pOpenAccount->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->BrokerBranchID,
+            buffer,
+            sizeof(pOpenAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->TradeDate,
+            buffer,
+            sizeof(pOpenAccount->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->TradeTime,
+            buffer,
+            sizeof(pOpenAccount->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->BankSerial,
+            buffer,
+            sizeof(pOpenAccount->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->TradingDay,
+            buffer,
+            sizeof(pOpenAccount->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["TradingDay"] = buffer;
+
+
+        json_pOpenAccount["PlateSerial"] = pOpenAccount->PlateSerial;
+
+
+        json_pOpenAccount["LastFragment"] = pOpenAccount->LastFragment;
+
+
+        json_pOpenAccount["SessionID"] = pOpenAccount->SessionID;
+
+
+        gbk2utf8(
+            pOpenAccount->CustomerName,
+            buffer,
+            sizeof(pOpenAccount->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["CustomerName"] = buffer;
+
+
+        json_pOpenAccount["IdCardType"] = pOpenAccount->IdCardType;
+
+
+        gbk2utf8(
+            pOpenAccount->IdentifiedCardNo,
+            buffer,
+            sizeof(pOpenAccount->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["IdentifiedCardNo"] = buffer;
+
+
+        json_pOpenAccount["Gender"] = pOpenAccount->Gender;
+
+
+        gbk2utf8(
+            pOpenAccount->CountryCode,
+            buffer,
+            sizeof(pOpenAccount->CountryCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["CountryCode"] = buffer;
+
+
+        json_pOpenAccount["CustType"] = pOpenAccount->CustType;
+
+
+        gbk2utf8(
+            pOpenAccount->Address,
+            buffer,
+            sizeof(pOpenAccount->Address) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["Address"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->ZipCode,
+            buffer,
+            sizeof(pOpenAccount->ZipCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["ZipCode"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->Telephone,
+            buffer,
+            sizeof(pOpenAccount->Telephone) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["Telephone"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->MobilePhone,
+            buffer,
+            sizeof(pOpenAccount->MobilePhone) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["MobilePhone"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->Fax,
+            buffer,
+            sizeof(pOpenAccount->Fax) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["Fax"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->EMail,
+            buffer,
+            sizeof(pOpenAccount->EMail) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["EMail"] = buffer;
+
+
+        json_pOpenAccount["MoneyAccountStatus"] = pOpenAccount->MoneyAccountStatus;
+
+
+        gbk2utf8(
+            pOpenAccount->BankAccount,
+            buffer,
+            sizeof(pOpenAccount->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->BankPassWord,
+            buffer,
+            sizeof(pOpenAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->AccountID,
+            buffer,
+            sizeof(pOpenAccount->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->Password,
+            buffer,
+            sizeof(pOpenAccount->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["Password"] = buffer;
+
+
+        json_pOpenAccount["InstallID"] = pOpenAccount->InstallID;
+
+
+        json_pOpenAccount["VerifyCertNoFlag"] = pOpenAccount->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pOpenAccount->CurrencyID,
+            buffer,
+            sizeof(pOpenAccount->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["CurrencyID"] = buffer;
+
+
+        json_pOpenAccount["CashExchangeCode"] = pOpenAccount->CashExchangeCode;
+
+
+        gbk2utf8(
+            pOpenAccount->Digest,
+            buffer,
+            sizeof(pOpenAccount->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["Digest"] = buffer;
+
+
+        json_pOpenAccount["BankAccType"] = pOpenAccount->BankAccType;
+
+
+        gbk2utf8(
+            pOpenAccount->DeviceID,
+            buffer,
+            sizeof(pOpenAccount->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["DeviceID"] = buffer;
+
+
+        json_pOpenAccount["BankSecuAccType"] = pOpenAccount->BankSecuAccType;
+
+
+        gbk2utf8(
+            pOpenAccount->BrokerIDByBank,
+            buffer,
+            sizeof(pOpenAccount->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pOpenAccount->BankSecuAcc,
+            buffer,
+            sizeof(pOpenAccount->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["BankSecuAcc"] = buffer;
+
+
+        json_pOpenAccount["BankPwdFlag"] = pOpenAccount->BankPwdFlag;
+
+
+        json_pOpenAccount["SecuPwdFlag"] = pOpenAccount->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pOpenAccount->OperNo,
+            buffer,
+            sizeof(pOpenAccount->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["OperNo"] = buffer;
+
+
+        json_pOpenAccount["TID"] = pOpenAccount->TID;
+
+
+        gbk2utf8(
+            pOpenAccount->UserID,
+            buffer,
+            sizeof(pOpenAccount->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["UserID"] = buffer;
+
+
+        json_pOpenAccount["ErrorID"] = pOpenAccount->ErrorID;
+
+
+        gbk2utf8(
+            pOpenAccount->ErrorMsg,
+            buffer,
+            sizeof(pOpenAccount->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOpenAccount["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pOpenAccount;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnOpenAccountByBank";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnOpenAccountByBank():执行结束..." << std::endl;
 }
@@ -8952,66 +11301,212 @@ void CTraderHandler::OnRtnTrade(
 ) {
     std::cout << "OnRtnTrade():开始执行..." << std::endl;
 
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pTrade->BrokerID << std::endl;
-    // char InvestorID
-    std::cout << "InvestorID" << "="<< pTrade->InvestorID << std::endl;
-    // char InstrumentID
-    std::cout << "InstrumentID" << "="<< pTrade->InstrumentID << std::endl;
-    // char OrderRef
-    std::cout << "OrderRef" << "="<< pTrade->OrderRef << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pTrade->UserID << std::endl;
-    // char ExchangeID
-    std::cout << "ExchangeID" << "="<< pTrade->ExchangeID << std::endl;
-    // char TradeID
-    std::cout << "TradeID" << "="<< pTrade->TradeID << std::endl;
-    // char Direction
-    std::cout << "Direction" << "="<< pTrade->Direction << std::endl;
-    // char OrderSysID
-    std::cout << "OrderSysID" << "="<< pTrade->OrderSysID << std::endl;
-    // char ParticipantID
-    std::cout << "ParticipantID" << "="<< pTrade->ParticipantID << std::endl;
-    // char ClientID
-    std::cout << "ClientID" << "="<< pTrade->ClientID << std::endl;
-    // char TradingRole
-    std::cout << "TradingRole" << "="<< pTrade->TradingRole << std::endl;
-    // char ExchangeInstID
-    std::cout << "ExchangeInstID" << "="<< pTrade->ExchangeInstID << std::endl;
-    // char OffsetFlag
-    std::cout << "OffsetFlag" << "="<< pTrade->OffsetFlag << std::endl;
-    // char HedgeFlag
-    std::cout << "HedgeFlag" << "="<< pTrade->HedgeFlag << std::endl;
-    // double Price
-    std::cout << "Price" << "="<< pTrade->Price << std::endl;
-    // int Volume
-    std::cout << "Volume" << "="<< pTrade->Volume << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pTrade->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pTrade->TradeTime << std::endl;
-    // char TradeType
-    std::cout << "TradeType" << "="<< pTrade->TradeType << std::endl;
-    // char PriceSource
-    std::cout << "PriceSource" << "="<< pTrade->PriceSource << std::endl;
-    // char TraderID
-    std::cout << "TraderID" << "="<< pTrade->TraderID << std::endl;
-    // char OrderLocalID
-    std::cout << "OrderLocalID" << "="<< pTrade->OrderLocalID << std::endl;
-    // char ClearingPartID
-    std::cout << "ClearingPartID" << "="<< pTrade->ClearingPartID << std::endl;
-    // char BusinessUnit
-    std::cout << "BusinessUnit" << "="<< pTrade->BusinessUnit << std::endl;
-    // int SequenceNo
-    std::cout << "SequenceNo" << "="<< pTrade->SequenceNo << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pTrade->TradingDay << std::endl;
-    // int SettlementID
-    std::cout << "SettlementID" << "="<< pTrade->SettlementID << std::endl;
-    // int BrokerOrderSeq
-    std::cout << "BrokerOrderSeq" << "="<< pTrade->BrokerOrderSeq << std::endl;
-    // char TradeSource
-    std::cout << "TradeSource" << "="<< pTrade->TradeSource << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnTrade";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pTrade;
+    if ( pTrade != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pTrade->BrokerID,
+            buffer,
+            sizeof(pTrade->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->InvestorID,
+            buffer,
+            sizeof(pTrade->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["InvestorID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->InstrumentID,
+            buffer,
+            sizeof(pTrade->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["InstrumentID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->OrderRef,
+            buffer,
+            sizeof(pTrade->OrderRef) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["OrderRef"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->UserID,
+            buffer,
+            sizeof(pTrade->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["UserID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->ExchangeID,
+            buffer,
+            sizeof(pTrade->ExchangeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["ExchangeID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->TradeID,
+            buffer,
+            sizeof(pTrade->TradeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["TradeID"] = buffer;
+
+
+        json_pTrade["Direction"] = pTrade->Direction;
+
+
+        gbk2utf8(
+            pTrade->OrderSysID,
+            buffer,
+            sizeof(pTrade->OrderSysID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["OrderSysID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->ParticipantID,
+            buffer,
+            sizeof(pTrade->ParticipantID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["ParticipantID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->ClientID,
+            buffer,
+            sizeof(pTrade->ClientID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["ClientID"] = buffer;
+
+
+        json_pTrade["TradingRole"] = pTrade->TradingRole;
+
+
+        gbk2utf8(
+            pTrade->ExchangeInstID,
+            buffer,
+            sizeof(pTrade->ExchangeInstID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["ExchangeInstID"] = buffer;
+
+
+        json_pTrade["OffsetFlag"] = pTrade->OffsetFlag;
+
+
+        json_pTrade["HedgeFlag"] = pTrade->HedgeFlag;
+
+
+        json_pTrade["Price"] = pTrade->Price;
+
+
+        json_pTrade["Volume"] = pTrade->Volume;
+
+
+        gbk2utf8(
+            pTrade->TradeDate,
+            buffer,
+            sizeof(pTrade->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->TradeTime,
+            buffer,
+            sizeof(pTrade->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["TradeTime"] = buffer;
+
+
+        json_pTrade["TradeType"] = pTrade->TradeType;
+
+
+        json_pTrade["PriceSource"] = pTrade->PriceSource;
+
+
+        gbk2utf8(
+            pTrade->TraderID,
+            buffer,
+            sizeof(pTrade->TraderID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["TraderID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->OrderLocalID,
+            buffer,
+            sizeof(pTrade->OrderLocalID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["OrderLocalID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->ClearingPartID,
+            buffer,
+            sizeof(pTrade->ClearingPartID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["ClearingPartID"] = buffer;
+
+
+        gbk2utf8(
+            pTrade->BusinessUnit,
+            buffer,
+            sizeof(pTrade->BusinessUnit) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["BusinessUnit"] = buffer;
+
+
+        json_pTrade["SequenceNo"] = pTrade->SequenceNo;
+
+
+        gbk2utf8(
+            pTrade->TradingDay,
+            buffer,
+            sizeof(pTrade->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pTrade["TradingDay"] = buffer;
+
+
+        json_pTrade["SettlementID"] = pTrade->SettlementID;
+
+
+        json_pTrade["BrokerOrderSeq"] = pTrade->BrokerOrderSeq;
+
+
+        json_pTrade["TradeSource"] = pTrade->TradeSource;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pTrade;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnTrade";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnTrade():执行结束..." << std::endl;
 }
@@ -9022,110 +11517,313 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
 ) {
     std::cout << "OnRtnRepealFromFutureToBankByFuture():开始执行..." << std::endl;
 
-    // int RepealTimeInterval
-    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
-    // int RepealedTimes
-    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
-    // char BankRepealFlag
-    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
-    // char BrokerRepealFlag
-    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
-    // int PlateRepealSerial
-    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
-    // char BankRepealSerial
-    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
-    // int FutureRepealSerial
-    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnRepealFromFutureToBankByFuture";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspRepeal;
+    if ( pRspRepeal != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
+
+
+        json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
+
+        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+
+        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->BankRepealSerial,
+            buffer,
+            sizeof(pRspRepeal->BankRepealSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankRepealSerial"] = buffer;
+
+
+        json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeCode,
+            buffer,
+            sizeof(pRspRepeal->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankID,
+            buffer,
+            sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankBranchID,
+            buffer,
+            sizeof(pRspRepeal->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerID,
+            buffer,
+            sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerBranchID,
+            buffer,
+            sizeof(pRspRepeal->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeDate,
+            buffer,
+            sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeTime,
+            buffer,
+            sizeof(pRspRepeal->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSerial,
+            buffer,
+            sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradingDay,
+            buffer,
+            sizeof(pRspRepeal->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradingDay"] = buffer;
+
+
+        json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
+
+
+        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+
+        json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
+
+        gbk2utf8(
+            pRspRepeal->CustomerName,
+            buffer,
+            sizeof(pRspRepeal->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CustomerName"] = buffer;
+
+
+        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        gbk2utf8(
+            pRspRepeal->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspRepeal->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        gbk2utf8(
+            pRspRepeal->BankAccount,
+            buffer,
+            sizeof(pRspRepeal->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankPassWord,
+            buffer,
+            sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->AccountID,
+            buffer,
+            sizeof(pRspRepeal->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Password,
+            buffer,
+            sizeof(pRspRepeal->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Password"] = buffer;
+
+
+        json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
+
+
+        json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->UserID,
+            buffer,
+            sizeof(pRspRepeal->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["UserID"] = buffer;
+
+
+        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->CurrencyID,
+            buffer,
+            sizeof(pRspRepeal->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CurrencyID"] = buffer;
+
+
+        json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
+
+
+        json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
+
+        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+
+        json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
+
+
+        json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
+
+        gbk2utf8(
+            pRspRepeal->Message,
+            buffer,
+            sizeof(pRspRepeal->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Digest,
+            buffer,
+            sizeof(pRspRepeal->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Digest"] = buffer;
+
+
+        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->DeviceID,
+            buffer,
+            sizeof(pRspRepeal->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["DeviceID"] = buffer;
+
+
+        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerIDByBank,
+            buffer,
+            sizeof(pRspRepeal->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSecuAcc,
+            buffer,
+            sizeof(pRspRepeal->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSecuAcc"] = buffer;
+
+
+        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
+
+
+        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->OperNo,
+            buffer,
+            sizeof(pRspRepeal->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["OperNo"] = buffer;
+
+
+        json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
+
+
+        json_pRspRepeal["TID"] = pRspRepeal->TID;
+
+
+        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+
+        json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
+
+        gbk2utf8(
+            pRspRepeal->ErrorMsg,
+            buffer,
+            sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspRepeal;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnRepealFromFutureToBankByFuture";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnRepealFromFutureToBankByFuture():执行结束..." << std::endl;
 }
@@ -9136,124 +11834,359 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 ) {
     std::cout << "OnRtnErrorConditionalOrder():开始执行..." << std::endl;
 
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pErrorConditionalOrder->BrokerID << std::endl;
-    // char InvestorID
-    std::cout << "InvestorID" << "="<< pErrorConditionalOrder->InvestorID << std::endl;
-    // char InstrumentID
-    std::cout << "InstrumentID" << "="<< pErrorConditionalOrder->InstrumentID << std::endl;
-    // char OrderRef
-    std::cout << "OrderRef" << "="<< pErrorConditionalOrder->OrderRef << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pErrorConditionalOrder->UserID << std::endl;
-    // char OrderPriceType
-    std::cout << "OrderPriceType" << "="<< pErrorConditionalOrder->OrderPriceType << std::endl;
-    // char Direction
-    std::cout << "Direction" << "="<< pErrorConditionalOrder->Direction << std::endl;
-    // char CombOffsetFlag
-    std::cout << "CombOffsetFlag" << "="<< pErrorConditionalOrder->CombOffsetFlag << std::endl;
-    // char CombHedgeFlag
-    std::cout << "CombHedgeFlag" << "="<< pErrorConditionalOrder->CombHedgeFlag << std::endl;
-    // double LimitPrice
-    std::cout << "LimitPrice" << "="<< pErrorConditionalOrder->LimitPrice << std::endl;
-    // int VolumeTotalOriginal
-    std::cout << "VolumeTotalOriginal" << "="<< pErrorConditionalOrder->VolumeTotalOriginal << std::endl;
-    // char TimeCondition
-    std::cout << "TimeCondition" << "="<< pErrorConditionalOrder->TimeCondition << std::endl;
-    // char GTDDate
-    std::cout << "GTDDate" << "="<< pErrorConditionalOrder->GTDDate << std::endl;
-    // char VolumeCondition
-    std::cout << "VolumeCondition" << "="<< pErrorConditionalOrder->VolumeCondition << std::endl;
-    // int MinVolume
-    std::cout << "MinVolume" << "="<< pErrorConditionalOrder->MinVolume << std::endl;
-    // char ContingentCondition
-    std::cout << "ContingentCondition" << "="<< pErrorConditionalOrder->ContingentCondition << std::endl;
-    // double StopPrice
-    std::cout << "StopPrice" << "="<< pErrorConditionalOrder->StopPrice << std::endl;
-    // char ForceCloseReason
-    std::cout << "ForceCloseReason" << "="<< pErrorConditionalOrder->ForceCloseReason << std::endl;
-    // int IsAutoSuspend
-    std::cout << "IsAutoSuspend" << "="<< pErrorConditionalOrder->IsAutoSuspend << std::endl;
-    // char BusinessUnit
-    std::cout << "BusinessUnit" << "="<< pErrorConditionalOrder->BusinessUnit << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pErrorConditionalOrder->RequestID << std::endl;
-    // char OrderLocalID
-    std::cout << "OrderLocalID" << "="<< pErrorConditionalOrder->OrderLocalID << std::endl;
-    // char ExchangeID
-    std::cout << "ExchangeID" << "="<< pErrorConditionalOrder->ExchangeID << std::endl;
-    // char ParticipantID
-    std::cout << "ParticipantID" << "="<< pErrorConditionalOrder->ParticipantID << std::endl;
-    // char ClientID
-    std::cout << "ClientID" << "="<< pErrorConditionalOrder->ClientID << std::endl;
-    // char ExchangeInstID
-    std::cout << "ExchangeInstID" << "="<< pErrorConditionalOrder->ExchangeInstID << std::endl;
-    // char TraderID
-    std::cout << "TraderID" << "="<< pErrorConditionalOrder->TraderID << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pErrorConditionalOrder->InstallID << std::endl;
-    // char OrderSubmitStatus
-    std::cout << "OrderSubmitStatus" << "="<< pErrorConditionalOrder->OrderSubmitStatus << std::endl;
-    // int NotifySequence
-    std::cout << "NotifySequence" << "="<< pErrorConditionalOrder->NotifySequence << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pErrorConditionalOrder->TradingDay << std::endl;
-    // int SettlementID
-    std::cout << "SettlementID" << "="<< pErrorConditionalOrder->SettlementID << std::endl;
-    // char OrderSysID
-    std::cout << "OrderSysID" << "="<< pErrorConditionalOrder->OrderSysID << std::endl;
-    // char OrderSource
-    std::cout << "OrderSource" << "="<< pErrorConditionalOrder->OrderSource << std::endl;
-    // char OrderStatus
-    std::cout << "OrderStatus" << "="<< pErrorConditionalOrder->OrderStatus << std::endl;
-    // char OrderType
-    std::cout << "OrderType" << "="<< pErrorConditionalOrder->OrderType << std::endl;
-    // int VolumeTraded
-    std::cout << "VolumeTraded" << "="<< pErrorConditionalOrder->VolumeTraded << std::endl;
-    // int VolumeTotal
-    std::cout << "VolumeTotal" << "="<< pErrorConditionalOrder->VolumeTotal << std::endl;
-    // char InsertDate
-    std::cout << "InsertDate" << "="<< pErrorConditionalOrder->InsertDate << std::endl;
-    // char InsertTime
-    std::cout << "InsertTime" << "="<< pErrorConditionalOrder->InsertTime << std::endl;
-    // char ActiveTime
-    std::cout << "ActiveTime" << "="<< pErrorConditionalOrder->ActiveTime << std::endl;
-    // char SuspendTime
-    std::cout << "SuspendTime" << "="<< pErrorConditionalOrder->SuspendTime << std::endl;
-    // char UpdateTime
-    std::cout << "UpdateTime" << "="<< pErrorConditionalOrder->UpdateTime << std::endl;
-    // char CancelTime
-    std::cout << "CancelTime" << "="<< pErrorConditionalOrder->CancelTime << std::endl;
-    // char ActiveTraderID
-    std::cout << "ActiveTraderID" << "="<< pErrorConditionalOrder->ActiveTraderID << std::endl;
-    // char ClearingPartID
-    std::cout << "ClearingPartID" << "="<< pErrorConditionalOrder->ClearingPartID << std::endl;
-    // int SequenceNo
-    std::cout << "SequenceNo" << "="<< pErrorConditionalOrder->SequenceNo << std::endl;
-    // int FrontID
-    std::cout << "FrontID" << "="<< pErrorConditionalOrder->FrontID << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pErrorConditionalOrder->SessionID << std::endl;
-    // char UserProductInfo
-    std::cout << "UserProductInfo" << "="<< pErrorConditionalOrder->UserProductInfo << std::endl;
-    // char StatusMsg
-    std::cout << "StatusMsg" << "="<< pErrorConditionalOrder->StatusMsg << std::endl;
-    // int UserForceClose
-    std::cout << "UserForceClose" << "="<< pErrorConditionalOrder->UserForceClose << std::endl;
-    // char ActiveUserID
-    std::cout << "ActiveUserID" << "="<< pErrorConditionalOrder->ActiveUserID << std::endl;
-    // int BrokerOrderSeq
-    std::cout << "BrokerOrderSeq" << "="<< pErrorConditionalOrder->BrokerOrderSeq << std::endl;
-    // char RelativeOrderSysID
-    std::cout << "RelativeOrderSysID" << "="<< pErrorConditionalOrder->RelativeOrderSysID << std::endl;
-    // int ZCETotalTradedVolume
-    std::cout << "ZCETotalTradedVolume" << "="<< pErrorConditionalOrder->ZCETotalTradedVolume << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pErrorConditionalOrder->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pErrorConditionalOrder->ErrorMsg << std::endl;
-    // int IsSwapOrder
-    std::cout << "IsSwapOrder" << "="<< pErrorConditionalOrder->IsSwapOrder << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnErrorConditionalOrder";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pErrorConditionalOrder;
+    if ( pErrorConditionalOrder != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->BrokerID,
+            buffer,
+            sizeof(pErrorConditionalOrder->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->InvestorID,
+            buffer,
+            sizeof(pErrorConditionalOrder->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["InvestorID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->InstrumentID,
+            buffer,
+            sizeof(pErrorConditionalOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["InstrumentID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->OrderRef,
+            buffer,
+            sizeof(pErrorConditionalOrder->OrderRef) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["OrderRef"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->UserID,
+            buffer,
+            sizeof(pErrorConditionalOrder->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["UserID"] = buffer;
+
+
+        json_pErrorConditionalOrder["OrderPriceType"] = pErrorConditionalOrder->OrderPriceType;
+
+
+        json_pErrorConditionalOrder["Direction"] = pErrorConditionalOrder->Direction;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->CombOffsetFlag,
+            buffer,
+            sizeof(pErrorConditionalOrder->CombOffsetFlag) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["CombOffsetFlag"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->CombHedgeFlag,
+            buffer,
+            sizeof(pErrorConditionalOrder->CombHedgeFlag) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["CombHedgeFlag"] = buffer;
+
+
+        json_pErrorConditionalOrder["LimitPrice"] = pErrorConditionalOrder->LimitPrice;
+
+
+        json_pErrorConditionalOrder["VolumeTotalOriginal"] = pErrorConditionalOrder->VolumeTotalOriginal;
+
+
+        json_pErrorConditionalOrder["TimeCondition"] = pErrorConditionalOrder->TimeCondition;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->GTDDate,
+            buffer,
+            sizeof(pErrorConditionalOrder->GTDDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["GTDDate"] = buffer;
+
+
+        json_pErrorConditionalOrder["VolumeCondition"] = pErrorConditionalOrder->VolumeCondition;
+
+
+        json_pErrorConditionalOrder["MinVolume"] = pErrorConditionalOrder->MinVolume;
+
+
+        json_pErrorConditionalOrder["ContingentCondition"] = pErrorConditionalOrder->ContingentCondition;
+
+
+        json_pErrorConditionalOrder["StopPrice"] = pErrorConditionalOrder->StopPrice;
+
+
+        json_pErrorConditionalOrder["ForceCloseReason"] = pErrorConditionalOrder->ForceCloseReason;
+
+
+        json_pErrorConditionalOrder["IsAutoSuspend"] = pErrorConditionalOrder->IsAutoSuspend;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->BusinessUnit,
+            buffer,
+            sizeof(pErrorConditionalOrder->BusinessUnit) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["BusinessUnit"] = buffer;
+
+
+        json_pErrorConditionalOrder["RequestID"] = pErrorConditionalOrder->RequestID;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->OrderLocalID,
+            buffer,
+            sizeof(pErrorConditionalOrder->OrderLocalID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["OrderLocalID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ExchangeID,
+            buffer,
+            sizeof(pErrorConditionalOrder->ExchangeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ExchangeID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ParticipantID,
+            buffer,
+            sizeof(pErrorConditionalOrder->ParticipantID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ParticipantID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ClientID,
+            buffer,
+            sizeof(pErrorConditionalOrder->ClientID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ClientID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ExchangeInstID,
+            buffer,
+            sizeof(pErrorConditionalOrder->ExchangeInstID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ExchangeInstID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->TraderID,
+            buffer,
+            sizeof(pErrorConditionalOrder->TraderID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["TraderID"] = buffer;
+
+
+        json_pErrorConditionalOrder["InstallID"] = pErrorConditionalOrder->InstallID;
+
+
+        json_pErrorConditionalOrder["OrderSubmitStatus"] = pErrorConditionalOrder->OrderSubmitStatus;
+
+
+        json_pErrorConditionalOrder["NotifySequence"] = pErrorConditionalOrder->NotifySequence;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->TradingDay,
+            buffer,
+            sizeof(pErrorConditionalOrder->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["TradingDay"] = buffer;
+
+
+        json_pErrorConditionalOrder["SettlementID"] = pErrorConditionalOrder->SettlementID;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->OrderSysID,
+            buffer,
+            sizeof(pErrorConditionalOrder->OrderSysID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["OrderSysID"] = buffer;
+
+
+        json_pErrorConditionalOrder["OrderSource"] = pErrorConditionalOrder->OrderSource;
+
+
+        json_pErrorConditionalOrder["OrderStatus"] = pErrorConditionalOrder->OrderStatus;
+
+
+        json_pErrorConditionalOrder["OrderType"] = pErrorConditionalOrder->OrderType;
+
+
+        json_pErrorConditionalOrder["VolumeTraded"] = pErrorConditionalOrder->VolumeTraded;
+
+
+        json_pErrorConditionalOrder["VolumeTotal"] = pErrorConditionalOrder->VolumeTotal;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->InsertDate,
+            buffer,
+            sizeof(pErrorConditionalOrder->InsertDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["InsertDate"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->InsertTime,
+            buffer,
+            sizeof(pErrorConditionalOrder->InsertTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["InsertTime"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ActiveTime,
+            buffer,
+            sizeof(pErrorConditionalOrder->ActiveTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ActiveTime"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->SuspendTime,
+            buffer,
+            sizeof(pErrorConditionalOrder->SuspendTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["SuspendTime"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->UpdateTime,
+            buffer,
+            sizeof(pErrorConditionalOrder->UpdateTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["UpdateTime"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->CancelTime,
+            buffer,
+            sizeof(pErrorConditionalOrder->CancelTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["CancelTime"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ActiveTraderID,
+            buffer,
+            sizeof(pErrorConditionalOrder->ActiveTraderID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ActiveTraderID"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ClearingPartID,
+            buffer,
+            sizeof(pErrorConditionalOrder->ClearingPartID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ClearingPartID"] = buffer;
+
+
+        json_pErrorConditionalOrder["SequenceNo"] = pErrorConditionalOrder->SequenceNo;
+
+
+        json_pErrorConditionalOrder["FrontID"] = pErrorConditionalOrder->FrontID;
+
+
+        json_pErrorConditionalOrder["SessionID"] = pErrorConditionalOrder->SessionID;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->UserProductInfo,
+            buffer,
+            sizeof(pErrorConditionalOrder->UserProductInfo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["UserProductInfo"] = buffer;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->StatusMsg,
+            buffer,
+            sizeof(pErrorConditionalOrder->StatusMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["StatusMsg"] = buffer;
+
+
+        json_pErrorConditionalOrder["UserForceClose"] = pErrorConditionalOrder->UserForceClose;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ActiveUserID,
+            buffer,
+            sizeof(pErrorConditionalOrder->ActiveUserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ActiveUserID"] = buffer;
+
+
+        json_pErrorConditionalOrder["BrokerOrderSeq"] = pErrorConditionalOrder->BrokerOrderSeq;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->RelativeOrderSysID,
+            buffer,
+            sizeof(pErrorConditionalOrder->RelativeOrderSysID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["RelativeOrderSysID"] = buffer;
+
+
+        json_pErrorConditionalOrder["ZCETotalTradedVolume"] = pErrorConditionalOrder->ZCETotalTradedVolume;
+
+
+        json_pErrorConditionalOrder["ErrorID"] = pErrorConditionalOrder->ErrorID;
+
+
+        gbk2utf8(
+            pErrorConditionalOrder->ErrorMsg,
+            buffer,
+            sizeof(pErrorConditionalOrder->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pErrorConditionalOrder["ErrorMsg"] = buffer;
+
+
+        json_pErrorConditionalOrder["IsSwapOrder"] = pErrorConditionalOrder->IsSwapOrder;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pErrorConditionalOrder;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnErrorConditionalOrder";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnErrorConditionalOrder():执行结束..." << std::endl;
 }
@@ -9264,110 +12197,313 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
 ) {
     std::cout << "OnRtnRepealFromBankToFutureByBank():开始执行..." << std::endl;
 
-    // int RepealTimeInterval
-    std::cout << "RepealTimeInterval" << "="<< pRspRepeal->RepealTimeInterval << std::endl;
-    // int RepealedTimes
-    std::cout << "RepealedTimes" << "="<< pRspRepeal->RepealedTimes << std::endl;
-    // char BankRepealFlag
-    std::cout << "BankRepealFlag" << "="<< pRspRepeal->BankRepealFlag << std::endl;
-    // char BrokerRepealFlag
-    std::cout << "BrokerRepealFlag" << "="<< pRspRepeal->BrokerRepealFlag << std::endl;
-    // int PlateRepealSerial
-    std::cout << "PlateRepealSerial" << "="<< pRspRepeal->PlateRepealSerial << std::endl;
-    // char BankRepealSerial
-    std::cout << "BankRepealSerial" << "="<< pRspRepeal->BankRepealSerial << std::endl;
-    // int FutureRepealSerial
-    std::cout << "FutureRepealSerial" << "="<< pRspRepeal->FutureRepealSerial << std::endl;
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pRspRepeal->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pRspRepeal->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pRspRepeal->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pRspRepeal->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pRspRepeal->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pRspRepeal->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pRspRepeal->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pRspRepeal->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pRspRepeal->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pRspRepeal->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pRspRepeal->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pRspRepeal->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pRspRepeal->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pRspRepeal->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pRspRepeal->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pRspRepeal->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pRspRepeal->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pRspRepeal->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pRspRepeal->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pRspRepeal->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pRspRepeal->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pRspRepeal->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pRspRepeal->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pRspRepeal->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pRspRepeal->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pRspRepeal->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pRspRepeal->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pRspRepeal->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pRspRepeal->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pRspRepeal->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pRspRepeal->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pRspRepeal->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pRspRepeal->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pRspRepeal->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pRspRepeal->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pRspRepeal->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pRspRepeal->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pRspRepeal->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pRspRepeal->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pRspRepeal->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pRspRepeal->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pRspRepeal->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pRspRepeal->TransferStatus << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspRepeal->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspRepeal->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnRepealFromBankToFutureByBank";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspRepeal;
+    if ( pRspRepeal != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
+
+
+        json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
+
+        json_pRspRepeal["BankRepealFlag"] = pRspRepeal->BankRepealFlag;
+
+
+        json_pRspRepeal["BrokerRepealFlag"] = pRspRepeal->BrokerRepealFlag;
+
+
+        json_pRspRepeal["PlateRepealSerial"] = pRspRepeal->PlateRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->BankRepealSerial,
+            buffer,
+            sizeof(pRspRepeal->BankRepealSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankRepealSerial"] = buffer;
+
+
+        json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeCode,
+            buffer,
+            sizeof(pRspRepeal->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankID,
+            buffer,
+            sizeof(pRspRepeal->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankBranchID,
+            buffer,
+            sizeof(pRspRepeal->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerID,
+            buffer,
+            sizeof(pRspRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerBranchID,
+            buffer,
+            sizeof(pRspRepeal->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeDate,
+            buffer,
+            sizeof(pRspRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradeTime,
+            buffer,
+            sizeof(pRspRepeal->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSerial,
+            buffer,
+            sizeof(pRspRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->TradingDay,
+            buffer,
+            sizeof(pRspRepeal->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["TradingDay"] = buffer;
+
+
+        json_pRspRepeal["PlateSerial"] = pRspRepeal->PlateSerial;
+
+
+        json_pRspRepeal["LastFragment"] = pRspRepeal->LastFragment;
+
+
+        json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
+
+        gbk2utf8(
+            pRspRepeal->CustomerName,
+            buffer,
+            sizeof(pRspRepeal->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CustomerName"] = buffer;
+
+
+        json_pRspRepeal["IdCardType"] = pRspRepeal->IdCardType;
+
+
+        gbk2utf8(
+            pRspRepeal->IdentifiedCardNo,
+            buffer,
+            sizeof(pRspRepeal->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["IdentifiedCardNo"] = buffer;
+
+
+        json_pRspRepeal["CustType"] = pRspRepeal->CustType;
+
+
+        gbk2utf8(
+            pRspRepeal->BankAccount,
+            buffer,
+            sizeof(pRspRepeal->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankPassWord,
+            buffer,
+            sizeof(pRspRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->AccountID,
+            buffer,
+            sizeof(pRspRepeal->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Password,
+            buffer,
+            sizeof(pRspRepeal->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Password"] = buffer;
+
+
+        json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
+
+
+        json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
+
+        gbk2utf8(
+            pRspRepeal->UserID,
+            buffer,
+            sizeof(pRspRepeal->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["UserID"] = buffer;
+
+
+        json_pRspRepeal["VerifyCertNoFlag"] = pRspRepeal->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->CurrencyID,
+            buffer,
+            sizeof(pRspRepeal->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["CurrencyID"] = buffer;
+
+
+        json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
+
+
+        json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
+
+        json_pRspRepeal["FeePayFlag"] = pRspRepeal->FeePayFlag;
+
+
+        json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
+
+
+        json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
+
+        gbk2utf8(
+            pRspRepeal->Message,
+            buffer,
+            sizeof(pRspRepeal->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Message"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->Digest,
+            buffer,
+            sizeof(pRspRepeal->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["Digest"] = buffer;
+
+
+        json_pRspRepeal["BankAccType"] = pRspRepeal->BankAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->DeviceID,
+            buffer,
+            sizeof(pRspRepeal->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["DeviceID"] = buffer;
+
+
+        json_pRspRepeal["BankSecuAccType"] = pRspRepeal->BankSecuAccType;
+
+
+        gbk2utf8(
+            pRspRepeal->BrokerIDByBank,
+            buffer,
+            sizeof(pRspRepeal->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pRspRepeal->BankSecuAcc,
+            buffer,
+            sizeof(pRspRepeal->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["BankSecuAcc"] = buffer;
+
+
+        json_pRspRepeal["BankPwdFlag"] = pRspRepeal->BankPwdFlag;
+
+
+        json_pRspRepeal["SecuPwdFlag"] = pRspRepeal->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pRspRepeal->OperNo,
+            buffer,
+            sizeof(pRspRepeal->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["OperNo"] = buffer;
+
+
+        json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
+
+
+        json_pRspRepeal["TID"] = pRspRepeal->TID;
+
+
+        json_pRspRepeal["TransferStatus"] = pRspRepeal->TransferStatus;
+
+
+        json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
+
+        gbk2utf8(
+            pRspRepeal->ErrorMsg,
+            buffer,
+            sizeof(pRspRepeal->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspRepeal["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspRepeal;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnRepealFromBankToFutureByBank";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnRepealFromBankToFutureByBank():执行结束..." << std::endl;
 }
@@ -9378,120 +12514,348 @@ void CTraderHandler::OnRtnOrder(
 ) {
     std::cout << "OnRtnOrder():开始执行..." << std::endl;
 
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pOrder->BrokerID << std::endl;
-    // char InvestorID
-    std::cout << "InvestorID" << "="<< pOrder->InvestorID << std::endl;
-    // char InstrumentID
-    std::cout << "InstrumentID" << "="<< pOrder->InstrumentID << std::endl;
-    // char OrderRef
-    std::cout << "OrderRef" << "="<< pOrder->OrderRef << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pOrder->UserID << std::endl;
-    // char OrderPriceType
-    std::cout << "OrderPriceType" << "="<< pOrder->OrderPriceType << std::endl;
-    // char Direction
-    std::cout << "Direction" << "="<< pOrder->Direction << std::endl;
-    // char CombOffsetFlag
-    std::cout << "CombOffsetFlag" << "="<< pOrder->CombOffsetFlag << std::endl;
-    // char CombHedgeFlag
-    std::cout << "CombHedgeFlag" << "="<< pOrder->CombHedgeFlag << std::endl;
-    // double LimitPrice
-    std::cout << "LimitPrice" << "="<< pOrder->LimitPrice << std::endl;
-    // int VolumeTotalOriginal
-    std::cout << "VolumeTotalOriginal" << "="<< pOrder->VolumeTotalOriginal << std::endl;
-    // char TimeCondition
-    std::cout << "TimeCondition" << "="<< pOrder->TimeCondition << std::endl;
-    // char GTDDate
-    std::cout << "GTDDate" << "="<< pOrder->GTDDate << std::endl;
-    // char VolumeCondition
-    std::cout << "VolumeCondition" << "="<< pOrder->VolumeCondition << std::endl;
-    // int MinVolume
-    std::cout << "MinVolume" << "="<< pOrder->MinVolume << std::endl;
-    // char ContingentCondition
-    std::cout << "ContingentCondition" << "="<< pOrder->ContingentCondition << std::endl;
-    // double StopPrice
-    std::cout << "StopPrice" << "="<< pOrder->StopPrice << std::endl;
-    // char ForceCloseReason
-    std::cout << "ForceCloseReason" << "="<< pOrder->ForceCloseReason << std::endl;
-    // int IsAutoSuspend
-    std::cout << "IsAutoSuspend" << "="<< pOrder->IsAutoSuspend << std::endl;
-    // char BusinessUnit
-    std::cout << "BusinessUnit" << "="<< pOrder->BusinessUnit << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pOrder->RequestID << std::endl;
-    // char OrderLocalID
-    std::cout << "OrderLocalID" << "="<< pOrder->OrderLocalID << std::endl;
-    // char ExchangeID
-    std::cout << "ExchangeID" << "="<< pOrder->ExchangeID << std::endl;
-    // char ParticipantID
-    std::cout << "ParticipantID" << "="<< pOrder->ParticipantID << std::endl;
-    // char ClientID
-    std::cout << "ClientID" << "="<< pOrder->ClientID << std::endl;
-    // char ExchangeInstID
-    std::cout << "ExchangeInstID" << "="<< pOrder->ExchangeInstID << std::endl;
-    // char TraderID
-    std::cout << "TraderID" << "="<< pOrder->TraderID << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pOrder->InstallID << std::endl;
-    // char OrderSubmitStatus
-    std::cout << "OrderSubmitStatus" << "="<< pOrder->OrderSubmitStatus << std::endl;
-    // int NotifySequence
-    std::cout << "NotifySequence" << "="<< pOrder->NotifySequence << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pOrder->TradingDay << std::endl;
-    // int SettlementID
-    std::cout << "SettlementID" << "="<< pOrder->SettlementID << std::endl;
-    // char OrderSysID
-    std::cout << "OrderSysID" << "="<< pOrder->OrderSysID << std::endl;
-    // char OrderSource
-    std::cout << "OrderSource" << "="<< pOrder->OrderSource << std::endl;
-    // char OrderStatus
-    std::cout << "OrderStatus" << "="<< pOrder->OrderStatus << std::endl;
-    // char OrderType
-    std::cout << "OrderType" << "="<< pOrder->OrderType << std::endl;
-    // int VolumeTraded
-    std::cout << "VolumeTraded" << "="<< pOrder->VolumeTraded << std::endl;
-    // int VolumeTotal
-    std::cout << "VolumeTotal" << "="<< pOrder->VolumeTotal << std::endl;
-    // char InsertDate
-    std::cout << "InsertDate" << "="<< pOrder->InsertDate << std::endl;
-    // char InsertTime
-    std::cout << "InsertTime" << "="<< pOrder->InsertTime << std::endl;
-    // char ActiveTime
-    std::cout << "ActiveTime" << "="<< pOrder->ActiveTime << std::endl;
-    // char SuspendTime
-    std::cout << "SuspendTime" << "="<< pOrder->SuspendTime << std::endl;
-    // char UpdateTime
-    std::cout << "UpdateTime" << "="<< pOrder->UpdateTime << std::endl;
-    // char CancelTime
-    std::cout << "CancelTime" << "="<< pOrder->CancelTime << std::endl;
-    // char ActiveTraderID
-    std::cout << "ActiveTraderID" << "="<< pOrder->ActiveTraderID << std::endl;
-    // char ClearingPartID
-    std::cout << "ClearingPartID" << "="<< pOrder->ClearingPartID << std::endl;
-    // int SequenceNo
-    std::cout << "SequenceNo" << "="<< pOrder->SequenceNo << std::endl;
-    // int FrontID
-    std::cout << "FrontID" << "="<< pOrder->FrontID << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pOrder->SessionID << std::endl;
-    // char UserProductInfo
-    std::cout << "UserProductInfo" << "="<< pOrder->UserProductInfo << std::endl;
-    // char StatusMsg
-    std::cout << "StatusMsg" << "="<< pOrder->StatusMsg << std::endl;
-    // int UserForceClose
-    std::cout << "UserForceClose" << "="<< pOrder->UserForceClose << std::endl;
-    // char ActiveUserID
-    std::cout << "ActiveUserID" << "="<< pOrder->ActiveUserID << std::endl;
-    // int BrokerOrderSeq
-    std::cout << "BrokerOrderSeq" << "="<< pOrder->BrokerOrderSeq << std::endl;
-    // char RelativeOrderSysID
-    std::cout << "RelativeOrderSysID" << "="<< pOrder->RelativeOrderSysID << std::endl;
-    // int ZCETotalTradedVolume
-    std::cout << "ZCETotalTradedVolume" << "="<< pOrder->ZCETotalTradedVolume << std::endl;
-    // int IsSwapOrder
-    std::cout << "IsSwapOrder" << "="<< pOrder->IsSwapOrder << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnOrder";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pOrder;
+    if ( pOrder != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pOrder->BrokerID,
+            buffer,
+            sizeof(pOrder->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->InvestorID,
+            buffer,
+            sizeof(pOrder->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["InvestorID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->InstrumentID,
+            buffer,
+            sizeof(pOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["InstrumentID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->OrderRef,
+            buffer,
+            sizeof(pOrder->OrderRef) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["OrderRef"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->UserID,
+            buffer,
+            sizeof(pOrder->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["UserID"] = buffer;
+
+
+        json_pOrder["OrderPriceType"] = pOrder->OrderPriceType;
+
+
+        json_pOrder["Direction"] = pOrder->Direction;
+
+
+        gbk2utf8(
+            pOrder->CombOffsetFlag,
+            buffer,
+            sizeof(pOrder->CombOffsetFlag) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["CombOffsetFlag"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->CombHedgeFlag,
+            buffer,
+            sizeof(pOrder->CombHedgeFlag) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["CombHedgeFlag"] = buffer;
+
+
+        json_pOrder["LimitPrice"] = pOrder->LimitPrice;
+
+
+        json_pOrder["VolumeTotalOriginal"] = pOrder->VolumeTotalOriginal;
+
+
+        json_pOrder["TimeCondition"] = pOrder->TimeCondition;
+
+
+        gbk2utf8(
+            pOrder->GTDDate,
+            buffer,
+            sizeof(pOrder->GTDDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["GTDDate"] = buffer;
+
+
+        json_pOrder["VolumeCondition"] = pOrder->VolumeCondition;
+
+
+        json_pOrder["MinVolume"] = pOrder->MinVolume;
+
+
+        json_pOrder["ContingentCondition"] = pOrder->ContingentCondition;
+
+
+        json_pOrder["StopPrice"] = pOrder->StopPrice;
+
+
+        json_pOrder["ForceCloseReason"] = pOrder->ForceCloseReason;
+
+
+        json_pOrder["IsAutoSuspend"] = pOrder->IsAutoSuspend;
+
+
+        gbk2utf8(
+            pOrder->BusinessUnit,
+            buffer,
+            sizeof(pOrder->BusinessUnit) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["BusinessUnit"] = buffer;
+
+
+        json_pOrder["RequestID"] = pOrder->RequestID;
+
+
+        gbk2utf8(
+            pOrder->OrderLocalID,
+            buffer,
+            sizeof(pOrder->OrderLocalID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["OrderLocalID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->ExchangeID,
+            buffer,
+            sizeof(pOrder->ExchangeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["ExchangeID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->ParticipantID,
+            buffer,
+            sizeof(pOrder->ParticipantID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["ParticipantID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->ClientID,
+            buffer,
+            sizeof(pOrder->ClientID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["ClientID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->ExchangeInstID,
+            buffer,
+            sizeof(pOrder->ExchangeInstID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["ExchangeInstID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->TraderID,
+            buffer,
+            sizeof(pOrder->TraderID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["TraderID"] = buffer;
+
+
+        json_pOrder["InstallID"] = pOrder->InstallID;
+
+
+        json_pOrder["OrderSubmitStatus"] = pOrder->OrderSubmitStatus;
+
+
+        json_pOrder["NotifySequence"] = pOrder->NotifySequence;
+
+
+        gbk2utf8(
+            pOrder->TradingDay,
+            buffer,
+            sizeof(pOrder->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["TradingDay"] = buffer;
+
+
+        json_pOrder["SettlementID"] = pOrder->SettlementID;
+
+
+        gbk2utf8(
+            pOrder->OrderSysID,
+            buffer,
+            sizeof(pOrder->OrderSysID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["OrderSysID"] = buffer;
+
+
+        json_pOrder["OrderSource"] = pOrder->OrderSource;
+
+
+        json_pOrder["OrderStatus"] = pOrder->OrderStatus;
+
+
+        json_pOrder["OrderType"] = pOrder->OrderType;
+
+
+        json_pOrder["VolumeTraded"] = pOrder->VolumeTraded;
+
+
+        json_pOrder["VolumeTotal"] = pOrder->VolumeTotal;
+
+
+        gbk2utf8(
+            pOrder->InsertDate,
+            buffer,
+            sizeof(pOrder->InsertDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["InsertDate"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->InsertTime,
+            buffer,
+            sizeof(pOrder->InsertTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["InsertTime"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->ActiveTime,
+            buffer,
+            sizeof(pOrder->ActiveTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["ActiveTime"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->SuspendTime,
+            buffer,
+            sizeof(pOrder->SuspendTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["SuspendTime"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->UpdateTime,
+            buffer,
+            sizeof(pOrder->UpdateTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["UpdateTime"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->CancelTime,
+            buffer,
+            sizeof(pOrder->CancelTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["CancelTime"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->ActiveTraderID,
+            buffer,
+            sizeof(pOrder->ActiveTraderID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["ActiveTraderID"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->ClearingPartID,
+            buffer,
+            sizeof(pOrder->ClearingPartID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["ClearingPartID"] = buffer;
+
+
+        json_pOrder["SequenceNo"] = pOrder->SequenceNo;
+
+
+        json_pOrder["FrontID"] = pOrder->FrontID;
+
+
+        json_pOrder["SessionID"] = pOrder->SessionID;
+
+
+        gbk2utf8(
+            pOrder->UserProductInfo,
+            buffer,
+            sizeof(pOrder->UserProductInfo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["UserProductInfo"] = buffer;
+
+
+        gbk2utf8(
+            pOrder->StatusMsg,
+            buffer,
+            sizeof(pOrder->StatusMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["StatusMsg"] = buffer;
+
+
+        json_pOrder["UserForceClose"] = pOrder->UserForceClose;
+
+
+        gbk2utf8(
+            pOrder->ActiveUserID,
+            buffer,
+            sizeof(pOrder->ActiveUserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["ActiveUserID"] = buffer;
+
+
+        json_pOrder["BrokerOrderSeq"] = pOrder->BrokerOrderSeq;
+
+
+        gbk2utf8(
+            pOrder->RelativeOrderSysID,
+            buffer,
+            sizeof(pOrder->RelativeOrderSysID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrder["RelativeOrderSysID"] = buffer;
+
+
+        json_pOrder["ZCETotalTradedVolume"] = pOrder->ZCETotalTradedVolume;
+
+
+        json_pOrder["IsSwapOrder"] = pOrder->IsSwapOrder;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pOrder;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnOrder";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnOrder():执行结束..." << std::endl;
 }
@@ -9502,98 +12866,320 @@ void CTraderHandler::OnRtnCancelAccountByBank(
 ) {
     std::cout << "OnRtnCancelAccountByBank():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pCancelAccount->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pCancelAccount->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pCancelAccount->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pCancelAccount->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pCancelAccount->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pCancelAccount->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pCancelAccount->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pCancelAccount->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pCancelAccount->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pCancelAccount->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pCancelAccount->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pCancelAccount->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pCancelAccount->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pCancelAccount->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pCancelAccount->IdentifiedCardNo << std::endl;
-    // char Gender
-    std::cout << "Gender" << "="<< pCancelAccount->Gender << std::endl;
-    // char CountryCode
-    std::cout << "CountryCode" << "="<< pCancelAccount->CountryCode << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pCancelAccount->CustType << std::endl;
-    // char Address
-    std::cout << "Address" << "="<< pCancelAccount->Address << std::endl;
-    // char ZipCode
-    std::cout << "ZipCode" << "="<< pCancelAccount->ZipCode << std::endl;
-    // char Telephone
-    std::cout << "Telephone" << "="<< pCancelAccount->Telephone << std::endl;
-    // char MobilePhone
-    std::cout << "MobilePhone" << "="<< pCancelAccount->MobilePhone << std::endl;
-    // char Fax
-    std::cout << "Fax" << "="<< pCancelAccount->Fax << std::endl;
-    // char EMail
-    std::cout << "EMail" << "="<< pCancelAccount->EMail << std::endl;
-    // char MoneyAccountStatus
-    std::cout << "MoneyAccountStatus" << "="<< pCancelAccount->MoneyAccountStatus << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pCancelAccount->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pCancelAccount->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pCancelAccount->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pCancelAccount->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pCancelAccount->InstallID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pCancelAccount->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pCancelAccount->CurrencyID << std::endl;
-    // char CashExchangeCode
-    std::cout << "CashExchangeCode" << "="<< pCancelAccount->CashExchangeCode << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pCancelAccount->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pCancelAccount->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pCancelAccount->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pCancelAccount->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pCancelAccount->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pCancelAccount->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pCancelAccount->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pCancelAccount->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pCancelAccount->OperNo << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pCancelAccount->TID << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pCancelAccount->UserID << std::endl;
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pCancelAccount->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pCancelAccount->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRtnCancelAccountByBank";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pCancelAccount;
+    if ( pCancelAccount != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pCancelAccount->TradeCode,
+            buffer,
+            sizeof(pCancelAccount->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->BankID,
+            buffer,
+            sizeof(pCancelAccount->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->BankBranchID,
+            buffer,
+            sizeof(pCancelAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->BrokerID,
+            buffer,
+            sizeof(pCancelAccount->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->BrokerBranchID,
+            buffer,
+            sizeof(pCancelAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->TradeDate,
+            buffer,
+            sizeof(pCancelAccount->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->TradeTime,
+            buffer,
+            sizeof(pCancelAccount->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->BankSerial,
+            buffer,
+            sizeof(pCancelAccount->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->TradingDay,
+            buffer,
+            sizeof(pCancelAccount->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["TradingDay"] = buffer;
+
+
+        json_pCancelAccount["PlateSerial"] = pCancelAccount->PlateSerial;
+
+
+        json_pCancelAccount["LastFragment"] = pCancelAccount->LastFragment;
+
+
+        json_pCancelAccount["SessionID"] = pCancelAccount->SessionID;
+
+
+        gbk2utf8(
+            pCancelAccount->CustomerName,
+            buffer,
+            sizeof(pCancelAccount->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["CustomerName"] = buffer;
+
+
+        json_pCancelAccount["IdCardType"] = pCancelAccount->IdCardType;
+
+
+        gbk2utf8(
+            pCancelAccount->IdentifiedCardNo,
+            buffer,
+            sizeof(pCancelAccount->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["IdentifiedCardNo"] = buffer;
+
+
+        json_pCancelAccount["Gender"] = pCancelAccount->Gender;
+
+
+        gbk2utf8(
+            pCancelAccount->CountryCode,
+            buffer,
+            sizeof(pCancelAccount->CountryCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["CountryCode"] = buffer;
+
+
+        json_pCancelAccount["CustType"] = pCancelAccount->CustType;
+
+
+        gbk2utf8(
+            pCancelAccount->Address,
+            buffer,
+            sizeof(pCancelAccount->Address) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["Address"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->ZipCode,
+            buffer,
+            sizeof(pCancelAccount->ZipCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["ZipCode"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->Telephone,
+            buffer,
+            sizeof(pCancelAccount->Telephone) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["Telephone"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->MobilePhone,
+            buffer,
+            sizeof(pCancelAccount->MobilePhone) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["MobilePhone"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->Fax,
+            buffer,
+            sizeof(pCancelAccount->Fax) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["Fax"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->EMail,
+            buffer,
+            sizeof(pCancelAccount->EMail) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["EMail"] = buffer;
+
+
+        json_pCancelAccount["MoneyAccountStatus"] = pCancelAccount->MoneyAccountStatus;
+
+
+        gbk2utf8(
+            pCancelAccount->BankAccount,
+            buffer,
+            sizeof(pCancelAccount->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->BankPassWord,
+            buffer,
+            sizeof(pCancelAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->AccountID,
+            buffer,
+            sizeof(pCancelAccount->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->Password,
+            buffer,
+            sizeof(pCancelAccount->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["Password"] = buffer;
+
+
+        json_pCancelAccount["InstallID"] = pCancelAccount->InstallID;
+
+
+        json_pCancelAccount["VerifyCertNoFlag"] = pCancelAccount->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pCancelAccount->CurrencyID,
+            buffer,
+            sizeof(pCancelAccount->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["CurrencyID"] = buffer;
+
+
+        json_pCancelAccount["CashExchangeCode"] = pCancelAccount->CashExchangeCode;
+
+
+        gbk2utf8(
+            pCancelAccount->Digest,
+            buffer,
+            sizeof(pCancelAccount->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["Digest"] = buffer;
+
+
+        json_pCancelAccount["BankAccType"] = pCancelAccount->BankAccType;
+
+
+        gbk2utf8(
+            pCancelAccount->DeviceID,
+            buffer,
+            sizeof(pCancelAccount->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["DeviceID"] = buffer;
+
+
+        json_pCancelAccount["BankSecuAccType"] = pCancelAccount->BankSecuAccType;
+
+
+        gbk2utf8(
+            pCancelAccount->BrokerIDByBank,
+            buffer,
+            sizeof(pCancelAccount->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pCancelAccount->BankSecuAcc,
+            buffer,
+            sizeof(pCancelAccount->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["BankSecuAcc"] = buffer;
+
+
+        json_pCancelAccount["BankPwdFlag"] = pCancelAccount->BankPwdFlag;
+
+
+        json_pCancelAccount["SecuPwdFlag"] = pCancelAccount->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pCancelAccount->OperNo,
+            buffer,
+            sizeof(pCancelAccount->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["OperNo"] = buffer;
+
+
+        json_pCancelAccount["TID"] = pCancelAccount->TID;
+
+
+        gbk2utf8(
+            pCancelAccount->UserID,
+            buffer,
+            sizeof(pCancelAccount->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["UserID"] = buffer;
+
+
+        json_pCancelAccount["ErrorID"] = pCancelAccount->ErrorID;
+
+
+        gbk2utf8(
+            pCancelAccount->ErrorMsg,
+            buffer,
+            sizeof(pCancelAccount->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pCancelAccount["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pCancelAccount;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRtnCancelAccountByBank";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnRtnCancelAccountByBank():执行结束..." << std::endl;
 }
@@ -9611,106 +13197,302 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
 ) {
     std::cout << "OnErrRtnRepealFutureToBankByFutureManual():开始执行..." << std::endl;
 
-    // int RepealTimeInterval
-    std::cout << "RepealTimeInterval" << "="<< pReqRepeal->RepealTimeInterval << std::endl;
-    // int RepealedTimes
-    std::cout << "RepealedTimes" << "="<< pReqRepeal->RepealedTimes << std::endl;
-    // char BankRepealFlag
-    std::cout << "BankRepealFlag" << "="<< pReqRepeal->BankRepealFlag << std::endl;
-    // char BrokerRepealFlag
-    std::cout << "BrokerRepealFlag" << "="<< pReqRepeal->BrokerRepealFlag << std::endl;
-    // int PlateRepealSerial
-    std::cout << "PlateRepealSerial" << "="<< pReqRepeal->PlateRepealSerial << std::endl;
-    // char BankRepealSerial
-    std::cout << "BankRepealSerial" << "="<< pReqRepeal->BankRepealSerial << std::endl;
-    // int FutureRepealSerial
-    std::cout << "FutureRepealSerial" << "="<< pReqRepeal->FutureRepealSerial << std::endl;
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pReqRepeal->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pReqRepeal->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pReqRepeal->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pReqRepeal->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pReqRepeal->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pReqRepeal->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pReqRepeal->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pReqRepeal->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pReqRepeal->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pReqRepeal->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pReqRepeal->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pReqRepeal->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pReqRepeal->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pReqRepeal->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pReqRepeal->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pReqRepeal->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pReqRepeal->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pReqRepeal->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pReqRepeal->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pReqRepeal->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pReqRepeal->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pReqRepeal->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pReqRepeal->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pReqRepeal->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pReqRepeal->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pReqRepeal->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pReqRepeal->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pReqRepeal->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pReqRepeal->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pReqRepeal->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pReqRepeal->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pReqRepeal->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pReqRepeal->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pReqRepeal->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pReqRepeal->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pReqRepeal->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pReqRepeal->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pReqRepeal->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pReqRepeal->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pReqRepeal->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pReqRepeal->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pReqRepeal->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pReqRepeal->TransferStatus << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnErrRtnRepealFutureToBankByFutureManual";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pReqRepeal;
+    if ( pReqRepeal != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pReqRepeal["RepealTimeInterval"] = pReqRepeal->RepealTimeInterval;
+
+
+        json_pReqRepeal["RepealedTimes"] = pReqRepeal->RepealedTimes;
+
+
+        json_pReqRepeal["BankRepealFlag"] = pReqRepeal->BankRepealFlag;
+
+
+        json_pReqRepeal["BrokerRepealFlag"] = pReqRepeal->BrokerRepealFlag;
+
+
+        json_pReqRepeal["PlateRepealSerial"] = pReqRepeal->PlateRepealSerial;
+
+
+        gbk2utf8(
+            pReqRepeal->BankRepealSerial,
+            buffer,
+            sizeof(pReqRepeal->BankRepealSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankRepealSerial"] = buffer;
+
+
+        json_pReqRepeal["FutureRepealSerial"] = pReqRepeal->FutureRepealSerial;
+
+
+        gbk2utf8(
+            pReqRepeal->TradeCode,
+            buffer,
+            sizeof(pReqRepeal->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankID,
+            buffer,
+            sizeof(pReqRepeal->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankBranchID,
+            buffer,
+            sizeof(pReqRepeal->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BrokerID,
+            buffer,
+            sizeof(pReqRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BrokerBranchID,
+            buffer,
+            sizeof(pReqRepeal->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->TradeDate,
+            buffer,
+            sizeof(pReqRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->TradeTime,
+            buffer,
+            sizeof(pReqRepeal->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankSerial,
+            buffer,
+            sizeof(pReqRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->TradingDay,
+            buffer,
+            sizeof(pReqRepeal->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["TradingDay"] = buffer;
+
+
+        json_pReqRepeal["PlateSerial"] = pReqRepeal->PlateSerial;
+
+
+        json_pReqRepeal["LastFragment"] = pReqRepeal->LastFragment;
+
+
+        json_pReqRepeal["SessionID"] = pReqRepeal->SessionID;
+
+
+        gbk2utf8(
+            pReqRepeal->CustomerName,
+            buffer,
+            sizeof(pReqRepeal->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["CustomerName"] = buffer;
+
+
+        json_pReqRepeal["IdCardType"] = pReqRepeal->IdCardType;
+
+
+        gbk2utf8(
+            pReqRepeal->IdentifiedCardNo,
+            buffer,
+            sizeof(pReqRepeal->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["IdentifiedCardNo"] = buffer;
+
+
+        json_pReqRepeal["CustType"] = pReqRepeal->CustType;
+
+
+        gbk2utf8(
+            pReqRepeal->BankAccount,
+            buffer,
+            sizeof(pReqRepeal->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankPassWord,
+            buffer,
+            sizeof(pReqRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->AccountID,
+            buffer,
+            sizeof(pReqRepeal->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->Password,
+            buffer,
+            sizeof(pReqRepeal->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["Password"] = buffer;
+
+
+        json_pReqRepeal["InstallID"] = pReqRepeal->InstallID;
+
+
+        json_pReqRepeal["FutureSerial"] = pReqRepeal->FutureSerial;
+
+
+        gbk2utf8(
+            pReqRepeal->UserID,
+            buffer,
+            sizeof(pReqRepeal->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["UserID"] = buffer;
+
+
+        json_pReqRepeal["VerifyCertNoFlag"] = pReqRepeal->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pReqRepeal->CurrencyID,
+            buffer,
+            sizeof(pReqRepeal->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["CurrencyID"] = buffer;
+
+
+        json_pReqRepeal["TradeAmount"] = pReqRepeal->TradeAmount;
+
+
+        json_pReqRepeal["FutureFetchAmount"] = pReqRepeal->FutureFetchAmount;
+
+
+        json_pReqRepeal["FeePayFlag"] = pReqRepeal->FeePayFlag;
+
+
+        json_pReqRepeal["CustFee"] = pReqRepeal->CustFee;
+
+
+        json_pReqRepeal["BrokerFee"] = pReqRepeal->BrokerFee;
+
+
+        gbk2utf8(
+            pReqRepeal->Message,
+            buffer,
+            sizeof(pReqRepeal->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["Message"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->Digest,
+            buffer,
+            sizeof(pReqRepeal->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["Digest"] = buffer;
+
+
+        json_pReqRepeal["BankAccType"] = pReqRepeal->BankAccType;
+
+
+        gbk2utf8(
+            pReqRepeal->DeviceID,
+            buffer,
+            sizeof(pReqRepeal->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["DeviceID"] = buffer;
+
+
+        json_pReqRepeal["BankSecuAccType"] = pReqRepeal->BankSecuAccType;
+
+
+        gbk2utf8(
+            pReqRepeal->BrokerIDByBank,
+            buffer,
+            sizeof(pReqRepeal->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankSecuAcc,
+            buffer,
+            sizeof(pReqRepeal->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankSecuAcc"] = buffer;
+
+
+        json_pReqRepeal["BankPwdFlag"] = pReqRepeal->BankPwdFlag;
+
+
+        json_pReqRepeal["SecuPwdFlag"] = pReqRepeal->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pReqRepeal->OperNo,
+            buffer,
+            sizeof(pReqRepeal->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["OperNo"] = buffer;
+
+
+        json_pReqRepeal["RequestID"] = pReqRepeal->RequestID;
+
+
+        json_pReqRepeal["TID"] = pReqRepeal->TID;
+
+
+        json_pReqRepeal["TransferStatus"] = pReqRepeal->TransferStatus;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pReqRepeal;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnErrRtnRepealFutureToBankByFutureManual";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnErrRtnRepealFutureToBankByFutureManual():执行结束..." << std::endl;
 }
@@ -9722,92 +13504,276 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
 ) {
     std::cout << "OnErrRtnFutureToBankByFuture():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pReqTransfer->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pReqTransfer->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pReqTransfer->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pReqTransfer->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pReqTransfer->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pReqTransfer->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pReqTransfer->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pReqTransfer->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pReqTransfer->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pReqTransfer->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pReqTransfer->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pReqTransfer->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pReqTransfer->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pReqTransfer->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pReqTransfer->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pReqTransfer->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pReqTransfer->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pReqTransfer->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pReqTransfer->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pReqTransfer->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pReqTransfer->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pReqTransfer->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pReqTransfer->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pReqTransfer->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pReqTransfer->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pReqTransfer->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pReqTransfer->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pReqTransfer->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pReqTransfer->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pReqTransfer->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pReqTransfer->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pReqTransfer->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pReqTransfer->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pReqTransfer->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pReqTransfer->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pReqTransfer->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pReqTransfer->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pReqTransfer->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pReqTransfer->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pReqTransfer->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pReqTransfer->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pReqTransfer->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pReqTransfer->TransferStatus << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnErrRtnFutureToBankByFuture";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pReqTransfer;
+    if ( pReqTransfer != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pReqTransfer->TradeCode,
+            buffer,
+            sizeof(pReqTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankID,
+            buffer,
+            sizeof(pReqTransfer->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankBranchID,
+            buffer,
+            sizeof(pReqTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BrokerID,
+            buffer,
+            sizeof(pReqTransfer->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BrokerBranchID,
+            buffer,
+            sizeof(pReqTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->TradeDate,
+            buffer,
+            sizeof(pReqTransfer->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->TradeTime,
+            buffer,
+            sizeof(pReqTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankSerial,
+            buffer,
+            sizeof(pReqTransfer->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->TradingDay,
+            buffer,
+            sizeof(pReqTransfer->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["TradingDay"] = buffer;
+
+
+        json_pReqTransfer["PlateSerial"] = pReqTransfer->PlateSerial;
+
+
+        json_pReqTransfer["LastFragment"] = pReqTransfer->LastFragment;
+
+
+        json_pReqTransfer["SessionID"] = pReqTransfer->SessionID;
+
+
+        gbk2utf8(
+            pReqTransfer->CustomerName,
+            buffer,
+            sizeof(pReqTransfer->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["CustomerName"] = buffer;
+
+
+        json_pReqTransfer["IdCardType"] = pReqTransfer->IdCardType;
+
+
+        gbk2utf8(
+            pReqTransfer->IdentifiedCardNo,
+            buffer,
+            sizeof(pReqTransfer->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["IdentifiedCardNo"] = buffer;
+
+
+        json_pReqTransfer["CustType"] = pReqTransfer->CustType;
+
+
+        gbk2utf8(
+            pReqTransfer->BankAccount,
+            buffer,
+            sizeof(pReqTransfer->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankPassWord,
+            buffer,
+            sizeof(pReqTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->AccountID,
+            buffer,
+            sizeof(pReqTransfer->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->Password,
+            buffer,
+            sizeof(pReqTransfer->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["Password"] = buffer;
+
+
+        json_pReqTransfer["InstallID"] = pReqTransfer->InstallID;
+
+
+        json_pReqTransfer["FutureSerial"] = pReqTransfer->FutureSerial;
+
+
+        gbk2utf8(
+            pReqTransfer->UserID,
+            buffer,
+            sizeof(pReqTransfer->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["UserID"] = buffer;
+
+
+        json_pReqTransfer["VerifyCertNoFlag"] = pReqTransfer->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pReqTransfer->CurrencyID,
+            buffer,
+            sizeof(pReqTransfer->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["CurrencyID"] = buffer;
+
+
+        json_pReqTransfer["TradeAmount"] = pReqTransfer->TradeAmount;
+
+
+        json_pReqTransfer["FutureFetchAmount"] = pReqTransfer->FutureFetchAmount;
+
+
+        json_pReqTransfer["FeePayFlag"] = pReqTransfer->FeePayFlag;
+
+
+        json_pReqTransfer["CustFee"] = pReqTransfer->CustFee;
+
+
+        json_pReqTransfer["BrokerFee"] = pReqTransfer->BrokerFee;
+
+
+        gbk2utf8(
+            pReqTransfer->Message,
+            buffer,
+            sizeof(pReqTransfer->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["Message"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->Digest,
+            buffer,
+            sizeof(pReqTransfer->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["Digest"] = buffer;
+
+
+        json_pReqTransfer["BankAccType"] = pReqTransfer->BankAccType;
+
+
+        gbk2utf8(
+            pReqTransfer->DeviceID,
+            buffer,
+            sizeof(pReqTransfer->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["DeviceID"] = buffer;
+
+
+        json_pReqTransfer["BankSecuAccType"] = pReqTransfer->BankSecuAccType;
+
+
+        gbk2utf8(
+            pReqTransfer->BrokerIDByBank,
+            buffer,
+            sizeof(pReqTransfer->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankSecuAcc,
+            buffer,
+            sizeof(pReqTransfer->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankSecuAcc"] = buffer;
+
+
+        json_pReqTransfer["BankPwdFlag"] = pReqTransfer->BankPwdFlag;
+
+
+        json_pReqTransfer["SecuPwdFlag"] = pReqTransfer->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pReqTransfer->OperNo,
+            buffer,
+            sizeof(pReqTransfer->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["OperNo"] = buffer;
+
+
+        json_pReqTransfer["RequestID"] = pReqTransfer->RequestID;
+
+
+        json_pReqTransfer["TID"] = pReqTransfer->TID;
+
+
+        json_pReqTransfer["TransferStatus"] = pReqTransfer->TransferStatus;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pReqTransfer;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnErrRtnFutureToBankByFuture";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnErrRtnFutureToBankByFuture():执行结束..." << std::endl;
 }
@@ -9819,52 +13785,146 @@ void CTraderHandler::OnErrRtnOrderInsert(
 ) {
     std::cout << "OnErrRtnOrderInsert():开始执行..." << std::endl;
 
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pInputOrder->BrokerID << std::endl;
-    // char InvestorID
-    std::cout << "InvestorID" << "="<< pInputOrder->InvestorID << std::endl;
-    // char InstrumentID
-    std::cout << "InstrumentID" << "="<< pInputOrder->InstrumentID << std::endl;
-    // char OrderRef
-    std::cout << "OrderRef" << "="<< pInputOrder->OrderRef << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pInputOrder->UserID << std::endl;
-    // char OrderPriceType
-    std::cout << "OrderPriceType" << "="<< pInputOrder->OrderPriceType << std::endl;
-    // char Direction
-    std::cout << "Direction" << "="<< pInputOrder->Direction << std::endl;
-    // char CombOffsetFlag
-    std::cout << "CombOffsetFlag" << "="<< pInputOrder->CombOffsetFlag << std::endl;
-    // char CombHedgeFlag
-    std::cout << "CombHedgeFlag" << "="<< pInputOrder->CombHedgeFlag << std::endl;
-    // double LimitPrice
-    std::cout << "LimitPrice" << "="<< pInputOrder->LimitPrice << std::endl;
-    // int VolumeTotalOriginal
-    std::cout << "VolumeTotalOriginal" << "="<< pInputOrder->VolumeTotalOriginal << std::endl;
-    // char TimeCondition
-    std::cout << "TimeCondition" << "="<< pInputOrder->TimeCondition << std::endl;
-    // char GTDDate
-    std::cout << "GTDDate" << "="<< pInputOrder->GTDDate << std::endl;
-    // char VolumeCondition
-    std::cout << "VolumeCondition" << "="<< pInputOrder->VolumeCondition << std::endl;
-    // int MinVolume
-    std::cout << "MinVolume" << "="<< pInputOrder->MinVolume << std::endl;
-    // char ContingentCondition
-    std::cout << "ContingentCondition" << "="<< pInputOrder->ContingentCondition << std::endl;
-    // double StopPrice
-    std::cout << "StopPrice" << "="<< pInputOrder->StopPrice << std::endl;
-    // char ForceCloseReason
-    std::cout << "ForceCloseReason" << "="<< pInputOrder->ForceCloseReason << std::endl;
-    // int IsAutoSuspend
-    std::cout << "IsAutoSuspend" << "="<< pInputOrder->IsAutoSuspend << std::endl;
-    // char BusinessUnit
-    std::cout << "BusinessUnit" << "="<< pInputOrder->BusinessUnit << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pInputOrder->RequestID << std::endl;
-    // int UserForceClose
-    std::cout << "UserForceClose" << "="<< pInputOrder->UserForceClose << std::endl;
-    // int IsSwapOrder
-    std::cout << "IsSwapOrder" << "="<< pInputOrder->IsSwapOrder << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnErrRtnOrderInsert";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pInputOrder;
+    if ( pInputOrder != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pInputOrder->BrokerID,
+            buffer,
+            sizeof(pInputOrder->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pInputOrder->InvestorID,
+            buffer,
+            sizeof(pInputOrder->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["InvestorID"] = buffer;
+
+
+        gbk2utf8(
+            pInputOrder->InstrumentID,
+            buffer,
+            sizeof(pInputOrder->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["InstrumentID"] = buffer;
+
+
+        gbk2utf8(
+            pInputOrder->OrderRef,
+            buffer,
+            sizeof(pInputOrder->OrderRef) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["OrderRef"] = buffer;
+
+
+        gbk2utf8(
+            pInputOrder->UserID,
+            buffer,
+            sizeof(pInputOrder->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["UserID"] = buffer;
+
+
+        json_pInputOrder["OrderPriceType"] = pInputOrder->OrderPriceType;
+
+
+        json_pInputOrder["Direction"] = pInputOrder->Direction;
+
+
+        gbk2utf8(
+            pInputOrder->CombOffsetFlag,
+            buffer,
+            sizeof(pInputOrder->CombOffsetFlag) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["CombOffsetFlag"] = buffer;
+
+
+        gbk2utf8(
+            pInputOrder->CombHedgeFlag,
+            buffer,
+            sizeof(pInputOrder->CombHedgeFlag) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["CombHedgeFlag"] = buffer;
+
+
+        json_pInputOrder["LimitPrice"] = pInputOrder->LimitPrice;
+
+
+        json_pInputOrder["VolumeTotalOriginal"] = pInputOrder->VolumeTotalOriginal;
+
+
+        json_pInputOrder["TimeCondition"] = pInputOrder->TimeCondition;
+
+
+        gbk2utf8(
+            pInputOrder->GTDDate,
+            buffer,
+            sizeof(pInputOrder->GTDDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["GTDDate"] = buffer;
+
+
+        json_pInputOrder["VolumeCondition"] = pInputOrder->VolumeCondition;
+
+
+        json_pInputOrder["MinVolume"] = pInputOrder->MinVolume;
+
+
+        json_pInputOrder["ContingentCondition"] = pInputOrder->ContingentCondition;
+
+
+        json_pInputOrder["StopPrice"] = pInputOrder->StopPrice;
+
+
+        json_pInputOrder["ForceCloseReason"] = pInputOrder->ForceCloseReason;
+
+
+        json_pInputOrder["IsAutoSuspend"] = pInputOrder->IsAutoSuspend;
+
+
+        gbk2utf8(
+            pInputOrder->BusinessUnit,
+            buffer,
+            sizeof(pInputOrder->BusinessUnit) * 3 // 字符串转化变长的风险保障
+        );
+        json_pInputOrder["BusinessUnit"] = buffer;
+
+
+        json_pInputOrder["RequestID"] = pInputOrder->RequestID;
+
+
+        json_pInputOrder["UserForceClose"] = pInputOrder->UserForceClose;
+
+
+        json_pInputOrder["IsSwapOrder"] = pInputOrder->IsSwapOrder;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pInputOrder;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnErrRtnOrderInsert";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnErrRtnOrderInsert():执行结束..." << std::endl;
 }
@@ -9876,106 +13936,302 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
 ) {
     std::cout << "OnErrRtnRepealBankToFutureByFutureManual():开始执行..." << std::endl;
 
-    // int RepealTimeInterval
-    std::cout << "RepealTimeInterval" << "="<< pReqRepeal->RepealTimeInterval << std::endl;
-    // int RepealedTimes
-    std::cout << "RepealedTimes" << "="<< pReqRepeal->RepealedTimes << std::endl;
-    // char BankRepealFlag
-    std::cout << "BankRepealFlag" << "="<< pReqRepeal->BankRepealFlag << std::endl;
-    // char BrokerRepealFlag
-    std::cout << "BrokerRepealFlag" << "="<< pReqRepeal->BrokerRepealFlag << std::endl;
-    // int PlateRepealSerial
-    std::cout << "PlateRepealSerial" << "="<< pReqRepeal->PlateRepealSerial << std::endl;
-    // char BankRepealSerial
-    std::cout << "BankRepealSerial" << "="<< pReqRepeal->BankRepealSerial << std::endl;
-    // int FutureRepealSerial
-    std::cout << "FutureRepealSerial" << "="<< pReqRepeal->FutureRepealSerial << std::endl;
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pReqRepeal->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pReqRepeal->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pReqRepeal->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pReqRepeal->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pReqRepeal->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pReqRepeal->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pReqRepeal->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pReqRepeal->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pReqRepeal->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pReqRepeal->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pReqRepeal->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pReqRepeal->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pReqRepeal->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pReqRepeal->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pReqRepeal->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pReqRepeal->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pReqRepeal->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pReqRepeal->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pReqRepeal->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pReqRepeal->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pReqRepeal->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pReqRepeal->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pReqRepeal->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pReqRepeal->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pReqRepeal->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pReqRepeal->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pReqRepeal->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pReqRepeal->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pReqRepeal->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pReqRepeal->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pReqRepeal->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pReqRepeal->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pReqRepeal->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pReqRepeal->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pReqRepeal->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pReqRepeal->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pReqRepeal->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pReqRepeal->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pReqRepeal->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pReqRepeal->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pReqRepeal->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pReqRepeal->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pReqRepeal->TransferStatus << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnErrRtnRepealBankToFutureByFutureManual";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pReqRepeal;
+    if ( pReqRepeal != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pReqRepeal["RepealTimeInterval"] = pReqRepeal->RepealTimeInterval;
+
+
+        json_pReqRepeal["RepealedTimes"] = pReqRepeal->RepealedTimes;
+
+
+        json_pReqRepeal["BankRepealFlag"] = pReqRepeal->BankRepealFlag;
+
+
+        json_pReqRepeal["BrokerRepealFlag"] = pReqRepeal->BrokerRepealFlag;
+
+
+        json_pReqRepeal["PlateRepealSerial"] = pReqRepeal->PlateRepealSerial;
+
+
+        gbk2utf8(
+            pReqRepeal->BankRepealSerial,
+            buffer,
+            sizeof(pReqRepeal->BankRepealSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankRepealSerial"] = buffer;
+
+
+        json_pReqRepeal["FutureRepealSerial"] = pReqRepeal->FutureRepealSerial;
+
+
+        gbk2utf8(
+            pReqRepeal->TradeCode,
+            buffer,
+            sizeof(pReqRepeal->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankID,
+            buffer,
+            sizeof(pReqRepeal->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankBranchID,
+            buffer,
+            sizeof(pReqRepeal->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BrokerID,
+            buffer,
+            sizeof(pReqRepeal->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BrokerBranchID,
+            buffer,
+            sizeof(pReqRepeal->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->TradeDate,
+            buffer,
+            sizeof(pReqRepeal->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->TradeTime,
+            buffer,
+            sizeof(pReqRepeal->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankSerial,
+            buffer,
+            sizeof(pReqRepeal->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->TradingDay,
+            buffer,
+            sizeof(pReqRepeal->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["TradingDay"] = buffer;
+
+
+        json_pReqRepeal["PlateSerial"] = pReqRepeal->PlateSerial;
+
+
+        json_pReqRepeal["LastFragment"] = pReqRepeal->LastFragment;
+
+
+        json_pReqRepeal["SessionID"] = pReqRepeal->SessionID;
+
+
+        gbk2utf8(
+            pReqRepeal->CustomerName,
+            buffer,
+            sizeof(pReqRepeal->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["CustomerName"] = buffer;
+
+
+        json_pReqRepeal["IdCardType"] = pReqRepeal->IdCardType;
+
+
+        gbk2utf8(
+            pReqRepeal->IdentifiedCardNo,
+            buffer,
+            sizeof(pReqRepeal->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["IdentifiedCardNo"] = buffer;
+
+
+        json_pReqRepeal["CustType"] = pReqRepeal->CustType;
+
+
+        gbk2utf8(
+            pReqRepeal->BankAccount,
+            buffer,
+            sizeof(pReqRepeal->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankPassWord,
+            buffer,
+            sizeof(pReqRepeal->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->AccountID,
+            buffer,
+            sizeof(pReqRepeal->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->Password,
+            buffer,
+            sizeof(pReqRepeal->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["Password"] = buffer;
+
+
+        json_pReqRepeal["InstallID"] = pReqRepeal->InstallID;
+
+
+        json_pReqRepeal["FutureSerial"] = pReqRepeal->FutureSerial;
+
+
+        gbk2utf8(
+            pReqRepeal->UserID,
+            buffer,
+            sizeof(pReqRepeal->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["UserID"] = buffer;
+
+
+        json_pReqRepeal["VerifyCertNoFlag"] = pReqRepeal->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pReqRepeal->CurrencyID,
+            buffer,
+            sizeof(pReqRepeal->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["CurrencyID"] = buffer;
+
+
+        json_pReqRepeal["TradeAmount"] = pReqRepeal->TradeAmount;
+
+
+        json_pReqRepeal["FutureFetchAmount"] = pReqRepeal->FutureFetchAmount;
+
+
+        json_pReqRepeal["FeePayFlag"] = pReqRepeal->FeePayFlag;
+
+
+        json_pReqRepeal["CustFee"] = pReqRepeal->CustFee;
+
+
+        json_pReqRepeal["BrokerFee"] = pReqRepeal->BrokerFee;
+
+
+        gbk2utf8(
+            pReqRepeal->Message,
+            buffer,
+            sizeof(pReqRepeal->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["Message"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->Digest,
+            buffer,
+            sizeof(pReqRepeal->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["Digest"] = buffer;
+
+
+        json_pReqRepeal["BankAccType"] = pReqRepeal->BankAccType;
+
+
+        gbk2utf8(
+            pReqRepeal->DeviceID,
+            buffer,
+            sizeof(pReqRepeal->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["DeviceID"] = buffer;
+
+
+        json_pReqRepeal["BankSecuAccType"] = pReqRepeal->BankSecuAccType;
+
+
+        gbk2utf8(
+            pReqRepeal->BrokerIDByBank,
+            buffer,
+            sizeof(pReqRepeal->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pReqRepeal->BankSecuAcc,
+            buffer,
+            sizeof(pReqRepeal->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["BankSecuAcc"] = buffer;
+
+
+        json_pReqRepeal["BankPwdFlag"] = pReqRepeal->BankPwdFlag;
+
+
+        json_pReqRepeal["SecuPwdFlag"] = pReqRepeal->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pReqRepeal->OperNo,
+            buffer,
+            sizeof(pReqRepeal->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqRepeal["OperNo"] = buffer;
+
+
+        json_pReqRepeal["RequestID"] = pReqRepeal->RequestID;
+
+
+        json_pReqRepeal["TID"] = pReqRepeal->TID;
+
+
+        json_pReqRepeal["TransferStatus"] = pReqRepeal->TransferStatus;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pReqRepeal;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnErrRtnRepealBankToFutureByFutureManual";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnErrRtnRepealBankToFutureByFutureManual():执行结束..." << std::endl;
 }
@@ -9987,92 +14243,276 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
 ) {
     std::cout << "OnErrRtnBankToFutureByFuture():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pReqTransfer->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pReqTransfer->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pReqTransfer->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pReqTransfer->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pReqTransfer->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pReqTransfer->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pReqTransfer->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pReqTransfer->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pReqTransfer->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pReqTransfer->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pReqTransfer->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pReqTransfer->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pReqTransfer->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pReqTransfer->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pReqTransfer->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pReqTransfer->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pReqTransfer->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pReqTransfer->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pReqTransfer->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pReqTransfer->Password << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pReqTransfer->InstallID << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pReqTransfer->FutureSerial << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pReqTransfer->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pReqTransfer->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pReqTransfer->CurrencyID << std::endl;
-    // double TradeAmount
-    std::cout << "TradeAmount" << "="<< pReqTransfer->TradeAmount << std::endl;
-    // double FutureFetchAmount
-    std::cout << "FutureFetchAmount" << "="<< pReqTransfer->FutureFetchAmount << std::endl;
-    // char FeePayFlag
-    std::cout << "FeePayFlag" << "="<< pReqTransfer->FeePayFlag << std::endl;
-    // double CustFee
-    std::cout << "CustFee" << "="<< pReqTransfer->CustFee << std::endl;
-    // double BrokerFee
-    std::cout << "BrokerFee" << "="<< pReqTransfer->BrokerFee << std::endl;
-    // char Message
-    std::cout << "Message" << "="<< pReqTransfer->Message << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pReqTransfer->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pReqTransfer->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pReqTransfer->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pReqTransfer->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pReqTransfer->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pReqTransfer->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pReqTransfer->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pReqTransfer->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pReqTransfer->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pReqTransfer->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pReqTransfer->TID << std::endl;
-    // char TransferStatus
-    std::cout << "TransferStatus" << "="<< pReqTransfer->TransferStatus << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnErrRtnBankToFutureByFuture";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pReqTransfer;
+    if ( pReqTransfer != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pReqTransfer->TradeCode,
+            buffer,
+            sizeof(pReqTransfer->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankID,
+            buffer,
+            sizeof(pReqTransfer->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankBranchID,
+            buffer,
+            sizeof(pReqTransfer->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BrokerID,
+            buffer,
+            sizeof(pReqTransfer->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BrokerBranchID,
+            buffer,
+            sizeof(pReqTransfer->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->TradeDate,
+            buffer,
+            sizeof(pReqTransfer->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->TradeTime,
+            buffer,
+            sizeof(pReqTransfer->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankSerial,
+            buffer,
+            sizeof(pReqTransfer->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->TradingDay,
+            buffer,
+            sizeof(pReqTransfer->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["TradingDay"] = buffer;
+
+
+        json_pReqTransfer["PlateSerial"] = pReqTransfer->PlateSerial;
+
+
+        json_pReqTransfer["LastFragment"] = pReqTransfer->LastFragment;
+
+
+        json_pReqTransfer["SessionID"] = pReqTransfer->SessionID;
+
+
+        gbk2utf8(
+            pReqTransfer->CustomerName,
+            buffer,
+            sizeof(pReqTransfer->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["CustomerName"] = buffer;
+
+
+        json_pReqTransfer["IdCardType"] = pReqTransfer->IdCardType;
+
+
+        gbk2utf8(
+            pReqTransfer->IdentifiedCardNo,
+            buffer,
+            sizeof(pReqTransfer->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["IdentifiedCardNo"] = buffer;
+
+
+        json_pReqTransfer["CustType"] = pReqTransfer->CustType;
+
+
+        gbk2utf8(
+            pReqTransfer->BankAccount,
+            buffer,
+            sizeof(pReqTransfer->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankPassWord,
+            buffer,
+            sizeof(pReqTransfer->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->AccountID,
+            buffer,
+            sizeof(pReqTransfer->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->Password,
+            buffer,
+            sizeof(pReqTransfer->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["Password"] = buffer;
+
+
+        json_pReqTransfer["InstallID"] = pReqTransfer->InstallID;
+
+
+        json_pReqTransfer["FutureSerial"] = pReqTransfer->FutureSerial;
+
+
+        gbk2utf8(
+            pReqTransfer->UserID,
+            buffer,
+            sizeof(pReqTransfer->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["UserID"] = buffer;
+
+
+        json_pReqTransfer["VerifyCertNoFlag"] = pReqTransfer->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pReqTransfer->CurrencyID,
+            buffer,
+            sizeof(pReqTransfer->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["CurrencyID"] = buffer;
+
+
+        json_pReqTransfer["TradeAmount"] = pReqTransfer->TradeAmount;
+
+
+        json_pReqTransfer["FutureFetchAmount"] = pReqTransfer->FutureFetchAmount;
+
+
+        json_pReqTransfer["FeePayFlag"] = pReqTransfer->FeePayFlag;
+
+
+        json_pReqTransfer["CustFee"] = pReqTransfer->CustFee;
+
+
+        json_pReqTransfer["BrokerFee"] = pReqTransfer->BrokerFee;
+
+
+        gbk2utf8(
+            pReqTransfer->Message,
+            buffer,
+            sizeof(pReqTransfer->Message) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["Message"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->Digest,
+            buffer,
+            sizeof(pReqTransfer->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["Digest"] = buffer;
+
+
+        json_pReqTransfer["BankAccType"] = pReqTransfer->BankAccType;
+
+
+        gbk2utf8(
+            pReqTransfer->DeviceID,
+            buffer,
+            sizeof(pReqTransfer->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["DeviceID"] = buffer;
+
+
+        json_pReqTransfer["BankSecuAccType"] = pReqTransfer->BankSecuAccType;
+
+
+        gbk2utf8(
+            pReqTransfer->BrokerIDByBank,
+            buffer,
+            sizeof(pReqTransfer->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pReqTransfer->BankSecuAcc,
+            buffer,
+            sizeof(pReqTransfer->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["BankSecuAcc"] = buffer;
+
+
+        json_pReqTransfer["BankPwdFlag"] = pReqTransfer->BankPwdFlag;
+
+
+        json_pReqTransfer["SecuPwdFlag"] = pReqTransfer->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pReqTransfer->OperNo,
+            buffer,
+            sizeof(pReqTransfer->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqTransfer["OperNo"] = buffer;
+
+
+        json_pReqTransfer["RequestID"] = pReqTransfer->RequestID;
+
+
+        json_pReqTransfer["TID"] = pReqTransfer->TID;
+
+
+        json_pReqTransfer["TransferStatus"] = pReqTransfer->TransferStatus;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pReqTransfer;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnErrRtnBankToFutureByFuture";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnErrRtnBankToFutureByFuture():执行结束..." << std::endl;
 }
@@ -10084,78 +14524,250 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
 ) {
     std::cout << "OnErrRtnQueryBankBalanceByFuture():开始执行..." << std::endl;
 
-    // char TradeCode
-    std::cout << "TradeCode" << "="<< pReqQueryAccount->TradeCode << std::endl;
-    // char BankID
-    std::cout << "BankID" << "="<< pReqQueryAccount->BankID << std::endl;
-    // char BankBranchID
-    std::cout << "BankBranchID" << "="<< pReqQueryAccount->BankBranchID << std::endl;
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pReqQueryAccount->BrokerID << std::endl;
-    // char BrokerBranchID
-    std::cout << "BrokerBranchID" << "="<< pReqQueryAccount->BrokerBranchID << std::endl;
-    // char TradeDate
-    std::cout << "TradeDate" << "="<< pReqQueryAccount->TradeDate << std::endl;
-    // char TradeTime
-    std::cout << "TradeTime" << "="<< pReqQueryAccount->TradeTime << std::endl;
-    // char BankSerial
-    std::cout << "BankSerial" << "="<< pReqQueryAccount->BankSerial << std::endl;
-    // char TradingDay
-    std::cout << "TradingDay" << "="<< pReqQueryAccount->TradingDay << std::endl;
-    // int PlateSerial
-    std::cout << "PlateSerial" << "="<< pReqQueryAccount->PlateSerial << std::endl;
-    // char LastFragment
-    std::cout << "LastFragment" << "="<< pReqQueryAccount->LastFragment << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pReqQueryAccount->SessionID << std::endl;
-    // char CustomerName
-    std::cout << "CustomerName" << "="<< pReqQueryAccount->CustomerName << std::endl;
-    // char IdCardType
-    std::cout << "IdCardType" << "="<< pReqQueryAccount->IdCardType << std::endl;
-    // char IdentifiedCardNo
-    std::cout << "IdentifiedCardNo" << "="<< pReqQueryAccount->IdentifiedCardNo << std::endl;
-    // char CustType
-    std::cout << "CustType" << "="<< pReqQueryAccount->CustType << std::endl;
-    // char BankAccount
-    std::cout << "BankAccount" << "="<< pReqQueryAccount->BankAccount << std::endl;
-    // char BankPassWord
-    std::cout << "BankPassWord" << "="<< pReqQueryAccount->BankPassWord << std::endl;
-    // char AccountID
-    std::cout << "AccountID" << "="<< pReqQueryAccount->AccountID << std::endl;
-    // char Password
-    std::cout << "Password" << "="<< pReqQueryAccount->Password << std::endl;
-    // int FutureSerial
-    std::cout << "FutureSerial" << "="<< pReqQueryAccount->FutureSerial << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pReqQueryAccount->InstallID << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pReqQueryAccount->UserID << std::endl;
-    // char VerifyCertNoFlag
-    std::cout << "VerifyCertNoFlag" << "="<< pReqQueryAccount->VerifyCertNoFlag << std::endl;
-    // char CurrencyID
-    std::cout << "CurrencyID" << "="<< pReqQueryAccount->CurrencyID << std::endl;
-    // char Digest
-    std::cout << "Digest" << "="<< pReqQueryAccount->Digest << std::endl;
-    // char BankAccType
-    std::cout << "BankAccType" << "="<< pReqQueryAccount->BankAccType << std::endl;
-    // char DeviceID
-    std::cout << "DeviceID" << "="<< pReqQueryAccount->DeviceID << std::endl;
-    // char BankSecuAccType
-    std::cout << "BankSecuAccType" << "="<< pReqQueryAccount->BankSecuAccType << std::endl;
-    // char BrokerIDByBank
-    std::cout << "BrokerIDByBank" << "="<< pReqQueryAccount->BrokerIDByBank << std::endl;
-    // char BankSecuAcc
-    std::cout << "BankSecuAcc" << "="<< pReqQueryAccount->BankSecuAcc << std::endl;
-    // char BankPwdFlag
-    std::cout << "BankPwdFlag" << "="<< pReqQueryAccount->BankPwdFlag << std::endl;
-    // char SecuPwdFlag
-    std::cout << "SecuPwdFlag" << "="<< pReqQueryAccount->SecuPwdFlag << std::endl;
-    // char OperNo
-    std::cout << "OperNo" << "="<< pReqQueryAccount->OperNo << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pReqQueryAccount->RequestID << std::endl;
-    // int TID
-    std::cout << "TID" << "="<< pReqQueryAccount->TID << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnErrRtnQueryBankBalanceByFuture";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pReqQueryAccount;
+    if ( pReqQueryAccount != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pReqQueryAccount->TradeCode,
+            buffer,
+            sizeof(pReqQueryAccount->TradeCode) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["TradeCode"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BankID,
+            buffer,
+            sizeof(pReqQueryAccount->BankID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BankID"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BankBranchID,
+            buffer,
+            sizeof(pReqQueryAccount->BankBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BankBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BrokerID,
+            buffer,
+            sizeof(pReqQueryAccount->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BrokerBranchID,
+            buffer,
+            sizeof(pReqQueryAccount->BrokerBranchID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BrokerBranchID"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->TradeDate,
+            buffer,
+            sizeof(pReqQueryAccount->TradeDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["TradeDate"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->TradeTime,
+            buffer,
+            sizeof(pReqQueryAccount->TradeTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["TradeTime"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BankSerial,
+            buffer,
+            sizeof(pReqQueryAccount->BankSerial) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BankSerial"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->TradingDay,
+            buffer,
+            sizeof(pReqQueryAccount->TradingDay) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["TradingDay"] = buffer;
+
+
+        json_pReqQueryAccount["PlateSerial"] = pReqQueryAccount->PlateSerial;
+
+
+        json_pReqQueryAccount["LastFragment"] = pReqQueryAccount->LastFragment;
+
+
+        json_pReqQueryAccount["SessionID"] = pReqQueryAccount->SessionID;
+
+
+        gbk2utf8(
+            pReqQueryAccount->CustomerName,
+            buffer,
+            sizeof(pReqQueryAccount->CustomerName) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["CustomerName"] = buffer;
+
+
+        json_pReqQueryAccount["IdCardType"] = pReqQueryAccount->IdCardType;
+
+
+        gbk2utf8(
+            pReqQueryAccount->IdentifiedCardNo,
+            buffer,
+            sizeof(pReqQueryAccount->IdentifiedCardNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["IdentifiedCardNo"] = buffer;
+
+
+        json_pReqQueryAccount["CustType"] = pReqQueryAccount->CustType;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BankAccount,
+            buffer,
+            sizeof(pReqQueryAccount->BankAccount) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BankAccount"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BankPassWord,
+            buffer,
+            sizeof(pReqQueryAccount->BankPassWord) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BankPassWord"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->AccountID,
+            buffer,
+            sizeof(pReqQueryAccount->AccountID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["AccountID"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->Password,
+            buffer,
+            sizeof(pReqQueryAccount->Password) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["Password"] = buffer;
+
+
+        json_pReqQueryAccount["FutureSerial"] = pReqQueryAccount->FutureSerial;
+
+
+        json_pReqQueryAccount["InstallID"] = pReqQueryAccount->InstallID;
+
+
+        gbk2utf8(
+            pReqQueryAccount->UserID,
+            buffer,
+            sizeof(pReqQueryAccount->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["UserID"] = buffer;
+
+
+        json_pReqQueryAccount["VerifyCertNoFlag"] = pReqQueryAccount->VerifyCertNoFlag;
+
+
+        gbk2utf8(
+            pReqQueryAccount->CurrencyID,
+            buffer,
+            sizeof(pReqQueryAccount->CurrencyID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["CurrencyID"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->Digest,
+            buffer,
+            sizeof(pReqQueryAccount->Digest) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["Digest"] = buffer;
+
+
+        json_pReqQueryAccount["BankAccType"] = pReqQueryAccount->BankAccType;
+
+
+        gbk2utf8(
+            pReqQueryAccount->DeviceID,
+            buffer,
+            sizeof(pReqQueryAccount->DeviceID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["DeviceID"] = buffer;
+
+
+        json_pReqQueryAccount["BankSecuAccType"] = pReqQueryAccount->BankSecuAccType;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BrokerIDByBank,
+            buffer,
+            sizeof(pReqQueryAccount->BrokerIDByBank) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BrokerIDByBank"] = buffer;
+
+
+        gbk2utf8(
+            pReqQueryAccount->BankSecuAcc,
+            buffer,
+            sizeof(pReqQueryAccount->BankSecuAcc) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["BankSecuAcc"] = buffer;
+
+
+        json_pReqQueryAccount["BankPwdFlag"] = pReqQueryAccount->BankPwdFlag;
+
+
+        json_pReqQueryAccount["SecuPwdFlag"] = pReqQueryAccount->SecuPwdFlag;
+
+
+        gbk2utf8(
+            pReqQueryAccount->OperNo,
+            buffer,
+            sizeof(pReqQueryAccount->OperNo) * 3 // 字符串转化变长的风险保障
+        );
+        json_pReqQueryAccount["OperNo"] = buffer;
+
+
+        json_pReqQueryAccount["RequestID"] = pReqQueryAccount->RequestID;
+
+
+        json_pReqQueryAccount["TID"] = pReqQueryAccount->TID;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pReqQueryAccount;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnErrRtnQueryBankBalanceByFuture";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnErrRtnQueryBankBalanceByFuture():执行结束..." << std::endl;
 }
@@ -10167,56 +14779,187 @@ void CTraderHandler::OnErrRtnOrderAction(
 ) {
     std::cout << "OnErrRtnOrderAction():开始执行..." << std::endl;
 
-    // char BrokerID
-    std::cout << "BrokerID" << "="<< pOrderAction->BrokerID << std::endl;
-    // char InvestorID
-    std::cout << "InvestorID" << "="<< pOrderAction->InvestorID << std::endl;
-    // int OrderActionRef
-    std::cout << "OrderActionRef" << "="<< pOrderAction->OrderActionRef << std::endl;
-    // char OrderRef
-    std::cout << "OrderRef" << "="<< pOrderAction->OrderRef << std::endl;
-    // int RequestID
-    std::cout << "RequestID" << "="<< pOrderAction->RequestID << std::endl;
-    // int FrontID
-    std::cout << "FrontID" << "="<< pOrderAction->FrontID << std::endl;
-    // int SessionID
-    std::cout << "SessionID" << "="<< pOrderAction->SessionID << std::endl;
-    // char ExchangeID
-    std::cout << "ExchangeID" << "="<< pOrderAction->ExchangeID << std::endl;
-    // char OrderSysID
-    std::cout << "OrderSysID" << "="<< pOrderAction->OrderSysID << std::endl;
-    // char ActionFlag
-    std::cout << "ActionFlag" << "="<< pOrderAction->ActionFlag << std::endl;
-    // double LimitPrice
-    std::cout << "LimitPrice" << "="<< pOrderAction->LimitPrice << std::endl;
-    // int VolumeChange
-    std::cout << "VolumeChange" << "="<< pOrderAction->VolumeChange << std::endl;
-    // char ActionDate
-    std::cout << "ActionDate" << "="<< pOrderAction->ActionDate << std::endl;
-    // char ActionTime
-    std::cout << "ActionTime" << "="<< pOrderAction->ActionTime << std::endl;
-    // char TraderID
-    std::cout << "TraderID" << "="<< pOrderAction->TraderID << std::endl;
-    // int InstallID
-    std::cout << "InstallID" << "="<< pOrderAction->InstallID << std::endl;
-    // char OrderLocalID
-    std::cout << "OrderLocalID" << "="<< pOrderAction->OrderLocalID << std::endl;
-    // char ActionLocalID
-    std::cout << "ActionLocalID" << "="<< pOrderAction->ActionLocalID << std::endl;
-    // char ParticipantID
-    std::cout << "ParticipantID" << "="<< pOrderAction->ParticipantID << std::endl;
-    // char ClientID
-    std::cout << "ClientID" << "="<< pOrderAction->ClientID << std::endl;
-    // char BusinessUnit
-    std::cout << "BusinessUnit" << "="<< pOrderAction->BusinessUnit << std::endl;
-    // char OrderActionStatus
-    std::cout << "OrderActionStatus" << "="<< pOrderAction->OrderActionStatus << std::endl;
-    // char UserID
-    std::cout << "UserID" << "="<< pOrderAction->UserID << std::endl;
-    // char StatusMsg
-    std::cout << "StatusMsg" << "="<< pOrderAction->StatusMsg << std::endl;
-    // char InstrumentID
-    std::cout << "InstrumentID" << "="<< pOrderAction->InstrumentID << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnErrRtnOrderAction";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pOrderAction;
+    if ( pOrderAction != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        gbk2utf8(
+            pOrderAction->BrokerID,
+            buffer,
+            sizeof(pOrderAction->BrokerID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["BrokerID"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->InvestorID,
+            buffer,
+            sizeof(pOrderAction->InvestorID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["InvestorID"] = buffer;
+
+
+        json_pOrderAction["OrderActionRef"] = pOrderAction->OrderActionRef;
+
+
+        gbk2utf8(
+            pOrderAction->OrderRef,
+            buffer,
+            sizeof(pOrderAction->OrderRef) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["OrderRef"] = buffer;
+
+
+        json_pOrderAction["RequestID"] = pOrderAction->RequestID;
+
+
+        json_pOrderAction["FrontID"] = pOrderAction->FrontID;
+
+
+        json_pOrderAction["SessionID"] = pOrderAction->SessionID;
+
+
+        gbk2utf8(
+            pOrderAction->ExchangeID,
+            buffer,
+            sizeof(pOrderAction->ExchangeID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["ExchangeID"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->OrderSysID,
+            buffer,
+            sizeof(pOrderAction->OrderSysID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["OrderSysID"] = buffer;
+
+
+        json_pOrderAction["ActionFlag"] = pOrderAction->ActionFlag;
+
+
+        json_pOrderAction["LimitPrice"] = pOrderAction->LimitPrice;
+
+
+        json_pOrderAction["VolumeChange"] = pOrderAction->VolumeChange;
+
+
+        gbk2utf8(
+            pOrderAction->ActionDate,
+            buffer,
+            sizeof(pOrderAction->ActionDate) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["ActionDate"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->ActionTime,
+            buffer,
+            sizeof(pOrderAction->ActionTime) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["ActionTime"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->TraderID,
+            buffer,
+            sizeof(pOrderAction->TraderID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["TraderID"] = buffer;
+
+
+        json_pOrderAction["InstallID"] = pOrderAction->InstallID;
+
+
+        gbk2utf8(
+            pOrderAction->OrderLocalID,
+            buffer,
+            sizeof(pOrderAction->OrderLocalID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["OrderLocalID"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->ActionLocalID,
+            buffer,
+            sizeof(pOrderAction->ActionLocalID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["ActionLocalID"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->ParticipantID,
+            buffer,
+            sizeof(pOrderAction->ParticipantID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["ParticipantID"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->ClientID,
+            buffer,
+            sizeof(pOrderAction->ClientID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["ClientID"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->BusinessUnit,
+            buffer,
+            sizeof(pOrderAction->BusinessUnit) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["BusinessUnit"] = buffer;
+
+
+        json_pOrderAction["OrderActionStatus"] = pOrderAction->OrderActionStatus;
+
+
+        gbk2utf8(
+            pOrderAction->UserID,
+            buffer,
+            sizeof(pOrderAction->UserID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["UserID"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->StatusMsg,
+            buffer,
+            sizeof(pOrderAction->StatusMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["StatusMsg"] = buffer;
+
+
+        gbk2utf8(
+            pOrderAction->InstrumentID,
+            buffer,
+            sizeof(pOrderAction->InstrumentID) * 3 // 字符串转化变长的风险保障
+        );
+        json_pOrderAction["InstrumentID"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pOrderAction;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnErrRtnOrderAction";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
 
     std::cout << "OnErrRtnOrderAction():执行结束..." << std::endl;
 }
@@ -10235,10 +14978,44 @@ void CTraderHandler::OnRspError(
 ) {
     std::cout << "OnRspError():开始执行..." << std::endl;
 
-    // int ErrorID
-    std::cout << "ErrorID" << "="<< pRspInfo->ErrorID << std::endl;
-    // char ErrorMsg
-    std::cout << "ErrorMsg" << "="<< pRspInfo->ErrorMsg << std::endl;
+    // 生成发送管道的引用
+    zmq::socket_t & sender = *pSender;
+
+    // 生成返回的json格式
+    Json::Value json_Response;
+    json_Response["ResponseMethod"] = "OnRspError";
+
+    /// 返回数据结构体转化json格式
+    Json::Value json_pRspInfo;
+    if ( pRspInfo != NULL ) {
+        // TODO : 这里需要将编码转化为utf-8
+
+
+        json_pRspInfo["ErrorID"] = pRspInfo->ErrorID;
+
+
+        gbk2utf8(
+            pRspInfo->ErrorMsg,
+            buffer,
+            sizeof(pRspInfo->ErrorMsg) * 3 // 字符串转化变长的风险保障
+        );
+        json_pRspInfo["ErrorMsg"] = buffer;
+
+    }
+
+    // 定义参数集合
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pRspInfo;
+    json_Response["Parameters"] = json_Parameters;
+
+    // 打包消息结构并压入Pushback管道
+    PushbackMessage message;
+    message.requestID = "0";
+    message.apiName = "OnRspError";
+    message.respInfo = json_Response.toStyledString();
+    message.isLast = "0";
+    message.send(sender);
+
 
     std::cout << "OnRspError():执行结束..." << std::endl;
 }

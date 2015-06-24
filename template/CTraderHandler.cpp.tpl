@@ -149,17 +149,44 @@ static char buffer[1024*10];
 	// 生成发送管道的引用
 	zmq::socket_t & sender = *pSender;
 
-	// 返回数据
-	Json::Value json_pRspInfo;
-	json_pRspInfo["ErrorID"] = 0;
-	json_pRspInfo["ErrorMsg"] = "";
-
 	// 生成返回的json格式
 	Json::Value json_Response;
 	json_Response["ResponseMethod"] = "{{method['name']}}";
 
-	
+	/// 返回数据结构体转化json格式
+	{%- set dataVarName = method['parameters'][0]['name'] %}
+	{%- set dataTypeName = method['parameters'][0]['raw_type'] %}
+	{%- set dataType = structDict[dataTypeName] %}
+	Json::Value json_{{dataVarName}};
+	if ( {{dataVarName}} != NULL ) {
+		// TODO : 这里需要将编码转化为utf-8
+		{% for field in dataType['fields'] %}
+			{%- set typeInfo = typedefDict[field['type']] %}
+			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
+				gbk2utf8(
+					{{dataVarName}}->{{field['name']}},
+					buffer,
+					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+				);
+				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% else %}
+				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+			{% endif %}
+		{%- endfor %}
+	}
 
+	// 定义参数集合
+	Json::Value json_Parameters;
+	json_Parameters["Data"] = json_{{dataVarName}};
+	json_Response["Parameters"] = json_Parameters;
+
+	// 打包消息结构并压入Pushback管道
+	PushbackMessage message;
+	message.requestID = "0";
+	message.apiName = "{{method['name']}}";
+	message.respInfo = json_Response.toStyledString();
+	message.isLast = "0";
+	message.send(sender);
 
 	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
@@ -180,13 +207,47 @@ static char buffer[1024*10];
 ){
 	std::cout << "{{method['name']}}():开始执行..." << std::endl;
 
+	// 生成发送管道的引用
+	zmq::socket_t & sender = *pSender;
+
+	// 生成返回的json格式
+	Json::Value json_Response;
+	json_Response["ResponseMethod"] = "{{method['name']}}";
+
+	/// 返回数据结构体转化json格式
 	{%- set dataVarName = method['parameters'][0]['name'] %}
 	{%- set dataTypeName = method['parameters'][0]['raw_type'] %}
 	{%- set dataType = structDict[dataTypeName] %}
-    {% for field in dataType['fields'] %}
-        // {{typedefDict[field['type']]['type']}} {{field['name']}}
-		std::cout << "{{field['name']}}" << "="<< {{dataVarName}}->{{field['name']}} << std::endl;
-    {%- endfor %}
+	Json::Value json_{{dataVarName}};
+	if ( {{dataVarName}} != NULL ) {
+		// TODO : 这里需要将编码转化为utf-8
+		{% for field in dataType['fields'] %}
+			{%- set typeInfo = typedefDict[field['type']] %}
+			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
+				gbk2utf8(
+					{{dataVarName}}->{{field['name']}},
+					buffer,
+					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+				);
+				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% else %}
+				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+			{% endif %}
+		{%- endfor %}
+	}
+
+	// 定义参数集合
+	Json::Value json_Parameters;
+	json_Parameters["Data"] = json_{{dataVarName}};
+	json_Response["Parameters"] = json_Parameters;
+
+	// 打包消息结构并压入Pushback管道
+	PushbackMessage message;
+	message.requestID = "0";
+	message.apiName = "{{method['name']}}";
+	message.respInfo = json_Response.toStyledString();
+	message.isLast = "0";
+	message.send(sender);
 
 	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
@@ -207,13 +268,48 @@ static char buffer[1024*10];
 ){
 	std::cout << "{{method['name']}}():开始执行..." << std::endl;
 
+	// 生成发送管道的引用
+	zmq::socket_t & sender = *pSender;
+
+	// 生成返回的json格式
+	Json::Value json_Response;
+	json_Response["ResponseMethod"] = "{{method['name']}}";
+
+	/// 返回数据结构体转化json格式
 	{%- set dataVarName = method['parameters'][0]['name'] %}
 	{%- set dataTypeName = method['parameters'][0]['raw_type'] %}
 	{%- set dataType = structDict[dataTypeName] %}
-    {% for field in dataType['fields'] %}
-        // {{typedefDict[field['type']]['type']}} {{field['name']}}
-		std::cout << "{{field['name']}}" << "="<< {{dataVarName}}->{{field['name']}} << std::endl;
-    {%- endfor %}
+	Json::Value json_{{dataVarName}};
+	if ( {{dataVarName}} != NULL ) {
+		// TODO : 这里需要将编码转化为utf-8
+		{% for field in dataType['fields'] %}
+			{%- set typeInfo = typedefDict[field['type']] %}
+			{% if typeInfo['type'] == 'char' and typeInfo['len'] != None %}
+				gbk2utf8(
+					{{dataVarName}}->{{field['name']}},
+					buffer,
+					sizeof({{dataVarName}}->{{field['name']}}) * 3 // 字符串转化变长的风险保障
+				);
+				json_{{dataVarName}}["{{field['name']}}"] = buffer;
+			{% else %}
+				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+			{% endif %}
+		{%- endfor %}
+	}
+
+	// 定义参数集合
+	Json::Value json_Parameters;
+	json_Parameters["Data"] = json_{{dataVarName}};
+	json_Response["Parameters"] = json_Parameters;
+
+	// 打包消息结构并压入Pushback管道
+	PushbackMessage message;
+	message.requestID = "0";
+	message.apiName = "{{method['name']}}";
+	message.respInfo = json_Response.toStyledString();
+	message.isLast = "0";
+	message.send(sender);
+
 
 	std::cout << "{{method['name']}}():执行结束..." << std::endl;
 }
