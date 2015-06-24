@@ -351,7 +351,11 @@ int main(int argc,char * argv[]){
                     }else{
                         // TODO 处理广播消息
                         std::cout << "main():收到一条广播消息" << std::endl;
-                        std::cout << "respInfo=" <<  pushbackMessage.respInfo << std::endl;
+                        //std::cout << "respInfo=" <<  pushbackMessage.respInfo << std::endl;
+                        publishMessage.header = "PUBLISH";
+                        publishMessage.apiName = pushbackMessage.apiName;
+                        publishMessage.respInfo = pushbackMessage.respInfo;
+                        publishMessage.send(publish);
                     }
                 }catch(std::exception & e){
                     std::cout << "main():异常:" << e.what() << std::endl;

@@ -96,6 +96,6 @@ class PublishMessage :
         接受发布消息
         '''
         received = socket.recv_multipart()
-        if len(received) != 6 :
+        if len(received) != 3 :
             raise InvalidMessageFormat()
         self.header,self.apiName,self.respInfo = received
