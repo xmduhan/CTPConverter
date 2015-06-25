@@ -8,7 +8,8 @@ from message import *
 from channel import CTPChannel
 from CTPStruct import *
 from nose.plugins.attrib import attr
-
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 def setup():
     '''
@@ -174,45 +175,114 @@ def test_call_not_exist_api():
     assert requestIDMessage.metaData == json.dumps(metaData)
 
 
+@attr('test_call_SettlementInfoConfirm')
+def test_call_SettlementInfoConfirm():
+    '''
+    交易信息确认
+    '''
+    ch = CTPChannel()
+    requestData = CThostFtdcSettlementInfoConfirmField()
+    requestData.BrokerID = brokerID
+    requestData.InvestorID = userID
+    requestData.ConfirmDate = ''
+    requestData.ConfirmTime = ''
+    result = ch.SettlementInfoConfirm(requestData)
+    print result[0],result[1],result[2]
+    assert result[0] == 0
 
-@attr('test_call_OrderInsert')
-def test_call_OrderInsert():
+
+
+
+orderRefSeq = 0
+
+def getOrderRef():
+    '''
+    获取OrderRef序列值
+    '''
+    global orderRefSeq
+    orderRefSeq += 1
+    return ('%12d' % orderRefSeq).replace(' ','0') # '000000000001'
+
+
+def getDefaultInstrumentID():
+    '''
+    获得一个保证可以使用的合同代码
+    '''
+    return datetime.strftime(datetime.now() + relativedelta(months=1),"IF%y%m")
+
+
+def getDefaultInputOrderFieldBuyOpen():
+    '''
+    获得一个默认的参数合法的,提交请求结构
+    '''
+    inputOrderField = CThostFtdcInputOrderField()
+    inputOrderField.BrokerID = brokerID
+    inputOrderField.InvestorID = userID
+    inputOrderField.InstrumentID = getDefaultInstrumentID()
+    inputOrderField.OrderRef =  getOrderRef() #
+    inputOrderField.UserID = userID
+    inputOrderField.OrderPriceType = '1'     # 任意价
+    inputOrderField.Direction = '0'          # 买
+    inputOrderField.CombOffsetFlag = '0'     # 开仓
+    inputOrderField.CombHedgeFlag = '1'      # 投机
+    inputOrderField.LimitPrice = 0           # 限价 0表不限制
+    inputOrderField.VolumeTotalOriginal = 1  # 手数
+    inputOrderField.TimeCondition = '1'      # 立即完成否则撤消
+    inputOrderField.GTDDate = ''
+    inputOrderField.VolumeCondition = '1'    # 成交类型  '1' 任何数量  '2' 最小数量 '3'全部数量
+    inputOrderField.MinVolume = 1            # 最小数量
+    inputOrderField.ContingentCondition = '1' # 触发类型 '1' 立即否则撤消
+    inputOrderField.StopPrice = 0             # 止损价
+    inputOrderField.ForceCloseReason = '0'    # 强平标识 '0'非强平
+    inputOrderField.IsAutoSuspend = 0         # 自动挂起标识
+    inputOrderField.BusinessUnit = ''         # 业务单元
+    inputOrderField.RequestID = 1
+    inputOrderField.UserForceClose = 0        # 用户强平标识
+    inputOrderField.IsSwapOrder = 0           # 互换单标识
+    return inputOrderField
+
+
+def getDefaultInputOrderFieldBuyClose():
+    '''
+    获得一个默认的参数合法的,提交请求结构
+    '''
+    inputOrderField = CThostFtdcInputOrderField()
+    inputOrderField.BrokerID = brokerID
+    inputOrderField.InvestorID = userID
+    inputOrderField.InstrumentID = getDefaultInstrumentID()
+    inputOrderField.OrderRef =  getOrderRef() #
+    inputOrderField.UserID = userID
+    inputOrderField.OrderPriceType = '1'     # 任意价
+    inputOrderField.Direction = '1'          # 卖
+    inputOrderField.CombOffsetFlag = '1'     # 平仓
+    inputOrderField.CombHedgeFlag = '1'      # 投机
+    inputOrderField.LimitPrice = 0           # 限价 0表不限制
+    inputOrderField.VolumeTotalOriginal = 1  # 手数
+    inputOrderField.TimeCondition = '1'      # 立即完成否则撤消
+    inputOrderField.GTDDate = ''
+    inputOrderField.VolumeCondition = '1'    # 成交类型  '1' 任何数量  '2' 最小数量 '3'全部数量
+    inputOrderField.MinVolume = 1            # 最小数量
+    inputOrderField.ContingentCondition = '1' # 触发类型 '1' 立即否则撤消
+    inputOrderField.StopPrice = 0             # 止损价
+    inputOrderField.ForceCloseReason = '0'    # 强平标识 '0'非强平
+    inputOrderField.IsAutoSuspend = 0         # 自动挂起标识
+    inputOrderField.BusinessUnit = ''         # 业务单元
+    inputOrderField.RequestID = 1
+    inputOrderField.UserForceClose = 0        # 用户强平标识
+    inputOrderField.IsSwapOrder = 0           # 互换单标识
+    return inputOrderField
+
+
+
+def callOrderInsert(requestData):
     '''
     报单测试
     '''
+    test_call_SettlementInfoConfirm()
     sleep(1)
 
     requestApiName = 'ReqOrderInsert'
     timeout = 1000 * 2
-
-    # 生成调用数据格式
-    reqInfo = getDefaultReqInfo(requestApiName)
-    requestData = CThostFtdcInputOrderField()
-    requestData.BrokerID = brokerID
-    requestData.InvestorID = userID
-    requestData.InstrumentID = 'IF1507'
-    requestData.OrderRef = '000000000001'
-    requestData.UserID = userID
-    requestData.OrderPriceType = '1'     # 任意价
-    requestData.Direction = '0'          # 买
-    requestData.CombOffsetFlag = '0'     # 开仓
-    requestData.CombHedgeFlag = '1'      # 投机
-    requestData.LimitPrice = 0           # 限价 0表不限制
-    requestData.VolumeTotalOriginal = 1  # 手数
-    requestData.TimeCondition = '1'      # 立即完成否则撤消
-    requestData.GTDDate = ''
-    requestData.VolumeCondition = '1'    # 成交类型  '1' 任何数量  '2' 最小数量 '3'全部数量
-    requestData.MinVolume = 1            # 最小数量
-    requestData.ContingentCondition = '1' # 触发类型 '1' 立即否则撤消
-    requestData.StopPrice = 0             # 止损价
-    requestData.ForceCloseReason = '0'    # 强平标识 '0'非强平
-    requestData.IsAutoSuspend = 0         # 自动挂起标识
-    requestData.BusinessUnit = ''         # 业务单元
-    requestData.RequestID = 1
-    requestData.UserForceClose = 0        # 用户强平标识
-    requestData.IsSwapOrder = 0           # 互换单标识
-    reqInfo['Parameters']['Data'] = requestData.toDict()
-    #print reqInfo
 
     # 创建通讯环境
     context = zmq.Context()
@@ -231,17 +301,20 @@ def test_call_OrderInsert():
     publish.connect(publishAddress)
     publish.setsockopt_string(zmq.SUBSCRIBE,u'')
 
-    # 准备请求消息
+    # 准备开仓数据信息
+    reqInfo = getDefaultReqInfo(requestApiName)
+    reqInfo['Parameters']['Data'] = requestData.toDict()
+    #print reqInfo
+
+    # 发送消息到协议转换器
     requestMessage = RequestMessage()
     requestMessage.header = 'REQUEST'
     requestMessage.apiName = requestApiName
     requestMessage.reqInfo = json.dumps(reqInfo)
     requestMessage.metaData = json.dumps({})
-
-    # 发送消息
     requestMessage.send(request)
 
-    ################### 等待服务器的REQUESTID响应 ###################
+    # 等待服务器的REQUESTID响应
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
     sockets = dict(poller.poll(timeout))
@@ -257,7 +330,46 @@ def test_call_OrderInsert():
     assert requestIDMessage.errorInfo == ''
     assert requestIDMessage.metaData == json.dumps({})
 
-    # 等待OnRsp消息,实际等不到
+
+    while True:
+        poller = zmq.Poller()
+        poller.register(request, zmq.POLLIN)
+        poller.register(publish, zmq.POLLIN)
+        sockets = dict(poller.poll(timeout))
+        # 由于我们的开单格式正确,不会收到OnRsp消息
+        assert request not in sockets
+        # 应该至少能收到OnRtnOrder消息
+        assert publish in sockets
+
+        # 接收第1条OnRtnOrder消息
+        publishMessage = PublishMessage()
+        publishMessage.recv(publish)
+        assert publishMessage.header == 'PUBLISH'
+        assert publishMessage.apiName == 'OnRtnOrder'
+        #print publishMessage.respInfo
+
+        # 读取返回信息
+        respInfo = json.loads(publishMessage.respInfo)
+        responseData = respInfo['Parameters']['Data']
+
+        # 检查开单的状态
+        orderSubmitStatus = responseData['OrderSubmitStatus']  # '0' 订单已提交
+        orderStatus = responseData['OrderStatus']  # 'a' 未知状态
+        statusMsg = responseData['StatusMsg']
+        print orderSubmitStatus,orderStatus,statusMsg
+
+        if orderSubmitStatus != '0' or  orderStatus != 'a':
+            break
+
+    if orderSubmitStatus == '4' and orderStatus == '5':
+        # 在非交易时间执行测试用例,报单会被拒绝,忽略这个错误
+        return
+
+    #  如果程序到达这里说明报单已经提交成功了
+    assert orderSubmitStatus == '0'    #已经提交
+    assert orderStatus == '0'   # 全部成交
+
+    # 接下来等待OnRtnTrader消息
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
     poller.register(publish, zmq.POLLIN)
@@ -271,44 +383,29 @@ def test_call_OrderInsert():
     publishMessage = PublishMessage()
     publishMessage.recv(publish)
     assert publishMessage.header == 'PUBLISH'
-    assert publishMessage.apiName == 'OnRtnOrder'
-    print publishMessage.respInfo
+    assert publishMessage.apiName == 'OnRtnTrade'
+    #print publishMessage.respInfo
 
-    # 读取返回信息
+    # 读取返回数据进行确认
     respInfo = json.loads(publishMessage.respInfo)
     responseData = respInfo['Parameters']['Data']
+    tradeType = responseData['TradeType']
+    tradeSource = responseData['TradeSource']
+    price = responseData['Price']
+    assert tradeType == '0'     # '0' 普通成交
+    assert tradeSource == '0'   # '0' 来自交易所普通回报
 
-    # 检查开单的状态
-    assert responseData['OrderSubmitStatus'] == '0'  # 订单已提交
-    assert responseData['OrderStatus'] == 'a'  # 未知状态
+    return price
 
 
-    # 接收第2条OnRtnOrder消息
-    poller = zmq.Poller()
-    poller.register(publish, zmq.POLLIN)
-    sockets = dict(poller.poll(timeout))
-    # 应该至少能收到OnRtnOrder消息
-    assert publish in sockets
+@attr('test_BuyOpenAndClose')
+def test_BuyOpenAndClose():
+    '''
+    测试开仓和平仓
+    '''
+    price0 = callOrderInsert(getDefaultInputOrderFieldBuyOpen())
+    price1 = callOrderInsert(getDefaultInputOrderFieldBuyClose())
 
-    #  读取消息
-    publishMessage = PublishMessage()
-    publishMessage.recv(publish)
-    assert publishMessage.header == 'PUBLISH'
-    assert publishMessage.apiName == 'OnRtnOrder'
-    print publishMessage.respInfo
-
-    # 读取返回信息
-    respInfo = json.loads(publishMessage.respInfo)
-    responseData = respInfo['Parameters']['Data']
-
-    #print 'OrderSubmitStatus=',responseData['OrderSubmitStatus']
-    #print 'OrderStatus=',responseData['OrderStatus']
-    assert responseData['OrderSubmitStatus'] in ('4','')  # 被拒绝
-    assert responseData['OrderStatus'] in ('5','')  # 撤单
-
-    if responseData['OrderSubmitStatus'] == '4':
-        # 这是由于市场不在交易状态造成的拒绝
-        assert responseData['StatusMsg'] == u'已撤单报单被拒绝CFFEX:结算组数据没有同步'
-        return
-
-    assert False
+    print 'price0=',price0
+    print 'price1=',price1
+    print 'diff=',price1-price0
