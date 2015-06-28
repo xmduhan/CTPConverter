@@ -187,7 +187,7 @@ def test_call_SettlementInfoConfirm():
     requestData.ConfirmDate = ''
     requestData.ConfirmTime = ''
     result = ch.SettlementInfoConfirm(requestData)
-    print result[0],result[1],result[2]
+    #print result[0],result[1],result[2]
     assert result[0] == 0
 
 
@@ -278,7 +278,6 @@ def callOrderInsert(requestData):
     '''
     报单测试
     '''
-    test_call_SettlementInfoConfirm()
     sleep(1)
 
     requestApiName = 'ReqOrderInsert'
@@ -363,7 +362,7 @@ def callOrderInsert(requestData):
 
     if orderSubmitStatus == '4' and orderStatus == '5':
         # 在非交易时间执行测试用例,报单会被拒绝,忽略这个错误
-        return
+        return -1
 
     #  如果程序到达这里说明报单已经提交成功了
     assert orderSubmitStatus == '0'    #已经提交
@@ -403,9 +402,16 @@ def test_BuyOpenAndClose():
     '''
     测试开仓和平仓
     '''
+    test_call_SettlementInfoConfirm()
     price0 = callOrderInsert(getDefaultInputOrderFieldBuyOpen())
-    price1 = callOrderInsert(getDefaultInputOrderFieldBuyClose())
 
-    print 'price0=',price0
-    print 'price1=',price1
-    print 'diff=',price1-price0
+    if price0 > 0 :
+        price1 = callOrderInsert(getDefaultInputOrderFieldBuyClose())
+
+    if price0 > 0 and price1 > 0 :
+        print 'price0=',price0
+        print 'price1=',price1
+        print 'diff=',price1-price0
+    else:
+        print u'可能由于市场不处于交易状态的原因,开平仓测试没有实际进行测试'
+    
