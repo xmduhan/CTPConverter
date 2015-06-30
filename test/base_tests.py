@@ -191,10 +191,7 @@ def test_call_SettlementInfoConfirm():
     assert result[0] == 0
 
 
-
-
 orderRefSeq = 0
-
 def getOrderRef():
     '''
     获取OrderRef序列值
@@ -271,7 +268,6 @@ def getDefaultInputOrderFieldBuyClose():
     inputOrderField.UserForceClose = 0        # 用户强平标识
     inputOrderField.IsSwapOrder = 0           # 互换单标识
     return inputOrderField
-
 
 
 def callOrderInsert(requestData):
@@ -414,4 +410,5 @@ def test_BuyOpenAndClose():
         print 'diff=',price1-price0
     else:
         print u'可能由于市场不处于交易状态的原因,开平仓测试没有实际进行测试'
+
     
