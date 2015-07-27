@@ -61,9 +61,9 @@ def test_connect_to_ctp_converter():
 
     # 连接request通讯管道
     context = zmq.Context()
-    socket = context.socket(zmq.DEALER)
-    socket.connect(address)
-    socket.setsockopt(zmq.LINGER,0)
+    request = context.socket(zmq.DEALER)
+    request.connect(address)
+    request.setsockopt(zmq.LINGER,0)
 
     # 准备调用接口数据
     reqInfo = getDefaultReqInfo(requestApiName)
@@ -80,16 +80,16 @@ def test_connect_to_ctp_converter():
     # 开始计时
     startTime = datetime.now()
     # 向协议转换器发出请求
-    requestMessage.send(socket)
+    requestMessage.send(request)
     ################### 等待服务器的REQUESTID响应 ###################
     poller = zmq.Poller()
-    poller.register(socket, zmq.POLLIN)
-    sockets = dict(poller.poll(timeout))
-    assert socket in sockets
+    poller.register(request, zmq.POLLIN)
+    requests = dict(poller.poll(timeout))
+    assert request in requests
 
     # 从request通讯管道读取返回信息
     requestIDMessage = RequestIDMessage()
-    requestIDMessage.recv(socket)
+    requestIDMessage.recv(request)
     # 检查立即返回信息的格式
     assert requestIDMessage.header == 'REQUESTID'
     assert int(requestIDMessage.requestID) > 0
@@ -100,13 +100,13 @@ def test_connect_to_ctp_converter():
 
     ################### 等待服务器的返回的数据信息 ###################
     poller = zmq.Poller()
-    poller.register(socket, zmq.POLLIN)
-    sockets = dict(poller.poll(timeout))
-    assert socket in sockets
+    poller.register(request, zmq.POLLIN)
+    requests = dict(poller.poll(timeout))
+    assert request in requests
 
     # 从request通讯管道读取返回信息
     responseMessage = ResponseMessage()
-    responseMessage.recv(socket)
+    responseMessage.recv(request)
 
     # 返回数据信息格式
     assert responseMessage.header == 'RESPONSE'
@@ -135,9 +135,9 @@ def test_call_not_exist_api():
 
     # 连接request通讯管道
     context = zmq.Context()
-    socket = context.socket(zmq.DEALER)
-    socket.connect(address)
-    socket.setsockopt(zmq.LINGER,0)
+    request = context.socket(zmq.DEALER)
+    request.connect(address)
+    request.setsockopt(zmq.LINGER,0)
 
     # 准备调用接口数据
     reqInfo = getDefaultReqInfo(requestApiName)
@@ -154,17 +154,17 @@ def test_call_not_exist_api():
     # 开始计时
     startTime = datetime.now()
     # 向协议转换器发出请求
-    requestMessage.send(socket)
+    requestMessage.send(request)
 
     ################### 等待服务器的REQUESTID响应 ###################
     poller = zmq.Poller()
-    poller.register(socket, zmq.POLLIN)
-    sockets = dict(poller.poll(timeout))
-    assert socket in sockets
+    poller.register(request, zmq.POLLIN)
+    requests = dict(poller.poll(timeout))
+    assert request in requests
 
     # 从request通讯管道读取返回信息
     requestIDMessage = RequestIDMessage()
-    requestIDMessage.recv(socket)
+    requestIDMessage.recv(request)
     # 检查立即返回信息的格式
     assert requestIDMessage.header == 'REQUESTID'
     assert int(requestIDMessage.requestID) == 0
@@ -312,8 +312,8 @@ def callOrderInsert(requestData):
     # 等待服务器的REQUESTID响应
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
-    sockets = dict(poller.poll(timeout))
-    assert request in sockets
+    requests = dict(poller.poll(timeout))
+    assert request in requests
 
     # 从request通讯管道读取返回信息
     requestIDMessage = RequestIDMessage()
@@ -330,11 +330,11 @@ def callOrderInsert(requestData):
         poller = zmq.Poller()
         poller.register(request, zmq.POLLIN)
         poller.register(publish, zmq.POLLIN)
-        sockets = dict(poller.poll(timeout))
+        requests = dict(poller.poll(timeout))
         # 由于我们的开单格式正确,不会收到OnRsp消息
-        assert request not in sockets
+        assert request not in requests
         # 应该至少能收到OnRtnOrder消息
-        assert publish in sockets
+        assert publish in requests
 
         # 接收第1条OnRtnOrder消息
         publishMessage = PublishMessage()
@@ -368,11 +368,11 @@ def callOrderInsert(requestData):
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
     poller.register(publish, zmq.POLLIN)
-    sockets = dict(poller.poll(timeout))
+    requests = dict(poller.poll(timeout))
     # 由于我们的开单格式正确,不会收到OnRsp消息
-    assert request not in sockets
+    assert request not in requests
     # 应该至少能收到OnRtnOrder消息
-    assert publish in sockets
+    assert publish in requests
 
     # 接收第1条OnRtnOrder消息
     publishMessage = PublishMessage()
