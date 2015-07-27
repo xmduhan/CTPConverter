@@ -84,8 +84,8 @@ def test_connect_to_ctp_converter():
     ################### 等待服务器的REQUESTID响应 ###################
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
-    requests = dict(poller.poll(timeout))
-    assert request in requests
+    sockets = dict(poller.poll(timeout))
+    assert request in sockets
 
     # 从request通讯管道读取返回信息
     requestIDMessage = RequestIDMessage()
@@ -101,8 +101,8 @@ def test_connect_to_ctp_converter():
     ################### 等待服务器的返回的数据信息 ###################
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
-    requests = dict(poller.poll(timeout))
-    assert request in requests
+    sockets = dict(poller.poll(timeout))
+    assert request in sockets
 
     # 从request通讯管道读取返回信息
     responseMessage = ResponseMessage()
@@ -159,8 +159,8 @@ def test_call_not_exist_api():
     ################### 等待服务器的REQUESTID响应 ###################
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
-    requests = dict(poller.poll(timeout))
-    assert request in requests
+    sockets = dict(poller.poll(timeout))
+    assert request in sockets
 
     # 从request通讯管道读取返回信息
     requestIDMessage = RequestIDMessage()
@@ -312,8 +312,8 @@ def callOrderInsert(requestData):
     # 等待服务器的REQUESTID响应
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
-    requests = dict(poller.poll(timeout))
-    assert request in requests
+    sockets = dict(poller.poll(timeout))
+    assert request in sockets
 
     # 从request通讯管道读取返回信息
     requestIDMessage = RequestIDMessage()
@@ -330,11 +330,11 @@ def callOrderInsert(requestData):
         poller = zmq.Poller()
         poller.register(request, zmq.POLLIN)
         poller.register(publish, zmq.POLLIN)
-        requests = dict(poller.poll(timeout))
+        sockets = dict(poller.poll(timeout))
         # 由于我们的开单格式正确,不会收到OnRsp消息
-        assert request not in requests
+        assert request not in sockets
         # 应该至少能收到OnRtnOrder消息
-        assert publish in requests
+        assert publish in sockets
 
         # 接收第1条OnRtnOrder消息
         publishMessage = PublishMessage()
@@ -368,11 +368,11 @@ def callOrderInsert(requestData):
     poller = zmq.Poller()
     poller.register(request, zmq.POLLIN)
     poller.register(publish, zmq.POLLIN)
-    requests = dict(poller.poll(timeout))
+    sockets = dict(poller.poll(timeout))
     # 由于我们的开单格式正确,不会收到OnRsp消息
-    assert request not in requests
+    assert request not in sockets
     # 应该至少能收到OnRtnOrder消息
-    assert publish in requests
+    assert publish in sockets
 
     # 接收第1条OnRtnOrder消息
     publishMessage = PublishMessage()
