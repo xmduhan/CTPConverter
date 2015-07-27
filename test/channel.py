@@ -38,11 +38,11 @@ class CTPChannel :
         assert address
         # 连接request通讯管道
     	context = zmq.Context()
-    	socket = context.socket(zmq.DEALER)
-    	socket.connect(address)
-    	socket.setsockopt(zmq.LINGER,0)
+    	request = context.socket(zmq.DEALER)
+    	request.connect(address)
+    	request.setsockopt(zmq.LINGER,0)
 
-        self.request = socket
+        self.request = request
         self.timeout = 1000 * 10
 
 
