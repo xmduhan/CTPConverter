@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <string.h>
 //#include <comhelper.h>
-
+#include <iostream>
 
 
 /// 构造函数
@@ -30,6 +30,9 @@ void Configure::loadFromEnvironment() {
     /// 请求通信管道
     this->requestPipe = getenv("CTP_REQUEST_PIPE");
     assert(this->requestPipe);
+    /// 返回消息管道
+    this->responsePipe = getenv("CTP_RESPONSE_PIPE");
+    assert(this->responsePipe);
     /// 回调信息管道
     this->pushbackPipe = getenv("CTP_PUSHBACK_PIPE");
     assert(this->pushbackPipe);
@@ -65,6 +68,11 @@ void  Configure::loadFromCommandLine(CommandOption commandOption){
     char * requestPipe = commandOption.get("--RequestPipe");
     assert(requestPipe != NULL);
     this->requestPipe = requestPipe;
+
+    /// 返回通信管道
+    char * responsePipe = commandOption.get("--ResponsePipe");
+    assert(responsePipe != NULL);
+    this->responsePipe = responsePipe;
 
     /// 回调信息管道
     char * pushbackPipe = commandOption.get("--PushbackPipe");
@@ -127,9 +135,6 @@ void MdConfigure::loadFromEnvironment(){
     this->pushbackPipe = getenv("CTP_PUSHBACK_PIPE");
     assert(this->pushbackPipe);
     /// 广播信息管道
-    this->publishPipe = getenv("CTP_PUBLISH_PIPE");
-    assert(this->publishPipe);
-    // 订阅品种列表配置文件
     this->publishPipe = getenv("CTP_PUBLISH_PIPE");
     assert(this->publishPipe);
     // 读取品种列表配置文件

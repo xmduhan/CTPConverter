@@ -21,6 +21,8 @@ public:
     char * password;
     /// 请求通信管道
     char * requestPipe;
+    /// 返回信息管道
+    char * responsePipe;
     /// 回调信息管道
     char * pushbackPipe;
     /// 广播信息管道
