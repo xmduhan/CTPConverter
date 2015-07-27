@@ -71,12 +71,13 @@ int main(int argc,char * argv[]){
 
     // 初始化zmq环境
     zmq::context_t context(1);
-    zmq::socket_t listener (context, ZMQ_ROUTER);
-    zmq::socket_t pushback  (context, ZMQ_PULL);
-    zmq::socket_t publish  (context, ZMQ_PUB);
+    zmq::socket_t request(context, ZMQ_ROUTER);
+    zmq::socket_t response(context,ZMQ_ROUTER);
+    zmq::socket_t pushback(context, ZMQ_PULL);
+    zmq::socket_t publish(context, ZMQ_PUB);
 
     // 连接对应通讯管道
-    listener.bind(config.requestPipe);
+    request.bind(config.requestPipe);
     pushback.connect(config.pushbackPipe);
     publish.bind(config.publishPipe);
 
@@ -103,7 +104,7 @@ int main(int argc,char * argv[]){
 
     while(1){
         zmq::pollitem_t pullItems [] = {
-            { listener,  0, ZMQ_POLLIN, 0 },
+            { request,  0, ZMQ_POLLIN, 0 },
             { pushback, 0, ZMQ_POLLIN, 0 }
         };
         zmq::poll (pullItems, 2, timeout);
@@ -119,7 +120,7 @@ int main(int argc,char * argv[]){
 
                 // 读取客户端消息
                 try{
-                    requestMessage.recv(listener);
+                    requestMessage.recv(request);
                     std::cout << "main():客户端请求调用:" << requestMessage.apiName << std::endl;
                 }catch(std::exception & e){
                     std::cout << "main():异常:" << e.what() << std::endl;
@@ -143,7 +144,7 @@ int main(int argc,char * argv[]){
                     requestIDMessage.errorInfo = jsonErrorInfo.toStyledString();
                     requestIDMessage.metaData = requestMessage.metaData;
                     try{
-                        requestIDMessage.send(listener);
+                        requestIDMessage.send(request);
                         std::cout << "main():客户端请求结果已返回客户端"  << std::endl;
                     }catch(std::exception & e){
                         std::cout << "main():异常:" << e.what() << std::endl;
@@ -176,7 +177,7 @@ int main(int argc,char * argv[]){
 
                     // 将请求结果信息立即返回给客户端
                     try{
-                        requestIDMessage.send(listener);
+                        requestIDMessage.send(request);
                         std::cout << "main():客户端请求结果已返回客户端"  << std::endl;
                     }catch(std::exception & e){
                         std::cout << "main():异常:" << e.what() << std::endl;
@@ -227,7 +228,7 @@ int main(int argc,char * argv[]){
 
                     // 将请求结果信息立即返回给客户端
                     try{
-                        requestIDMessage.send(listener);
+                        requestIDMessage.send(request);
                         std::cout << "main():客户端请求结果已返回客户端"  << std::endl;
                     }catch(std::exception & e){
                         std::cout << "main():异常:" << e.what() << std::endl;
@@ -311,7 +312,7 @@ int main(int argc,char * argv[]){
                         responseMessage.metaData = pRequestQueueItem->metaData;
 
                         // 发送到客户端
-                        responseMessage.send(listener);
+                        responseMessage.send(request);
                     }
                     delete pRequestQueueItem;
                 }catch(std::exception & e){
@@ -342,7 +343,7 @@ int main(int argc,char * argv[]){
                             responseMessage.respInfo = pushbackMessage.respInfo;
                             responseMessage.isLast = pushbackMessage.isLast;
                             responseMessage.metaData = pRouteTableItem->metaData;
-                            responseMessage.send(listener);
+                            responseMessage.send(request);
                             //std::cout << "main():pushbackMessage.respInfo=" << pushbackMessage.respInfo<< std::endl;
                             std::cout << "main():信息已经成功发送给客户端" << std::endl;
                         }else{
