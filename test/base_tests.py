@@ -55,14 +55,14 @@ def test_connect_to_ctp_converter():
     timeout = 1000*10
 
     # 初始化变量
-    #address = 'tcp://localhost:10001'
-    address = os.getenv('CTP_REQUEST_PIPE',None)
-    assert address
+    #requestAddress = 'tcp://localhost:10001'
+    requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
+    assert requestAddress
 
     # 连接request通讯管道
     context = zmq.Context()
     request = context.socket(zmq.DEALER)
-    request.connect(address)
+    request.connect(requestAddress)
     request.setsockopt(zmq.LINGER,0)
 
     # 准备调用接口数据
@@ -130,13 +130,13 @@ def test_call_not_exist_api():
 
     requestApiName = 'unkown_api_name'
     timeout = 1000 * 10
-    address = os.getenv('CTP_REQUEST_PIPE',None)
-    assert address
+    requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
+    assert requestAddress
 
     # 连接request通讯管道
     context = zmq.Context()
     request = context.socket(zmq.DEALER)
-    request.connect(address)
+    request.connect(requestAddress)
     request.setsockopt(zmq.LINGER,0)
 
     # 准备调用接口数据
