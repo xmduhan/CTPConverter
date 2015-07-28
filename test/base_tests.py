@@ -66,7 +66,7 @@ def test_connect_to_ctp_converter():
     # 初始化zmq通讯环境
     context = zmq.Context()
 
-    # 生成客户端地址
+    # 生成客户端身份定义符
     identity = str(uuid.uuid1())
 
     # 连接request通讯管道
@@ -298,16 +298,34 @@ def callOrderInsert(requestData):
     # 创建通讯环境
     context = zmq.Context()
 
-    # 连接request通讯管道
+    # 生成客户端身份定义符
+    identity = str(uuid.uuid1())
+
+    # 获得request通讯管道地址
     requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
     assert requestAddress
-    request = context.socket(zmq.DEALER)
-    request.connect(requestAddress)
-    request.setsockopt(zmq.LINGER,0)
+
+    # 获得response通讯管道地址
+    responseAddress = os.getenv('CTP_RESPONSE_PIPE',None)
+    assert responseAddress
 
     # 连接publish通讯管道
     publishAddress = os.getenv('CTP_PUBLISH_PIPE',None)
     assert publishAddress
+
+    # 连接request通讯管道
+    request = context.socket(zmq.DEALER)
+    request.setsockopt(zmq.IDENTITY,identity)
+    request.connect(requestAddress)
+    request.setsockopt(zmq.LINGER,0)
+
+    # 连接response通讯管道
+    response = context.socket(zmq.DEALER)
+    response.setsockopt(zmq.IDENTITY,identity)
+    response.connect(responseAddress)
+    response.setsockopt(zmq.LINGER,0)
+
+    # 连接publish通讯管道
     publish = context.socket(zmq.SUB)
     publish.connect(publishAddress)
     publish.setsockopt_string(zmq.SUBSCRIBE,u'')
@@ -344,11 +362,11 @@ def callOrderInsert(requestData):
 
     while True:
         poller = zmq.Poller()
-        poller.register(request, zmq.POLLIN)
+        poller.register(response, zmq.POLLIN)
         poller.register(publish, zmq.POLLIN)
         sockets = dict(poller.poll(timeout))
         # 由于我们的开单格式正确,不会收到OnRsp消息
-        assert request not in sockets
+        assert response not in sockets
         # 应该至少能收到OnRtnOrder消息
         assert publish in sockets
 
@@ -382,11 +400,11 @@ def callOrderInsert(requestData):
 
     # 接下来等待OnRtnTrader消息
     poller = zmq.Poller()
-    poller.register(request, zmq.POLLIN)
+    poller.register(response, zmq.POLLIN)
     poller.register(publish, zmq.POLLIN)
     sockets = dict(poller.poll(timeout))
     # 由于我们的开单格式正确,不会收到OnRsp消息
-    assert request not in sockets
+    assert response not in sockets
     # 应该至少能收到OnRtnOrder消息
     assert publish in sockets
 
