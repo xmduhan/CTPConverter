@@ -44,7 +44,7 @@ class CTPChannel :
         # 初始化zmq通讯环境
         context = zmq.Context()
 
-        # 生成客户端地址
+        # 生成客户端身份定义符
         identity = str(uuid.uuid1())
 
         # 连接request通讯管道
