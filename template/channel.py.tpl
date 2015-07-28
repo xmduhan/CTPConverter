@@ -34,13 +34,13 @@ class CTPChannel :
         '''
         初始化过程
         '''
-        address = os.getenv('CTP_REQUEST_PIPE',None)
-        assert address
+        requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
+        assert requestAddress
         # 连接request通讯管道
-    	context = zmq.Context()
-    	request = context.socket(zmq.DEALER)
-    	request.connect(address)
-    	request.setsockopt(zmq.LINGER,0)
+        context = zmq.Context()
+        request = context.socket(zmq.DEALER)
+        request.connect(requestAddress)
+        request.setsockopt(zmq.LINGER,0)
 
         self.request = request
         self.timeout = 1000 * 10
