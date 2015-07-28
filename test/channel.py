@@ -5,7 +5,7 @@ import zmq
 import json
 from CTPStruct import *
 from message import *
-
+import uuid
 
 def packageReqInfo(apiName,data):
 	'''
@@ -34,15 +34,33 @@ class CTPChannel :
         '''
         初始化过程
         '''
-        address = os.getenv('CTP_REQUEST_PIPE',None)
-        assert address
+        # 读取请求通讯地址
+        requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
+        assert requestAddress
+        # 读取返回数据通讯地址
+        responseAddress = os.getenv('CTP_RESPONSE_PIPE',None)
+        assert responseAddress
+
+        # 初始化zmq通讯环境
+        context = zmq.Context()
+
+        # 生成客户端地址
+        identity = str(uuid.uuid1())
+
         # 连接request通讯管道
-    	context = zmq.Context()
-    	request = context.socket(zmq.DEALER)
-    	request.connect(address)
-    	request.setsockopt(zmq.LINGER,0)
+        request = context.socket(zmq.DEALER)
+        request.setsockopt(zmq.IDENTITY,identity)
+        request.connect(requestAddress)
+        request.setsockopt(zmq.LINGER,0)
+
+        # 连接response通讯管道
+        response = context.socket(zmq.DEALER)
+        response.setsockopt(zmq.IDENTITY,identity)
+        response.connect(responseAddress)
+        response.setsockopt(zmq.LINGER,0)
 
         self.request = request
+        self.response = response
         self.timeout = 1000 * 10
 
 
@@ -99,18 +117,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -196,18 +214,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -293,18 +311,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -390,18 +408,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -487,18 +505,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -584,18 +602,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -681,18 +699,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -778,18 +796,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -875,18 +893,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -972,18 +990,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1069,18 +1087,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1166,18 +1184,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1263,18 +1281,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1360,18 +1378,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1457,18 +1475,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1554,18 +1572,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1651,18 +1669,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1748,18 +1766,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1845,18 +1863,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -1942,18 +1960,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2039,18 +2057,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2136,18 +2154,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2233,18 +2251,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2330,18 +2348,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2427,18 +2445,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2524,18 +2542,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2621,18 +2639,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2718,18 +2736,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2815,18 +2833,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -2912,18 +2930,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3009,18 +3027,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3106,18 +3124,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3203,18 +3221,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3300,18 +3318,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3397,18 +3415,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3494,18 +3512,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3591,18 +3609,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3688,18 +3706,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3785,18 +3803,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3882,18 +3900,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -3979,18 +3997,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4076,18 +4094,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4173,18 +4191,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4270,18 +4288,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4367,18 +4385,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4464,18 +4482,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4561,18 +4579,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4658,18 +4676,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4755,18 +4773,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
@@ -4852,18 +4870,18 @@ class CTPChannel :
 
 		################### 等待服务器的返回的数据信息 ###################
 		poller = zmq.Poller()
-		poller.register(self.request, zmq.POLLIN)
+		poller.register(self.response, zmq.POLLIN)
 
 		# 循环读取所有数据
 		respnoseDataList = []
 		while(True):
 			sockets = dict(poller.poll(self.timeout))
-			if not (self.request in sockets) :
+			if not (self.response in sockets) :
 				return ResponseTimeOut
 
 			# 从request通讯管道读取返回信息
 			responseMessage = ResponseMessage()
-			responseMessage.recv(self.request)
+			responseMessage.recv(self.response)
 
 			# 返回数据信息格式符合要求
 			c1 = responseMessage.header == 'RESPONSE'
