@@ -10,6 +10,8 @@ from CTPStruct import *
 from nose.plugins.attrib import attr
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import uuid
+
 
 def setup():
     '''
@@ -58,12 +60,26 @@ def test_connect_to_ctp_converter():
     #requestAddress = 'tcp://localhost:10001'
     requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
     assert requestAddress
+    responseAddress = os.getenv('CTP_RESPONSE_PIPE',None)
+    assert responseAddress
+
+    # 初始化zmq通讯环境
+    context = zmq.Context()
+
+    # 生成客户端地址
+    identity = str(uuid.uuid1())
 
     # 连接request通讯管道
-    context = zmq.Context()
     request = context.socket(zmq.DEALER)
+    request.setsockopt(zmq.IDENTITY,identity)
     request.connect(requestAddress)
     request.setsockopt(zmq.LINGER,0)
+
+    # 连接response通讯管道
+    response = context.socket(zmq.DEALER)
+    response.setsockopt(zmq.IDENTITY,identity)
+    response.connect(responseAddress)
+    response.setsockopt(zmq.LINGER,0)
 
     # 准备调用接口数据
     reqInfo = getDefaultReqInfo(requestApiName)
@@ -100,13 +116,13 @@ def test_connect_to_ctp_converter():
 
     ################### 等待服务器的返回的数据信息 ###################
     poller = zmq.Poller()
-    poller.register(request, zmq.POLLIN)
+    poller.register(response, zmq.POLLIN)
     sockets = dict(poller.poll(timeout))
-    assert request in sockets
+    assert response in sockets
 
-    # 从request通讯管道读取返回信息
+    # 从response通讯管道读取返回信息
     responseMessage = ResponseMessage()
-    responseMessage.recv(request)
+    responseMessage.recv(response)
 
     # 返回数据信息格式
     assert responseMessage.header == 'RESPONSE'
@@ -411,4 +427,4 @@ def test_BuyOpenAndClose():
     else:
         print u'可能由于市场不处于交易状态的原因,开平仓测试没有实际进行测试'
 
-    
+

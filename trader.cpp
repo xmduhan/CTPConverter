@@ -78,6 +78,7 @@ int main(int argc,char * argv[]) {
 
     // 连接对应通讯管道
     request.bind(config.requestPipe);
+    response.bind(config.responsePipe);
     pushback.connect(config.pushbackPipe);
     publish.bind(config.publishPipe);
 
@@ -312,7 +313,7 @@ int main(int argc,char * argv[]) {
                         responseMessage.metaData = pRequestQueueItem->metaData;
 
                         // 发送到客户端
-                        responseMessage.send(request);
+                        responseMessage.send(response);
                     }
                     delete pRequestQueueItem;
                 } catch(std::exception & e) {
@@ -343,7 +344,7 @@ int main(int argc,char * argv[]) {
                             responseMessage.respInfo = pushbackMessage.respInfo;
                             responseMessage.isLast = pushbackMessage.isLast;
                             responseMessage.metaData = pRouteTableItem->metaData;
-                            responseMessage.send(request);
+                            responseMessage.send(response);
                             //std::cout << "main():pushbackMessage.respInfo=" << pushbackMessage.respInfo<< std::endl;
                             std::cout << "main():信息已经成功发送给客户端" << std::endl;
                         } else {
