@@ -187,6 +187,8 @@ mdReqMethodDict = {k:v for k,v in mdMethodDict.iteritems() if k.startswith('Req'
 mdOnRspMethodDict = {k:v for k,v in mdMethodDict.iteritems() if k.startswith('OnRsp') and k != 'OnRspError'}
 
 
+
+
 #%% 查看所有函数的数量
 print 'len(reqMethodDict.keys())=',len(reqMethodDict.keys())
 print 'len(onRspMethodDict.keys())=',len(onRspMethodDict.keys())
@@ -250,6 +252,30 @@ structDict['CThostFtdcRspInfoField']
 ErrorID
 ErrorMsg
 
+#%% 打印所有函数的声明
+methodNameList = methodDict.keys()
+methodNameList.sort()
+for methodName in methodNameList:
+    print methodDict[methodName]['remark']
+    print methodName,'(',
+    parameters = methodDict[methodName]['parameters']    
+    print ','.join([p['name'] for p in parameters]),     
+    print ')'
+    if len(parameters) != 0:
+        for p in parameters:
+            if p['raw_type'] in structDict:
+                print '%s(%s)' % (p['name'],p['raw_type'])
+                fields = structDict[p['raw_type']]['fields']
+                for f in fields:
+                    print '|-%s' % f['name'],
+                    if 'requestid' in f['name'].lower():
+                        print '(*****)',
+                    print                    
+    print '---------------------------------------------------------------'
+#%%
+methodDict['OnRspQryInvestorPosition']['parameters'][0]['raw_type']
+[i['name'] for i in structDict['CThostFtdcInvestorPositionField']['fields']]
+Out[49]: 
 #%% 寻找ctp定义变量中最长的类型
 maxLen = 0
 for i in typedefDict.itervalues():
