@@ -366,19 +366,19 @@ def callOrderInsert(requestData):
         poller.register(publish, zmq.POLLIN)
         sockets = dict(poller.poll(timeout))
         # 由于我们的开单格式正确,不会收到OnRsp消息
-        assert response not in sockets
+        assert response in sockets
         # 应该至少能收到OnRtnOrder消息
-        assert publish in sockets
+        assert publish not in sockets
 
         # 接收第1条OnRtnOrder消息
-        publishMessage = PublishMessage()
-        publishMessage.recv(publish)
-        assert publishMessage.header == 'PUBLISH'
-        assert publishMessage.apiName == 'OnRtnOrder'
-        #print publishMessage.respInfo
+        responseMessage = ResponseMessage()
+        responseMessage.recv(response)
+        assert responseMessage.header == 'RESPONSE'
+        assert responseMessage.apiName == 'OnRtnOrder'
+        #print responseMessage.respInfo
 
         # 读取返回信息
-        respInfo = json.loads(publishMessage.respInfo)
+        respInfo = json.loads(responseMessage.respInfo)
         responseData = respInfo['Parameters']['Data']
 
         # 检查开单的状态
