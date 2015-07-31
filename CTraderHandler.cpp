@@ -8831,6 +8831,7 @@ void CTraderHandler::OnRspQryTrade(
 void CTraderHandler::OnRtnQueryBankBalanceByFuture(
     CThostFtdcNotifyQueryAccountField * pNotifyQueryAccount
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnQueryBankBalanceByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -9159,7 +9160,8 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnQueryBankBalanceByFuture";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -9172,6 +9174,7 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
 void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnRepealFromBankToFutureByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -9562,7 +9565,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnRepealFromBankToFutureByFuture";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -9575,6 +9579,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
 void CTraderHandler::OnRtnFromBankToFutureByBank(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnFromBankToFutureByBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -9931,7 +9936,8 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnFromBankToFutureByBank";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -9944,6 +9950,7 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
 void CTraderHandler::OnRtnCFMMCTradingAccountToken(
     CThostFtdcCFMMCTradingAccountTokenField * pCFMMCTradingAccountToken
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnCFMMCTradingAccountToken():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -10010,7 +10017,8 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnCFMMCTradingAccountToken";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -10023,6 +10031,7 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
 void CTraderHandler::OnRtnInstrumentStatus(
     CThostFtdcInstrumentStatusField * pInstrumentStatus
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnInstrumentStatus():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -10111,7 +10120,8 @@ void CTraderHandler::OnRtnInstrumentStatus(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnInstrumentStatus";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -10124,6 +10134,7 @@ void CTraderHandler::OnRtnInstrumentStatus(
 void CTraderHandler::OnRtnTradingNotice(
     CThostFtdcTradingNoticeInfoField * pTradingNoticeInfo
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnTradingNotice():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -10193,7 +10204,8 @@ void CTraderHandler::OnRtnTradingNotice(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnTradingNotice";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -10206,6 +10218,7 @@ void CTraderHandler::OnRtnTradingNotice(
 void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnRepealFromFutureToBankByFutureManual():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -10596,7 +10609,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnRepealFromFutureToBankByFutureManual";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -10609,6 +10623,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 void CTraderHandler::OnRtnFromBankToFutureByFuture(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnFromBankToFutureByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -10965,7 +10980,8 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnFromBankToFutureByFuture";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -10978,6 +10994,7 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
 void CTraderHandler::OnRtnFromFutureToBankByBank(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnFromFutureToBankByBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -11334,7 +11351,8 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnFromFutureToBankByBank";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -11347,6 +11365,7 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
 void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnRepealFromBankToFutureByFutureManual():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -11737,7 +11756,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnRepealFromBankToFutureByFutureManual";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -11750,6 +11770,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
 void CTraderHandler::OnRtnFromFutureToBankByFuture(
     CThostFtdcRspTransferField * pRspTransfer
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnFromFutureToBankByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -12106,7 +12127,8 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnFromFutureToBankByFuture";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -12119,6 +12141,7 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
 void CTraderHandler::OnRtnChangeAccountByBank(
     CThostFtdcChangeAccountField * pChangeAccount
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnChangeAccountByBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -12491,7 +12514,8 @@ void CTraderHandler::OnRtnChangeAccountByBank(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnChangeAccountByBank";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -12504,6 +12528,7 @@ void CTraderHandler::OnRtnChangeAccountByBank(
 void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnRepealFromFutureToBankByBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -12894,7 +12919,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnRepealFromFutureToBankByBank";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -12907,6 +12933,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 void CTraderHandler::OnRtnOpenAccountByBank(
     CThostFtdcOpenAccountField * pOpenAccount
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnOpenAccountByBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -13311,7 +13338,8 @@ void CTraderHandler::OnRtnOpenAccountByBank(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnOpenAccountByBank";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -13324,6 +13352,7 @@ void CTraderHandler::OnRtnOpenAccountByBank(
 void CTraderHandler::OnRtnTrade(
     CThostFtdcTradeField * pTrade
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnTrade():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -13584,7 +13613,8 @@ void CTraderHandler::OnRtnTrade(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnTrade";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -13597,6 +13627,7 @@ void CTraderHandler::OnRtnTrade(
 void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnRepealFromFutureToBankByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -13987,7 +14018,8 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnRepealFromFutureToBankByFuture";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -14000,6 +14032,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
 void CTraderHandler::OnRtnErrorConditionalOrder(
     CThostFtdcErrorConditionalOrderField * pErrorConditionalOrder
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnErrorConditionalOrder():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -14440,7 +14473,8 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnErrorConditionalOrder";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -14453,6 +14487,7 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
     CThostFtdcRspRepealField * pRspRepeal
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnRepealFromBankToFutureByBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -14843,7 +14878,8 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnRepealFromBankToFutureByBank";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -14856,6 +14892,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
 void CTraderHandler::OnRtnOrder(
     CThostFtdcOrderField * pOrder
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnOrder():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -15283,7 +15320,8 @@ void CTraderHandler::OnRtnOrder(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnOrder";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -15296,6 +15334,7 @@ void CTraderHandler::OnRtnOrder(
 void CTraderHandler::OnRtnCancelAccountByBank(
     CThostFtdcCancelAccountField * pCancelAccount
 ) {
+    int nRequestID = 0;
     std::cout << "OnRtnCancelAccountByBank():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -15700,7 +15739,8 @@ void CTraderHandler::OnRtnCancelAccountByBank(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRtnCancelAccountByBank";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -15720,6 +15760,7 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
     CThostFtdcReqRepealField * pReqRepeal,
     CThostFtdcRspInfoField * pRspInfo
 ) {
+    int nRequestID = 0;
     std::cout << "OnErrRtnRepealFutureToBankByFutureManual():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -16097,7 +16138,8 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnErrRtnRepealFutureToBankByFutureManual";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -16111,6 +16153,7 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
     CThostFtdcReqTransferField * pReqTransfer,
     CThostFtdcRspInfoField * pRspInfo
 ) {
+    int nRequestID = 0;
     std::cout << "OnErrRtnFutureToBankByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -16454,7 +16497,8 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnErrRtnFutureToBankByFuture";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -16468,6 +16512,7 @@ void CTraderHandler::OnErrRtnOrderInsert(
     CThostFtdcInputOrderField * pInputOrder,
     CThostFtdcRspInfoField * pRspInfo
 ) {
+    int nRequestID = 0;
     std::cout << "OnErrRtnOrderInsert():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -16641,7 +16686,8 @@ void CTraderHandler::OnErrRtnOrderInsert(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnErrRtnOrderInsert";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -16655,6 +16701,7 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
     CThostFtdcReqRepealField * pReqRepeal,
     CThostFtdcRspInfoField * pRspInfo
 ) {
+    int nRequestID = 0;
     std::cout << "OnErrRtnRepealBankToFutureByFutureManual():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -17032,7 +17079,8 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnErrRtnRepealBankToFutureByFutureManual";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -17046,6 +17094,7 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
     CThostFtdcReqTransferField * pReqTransfer,
     CThostFtdcRspInfoField * pRspInfo
 ) {
+    int nRequestID = 0;
     std::cout << "OnErrRtnBankToFutureByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -17389,7 +17438,8 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnErrRtnBankToFutureByFuture";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -17403,6 +17453,7 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
     CThostFtdcReqQueryAccountField * pReqQueryAccount,
     CThostFtdcRspInfoField * pRspInfo
 ) {
+    int nRequestID = 0;
     std::cout << "OnErrRtnQueryBankBalanceByFuture():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -17712,7 +17763,8 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnErrRtnQueryBankBalanceByFuture";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
@@ -17726,6 +17778,7 @@ void CTraderHandler::OnErrRtnOrderAction(
     CThostFtdcOrderActionField * pOrderAction,
     CThostFtdcRspInfoField * pRspInfo
 ) {
+    int nRequestID = 0;
     std::cout << "OnErrRtnOrderAction():开始执行..." << std::endl;
 
     // 生成发送管道的引用
@@ -17942,7 +17995,8 @@ void CTraderHandler::OnErrRtnOrderAction(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnErrRtnOrderAction";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";

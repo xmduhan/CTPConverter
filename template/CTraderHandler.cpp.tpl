@@ -149,7 +149,8 @@ static char buffer[1024*10];
 		{% endif -%}
 	{%- endfor %}
 ){
-	std::cout << "{{method['name']}}():开始执行..." << std::endl;
+	int nRequestID = 0;
+    std::cout << "{{method['name']}}():开始执行..." << std::endl;
 
 	// 生成发送管道的引用
 	zmq::socket_t & sender = *pSender;
@@ -192,7 +193,8 @@ static char buffer[1024*10];
 
 	// 打包消息结构并压入Pushback管道
 	PushbackMessage message;
-	message.requestID = "0";
+	sprintf(buffer,"%d",nRequestID);
+	message.requestID = buffer;
 	message.apiName = "{{method['name']}}";
 	message.respInfo = json_Response.toStyledString();
 	message.isLast = "0";
@@ -215,6 +217,7 @@ static char buffer[1024*10];
 		{% endif -%}
 	{%- endfor %}
 ){
+    int nRequestID = 0;
 	std::cout << "{{method['name']}}():开始执行..." << std::endl;
 
 	// 生成发送管道的引用
@@ -258,7 +261,8 @@ static char buffer[1024*10];
 
 	// 打包消息结构并压入Pushback管道
 	PushbackMessage message;
-	message.requestID = "0";
+	sprintf(buffer,"%d",nRequestID);
+	message.requestID = buffer;
 	message.apiName = "{{method['name']}}";
 	message.respInfo = json_Response.toStyledString();
 	message.isLast = "0";
