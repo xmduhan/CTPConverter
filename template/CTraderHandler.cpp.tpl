@@ -182,6 +182,9 @@ static char buffer[1024*10];
 				{% endif %}
 			{% else %}
 				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+                {% if  field['name'] == 'RequestID' %}
+                    nRequestID = {{dataVarName}}->{{field['name']}};
+                {% endif %}
 			{% endif %}
 		{%- endfor %}
 	}
@@ -250,6 +253,9 @@ static char buffer[1024*10];
 				{% endif %}
 			{% else %}
 				json_{{dataVarName}}["{{field['name']}}"] = {{dataVarName}}->{{field['name']}};
+                {% if  field['name'] == 'RequestID' %}
+                    nRequestID = {{dataVarName}}->{{field['name']}};
+                {% endif %}
 			{% endif %}
 		{%- endfor %}
 	}

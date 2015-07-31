@@ -176,11 +176,15 @@ std::string CTraderWrapper::getLastErrorMsg(){
 						data.{{field['name']}} = '0';
 					}
 				{% elif typeInfo['type'] == 'int' -%}
-					if (!Data["{{field['name']}}"].empty()){
-						data.{{field['name']}} = Data["{{field['name']}}"].asInt();
-					}else{
-						data.{{field['name']}} = 0;
-					}
+                    {% if  field['name'] == 'RequestID' %}
+                         data.{{field['name']}}  = requestID;
+                    {% else %}
+                        if (!Data["{{field['name']}}"].empty()){
+						    data.{{field['name']}} = Data["{{field['name']}}"].asInt();
+					    }else{
+						    data.{{field['name']}} = 0;
+					    }
+                    {% endif %}
 				{% elif typeInfo['type'] == 'double' -%}
 					if (!Data["{{field['name']}}"].empty()){
 						data.{{field['name']}} = Data["{{field['name']}}"].asDouble();

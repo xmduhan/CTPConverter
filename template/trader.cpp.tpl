@@ -381,7 +381,7 @@ int main(int argc,char * argv[]){
         if ( loopTimes >= 1000 ){
             loopTimes = 0;
             std::cout << "main():" << "完成了1000次循环,"
-            << "路由表中元素数量为:" <<  routeTable.size() << std::endl;
+            << "路由表中元素数量为:" <<  routeTable.size() << ",seqRequestID=" << seqRequestID << std::endl;
             // 遍历路由表
             for (iterRouteTable = routeTable.begin(); iterRouteTable != routeTable.end(); iterRouteTable++ ){
                 //std::cout <<  iterRouteTable->first << "=" << iterRouteTable->second << std::endl;

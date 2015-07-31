@@ -8941,12 +8941,14 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
 
 
 
+
         sprintf(buffer,"%c",pNotifyQueryAccount->LastFragment);
         json_pNotifyQueryAccount["LastFragment"] = buffer;
 
 
 
         json_pNotifyQueryAccount["SessionID"] = pNotifyQueryAccount->SessionID;
+
 
 
 
@@ -9024,7 +9026,9 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
         json_pNotifyQueryAccount["FutureSerial"] = pNotifyQueryAccount->FutureSerial;
 
 
+
         json_pNotifyQueryAccount["InstallID"] = pNotifyQueryAccount->InstallID;
+
 
 
 
@@ -9129,17 +9133,24 @@ void CTraderHandler::OnRtnQueryBankBalanceByFuture(
 
         json_pNotifyQueryAccount["RequestID"] = pNotifyQueryAccount->RequestID;
 
+        nRequestID = pNotifyQueryAccount->RequestID;
+
+
 
         json_pNotifyQueryAccount["TID"] = pNotifyQueryAccount->TID;
+
 
 
         json_pNotifyQueryAccount["BankUseAmount"] = pNotifyQueryAccount->BankUseAmount;
 
 
+
         json_pNotifyQueryAccount["BankFetchAmount"] = pNotifyQueryAccount->BankFetchAmount;
 
 
+
         json_pNotifyQueryAccount["ErrorID"] = pNotifyQueryAccount->ErrorID;
+
 
 
 
@@ -9193,7 +9204,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
 
 
+
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
 
 
 
@@ -9212,6 +9225,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
 
 
 
+
         gbk2utf8(
             pRspRepeal->BankRepealSerial,
             buffer,
@@ -9222,6 +9236,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
 
 
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
 
@@ -9318,12 +9333,14 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
 
 
 
+
         sprintf(buffer,"%c",pRspRepeal->LastFragment);
         json_pRspRepeal["LastFragment"] = buffer;
 
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
 
@@ -9401,7 +9418,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
+
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
 
@@ -9433,7 +9452,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
+
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
 
 
 
@@ -9445,7 +9466,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
+
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
 
@@ -9534,8 +9557,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
 
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
+        nRequestID = pRspRepeal->RequestID;
+
+
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
+
 
 
 
@@ -9545,6 +9572,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFuture(
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
 
@@ -9689,12 +9717,14 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
 
 
 
+
         sprintf(buffer,"%c",pRspTransfer->LastFragment);
         json_pRspTransfer["LastFragment"] = buffer;
 
 
 
         json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
 
 
 
@@ -9772,7 +9802,9 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
 
 
+
         json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
 
 
 
@@ -9804,7 +9836,9 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
 
 
+
         json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
+
 
 
 
@@ -9816,7 +9850,9 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
         json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
 
 
+
         json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
 
 
 
@@ -9905,8 +9941,12 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
 
         json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
 
+        nRequestID = pRspTransfer->RequestID;
+
+
 
         json_pRspTransfer["TID"] = pRspTransfer->TID;
+
 
 
 
@@ -9916,6 +9956,7 @@ void CTraderHandler::OnRtnFromBankToFutureByBank(
 
 
         json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
 
 
 
@@ -9997,6 +10038,7 @@ void CTraderHandler::OnRtnCFMMCTradingAccountToken(
 
 
         json_pCFMMCTradingAccountToken["KeyID"] = pCFMMCTradingAccountToken->KeyID;
+
 
 
 
@@ -10097,6 +10139,7 @@ void CTraderHandler::OnRtnInstrumentStatus(
 
 
 
+
         gbk2utf8(
             pInstrumentStatus->EnterTime,
             buffer,
@@ -10193,7 +10236,9 @@ void CTraderHandler::OnRtnTradingNotice(
         json_pTradingNoticeInfo["SequenceSeries"] = pTradingNoticeInfo->SequenceSeries;
 
 
+
         json_pTradingNoticeInfo["SequenceNo"] = pTradingNoticeInfo->SequenceNo;
+
 
     }
 
@@ -10237,7 +10282,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
 
 
+
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
 
 
 
@@ -10256,6 +10303,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 
 
 
+
         gbk2utf8(
             pRspRepeal->BankRepealSerial,
             buffer,
@@ -10266,6 +10314,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 
 
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
 
@@ -10362,12 +10411,14 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 
 
 
+
         sprintf(buffer,"%c",pRspRepeal->LastFragment);
         json_pRspRepeal["LastFragment"] = buffer;
 
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
 
@@ -10445,7 +10496,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
+
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
 
@@ -10477,7 +10530,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
+
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
 
 
 
@@ -10489,7 +10544,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
+
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
 
@@ -10578,8 +10635,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
+        nRequestID = pRspRepeal->RequestID;
+
+
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
+
 
 
 
@@ -10589,6 +10650,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFutureManual(
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
 
@@ -10733,12 +10795,14 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
 
 
 
+
         sprintf(buffer,"%c",pRspTransfer->LastFragment);
         json_pRspTransfer["LastFragment"] = buffer;
 
 
 
         json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
 
 
 
@@ -10816,7 +10880,9 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
 
 
+
         json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
 
 
 
@@ -10848,7 +10914,9 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
 
 
+
         json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
+
 
 
 
@@ -10860,7 +10928,9 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
         json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
 
 
+
         json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
 
 
 
@@ -10949,8 +11019,12 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
 
         json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
 
+        nRequestID = pRspTransfer->RequestID;
+
+
 
         json_pRspTransfer["TID"] = pRspTransfer->TID;
+
 
 
 
@@ -10960,6 +11034,7 @@ void CTraderHandler::OnRtnFromBankToFutureByFuture(
 
 
         json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
 
 
 
@@ -11104,12 +11179,14 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
 
 
 
+
         sprintf(buffer,"%c",pRspTransfer->LastFragment);
         json_pRspTransfer["LastFragment"] = buffer;
 
 
 
         json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
 
 
 
@@ -11187,7 +11264,9 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
 
 
+
         json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
 
 
 
@@ -11219,7 +11298,9 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
 
 
+
         json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
+
 
 
 
@@ -11231,7 +11312,9 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
         json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
 
 
+
         json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
 
 
 
@@ -11320,8 +11403,12 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
 
         json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
 
+        nRequestID = pRspTransfer->RequestID;
+
+
 
         json_pRspTransfer["TID"] = pRspTransfer->TID;
+
 
 
 
@@ -11331,6 +11418,7 @@ void CTraderHandler::OnRtnFromFutureToBankByBank(
 
 
         json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
 
 
 
@@ -11384,7 +11472,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
 
 
+
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
 
 
 
@@ -11403,6 +11493,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
 
 
 
+
         gbk2utf8(
             pRspRepeal->BankRepealSerial,
             buffer,
@@ -11413,6 +11504,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
 
 
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
 
@@ -11509,12 +11601,14 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
 
 
 
+
         sprintf(buffer,"%c",pRspRepeal->LastFragment);
         json_pRspRepeal["LastFragment"] = buffer;
 
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
 
@@ -11592,7 +11686,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
+
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
 
@@ -11624,7 +11720,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
+
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
 
 
 
@@ -11636,7 +11734,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
+
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
 
@@ -11725,8 +11825,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
 
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
+        nRequestID = pRspRepeal->RequestID;
+
+
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
+
 
 
 
@@ -11736,6 +11840,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByFutureManual(
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
 
@@ -11880,12 +11985,14 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
 
 
 
+
         sprintf(buffer,"%c",pRspTransfer->LastFragment);
         json_pRspTransfer["LastFragment"] = buffer;
 
 
 
         json_pRspTransfer["SessionID"] = pRspTransfer->SessionID;
+
 
 
 
@@ -11963,7 +12070,9 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["InstallID"] = pRspTransfer->InstallID;
 
 
+
         json_pRspTransfer["FutureSerial"] = pRspTransfer->FutureSerial;
+
 
 
 
@@ -11995,7 +12104,9 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["TradeAmount"] = pRspTransfer->TradeAmount;
 
 
+
         json_pRspTransfer["FutureFetchAmount"] = pRspTransfer->FutureFetchAmount;
+
 
 
 
@@ -12007,7 +12118,9 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
         json_pRspTransfer["CustFee"] = pRspTransfer->CustFee;
 
 
+
         json_pRspTransfer["BrokerFee"] = pRspTransfer->BrokerFee;
+
 
 
 
@@ -12096,8 +12209,12 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
 
         json_pRspTransfer["RequestID"] = pRspTransfer->RequestID;
 
+        nRequestID = pRspTransfer->RequestID;
+
+
 
         json_pRspTransfer["TID"] = pRspTransfer->TID;
+
 
 
 
@@ -12107,6 +12224,7 @@ void CTraderHandler::OnRtnFromFutureToBankByFuture(
 
 
         json_pRspTransfer["ErrorID"] = pRspTransfer->ErrorID;
+
 
 
 
@@ -12251,12 +12369,14 @@ void CTraderHandler::OnRtnChangeAccountByBank(
 
 
 
+
         sprintf(buffer,"%c",pChangeAccount->LastFragment);
         json_pChangeAccount["LastFragment"] = buffer;
 
 
 
         json_pChangeAccount["SessionID"] = pChangeAccount->SessionID;
+
 
 
 
@@ -12443,6 +12563,7 @@ void CTraderHandler::OnRtnChangeAccountByBank(
 
 
 
+
         sprintf(buffer,"%c",pChangeAccount->VerifyCertNoFlag);
         json_pChangeAccount["VerifyCertNoFlag"] = buffer;
 
@@ -12484,6 +12605,7 @@ void CTraderHandler::OnRtnChangeAccountByBank(
 
 
 
+
         gbk2utf8(
             pChangeAccount->Digest,
             buffer,
@@ -12494,6 +12616,7 @@ void CTraderHandler::OnRtnChangeAccountByBank(
 
 
         json_pChangeAccount["ErrorID"] = pChangeAccount->ErrorID;
+
 
 
 
@@ -12547,7 +12670,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
 
 
+
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
 
 
 
@@ -12566,6 +12691,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 
 
 
+
         gbk2utf8(
             pRspRepeal->BankRepealSerial,
             buffer,
@@ -12576,6 +12702,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 
 
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
 
@@ -12672,12 +12799,14 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 
 
 
+
         sprintf(buffer,"%c",pRspRepeal->LastFragment);
         json_pRspRepeal["LastFragment"] = buffer;
 
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
 
@@ -12755,7 +12884,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
+
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
 
@@ -12787,7 +12918,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
+
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
 
 
 
@@ -12799,7 +12932,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
+
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
 
@@ -12888,8 +13023,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
+        nRequestID = pRspRepeal->RequestID;
+
+
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
+
 
 
 
@@ -12899,6 +13038,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByBank(
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
 
@@ -13043,12 +13183,14 @@ void CTraderHandler::OnRtnOpenAccountByBank(
 
 
 
+
         sprintf(buffer,"%c",pOpenAccount->LastFragment);
         json_pOpenAccount["LastFragment"] = buffer;
 
 
 
         json_pOpenAccount["SessionID"] = pOpenAccount->SessionID;
+
 
 
 
@@ -13209,6 +13351,7 @@ void CTraderHandler::OnRtnOpenAccountByBank(
 
 
 
+
         sprintf(buffer,"%c",pOpenAccount->VerifyCertNoFlag);
         json_pOpenAccount["VerifyCertNoFlag"] = buffer;
 
@@ -13308,6 +13451,7 @@ void CTraderHandler::OnRtnOpenAccountByBank(
 
 
 
+
         gbk2utf8(
             pOpenAccount->UserID,
             buffer,
@@ -13318,6 +13462,7 @@ void CTraderHandler::OnRtnOpenAccountByBank(
 
 
         json_pOpenAccount["ErrorID"] = pOpenAccount->ErrorID;
+
 
 
 
@@ -13505,7 +13650,9 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["Price"] = pTrade->Price;
 
 
+
         json_pTrade["Volume"] = pTrade->Volume;
+
 
 
 
@@ -13584,6 +13731,7 @@ void CTraderHandler::OnRtnTrade(
 
 
 
+
         gbk2utf8(
             pTrade->TradingDay,
             buffer,
@@ -13596,7 +13744,9 @@ void CTraderHandler::OnRtnTrade(
         json_pTrade["SettlementID"] = pTrade->SettlementID;
 
 
+
         json_pTrade["BrokerOrderSeq"] = pTrade->BrokerOrderSeq;
+
 
 
 
@@ -13646,7 +13796,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
 
 
+
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
 
 
 
@@ -13665,6 +13817,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
 
 
 
+
         gbk2utf8(
             pRspRepeal->BankRepealSerial,
             buffer,
@@ -13675,6 +13828,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
 
 
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
 
@@ -13771,12 +13925,14 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
 
 
 
+
         sprintf(buffer,"%c",pRspRepeal->LastFragment);
         json_pRspRepeal["LastFragment"] = buffer;
 
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
 
@@ -13854,7 +14010,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
+
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
 
@@ -13886,7 +14044,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
+
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
 
 
 
@@ -13898,7 +14058,9 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
+
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
 
@@ -13987,8 +14149,12 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
 
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
+        nRequestID = pRspRepeal->RequestID;
+
+
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
+
 
 
 
@@ -13998,6 +14164,7 @@ void CTraderHandler::OnRtnRepealFromFutureToBankByFuture(
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
 
@@ -14133,7 +14300,9 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["LimitPrice"] = pErrorConditionalOrder->LimitPrice;
 
 
+
         json_pErrorConditionalOrder["VolumeTotalOriginal"] = pErrorConditionalOrder->VolumeTotalOriginal;
+
 
 
 
@@ -14162,6 +14331,7 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
 
 
+
         sprintf(buffer,"%c",pErrorConditionalOrder->ContingentCondition);
         json_pErrorConditionalOrder["ContingentCondition"] = buffer;
 
@@ -14171,12 +14341,14 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
 
 
+
         sprintf(buffer,"%c",pErrorConditionalOrder->ForceCloseReason);
         json_pErrorConditionalOrder["ForceCloseReason"] = buffer;
 
 
 
         json_pErrorConditionalOrder["IsAutoSuspend"] = pErrorConditionalOrder->IsAutoSuspend;
+
 
 
 
@@ -14190,6 +14362,9 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
 
         json_pErrorConditionalOrder["RequestID"] = pErrorConditionalOrder->RequestID;
+
+        nRequestID = pErrorConditionalOrder->RequestID;
+
 
 
 
@@ -14256,12 +14431,14 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
 
 
+
         sprintf(buffer,"%c",pErrorConditionalOrder->OrderSubmitStatus);
         json_pErrorConditionalOrder["OrderSubmitStatus"] = buffer;
 
 
 
         json_pErrorConditionalOrder["NotifySequence"] = pErrorConditionalOrder->NotifySequence;
+
 
 
 
@@ -14275,6 +14452,7 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
 
         json_pErrorConditionalOrder["SettlementID"] = pErrorConditionalOrder->SettlementID;
+
 
 
 
@@ -14308,7 +14486,9 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["VolumeTraded"] = pErrorConditionalOrder->VolumeTraded;
 
 
+
         json_pErrorConditionalOrder["VolumeTotal"] = pErrorConditionalOrder->VolumeTotal;
+
 
 
 
@@ -14394,10 +14574,13 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["SequenceNo"] = pErrorConditionalOrder->SequenceNo;
 
 
+
         json_pErrorConditionalOrder["FrontID"] = pErrorConditionalOrder->FrontID;
 
 
+
         json_pErrorConditionalOrder["SessionID"] = pErrorConditionalOrder->SessionID;
+
 
 
 
@@ -14424,6 +14607,7 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
 
 
+
         gbk2utf8(
             pErrorConditionalOrder->ActiveUserID,
             buffer,
@@ -14434,6 +14618,7 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
 
         json_pErrorConditionalOrder["BrokerOrderSeq"] = pErrorConditionalOrder->BrokerOrderSeq;
+
 
 
 
@@ -14449,7 +14634,9 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
         json_pErrorConditionalOrder["ZCETotalTradedVolume"] = pErrorConditionalOrder->ZCETotalTradedVolume;
 
 
+
         json_pErrorConditionalOrder["ErrorID"] = pErrorConditionalOrder->ErrorID;
+
 
 
 
@@ -14463,6 +14650,7 @@ void CTraderHandler::OnRtnErrorConditionalOrder(
 
 
         json_pErrorConditionalOrder["IsSwapOrder"] = pErrorConditionalOrder->IsSwapOrder;
+
 
     }
 
@@ -14506,7 +14694,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["RepealTimeInterval"] = pRspRepeal->RepealTimeInterval;
 
 
+
         json_pRspRepeal["RepealedTimes"] = pRspRepeal->RepealedTimes;
+
 
 
 
@@ -14525,6 +14715,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
 
 
 
+
         gbk2utf8(
             pRspRepeal->BankRepealSerial,
             buffer,
@@ -14535,6 +14726,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
 
 
         json_pRspRepeal["FutureRepealSerial"] = pRspRepeal->FutureRepealSerial;
+
 
 
 
@@ -14631,12 +14823,14 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
 
 
 
+
         sprintf(buffer,"%c",pRspRepeal->LastFragment);
         json_pRspRepeal["LastFragment"] = buffer;
 
 
 
         json_pRspRepeal["SessionID"] = pRspRepeal->SessionID;
+
 
 
 
@@ -14714,7 +14908,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["InstallID"] = pRspRepeal->InstallID;
 
 
+
         json_pRspRepeal["FutureSerial"] = pRspRepeal->FutureSerial;
+
 
 
 
@@ -14746,7 +14942,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["TradeAmount"] = pRspRepeal->TradeAmount;
 
 
+
         json_pRspRepeal["FutureFetchAmount"] = pRspRepeal->FutureFetchAmount;
+
 
 
 
@@ -14758,7 +14956,9 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
         json_pRspRepeal["CustFee"] = pRspRepeal->CustFee;
 
 
+
         json_pRspRepeal["BrokerFee"] = pRspRepeal->BrokerFee;
+
 
 
 
@@ -14847,8 +15047,12 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
 
         json_pRspRepeal["RequestID"] = pRspRepeal->RequestID;
 
+        nRequestID = pRspRepeal->RequestID;
+
+
 
         json_pRspRepeal["TID"] = pRspRepeal->TID;
+
 
 
 
@@ -14858,6 +15062,7 @@ void CTraderHandler::OnRtnRepealFromBankToFutureByBank(
 
 
         json_pRspRepeal["ErrorID"] = pRspRepeal->ErrorID;
+
 
 
 
@@ -14993,7 +15198,9 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["LimitPrice"] = pOrder->LimitPrice;
 
 
+
         json_pOrder["VolumeTotalOriginal"] = pOrder->VolumeTotalOriginal;
+
 
 
 
@@ -15022,6 +15229,7 @@ void CTraderHandler::OnRtnOrder(
 
 
 
+
         sprintf(buffer,"%c",pOrder->ContingentCondition);
         json_pOrder["ContingentCondition"] = buffer;
 
@@ -15031,12 +15239,14 @@ void CTraderHandler::OnRtnOrder(
 
 
 
+
         sprintf(buffer,"%c",pOrder->ForceCloseReason);
         json_pOrder["ForceCloseReason"] = buffer;
 
 
 
         json_pOrder["IsAutoSuspend"] = pOrder->IsAutoSuspend;
+
 
 
 
@@ -15050,6 +15260,9 @@ void CTraderHandler::OnRtnOrder(
 
 
         json_pOrder["RequestID"] = pOrder->RequestID;
+
+        nRequestID = pOrder->RequestID;
+
 
 
 
@@ -15116,12 +15329,14 @@ void CTraderHandler::OnRtnOrder(
 
 
 
+
         sprintf(buffer,"%c",pOrder->OrderSubmitStatus);
         json_pOrder["OrderSubmitStatus"] = buffer;
 
 
 
         json_pOrder["NotifySequence"] = pOrder->NotifySequence;
+
 
 
 
@@ -15135,6 +15350,7 @@ void CTraderHandler::OnRtnOrder(
 
 
         json_pOrder["SettlementID"] = pOrder->SettlementID;
+
 
 
 
@@ -15168,7 +15384,9 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["VolumeTraded"] = pOrder->VolumeTraded;
 
 
+
         json_pOrder["VolumeTotal"] = pOrder->VolumeTotal;
+
 
 
 
@@ -15254,10 +15472,13 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["SequenceNo"] = pOrder->SequenceNo;
 
 
+
         json_pOrder["FrontID"] = pOrder->FrontID;
 
 
+
         json_pOrder["SessionID"] = pOrder->SessionID;
+
 
 
 
@@ -15284,6 +15505,7 @@ void CTraderHandler::OnRtnOrder(
 
 
 
+
         gbk2utf8(
             pOrder->ActiveUserID,
             buffer,
@@ -15294,6 +15516,7 @@ void CTraderHandler::OnRtnOrder(
 
 
         json_pOrder["BrokerOrderSeq"] = pOrder->BrokerOrderSeq;
+
 
 
 
@@ -15309,7 +15532,9 @@ void CTraderHandler::OnRtnOrder(
         json_pOrder["ZCETotalTradedVolume"] = pOrder->ZCETotalTradedVolume;
 
 
+
         json_pOrder["IsSwapOrder"] = pOrder->IsSwapOrder;
+
 
     }
 
@@ -15444,12 +15669,14 @@ void CTraderHandler::OnRtnCancelAccountByBank(
 
 
 
+
         sprintf(buffer,"%c",pCancelAccount->LastFragment);
         json_pCancelAccount["LastFragment"] = buffer;
 
 
 
         json_pCancelAccount["SessionID"] = pCancelAccount->SessionID;
+
 
 
 
@@ -15610,6 +15837,7 @@ void CTraderHandler::OnRtnCancelAccountByBank(
 
 
 
+
         sprintf(buffer,"%c",pCancelAccount->VerifyCertNoFlag);
         json_pCancelAccount["VerifyCertNoFlag"] = buffer;
 
@@ -15709,6 +15937,7 @@ void CTraderHandler::OnRtnCancelAccountByBank(
 
 
 
+
         gbk2utf8(
             pCancelAccount->UserID,
             buffer,
@@ -15719,6 +15948,7 @@ void CTraderHandler::OnRtnCancelAccountByBank(
 
 
         json_pCancelAccount["ErrorID"] = pCancelAccount->ErrorID;
+
 
 
 
@@ -15779,7 +16009,9 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["RepealTimeInterval"] = pReqRepeal->RepealTimeInterval;
 
 
+
         json_pReqRepeal["RepealedTimes"] = pReqRepeal->RepealedTimes;
+
 
 
 
@@ -15798,6 +16030,7 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
 
 
 
+
         gbk2utf8(
             pReqRepeal->BankRepealSerial,
             buffer,
@@ -15808,6 +16041,7 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
 
 
         json_pReqRepeal["FutureRepealSerial"] = pReqRepeal->FutureRepealSerial;
+
 
 
 
@@ -15904,12 +16138,14 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
 
 
 
+
         sprintf(buffer,"%c",pReqRepeal->LastFragment);
         json_pReqRepeal["LastFragment"] = buffer;
 
 
 
         json_pReqRepeal["SessionID"] = pReqRepeal->SessionID;
+
 
 
 
@@ -15987,7 +16223,9 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["InstallID"] = pReqRepeal->InstallID;
 
 
+
         json_pReqRepeal["FutureSerial"] = pReqRepeal->FutureSerial;
+
 
 
 
@@ -16019,7 +16257,9 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["TradeAmount"] = pReqRepeal->TradeAmount;
 
 
+
         json_pReqRepeal["FutureFetchAmount"] = pReqRepeal->FutureFetchAmount;
+
 
 
 
@@ -16031,7 +16271,9 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
         json_pReqRepeal["CustFee"] = pReqRepeal->CustFee;
 
 
+
         json_pReqRepeal["BrokerFee"] = pReqRepeal->BrokerFee;
+
 
 
 
@@ -16120,8 +16362,12 @@ void CTraderHandler::OnErrRtnRepealFutureToBankByFutureManual(
 
         json_pReqRepeal["RequestID"] = pReqRepeal->RequestID;
 
+        nRequestID = pReqRepeal->RequestID;
+
+
 
         json_pReqRepeal["TID"] = pReqRepeal->TID;
+
 
 
 
@@ -16263,12 +16509,14 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
 
 
 
+
         sprintf(buffer,"%c",pReqTransfer->LastFragment);
         json_pReqTransfer["LastFragment"] = buffer;
 
 
 
         json_pReqTransfer["SessionID"] = pReqTransfer->SessionID;
+
 
 
 
@@ -16346,7 +16594,9 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["InstallID"] = pReqTransfer->InstallID;
 
 
+
         json_pReqTransfer["FutureSerial"] = pReqTransfer->FutureSerial;
+
 
 
 
@@ -16378,7 +16628,9 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["TradeAmount"] = pReqTransfer->TradeAmount;
 
 
+
         json_pReqTransfer["FutureFetchAmount"] = pReqTransfer->FutureFetchAmount;
+
 
 
 
@@ -16390,7 +16642,9 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
         json_pReqTransfer["CustFee"] = pReqTransfer->CustFee;
 
 
+
         json_pReqTransfer["BrokerFee"] = pReqTransfer->BrokerFee;
+
 
 
 
@@ -16479,8 +16733,12 @@ void CTraderHandler::OnErrRtnFutureToBankByFuture(
 
         json_pReqTransfer["RequestID"] = pReqTransfer->RequestID;
 
+        nRequestID = pReqTransfer->RequestID;
+
+
 
         json_pReqTransfer["TID"] = pReqTransfer->TID;
+
 
 
 
@@ -16613,7 +16871,9 @@ void CTraderHandler::OnErrRtnOrderInsert(
         json_pInputOrder["LimitPrice"] = pInputOrder->LimitPrice;
 
 
+
         json_pInputOrder["VolumeTotalOriginal"] = pInputOrder->VolumeTotalOriginal;
+
 
 
 
@@ -16642,6 +16902,7 @@ void CTraderHandler::OnErrRtnOrderInsert(
 
 
 
+
         sprintf(buffer,"%c",pInputOrder->ContingentCondition);
         json_pInputOrder["ContingentCondition"] = buffer;
 
@@ -16651,12 +16912,14 @@ void CTraderHandler::OnErrRtnOrderInsert(
 
 
 
+
         sprintf(buffer,"%c",pInputOrder->ForceCloseReason);
         json_pInputOrder["ForceCloseReason"] = buffer;
 
 
 
         json_pInputOrder["IsAutoSuspend"] = pInputOrder->IsAutoSuspend;
+
 
 
 
@@ -16671,11 +16934,16 @@ void CTraderHandler::OnErrRtnOrderInsert(
 
         json_pInputOrder["RequestID"] = pInputOrder->RequestID;
 
+        nRequestID = pInputOrder->RequestID;
+
+
 
         json_pInputOrder["UserForceClose"] = pInputOrder->UserForceClose;
 
 
+
         json_pInputOrder["IsSwapOrder"] = pInputOrder->IsSwapOrder;
+
 
     }
 
@@ -16720,7 +16988,9 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["RepealTimeInterval"] = pReqRepeal->RepealTimeInterval;
 
 
+
         json_pReqRepeal["RepealedTimes"] = pReqRepeal->RepealedTimes;
+
 
 
 
@@ -16739,6 +17009,7 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
 
 
 
+
         gbk2utf8(
             pReqRepeal->BankRepealSerial,
             buffer,
@@ -16749,6 +17020,7 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
 
 
         json_pReqRepeal["FutureRepealSerial"] = pReqRepeal->FutureRepealSerial;
+
 
 
 
@@ -16845,12 +17117,14 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
 
 
 
+
         sprintf(buffer,"%c",pReqRepeal->LastFragment);
         json_pReqRepeal["LastFragment"] = buffer;
 
 
 
         json_pReqRepeal["SessionID"] = pReqRepeal->SessionID;
+
 
 
 
@@ -16928,7 +17202,9 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["InstallID"] = pReqRepeal->InstallID;
 
 
+
         json_pReqRepeal["FutureSerial"] = pReqRepeal->FutureSerial;
+
 
 
 
@@ -16960,7 +17236,9 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["TradeAmount"] = pReqRepeal->TradeAmount;
 
 
+
         json_pReqRepeal["FutureFetchAmount"] = pReqRepeal->FutureFetchAmount;
+
 
 
 
@@ -16972,7 +17250,9 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
         json_pReqRepeal["CustFee"] = pReqRepeal->CustFee;
 
 
+
         json_pReqRepeal["BrokerFee"] = pReqRepeal->BrokerFee;
+
 
 
 
@@ -17061,8 +17341,12 @@ void CTraderHandler::OnErrRtnRepealBankToFutureByFutureManual(
 
         json_pReqRepeal["RequestID"] = pReqRepeal->RequestID;
 
+        nRequestID = pReqRepeal->RequestID;
+
+
 
         json_pReqRepeal["TID"] = pReqRepeal->TID;
+
 
 
 
@@ -17204,12 +17488,14 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
 
 
 
+
         sprintf(buffer,"%c",pReqTransfer->LastFragment);
         json_pReqTransfer["LastFragment"] = buffer;
 
 
 
         json_pReqTransfer["SessionID"] = pReqTransfer->SessionID;
+
 
 
 
@@ -17287,7 +17573,9 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["InstallID"] = pReqTransfer->InstallID;
 
 
+
         json_pReqTransfer["FutureSerial"] = pReqTransfer->FutureSerial;
+
 
 
 
@@ -17319,7 +17607,9 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["TradeAmount"] = pReqTransfer->TradeAmount;
 
 
+
         json_pReqTransfer["FutureFetchAmount"] = pReqTransfer->FutureFetchAmount;
+
 
 
 
@@ -17331,7 +17621,9 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
         json_pReqTransfer["CustFee"] = pReqTransfer->CustFee;
 
 
+
         json_pReqTransfer["BrokerFee"] = pReqTransfer->BrokerFee;
+
 
 
 
@@ -17420,8 +17712,12 @@ void CTraderHandler::OnErrRtnBankToFutureByFuture(
 
         json_pReqTransfer["RequestID"] = pReqTransfer->RequestID;
 
+        nRequestID = pReqTransfer->RequestID;
+
+
 
         json_pReqTransfer["TID"] = pReqTransfer->TID;
+
 
 
 
@@ -17563,12 +17859,14 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
 
 
 
+
         sprintf(buffer,"%c",pReqQueryAccount->LastFragment);
         json_pReqQueryAccount["LastFragment"] = buffer;
 
 
 
         json_pReqQueryAccount["SessionID"] = pReqQueryAccount->SessionID;
+
 
 
 
@@ -17646,7 +17944,9 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
         json_pReqQueryAccount["FutureSerial"] = pReqQueryAccount->FutureSerial;
 
 
+
         json_pReqQueryAccount["InstallID"] = pReqQueryAccount->InstallID;
+
 
 
 
@@ -17751,8 +18051,12 @@ void CTraderHandler::OnErrRtnQueryBankBalanceByFuture(
 
         json_pReqQueryAccount["RequestID"] = pReqQueryAccount->RequestID;
 
+        nRequestID = pReqQueryAccount->RequestID;
+
+
 
         json_pReqQueryAccount["TID"] = pReqQueryAccount->TID;
+
 
     }
 
@@ -17818,6 +18122,7 @@ void CTraderHandler::OnErrRtnOrderAction(
 
 
 
+
         gbk2utf8(
             pOrderAction->OrderRef,
             buffer,
@@ -17829,11 +18134,16 @@ void CTraderHandler::OnErrRtnOrderAction(
 
         json_pOrderAction["RequestID"] = pOrderAction->RequestID;
 
+        nRequestID = pOrderAction->RequestID;
+
+
 
         json_pOrderAction["FrontID"] = pOrderAction->FrontID;
 
 
+
         json_pOrderAction["SessionID"] = pOrderAction->SessionID;
+
 
 
 
@@ -17865,7 +18175,9 @@ void CTraderHandler::OnErrRtnOrderAction(
         json_pOrderAction["LimitPrice"] = pOrderAction->LimitPrice;
 
 
+
         json_pOrderAction["VolumeChange"] = pOrderAction->VolumeChange;
+
 
 
 
@@ -17899,6 +18211,7 @@ void CTraderHandler::OnErrRtnOrderAction(
 
 
         json_pOrderAction["InstallID"] = pOrderAction->InstallID;
+
 
 
 

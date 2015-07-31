@@ -613,11 +613,13 @@ int CTraderWrapper::ReqParkedOrderAction(std::string jsonString,int requestID)
         }
 
         ///报单操作引用 int OrderActionRef
+
         if (!Data["OrderActionRef"].empty()) {
             data.OrderActionRef = Data["OrderActionRef"].asInt();
         } else {
             data.OrderActionRef = 0;
         }
+
 
         ///报单引用 char OrderRef[13];
         if (!Data["OrderRef"].empty()) {
@@ -628,25 +630,27 @@ int CTraderWrapper::ReqParkedOrderAction(std::string jsonString,int requestID)
         }
 
         ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
+
+        data.RequestID  = requestID;
+
 
         ///前置编号 int FrontID
+
         if (!Data["FrontID"].empty()) {
             data.FrontID = Data["FrontID"].asInt();
         } else {
             data.FrontID = 0;
         }
 
+
         ///会话编号 int SessionID
+
         if (!Data["SessionID"].empty()) {
             data.SessionID = Data["SessionID"].asInt();
         } else {
             data.SessionID = 0;
         }
+
 
         ///交易所代码 char ExchangeID[9];
         if (!Data["ExchangeID"].empty()) {
@@ -679,11 +683,13 @@ int CTraderWrapper::ReqParkedOrderAction(std::string jsonString,int requestID)
         }
 
         ///数量变化 int VolumeChange
+
         if (!Data["VolumeChange"].empty()) {
             data.VolumeChange = Data["VolumeChange"].asInt();
         } else {
             data.VolumeChange = 0;
         }
+
 
         ///用户代码 char UserID[16];
         if (!Data["UserID"].empty()) {
@@ -724,11 +730,13 @@ int CTraderWrapper::ReqParkedOrderAction(std::string jsonString,int requestID)
         }
 
         ///错误代码 int ErrorID
+
         if (!Data["ErrorID"].empty()) {
             data.ErrorID = Data["ErrorID"].asInt();
         } else {
             data.ErrorID = 0;
         }
+
 
         ///错误信息 char ErrorMsg[81];
         if (!Data["ErrorMsg"].empty()) {
@@ -1069,11 +1077,13 @@ int CTraderWrapper::ReqQueryMaxOrderVolume(std::string jsonString,int requestID)
         }
 
         ///最大允许报单数量 int MaxVolume
+
         if (!Data["MaxVolume"].empty()) {
             data.MaxVolume = Data["MaxVolume"].asInt();
         } else {
             data.MaxVolume = 0;
         }
+
 
     } catch (...) {
         lastErrorID = -1001;
@@ -1869,11 +1879,13 @@ int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString,int reque
         }
 
         ///银期平台消息流水号 int PlateSerial
+
         if (!Data["PlateSerial"].empty()) {
             data.PlateSerial = Data["PlateSerial"].asInt();
         } else {
             data.PlateSerial = 0;
         }
+
 
         ///最后分片标志 char LastFragment
         if ( !Data["LastFragment"].empty()) {
@@ -1883,11 +1895,13 @@ int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString,int reque
         }
 
         ///会话号 int SessionID
+
         if (!Data["SessionID"].empty()) {
             data.SessionID = Data["SessionID"].asInt();
         } else {
             data.SessionID = 0;
         }
+
 
         ///客户姓名 char CustomerName[51];
         if (!Data["CustomerName"].empty()) {
@@ -1952,18 +1966,22 @@ int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString,int reque
         }
 
         ///安装编号 int InstallID
+
         if (!Data["InstallID"].empty()) {
             data.InstallID = Data["InstallID"].asInt();
         } else {
             data.InstallID = 0;
         }
 
+
         ///期货公司流水号 int FutureSerial
+
         if (!Data["FutureSerial"].empty()) {
             data.FutureSerial = Data["FutureSerial"].asInt();
         } else {
             data.FutureSerial = 0;
         }
+
 
         ///用户标识 char UserID[16];
         if (!Data["UserID"].empty()) {
@@ -2100,18 +2118,18 @@ int CTraderWrapper::ReqFromFutureToBankByFuture(std::string jsonString,int reque
         }
 
         ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
+
+        data.RequestID  = requestID;
+
 
         ///交易ID int TID
+
         if (!Data["TID"].empty()) {
             data.TID = Data["TID"].asInt();
         } else {
             data.TID = 0;
         }
+
 
         ///转账交易状态 char TransferStatus
         if ( !Data["TransferStatus"].empty()) {
@@ -2264,11 +2282,13 @@ int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString,int reque
         }
 
         ///银期平台消息流水号 int PlateSerial
+
         if (!Data["PlateSerial"].empty()) {
             data.PlateSerial = Data["PlateSerial"].asInt();
         } else {
             data.PlateSerial = 0;
         }
+
 
         ///最后分片标志 char LastFragment
         if ( !Data["LastFragment"].empty()) {
@@ -2278,11 +2298,13 @@ int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString,int reque
         }
 
         ///会话号 int SessionID
+
         if (!Data["SessionID"].empty()) {
             data.SessionID = Data["SessionID"].asInt();
         } else {
             data.SessionID = 0;
         }
+
 
         ///客户姓名 char CustomerName[51];
         if (!Data["CustomerName"].empty()) {
@@ -2347,18 +2369,22 @@ int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString,int reque
         }
 
         ///安装编号 int InstallID
+
         if (!Data["InstallID"].empty()) {
             data.InstallID = Data["InstallID"].asInt();
         } else {
             data.InstallID = 0;
         }
 
+
         ///期货公司流水号 int FutureSerial
+
         if (!Data["FutureSerial"].empty()) {
             data.FutureSerial = Data["FutureSerial"].asInt();
         } else {
             data.FutureSerial = 0;
         }
+
 
         ///用户标识 char UserID[16];
         if (!Data["UserID"].empty()) {
@@ -2495,18 +2521,18 @@ int CTraderWrapper::ReqFromBankToFutureByFuture(std::string jsonString,int reque
         }
 
         ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
+
+        data.RequestID  = requestID;
+
 
         ///交易ID int TID
+
         if (!Data["TID"].empty()) {
             data.TID = Data["TID"].asInt();
         } else {
             data.TID = 0;
         }
+
 
         ///转账交易状态 char TransferStatus
         if ( !Data["TransferStatus"].empty()) {
@@ -3107,11 +3133,13 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString,int requestID)
         }
 
         ///数量 int VolumeTotalOriginal
+
         if (!Data["VolumeTotalOriginal"].empty()) {
             data.VolumeTotalOriginal = Data["VolumeTotalOriginal"].asInt();
         } else {
             data.VolumeTotalOriginal = 0;
         }
+
 
         ///有效期类型 char TimeCondition
         if ( !Data["TimeCondition"].empty()) {
@@ -3136,11 +3164,13 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString,int requestID)
         }
 
         ///最小成交量 int MinVolume
+
         if (!Data["MinVolume"].empty()) {
             data.MinVolume = Data["MinVolume"].asInt();
         } else {
             data.MinVolume = 0;
         }
+
 
         ///触发条件 char ContingentCondition
         if ( !Data["ContingentCondition"].empty()) {
@@ -3164,11 +3194,13 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString,int requestID)
         }
 
         ///自动挂起标志 int IsAutoSuspend
+
         if (!Data["IsAutoSuspend"].empty()) {
             data.IsAutoSuspend = Data["IsAutoSuspend"].asInt();
         } else {
             data.IsAutoSuspend = 0;
         }
+
 
         ///业务单元 char BusinessUnit[21];
         if (!Data["BusinessUnit"].empty()) {
@@ -3179,18 +3211,18 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString,int requestID)
         }
 
         ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
+
+        data.RequestID  = requestID;
+
 
         ///用户强评标志 int UserForceClose
+
         if (!Data["UserForceClose"].empty()) {
             data.UserForceClose = Data["UserForceClose"].asInt();
         } else {
             data.UserForceClose = 0;
         }
+
 
         ///交易所代码 char ExchangeID[9];
         if (!Data["ExchangeID"].empty()) {
@@ -3223,11 +3255,13 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString,int requestID)
         }
 
         ///错误代码 int ErrorID
+
         if (!Data["ErrorID"].empty()) {
             data.ErrorID = Data["ErrorID"].asInt();
         } else {
             data.ErrorID = 0;
         }
+
 
         ///错误信息 char ErrorMsg[81];
         if (!Data["ErrorMsg"].empty()) {
@@ -3238,11 +3272,13 @@ int CTraderWrapper::ReqParkedOrderInsert(std::string jsonString,int requestID)
         }
 
         ///互换单标志 int IsSwapOrder
+
         if (!Data["IsSwapOrder"].empty()) {
             data.IsSwapOrder = Data["IsSwapOrder"].asInt();
         } else {
             data.IsSwapOrder = 0;
         }
+
 
     } catch (...) {
         lastErrorID = -1001;
@@ -3878,11 +3914,13 @@ int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString,int 
         }
 
         ///银期平台消息流水号 int PlateSerial
+
         if (!Data["PlateSerial"].empty()) {
             data.PlateSerial = Data["PlateSerial"].asInt();
         } else {
             data.PlateSerial = 0;
         }
+
 
         ///最后分片标志 char LastFragment
         if ( !Data["LastFragment"].empty()) {
@@ -3892,11 +3930,13 @@ int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString,int 
         }
 
         ///会话号 int SessionID
+
         if (!Data["SessionID"].empty()) {
             data.SessionID = Data["SessionID"].asInt();
         } else {
             data.SessionID = 0;
         }
+
 
         ///客户姓名 char CustomerName[51];
         if (!Data["CustomerName"].empty()) {
@@ -3961,18 +4001,22 @@ int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString,int 
         }
 
         ///期货公司流水号 int FutureSerial
+
         if (!Data["FutureSerial"].empty()) {
             data.FutureSerial = Data["FutureSerial"].asInt();
         } else {
             data.FutureSerial = 0;
         }
 
+
         ///安装编号 int InstallID
+
         if (!Data["InstallID"].empty()) {
             data.InstallID = Data["InstallID"].asInt();
         } else {
             data.InstallID = 0;
         }
+
 
         ///用户标识 char UserID[16];
         if (!Data["UserID"].empty()) {
@@ -4066,18 +4110,18 @@ int CTraderWrapper::ReqQueryBankAccountMoneyByFuture(std::string jsonString,int 
         }
 
         ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
+
+        data.RequestID  = requestID;
+
 
         ///交易ID int TID
+
         if (!Data["TID"].empty()) {
             data.TID = Data["TID"].asInt();
         } else {
             data.TID = 0;
         }
+
 
     } catch (...) {
         lastErrorID = -1001;
@@ -4434,11 +4478,13 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString,int requestID)
         }
 
         ///数量 int VolumeTotalOriginal
+
         if (!Data["VolumeTotalOriginal"].empty()) {
             data.VolumeTotalOriginal = Data["VolumeTotalOriginal"].asInt();
         } else {
             data.VolumeTotalOriginal = 0;
         }
+
 
         ///有效期类型 char TimeCondition
         if ( !Data["TimeCondition"].empty()) {
@@ -4463,11 +4509,13 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString,int requestID)
         }
 
         ///最小成交量 int MinVolume
+
         if (!Data["MinVolume"].empty()) {
             data.MinVolume = Data["MinVolume"].asInt();
         } else {
             data.MinVolume = 0;
         }
+
 
         ///触发条件 char ContingentCondition
         if ( !Data["ContingentCondition"].empty()) {
@@ -4491,11 +4539,13 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString,int requestID)
         }
 
         ///自动挂起标志 int IsAutoSuspend
+
         if (!Data["IsAutoSuspend"].empty()) {
             data.IsAutoSuspend = Data["IsAutoSuspend"].asInt();
         } else {
             data.IsAutoSuspend = 0;
         }
+
 
         ///业务单元 char BusinessUnit[21];
         if (!Data["BusinessUnit"].empty()) {
@@ -4506,25 +4556,27 @@ int CTraderWrapper::ReqOrderInsert(std::string jsonString,int requestID)
         }
 
         ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
+
+        data.RequestID  = requestID;
+
 
         ///用户强评标志 int UserForceClose
+
         if (!Data["UserForceClose"].empty()) {
             data.UserForceClose = Data["UserForceClose"].asInt();
         } else {
             data.UserForceClose = 0;
         }
 
+
         ///互换单标志 int IsSwapOrder
+
         if (!Data["IsSwapOrder"].empty()) {
             data.IsSwapOrder = Data["IsSwapOrder"].asInt();
         } else {
             data.IsSwapOrder = 0;
         }
+
 
     } catch (...) {
         lastErrorID = -1001;
@@ -4899,11 +4951,13 @@ int CTraderWrapper::ReqOrderAction(std::string jsonString,int requestID)
         }
 
         ///报单操作引用 int OrderActionRef
+
         if (!Data["OrderActionRef"].empty()) {
             data.OrderActionRef = Data["OrderActionRef"].asInt();
         } else {
             data.OrderActionRef = 0;
         }
+
 
         ///报单引用 char OrderRef[13];
         if (!Data["OrderRef"].empty()) {
@@ -4914,25 +4968,27 @@ int CTraderWrapper::ReqOrderAction(std::string jsonString,int requestID)
         }
 
         ///请求编号 int RequestID
-        if (!Data["RequestID"].empty()) {
-            data.RequestID = Data["RequestID"].asInt();
-        } else {
-            data.RequestID = 0;
-        }
+
+        data.RequestID  = requestID;
+
 
         ///前置编号 int FrontID
+
         if (!Data["FrontID"].empty()) {
             data.FrontID = Data["FrontID"].asInt();
         } else {
             data.FrontID = 0;
         }
 
+
         ///会话编号 int SessionID
+
         if (!Data["SessionID"].empty()) {
             data.SessionID = Data["SessionID"].asInt();
         } else {
             data.SessionID = 0;
         }
+
 
         ///交易所代码 char ExchangeID[9];
         if (!Data["ExchangeID"].empty()) {
@@ -4965,11 +5021,13 @@ int CTraderWrapper::ReqOrderAction(std::string jsonString,int requestID)
         }
 
         ///数量变化 int VolumeChange
+
         if (!Data["VolumeChange"].empty()) {
             data.VolumeChange = Data["VolumeChange"].asInt();
         } else {
             data.VolumeChange = 0;
         }
+
 
         ///用户代码 char UserID[16];
         if (!Data["UserID"].empty()) {
