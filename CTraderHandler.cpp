@@ -18053,7 +18053,8 @@ void CTraderHandler::OnRspError(
 
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
-    message.requestID = "0";
+    sprintf(buffer,"%d",nRequestID);
+    message.requestID = buffer;
     message.apiName = "OnRspError";
     message.respInfo = json_Response.toStyledString();
     message.isLast = "0";
