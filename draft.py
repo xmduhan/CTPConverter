@@ -66,10 +66,13 @@ CApiWrapper 自动编写部分（ok）
 (3)查询请求处理机制改为先入队再处理的方式。(ok)
 (4)增加流量控制罗辑(ok)
 (5)增加参数读取功能设置(ok)
+1. 去掉md配置中的loadInstrumentIDList(ok)
+1. 在md配置文件中增加request和response配置(ok)
 ------------------------------------------------------------------------------
+
 1. 完成md设计图
-1. 去掉md配置中的loadInstrumentIDList
-1. 在md配置文件中增加request和response配置
+1. 增加一个REQ-REP接口,服务器接受请求后立马调用订阅或取消订阅，调用结果返回客户端
+问题:md 不可能通过response接口返回消息，因为订阅时没有requestID参数，无法做requestID返回路由对照
 1. md程序中增加request和response通讯接口
 1、需要处理服务器重启后不能执行之前缓存中的数据
 1、编码问题应该是可以设置的，增加客户端编码和服务器编码

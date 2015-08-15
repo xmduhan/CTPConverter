@@ -31,15 +31,19 @@ int main(int argc,char * argv[]){
 
     // 初始化zmq环境
     zmq::context_t context(1);
+    zmq::socket_t request  (context, ZMQ_ROUTER);
+    zmq::socket_t response (context, ZMQ_ROUTER);
     zmq::socket_t pushback  (context, ZMQ_PULL);
     zmq::socket_t publish  (context, ZMQ_PUB);
 
     // 连接对应通讯管道
+    request.bind(config.requestPipe);
+    response.bind(config.responsePipe);
     pushback.connect(config.pushbackPipe);
     publish.bind(config.publishPipe);
 
     std::cout << "main():行情广播地址为:" << config.publishPipe << std::endl;
-    sleep(1);    // 给一定时间让订阅者连接上来，以免错过条消息
+    sleep(1);    // 给一定时间让订阅者连接上来，以免错过第1条消息
 
 
     // 初始化api接口实例
@@ -57,8 +61,8 @@ int main(int argc,char * argv[]){
     long loopTimes = 0;
     long mdCount = 0;
 
-    std::cout << "main():转发市场报价信息..." << std::endl;
-    api.SubscribeMarketData(config.instrumentIDArray,config.instrumentCount);
+    //std::cout << "main():转发市场报价信息..." << std::endl;
+    //api.SubscribeMarketData(config.instrumentIDArray,config.instrumentCount);
 
     // 发送一条空消息供订阅客户端测试通路.
     // 注意:程序能执行到这里,说明已成功和ctp服务器建立连接.
@@ -114,7 +118,7 @@ int main(int argc,char * argv[]){
                     break;
                 }
             }
-            
+
         }
     }
 }

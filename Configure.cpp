@@ -129,19 +129,23 @@ void MdConfigure::loadFromEnvironment(){
     this->password = getenv("CTP_PASSWORD");
     assert(this->password);
     /// 请求通信管道
-    //this->requestPipe = getenv("CTP_REQUEST_PIPE");
-    //assert(this->requestPipe);
+    this->requestPipe = getenv("CTP_REQUEST_PIPE");
+    assert(this->requestPipe);
+    /// 请求通信管道
+    this->responsePipe = getenv("CTP_RESPONSE_PIPE");
+    assert(this->responsePipe);
     /// 回调信息管道
     this->pushbackPipe = getenv("CTP_PUSHBACK_PIPE");
     assert(this->pushbackPipe);
     /// 广播信息管道
     this->publishPipe = getenv("CTP_PUBLISH_PIPE");
     assert(this->publishPipe);
+
     // 读取品种列表配置文件
-    this->instrumentIDConfigFile = getenv("CTP_INSTRUMENT_ID_CONFIG_FILE");
-    assert(this->instrumentIDConfigFile != NULL);
-    assert(fileExists(this->instrumentIDConfigFile));
-    loadInstrumentIDList();
+    //this->instrumentIDConfigFile = getenv("CTP_INSTRUMENT_ID_CONFIG_FILE");
+    //assert(this->instrumentIDConfigFile != NULL);
+    //assert(fileExists(this->instrumentIDConfigFile));
+    //loadInstrumentIDList();
 }
 
 /// 从命令行读取配置信息
@@ -168,9 +172,14 @@ void MdConfigure::loadFromCommandLine(CommandOption commandOption){
     this->password = password;
 
     /// 请求通信管道
-    //char * requestPipe = commandOption.get("--RequestPipe");
-    //assert(requestPipe != NULL);
-    //this->requestPipe = requestPipe;
+    char * requestPipe = commandOption.get("--RequestPipe");
+    assert(requestPipe != NULL);
+    this->requestPipe = requestPipe;
+
+    /// 请求通信管道
+    char * responsePipe = commandOption.get("--ResponsePipe");
+    assert(responsePipe != NULL);
+    this->responsePipe = responsePipe;
 
     /// 回调信息管道
     char * pushbackPipe = commandOption.get("--PushbackPipe");
@@ -183,10 +192,10 @@ void MdConfigure::loadFromCommandLine(CommandOption commandOption){
     this->publishPipe = publishPipe;
 
     /// 品种列表配置文件
-    char * instrumentIDConfigFile = commandOption.get("--InstrumentIDConfigFile");
-    assert(instrumentIDConfigFile != NULL);
-    assert(fileExists(instrumentIDConfigFile));
-    this->instrumentIDConfigFile = instrumentIDConfigFile;
-    loadInstrumentIDList();
+    //char * instrumentIDConfigFile = commandOption.get("--InstrumentIDConfigFile");
+    //assert(instrumentIDConfigFile != NULL);
+    //assert(fileExists(instrumentIDConfigFile));
+    //this->instrumentIDConfigFile = instrumentIDConfigFile;
+    //loadInstrumentIDList();
 
 }
