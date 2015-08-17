@@ -49,7 +49,9 @@ public:
     ///密码
     char * password;
     /// 请求通信管道
-    //char * requestPipe;
+    char * requestPipe;
+    /// 请求返回信息通讯管道
+    char * responsePipe;
     /// 回调信息管道
     char * pushbackPipe;
     /// 广播信息管道

@@ -58,7 +58,7 @@ CApiWrapper 自动编写部分（ok）
 
 (3)接口的python wrapper如何找到对应的channel (ok)
 |--是否把api作为channel的成员函数(采用)
-|--是否把让api的第一个参数是channel 
+|--是否把让api的第一个参数是channel
 |--在api函数中调用一个getChannel()函数（获取空闲的channel)
 1、转换器要实现流量控制功能，并缓存过于频繁的查请求，并按能按指定频率进行
 (1)RequestID要移到tarder主函数中来处理(ok)
@@ -66,8 +66,14 @@ CApiWrapper 自动编写部分（ok）
 (3)查询请求处理机制改为先入队再处理的方式。(ok)
 (4)增加流量控制罗辑(ok)
 (5)增加参数读取功能设置(ok)
+1. 去掉md配置中的loadInstrumentIDList(ok)
+1. 在md配置文件中增加request和response配置(ok)
 ------------------------------------------------------------------------------
 
+1. 完成md设计图
+1. 增加一个REQ-REP接口,服务器接受请求后立马调用订阅或取消订阅，调用结果返回客户端
+问题:md 不可能通过response接口返回消息，因为订阅时没有requestID参数，无法做requestID返回路由对照
+1. md程序中增加request和response通讯接口
 1、需要处理服务器重启后不能执行之前缓存中的数据
 1、编码问题应该是可以设置的，增加客户端编码和服务器编码
 
@@ -258,8 +264,8 @@ methodNameList.sort()
 for methodName in methodNameList:
     print methodDict[methodName]['remark']
     print methodName,'(',
-    parameters = methodDict[methodName]['parameters']    
-    print ','.join([p['name'] for p in parameters]),     
+    parameters = methodDict[methodName]['parameters']
+    print ','.join([p['name'] for p in parameters]),
     print ')'
     if len(parameters) != 0:
         for p in parameters:
@@ -270,12 +276,12 @@ for methodName in methodNameList:
                     print '|-%s' % f['name'],
                     if 'requestid' in f['name'].lower():
                         print '(*****)',
-                    print                    
+                    print
     print '---------------------------------------------------------------'
 #%%
 methodDict['OnRspQryInvestorPosition']['parameters'][0]['raw_type']
 [i['name'] for i in structDict['CThostFtdcInvestorPositionField']['fields']]
-Out[49]: 
+Out[49]:
 #%% 寻找ctp定义变量中最长的类型
 maxLen = 0
 for i in typedefDict.itervalues():
@@ -328,21 +334,21 @@ print responeDataList[0].toDict()
 
 #%% 使用命令行启动trader
 import os
-frontAddress = os.environ.get('CTP_FRONT_ADDRESS') 
+frontAddress = os.environ.get('CTP_FRONT_ADDRESS')
 assert frontAddress
-brokerID = os.environ.get('CTP_BROKER_ID') 
+brokerID = os.environ.get('CTP_BROKER_ID')
 assert brokerID
-userID = os.environ.get('CTP_USER_ID') 
+userID = os.environ.get('CTP_USER_ID')
 assert userID
-password = os.environ.get('CTP_PASSWORD') 
+password = os.environ.get('CTP_PASSWORD')
 assert password
-requestPipe = os.environ.get('CTP_REQUEST_PIPE') 
+requestPipe = os.environ.get('CTP_REQUEST_PIPE')
 assert requestPipe
-pushbackPipe = os.environ.get('CTP_PUSHBACK_PIPE') 
+pushbackPipe = os.environ.get('CTP_PUSHBACK_PIPE')
 assert pushbackPipe
-publishPipe = os.environ.get('CTP_PUBLISH_PIPE') 
+publishPipe = os.environ.get('CTP_PUBLISH_PIPE')
 assert publishPipe
-instrumentIDConfigFile = os.environ.get('CTP_INSTRUMENT_ID_CONFIG_FILE') 
+instrumentIDConfigFile = os.environ.get('CTP_INSTRUMENT_ID_CONFIG_FILE')
 assert instrumentIDConfigFile
 
 command = ' '.join(['bin/trader',
@@ -365,13 +371,13 @@ import json
 content = json.dumps(['IF1506','IF1507'])
 with open('/tmp/config.json', 'w') as f:
     f.write(content.encode('utf-8'))
-    
+
 #%% 为CThostFtdcDepthMarketDataField生成django model
-for field in structDict['CThostFtdcDepthMarketDataField']['fields'] :    
+for field in structDict['CThostFtdcDepthMarketDataField']['fields'] :
     fieldName = field['name']
     fieldRemark = field['remark'][3:]
     fieldType = typedefDict[field['raw_type']]['type']
-    fieldLen = typedefDict[field['raw_type']]['len']    
+    fieldLen = typedefDict[field['raw_type']]['len']
     #print fieldName,fieldType,fieldLen,type(fieldLen)
     if fieldType == 'char':
         print '''%s = models.CharField(u'%s', max_length=%s, default='') ''' \
@@ -382,10 +388,10 @@ for field in structDict['CThostFtdcDepthMarketDataField']['fields'] :
     if fieldType == 'double':
         print '''%s = models.FloatField(u'%s', default=0) ''' \
             % (fieldName,fieldRemark)
-    
-#%% 生成admin的fields列表 
+
+#%% 生成admin的fields列表
 fields = []
-for field in structDict['CThostFtdcDepthMarketDataField']['fields'] :    
+for field in structDict['CThostFtdcDepthMarketDataField']['fields'] :
     fieldName = field['name']
     fields.append(fieldName)
 fields
