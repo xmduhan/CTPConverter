@@ -44,9 +44,11 @@ public:
     /// 启动CTP连接
     void init();
     ///订阅行情
-    virtual int SubscribeMarketData(char *ppInstrumentID[], int nCount);
+    //virtual int SubscribeMarketData(char *ppInstrumentID[], int nCount);
+    virtual int SubscribeMarketData(std::string jsonString);
     ///退订行情
-    virtual int UnSubscribeMarketData(char *ppInstrumentID[], int nCount);
+    //virtual int UnSubscribeMarketData(char *ppInstrumentID[], int nCount);
+    virtual int UnSubscribeMarketData(std::string jsonString);
 
     ////////////// API方法的wrapper ///////////////
 

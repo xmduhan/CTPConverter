@@ -31,14 +31,14 @@ int main(int argc,char * argv[]){
 
     // 初始化zmq环境
     zmq::context_t context(1);
-    zmq::socket_t request  (context, ZMQ_ROUTER);
-    zmq::socket_t response (context, ZMQ_ROUTER);
+    zmq::socket_t request  (context, ZMQ_REP);
+    //zmq::socket_t response (context, ZMQ_ROUTER);
     zmq::socket_t pushback  (context, ZMQ_PULL);
     zmq::socket_t publish  (context, ZMQ_PUB);
 
     // 连接对应通讯管道
     request.bind(config.requestPipe);
-    response.bind(config.responsePipe);
+    //response.bind(config.responsePipe);
     pushback.connect(config.pushbackPipe);
     publish.bind(config.publishPipe);
 
@@ -51,8 +51,10 @@ int main(int argc,char * argv[]){
     api.init();
 
     // 定义消息变量
+    RequestMessage requestMessage;
+    RequestIDMessage requestIDMessage;
     PushbackMessage pushbackMessage;
-    MarketDataMessage marketDataMessage;
+    PublishMessage publishMessage;
 
     long timeout = 1;
     long lastTime = s_clock();
@@ -64,39 +66,37 @@ int main(int argc,char * argv[]){
     //std::cout << "main():转发市场报价信息..." << std::endl;
     //api.SubscribeMarketData(config.instrumentIDArray,config.instrumentCount);
 
-    // 发送一条空消息供订阅客户端测试通路.
-    // 注意:程序能执行到这里,说明已成功和ctp服务器建立连接.
-    // 所以当客户端收到这条空消息时可以认为连接行情通道建立成功.
-    marketDataMessage.marketDataInfo = "";
-    marketDataMessage.send(publish);
 
     while(1) {
+        // 尝试读取通讯管道
         zmq::pollitem_t pullItems [] = {
+            { request, 0, ZMQ_POLLIN, 0 },
             { pushback, 0, ZMQ_POLLIN, 0 }
         };
         zmq::poll (pullItems, 1, timeout);
-        if ( pullItems[0].revents & ZMQ_POLLIN) {
+
+        // 接收到来自客户端的请求
+        if (pullItems[0].revents & ZMQ_POLLIN) {
+            // 调用对应的api函数
+
+
+        }
+
+
+        if ( pullItems[1].revents & ZMQ_POLLIN) {
 
             // 从pushback管道读取消息
             pushbackMessage.recv(pushback);
+            publishMessage.header = "PUBLISH";
+            publishMessage.apiName = pushbackMessage.apiName;
+            publishMessage.respInfo = pushbackMessage.respInfo;
+            publishMessage.send(publish);
 
             // 如果消息是行情数据,将其返回客户端
             if (pushbackMessage.apiName == "OnRtnDepthMarketData") {
-                marketDataMessage.marketDataInfo = pushbackMessage.respInfo;
-                marketDataMessage.send(publish);
                 mdCount++;
             }
 
-            // 如果消息是订阅处理结果将其显示出来
-            if (pushbackMessage.apiName == "OnRspSubMarketData") {
-                Json::Reader jsonReader;
-                Json::Value respInfo;
-                assert(jsonReader.parse(pushbackMessage.respInfo,respInfo));
-                int errorID = respInfo["Parameters"]["RspInfo"]["ErrorID"].asInt();
-                std::string instrumentID = respInfo["Parameters"]["Data"]["InstrumentID"].asString();
-                assert(errorID==0);
-                std::cout << instrumentID << ":行情订阅成功." << std::endl;
-            }
         }
 
         // 打印提示信息

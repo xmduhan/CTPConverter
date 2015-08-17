@@ -41,6 +41,10 @@ void CMdWrapper::initApiMap(){
 		//{{method['name']}}
 		apiMap["{{method['name']}}"] = &CMdWrapper::{{method['name']}};
 	{% endfor %}
+    //SubscribeMarketData
+    apiMap["SubscribeMarketData"] = &CMdWrapper::SubscribeMarketData;
+    //UnSubscribeMarketData
+    apiMap["UnSubscribeMarketData"] = &CMdWrapper::UnSubscribeMarketData;
 }
 
 
@@ -133,13 +137,52 @@ std::string CMdWrapper::getLastErrorMsg(){
 
 
 ///订阅行情。
-int CMdWrapper::SubscribeMarketData(char *ppInstrumentID[], int nCount){
-	return pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
+int CMdWrapper::SubscribeMarketData(std::string jsonString){
+	//return pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
+    char **ppInstrumentID;
+    int nCount;
+    int result;
+
+    try{
+        //1. 解析json格式
+        //2. 分配内存填充数据到ppInstrumentID
+        //3. 调用SubscribeMarketData
+        result = pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
+    } catch (...) {
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return 0;
 }
 
 ///退订行情。
-int CMdWrapper::UnSubscribeMarketData(char *ppInstrumentID[], int nCount){
-	return pMdApi->UnSubscribeMarketData(ppInstrumentID,nCount);
+int CMdWrapper::UnSubscribeMarketData(std::string jsonString){
+	//return pMdApi->UnSubscribeMarketData(ppInstrumentID,nCount);
+    //char *ppInstrumentID[], int nCount
 }
 
 

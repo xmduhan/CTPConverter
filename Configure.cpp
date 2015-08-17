@@ -132,8 +132,8 @@ void MdConfigure::loadFromEnvironment(){
     this->requestPipe = getenv("CTP_REQUEST_PIPE");
     assert(this->requestPipe);
     /// 请求通信管道
-    this->responsePipe = getenv("CTP_RESPONSE_PIPE");
-    assert(this->responsePipe);
+    //this->responsePipe = getenv("CTP_RESPONSE_PIPE");
+    //assert(this->responsePipe);
     /// 回调信息管道
     this->pushbackPipe = getenv("CTP_PUSHBACK_PIPE");
     assert(this->pushbackPipe);
@@ -176,10 +176,10 @@ void MdConfigure::loadFromCommandLine(CommandOption commandOption){
     assert(requestPipe != NULL);
     this->requestPipe = requestPipe;
 
-    /// 请求通信管道
-    char * responsePipe = commandOption.get("--ResponsePipe");
-    assert(responsePipe != NULL);
-    this->responsePipe = responsePipe;
+    // /// 请求通信管道
+    // char * responsePipe = commandOption.get("--ResponsePipe");
+    // assert(responsePipe != NULL);
+    // this->responsePipe = responsePipe;
 
     /// 回调信息管道
     char * pushbackPipe = commandOption.get("--PushbackPipe");
