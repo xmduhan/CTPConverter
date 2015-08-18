@@ -72,6 +72,7 @@ CApiWrapper 自动编写部分（ok）
 1.增加MdRequestMessage和MdResponseMessage(注意py中也要做相应添加)(ok)
 ------------------------------------------------------------------------------
 1.将json数据转化为对应的c数组格式
+1.OnRspSubMarketData需要做一个pullback动作
 1.建立md的测试用例
 1.具体化SubscribeDepthMarketData的内容并且抽象到模板,以实现UnSubscribeDepthMarketData
 1.将测试用例分解为trader和md(考虑一下是否需要这么做)

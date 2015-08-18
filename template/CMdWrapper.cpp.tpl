@@ -1,7 +1,7 @@
 #include <CMdWrapper.h>
 #include <json/json.h>
 #include <comhelper.h>
-
+#include <string>
 
 /// 构造函数
 CMdWrapper::CMdWrapper(MdConfigure * pConfigure){
@@ -136,19 +136,44 @@ std::string CMdWrapper::getLastErrorMsg(){
 }
 
 
+# define MAX_SUBCRIBE_COUNT 1000
 ///订阅行情。
 int CMdWrapper::SubscribeMarketData(std::string jsonString){
 	//return pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
-    char **ppInstrumentID;
+    char *ppInstrumentID[MAX_SUBCRIBE_COUNT];
     int nCount;
     int result;
 
     try{
         std::cout << jsonString << std::endl;
         //1. 解析json格式
-        //2. 分配内存填充数据到ppInstrumentID
-        //3. 调用SubscribeMarketData
-        //result = pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+        if (!jsonReader.parse(jsonString, jsonData)){
+            throw std::exception();
+        }
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        if ( Data.size() > MAX_SUBCRIBE_COUNT ){
+            lastErrorID = -1002;
+            lastErrorMsg = "一次订阅行情的品种数量太多";
+            return -1;
+        }
+
+        nCount = Data.size();
+        for (unsigned int i = 0; i < Data.size(); i++){
+            const char * instrumentID = Data[i].asString().c_str();
+            ppInstrumentID[i] = (char *) instrumentID;
+            std::cout << i << ":*+*" << instrumentID << std::endl;
+        }
+
+        //nCount = 2;
+        //ppInstrumentID[0] = (char *) "IF1509";
+        //ppInstrumentID[1] = (char *) "IF1510";
+
+        // 调用SubscribeMarketData
+        result = pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
         result = 0;
 
     } catch (...) {
