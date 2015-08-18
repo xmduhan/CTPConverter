@@ -69,9 +69,11 @@ CApiWrapper 自动编写部分（ok）
 1. 去掉md配置中的loadInstrumentIDList(ok)
 1. 在md配置文件中增加request和response配置(ok)
 1. 完成md设计图(ok)
+1.增加MdRequestMessage和MdResponseMessage(注意py中也要做相应添加)(ok)
 ------------------------------------------------------------------------------
-1.增加MdRequestMessage和MdResponseMessage(注意py中也要做相应添加)
+
 1.建立md的测试用例
+
 1.具体化SubscribeDepthMarketData的内容并且抽象到模板,以实现UnSubscribeDepthMarketData
 1.将测试用例分解为trader和md(考虑一下是否需要这么做)
 

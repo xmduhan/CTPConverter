@@ -286,7 +286,8 @@ int CMdWrapper::UnSubscribeMarketData(std::string jsonString){
 	// 如果执行成功重置最近错误信息，并将RequestID返回调用程序
 	lastErrorID = 0;
 	lastErrorMsg = "";
-	return nRequestID;
+    //return nRequestID;
+    return 0;
 }
 
 {% endfor %}
@@ -302,5 +303,4 @@ int CMdWrapper::callApiByName(std::string apiName,std::string jsonString){
 		lastErrorMsg = "没有这个接口函数";
 		return -1;
 	}
-	return 0;
 }

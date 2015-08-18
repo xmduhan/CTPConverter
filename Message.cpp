@@ -283,7 +283,7 @@ void MdRequestMessage ::send(zmq::socket_t & socket){
     // 按Request格式发送消息
     s_sendmore(socket,header);
     s_sendmore(socket,apiName);
-    s_sendmore(socket,reqInfo);
+    s_send(socket,reqInfo);
 }
 
 //////////////////////////// MdResponseMessage ///////////////////////////////////
@@ -332,7 +332,7 @@ void MdResponseMessage::send(zmq::socket_t & socket){
     // 按Request格式发送消息
     s_sendmore(socket,header);
     s_sendmore(socket,apiName);
-    s_sendmore(socket,errorInfo);
+    s_send(socket,errorInfo);
 }
 
 //////////////////////////// MarketDataMessage ///////////////////////////////////

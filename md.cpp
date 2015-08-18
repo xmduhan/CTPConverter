@@ -32,13 +32,11 @@ int main(int argc,char * argv[]){
     // 初始化zmq环境
     zmq::context_t context(1);
     zmq::socket_t request  (context, ZMQ_REP);
-    //zmq::socket_t response (context, ZMQ_ROUTER);
     zmq::socket_t pushback  (context, ZMQ_PULL);
     zmq::socket_t publish  (context, ZMQ_PUB);
 
     // 连接对应通讯管道
     request.bind(config.requestPipe);
-    //response.bind(config.responsePipe);
     pushback.connect(config.pushbackPipe);
     publish.bind(config.publishPipe);
 
@@ -51,8 +49,8 @@ int main(int argc,char * argv[]){
     api.init();
 
     // 定义消息变量
-    RequestMessage requestMessage;
-    RequestIDMessage requestIDMessage;
+    MdRequestMessage requestMessage;
+    MdResponseMessage responseMessage;
     PushbackMessage pushbackMessage;
     PublishMessage publishMessage;
 
@@ -78,9 +76,25 @@ int main(int argc,char * argv[]){
         // 接收到来自客户端的请求
         if (pullItems[0].revents & ZMQ_POLLIN) {
             // 调用对应的api函数
+            std::cout << "接收到1条客户端的请求..." << std::endl;
             requestMessage.recv(request);
-            std::cout << "apiName" << requestMessage.apiName << std::endl;
-
+            std::cout << "要求调用" << requestMessage.apiName << std::endl;
+            int result = api.callApiByName(requestMessage.apiName,requestMessage.reqInfo);
+            Json::Value jsonErrorInfo;
+            if ( result == 0 ){
+                jsonErrorInfo["ErrorID"] = 0;
+                jsonErrorInfo["ErrorMsg"] = "";
+                std::cout << "调用对应api返回成功";
+            }else{
+                jsonErrorInfo["ErrorID"] = api.getLastErrorID();
+                jsonErrorInfo["ErrorMsg"] = api.getLastErrorMsg();
+                std::cout << "调用api出错:(" << api.getLastErrorID()
+                    << ")" << api.getLastErrorMsg() << std::endl;
+            }
+            responseMessage.header = "RESPONSE";
+            responseMessage.apiName = requestMessage.apiName;
+            responseMessage.errorInfo = jsonErrorInfo.toStyledString();
+            responseMessage.send(request);
         }
 
 

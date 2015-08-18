@@ -125,7 +125,7 @@ class MdResponseMessage:
     def __init__(self):
         self.header = 'RESPONSE'
         self.apiName = ''
-        self.respInfo = ''
+        self.errorInfo = ''
 
     def recv(self, socket):
         '''
@@ -134,7 +134,7 @@ class MdResponseMessage:
         received = socket.recv_multipart()
         if len(received) != 3:
             raise InvalidMessageFormat()
-        self.header, self.apiName, self.respInfo = received
+        self.header, self.apiName, self.errorInfo = received
         if self.header != 'RESPONSE':
             raise InvalidMessageFormat()
 

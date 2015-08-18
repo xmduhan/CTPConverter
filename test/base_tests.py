@@ -446,12 +446,13 @@ def test_md_subscribe_depth_market():
     测试订阅服务
     """
     # 创建zmq通讯环境
+    timeout = 1000
     context = zmq.Context()
 
     # 创建request通讯管道
     request = context.socket(zmq.REQ)
     request.connect(requestAddress)
-    request.setsockopt(zmq.LINGER,0)
+    #request.setsockopt(zmq.LINGER,0)
 
     #创建publish通讯管道
     publish = context.socket(zmq.SUB)
@@ -462,14 +463,24 @@ def test_md_subscribe_depth_market():
     reqInfo = ''
     metaData = {}
 
-    # 填写消息格式
-    requestMessage = RequestMessage()
+    # 发送消息
+    requestMessage = MdRequestMessage()
     requestMessage.header = 'REQUEST'
     requestMessage.apiName = requestApiName
     requestMessage.reqInfo = json.dumps(reqInfo)
     requestMessage.metaData = json.dumps(metaData)
-
-    # 发送消息
     requestMessage.send(request)
+
     sleep(1)
+
+    # 等待服务器响应
+    poller = zmq.Poller()
+    poller.register(request, zmq.POLLIN)
+    sockets = dict(poller.poll(timeout))
+    assert request in sockets
+
+    # 读取服务器响应信息
+    responseMessage = MdResponseMessage()
+    responseMessage.recv(request)
+    print responseMessage.errorInfo
 
