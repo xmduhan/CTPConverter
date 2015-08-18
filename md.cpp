@@ -78,7 +78,8 @@ int main(int argc,char * argv[]){
         // 接收到来自客户端的请求
         if (pullItems[0].revents & ZMQ_POLLIN) {
             // 调用对应的api函数
-
+            requestMessage.recv(request);
+            std::cout << "apiName" << requestMessage.apiName << std::endl;
 
         }
 

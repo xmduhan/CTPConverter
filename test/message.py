@@ -99,3 +99,43 @@ class PublishMessage :
         if len(received) != 3 :
             raise InvalidMessageFormat()
         self.header,self.apiName,self.respInfo = received
+
+
+class MdRequestMessage:
+    '''
+    客户端请求的消息格式
+    '''
+    def __init__(self):
+        self.header = 'REQUEST'
+        self.apiName = ''
+        self.reqInfo = ''
+
+    def send(self, socket):
+        '''
+        '''
+        if self.header != 'REQUEST':
+            raise InvalidMessageFormat()
+        socket.send_multipart([self.header,self.apiName,self.reqInfo])
+
+
+class MdResponseMessage:
+    '''
+    服务器返回请求结果的消息格式
+    '''
+    def __init__(self):
+        self.header = 'RESPONSE'
+        self.apiName = ''
+        self.respInfo = ''
+
+    def recv(self, socket):
+        '''
+        服务器上接受数据消息
+        '''
+        received = socket.recv_multipart()
+        if len(received) != 3:
+            raise InvalidMessageFormat()
+        self.header, self.apiName, self.respInfo = received
+        if self.header != 'RESPONSE':
+            raise InvalidMessageFormat()
+
+

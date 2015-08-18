@@ -17,7 +17,8 @@ def setup():
     '''
     所有用例的公共初始化代码
     '''
-    global frontAddress,mdFrontAddress,brokerID,userID,password
+    global frontAddress,mdFrontAddress,brokerID,userID,password,\
+        requestAddress,responseAddress,publishAddress
     # 读取环境变量中的信息
     frontAddress = os.environ.get('CTP_FRONT_ADDRESS')
     assert frontAddress,u'必须定义环境变量:CTP_FRONT_ADDRESS'
@@ -29,6 +30,14 @@ def setup():
     assert userID,u'必须定义环境变量:CTP_USER_ID'
     password = os.environ.get('CTP_PASSWORD')
     assert password,u'必须定义环境变量:CTP_PASSWORD'
+
+    requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
+    assert requestAddress
+    responseAddress = os.getenv('CTP_RESPONSE_PIPE',None)
+    assert responseAddress
+    publishAddress = os.getenv('CTP_PUBLISH_PIPE',None)
+    assert publishAddress
+
 
 
 def getDefaultReqInfo(apiName):
@@ -50,6 +59,7 @@ def test_connect_to_ctp_converter():
     测试和CTPConverter的连接
     用于检查与CTPConverter的连接是否正常和测试响应延时
     '''
+    global requestAddress,responseAddress
     sleep(1)
 
     requestApiName = 'ReqQryTradingAccount'
@@ -58,10 +68,6 @@ def test_connect_to_ctp_converter():
 
     # 初始化变量
     #requestAddress = 'tcp://localhost:10001'
-    requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
-    assert requestAddress
-    responseAddress = os.getenv('CTP_RESPONSE_PIPE',None)
-    assert responseAddress
 
     # 初始化zmq通讯环境
     context = zmq.Context()
@@ -142,12 +148,11 @@ def test_call_not_exist_api():
     '''
     测试调用不在的api
     '''
+    global requestAddress
     sleep(1)
 
     requestApiName = 'unkown_api_name'
     timeout = 1000 * 10
-    requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
-    assert requestAddress
 
     # 连接request通讯管道
     context = zmq.Context()
@@ -290,6 +295,7 @@ def callOrderInsert(requestData):
     '''
     报单测试
     '''
+    global requestAddress,responseAddress,publishAddress
     sleep(1)
 
     requestApiName = 'ReqOrderInsert'
@@ -300,18 +306,6 @@ def callOrderInsert(requestData):
 
     # 生成客户端身份定义符
     identity = str(uuid.uuid1())
-
-    # 获得request通讯管道地址
-    requestAddress = os.getenv('CTP_REQUEST_PIPE',None)
-    assert requestAddress
-
-    # 获得response通讯管道地址
-    responseAddress = os.getenv('CTP_RESPONSE_PIPE',None)
-    assert responseAddress
-
-    # 连接publish通讯管道
-    publishAddress = os.getenv('CTP_PUBLISH_PIPE',None)
-    assert publishAddress
 
     # 连接request通讯管道
     request = context.socket(zmq.DEALER)
@@ -445,4 +439,37 @@ def test_BuyOpenAndClose():
     else:
         print u'可能由于市场不处于交易状态的原因,开平仓测试没有实际进行测试'
 
+
+@attr('test_md_subscribe_depth_market')
+def test_md_subscribe_depth_market():
+    """
+    测试订阅服务
+    """
+    # 创建zmq通讯环境
+    context = zmq.Context()
+
+    # 创建request通讯管道
+    request = context.socket(zmq.REQ)
+    request.connect(requestAddress)
+    request.setsockopt(zmq.LINGER,0)
+
+    #创建publish通讯管道
+    publish = context.socket(zmq.SUB)
+    publish.connect(publishAddress)
+
+    # 初始化调用变量
+    requestApiName = 'test'
+    reqInfo = ''
+    metaData = {}
+
+    # 填写消息格式
+    requestMessage = RequestMessage()
+    requestMessage.header = 'REQUEST'
+    requestMessage.apiName = requestApiName
+    requestMessage.reqInfo = json.dumps(reqInfo)
+    requestMessage.metaData = json.dumps(metaData)
+
+    # 发送消息
+    requestMessage.send(request)
+    sleep(1)
 

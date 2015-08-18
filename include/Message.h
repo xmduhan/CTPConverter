@@ -33,7 +33,7 @@ public:
 };
 
 /// 服务器端返回RequestID消息格式
-class RequestIDMessage{
+class RequestIDMessage : public Message{
 public:
     std::string routeKey;
     std::string header;
@@ -46,7 +46,7 @@ public:
 };
 
 /// 服务器返回请求结果的消息格式
-class ResponseMessage{
+class ResponseMessage : public Message{
 public:
     std::string routeKey;
     std::string header;
@@ -60,7 +60,7 @@ public:
 };
 
 /// 公开发布消息
-class PublishMessage{
+class PublishMessage : public Message{
 public:
     std::string header;
     std::string apiName;
@@ -70,7 +70,7 @@ public:
 };
 
 /// 回到函数返回队列消息
-class PushbackMessage{
+class PushbackMessage : public Message{
 public:
     std::string requestID;
     std::string apiName;
@@ -81,10 +81,32 @@ public:
 };
 
 
-/// 行情消息
-class MarketDataMessage{
+/// 客户端请求的消息格式
+class MdRequestMessage : public Message {
 public:
-    std::string marketDataInfo;
+    // 消息结构数据
+    std::string header;
+    std::string apiName;
+    std::string reqInfo;
     virtual void recv(zmq::socket_t & socket);
     virtual void send(zmq::socket_t & socket);
 };
+
+/// 服务器端返回RequestID消息格式
+class MdResponseMessage : public Message{
+public:
+    std::string header;
+    std::string apiName;
+    std::string errorInfo;
+    virtual void recv(zmq::socket_t & socket);
+    virtual void send(zmq::socket_t & socket);
+};
+
+
+/// 行情消息
+//class MarketDataMessage{
+//public:
+//    std::string marketDataInfo;
+//    virtual void recv(zmq::socket_t & socket);
+//    virtual void send(zmq::socket_t & socket);
+//};
