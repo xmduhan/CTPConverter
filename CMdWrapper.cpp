@@ -150,10 +150,13 @@ int CMdWrapper::SubscribeMarketData(std::string jsonString) {
     int result;
 
     try {
+        std::cout << jsonString << std::endl;
         //1. 解析json格式
         //2. 分配内存填充数据到ppInstrumentID
         //3. 调用SubscribeMarketData
-        result = pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
+        //result = pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
+        result = 0;
+
     } catch (...) {
         lastErrorID = -1001;
         lastErrorMsg = "json数据格式错误";

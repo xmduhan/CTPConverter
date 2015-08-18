@@ -84,7 +84,7 @@ int main(int argc,char * argv[]){
             if ( result == 0 ){
                 jsonErrorInfo["ErrorID"] = 0;
                 jsonErrorInfo["ErrorMsg"] = "";
-                std::cout << "调用对应api返回成功";
+                std::cout << "调用对应api返回成功" << std::endl;
             }else{
                 jsonErrorInfo["ErrorID"] = api.getLastErrorID();
                 jsonErrorInfo["ErrorMsg"] = api.getLastErrorMsg();
@@ -95,10 +95,13 @@ int main(int argc,char * argv[]){
             responseMessage.apiName = requestMessage.apiName;
             responseMessage.errorInfo = jsonErrorInfo.toStyledString();
             responseMessage.send(request);
+            std::cout << "信息已返回客户端..." << std::endl;
         }
 
 
         if ( pullItems[1].revents & ZMQ_POLLIN) {
+
+            std::cout << "收到服务器响应(推送)消息..." << std::endl;
 
             // 从pushback管道读取消息
             pushbackMessage.recv(pushback);
@@ -107,11 +110,12 @@ int main(int argc,char * argv[]){
             publishMessage.respInfo = pushbackMessage.respInfo;
             publishMessage.send(publish);
 
+            std::cout << "已经消息推送到订阅接口..." << std::endl;
+
             // 如果消息是行情数据,将其返回客户端
             if (pushbackMessage.apiName == "OnRtnDepthMarketData") {
                 mdCount++;
             }
-
         }
 
         // 打印提示信息

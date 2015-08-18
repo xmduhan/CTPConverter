@@ -222,11 +222,11 @@ def getOrderRef():
     return ('%12d' % orderRefSeq).replace(' ','0') # '000000000001'
 
 
-def getDefaultInstrumentID():
+def getDefaultInstrumentID(months=1):
     '''
     获得一个保证可以使用的合同代码
     '''
-    return datetime.strftime(datetime.now() + relativedelta(months=1),"IF%y%m")
+    return datetime.strftime(datetime.now() + relativedelta(months=months),"IF%y%m")
 
 
 def getDefaultInputOrderFieldBuyOpen():
@@ -459,16 +459,18 @@ def test_md_subscribe_depth_market():
     publish.connect(publishAddress)
 
     # 初始化调用变量
-    requestApiName = 'test'
-    reqInfo = ''
-    metaData = {}
+    requestApiName = 'SubscribeMarketData'
+    reqInfo = getDefaultReqInfo(requestApiName)
+    data = [getDefaultInstrumentID(1),getDefaultInstrumentID(2)]
+    reqInfo['Parameters']['Data'] = data
+    print data
+    print reqInfo
 
     # 发送消息
     requestMessage = MdRequestMessage()
     requestMessage.header = 'REQUEST'
     requestMessage.apiName = requestApiName
     requestMessage.reqInfo = json.dumps(reqInfo)
-    requestMessage.metaData = json.dumps(metaData)
     requestMessage.send(request)
 
     sleep(1)
