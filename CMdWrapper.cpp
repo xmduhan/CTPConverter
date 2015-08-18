@@ -23,19 +23,6 @@ CMdWrapper::CMdWrapper(MdConfigure * pConfigure) {
     lastErrorID = 0;
     lastErrorMsg = "";
 
-    ////////////// API方法的wrapper ///////////////
-
-    ///登出请求
-    int ReqUserLogout(std::string jsonString);
-
-    ///用户登录请求
-    int ReqUserLogin(std::string jsonString);
-
-
-    std::map<std::string,int (CMdWrapper::*) (std::string)> apiMap;
-
-    int callApiByName(std::string apiName,std::string jsonString);
-
 }
 
 // 将所有api函数映射到名称

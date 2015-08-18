@@ -40,7 +40,9 @@ int main(int argc,char * argv[]){
     pushback.connect(config.pushbackPipe);
     publish.bind(config.publishPipe);
 
-    std::cout << "main():行情广播地址为:" << config.publishPipe << std::endl;
+    std::cout << "main():request地址为:" << config.requestPipe << std::endl;
+    std::cout << "main():pushback地址为:" << config.pushbackPipe << std::endl;
+    std::cout << "main():publish地址为:" << config.publishPipe << std::endl;
     sleep(1);    // 给一定时间让订阅者连接上来，以免错过第1条消息
 
 
@@ -71,7 +73,7 @@ int main(int argc,char * argv[]){
             { request, 0, ZMQ_POLLIN, 0 },
             { pushback, 0, ZMQ_POLLIN, 0 }
         };
-        zmq::poll (pullItems, 1, timeout);
+        zmq::poll (pullItems, 2, timeout);
 
         // 接收到来自客户端的请求
         if (pullItems[0].revents & ZMQ_POLLIN) {

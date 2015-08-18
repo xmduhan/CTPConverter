@@ -59,8 +59,6 @@ public:
     int ReqUserLogin(std::string jsonString);
 
 
-
-
     std::map<std::string,int (CMdWrapper::*) (std::string)> apiMap;
 
     int callApiByName(std::string apiName,std::string jsonString);

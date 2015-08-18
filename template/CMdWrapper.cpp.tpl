@@ -23,16 +23,6 @@ CMdWrapper::CMdWrapper(MdConfigure * pConfigure){
 	lastErrorID = 0;
 	lastErrorMsg = "";
 
-	////////////// API方法的wrapper ///////////////
-    {% for method in mdReqMethodDict.itervalues() %}
-    	{{ method['remark'] }}
-    	int {{method['name']}}(std::string jsonString);
-    {% endfor %}
-
-    std::map<std::string,int (CMdWrapper::*) (std::string)> apiMap;
-
-	int callApiByName(std::string apiName,std::string jsonString);
-
 }
 
 // 将所有api函数映射到名称

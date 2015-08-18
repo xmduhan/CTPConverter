@@ -56,8 +56,6 @@ public:
     	int {{method['name']}}(std::string jsonString);
     {% endfor %}
 
-
-
     std::map<std::string,int (CMdWrapper::*) (std::string)> apiMap;
 
     int callApiByName(std::string apiName,std::string jsonString);
