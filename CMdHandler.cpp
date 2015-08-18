@@ -52,7 +52,7 @@ void CMdHandler::OnHeartBeatWarning(int nTimeLapse) {
 void CMdHandler::OnRtnDepthMarketData(
     CThostFtdcDepthMarketDataField *pDepthMarketData
 ) {
-    //std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
+    std::cout << "OnRtnDepthMarketData():开始执行..." << std::endl;
     zmq::socket_t & sender = *pSender;
     // 生成返回的json格式
     Json::Value json_Response;
@@ -235,7 +235,7 @@ void CMdHandler::OnRtnDepthMarketData(
     message.isLast = "1";
     message.send(sender);
 
-    //std::cout << "OnRtnDepthMarketData():执行结束..." << std::endl;
+    std::cout << "OnRtnDepthMarketData():执行结束..." << std::endl;
 }
 
 

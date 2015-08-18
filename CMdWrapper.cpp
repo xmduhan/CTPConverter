@@ -54,6 +54,7 @@ void CMdWrapper::init() {
 
     /// 设置服务器地址
     pMdApi->RegisterFront(pConfigure->frontAddress);
+    std::cout << "pConfigure->frontAddress=" << pConfigure->frontAddress << std::endl;
 
     // 连接spi的Pushback管道
     std::cout << "CMdWrapper::init():Pushback管道地址为:" << pConfigure->pushbackPipe << std::endl;
@@ -161,13 +162,12 @@ int CMdWrapper::SubscribeMarketData(std::string jsonString) {
             std::cout << i << ":*+*" << instrumentID << std::endl;
         }
 
-        //nCount = 2;
-        //ppInstrumentID[0] = (char *) "IF1509";
-        //ppInstrumentID[1] = (char *) "IF1510";
+        nCount = 1;
+        ppInstrumentID[0] = (char *) "IF1509";
+        ppInstrumentID[1] = (char *) "IF1510";
 
         // 调用SubscribeMarketData
         result = pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
-        result = 0;
 
     } catch (...) {
         lastErrorID = -1001;

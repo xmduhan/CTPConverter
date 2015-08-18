@@ -461,7 +461,8 @@ def test_md_subscribe_depth_market():
     # 初始化调用变量
     requestApiName = 'SubscribeMarketData'
     reqInfo = getDefaultReqInfo(requestApiName)
-    data = [getDefaultInstrumentID(1),getDefaultInstrumentID(2),getDefaultInstrumentID(3)]
+    #data = [getDefaultInstrumentID(1),getDefaultInstrumentID(2),getDefaultInstrumentID(1)]
+    data = [getDefaultInstrumentID(1)]
     reqInfo['Parameters']['Data'] = data
     print data
     print reqInfo
