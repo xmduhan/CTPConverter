@@ -2,7 +2,8 @@
 #include <json/json.h>
 #include <comhelper.h>
 #include <string>
-
+#include <stdlib.h>
+#include <string.h>
 /// 构造函数
 CMdWrapper::CMdWrapper(MdConfigure * pConfigure) {
 
@@ -131,13 +132,24 @@ std::string CMdWrapper::getLastErrorMsg() {
 
 
 # define MAX_SUBCRIBE_COUNT 1000
+void freeMemory(char ** ppInstrumentID) {
+    for (int i = 0; i < MAX_SUBCRIBE_COUNT; i++) {
+        if(ppInstrumentID[i] != NULL) {
+            free(ppInstrumentID[i]);
+            ppInstrumentID[i] = NULL;
+        } else {
+            break;
+        }
+    }
+}
+
 ///订阅行情。
 int CMdWrapper::SubscribeMarketData(std::string jsonString) {
-    //return pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
-    char *ppInstrumentID[MAX_SUBCRIBE_COUNT];
-    int nCount;
-    int result;
 
+    char *ppInstrumentID[MAX_SUBCRIBE_COUNT];
+    int nCount,result;
+
+    memset(ppInstrumentID,'\0',sizeof(ppInstrumentID));
     try {
         std::cout << jsonString << std::endl;
         //1. 解析json格式
@@ -151,29 +163,30 @@ int CMdWrapper::SubscribeMarketData(std::string jsonString) {
         Json::Value Data = Parameters["Data"];
         if ( Data.size() > MAX_SUBCRIBE_COUNT ) {
             lastErrorID = -1002;
-            lastErrorMsg = "一次订阅行情的品种数量太多";
+            lastErrorMsg = "一次订阅或取消行情的品种数量太多";
             return -1;
         }
 
+        // 分配内存拷贝准备调用结构
+        //std::cout << "sizeof(ppInstrumentID) = " << sizeof(ppInstrumentID) << std::endl;
         nCount = Data.size();
-        for (unsigned int i = 0; i < Data.size(); i++) {
+        for (int i = 0; i < Data.size(); i++) {
             const char * instrumentID = Data[i].asString().c_str();
-            ppInstrumentID[i] = (char *) instrumentID;
-            std::cout << i << ":*+*" << instrumentID << std::endl;
+            ppInstrumentID[i] = (char *) malloc(strlen(instrumentID)+1);
+            strcpy(ppInstrumentID[i],instrumentID);
+            //std::cout << i << ":*+*" << instrumentID << std::endl;
         }
-
-        nCount = 1;
-        ppInstrumentID[0] = (char *) "IF1509";
-        ppInstrumentID[1] = (char *) "IF1510";
 
         // 调用SubscribeMarketData
         result = pMdApi->SubscribeMarketData(ppInstrumentID,nCount);
 
     } catch (...) {
+        freeMemory(ppInstrumentID);
         lastErrorID = -1001;
         lastErrorMsg = "json数据格式错误";
         return -1;
     }
+    freeMemory(ppInstrumentID);
 
     // TODO:检查API调用是否失败,并设置LastError信息
     if ( result != 0 ) {
@@ -202,8 +215,72 @@ int CMdWrapper::SubscribeMarketData(std::string jsonString) {
 
 ///退订行情。
 int CMdWrapper::UnSubscribeMarketData(std::string jsonString) {
-    //return pMdApi->UnSubscribeMarketData(ppInstrumentID,nCount);
-    //char *ppInstrumentID[], int nCount
+
+    char *ppInstrumentID[MAX_SUBCRIBE_COUNT];
+    int nCount,result;
+
+    memset(ppInstrumentID,'\0',sizeof(ppInstrumentID));
+    try {
+        std::cout << jsonString << std::endl;
+        //1. 解析json格式
+        Json::Reader jsonReader;
+        Json::Value jsonData;
+        if (!jsonReader.parse(jsonString, jsonData)) {
+            throw std::exception();
+        }
+        Json::Value Parameters = jsonData["Parameters"];
+        Assert<std::exception>(!Parameters.empty());
+        Json::Value Data = Parameters["Data"];
+        if ( Data.size() > MAX_SUBCRIBE_COUNT ) {
+            lastErrorID = -1002;
+            lastErrorMsg = "一次订阅或取消行情的品种数量太多";
+            return -1;
+        }
+
+        // 分配内存拷贝准备调用结构
+        //std::cout << "sizeof(ppInstrumentID) = " << sizeof(ppInstrumentID) << std::endl;
+        nCount = Data.size();
+        for (int i = 0; i < Data.size(); i++) {
+            const char * instrumentID = Data[i].asString().c_str();
+            ppInstrumentID[i] = (char *) malloc(strlen(instrumentID)+1);
+            strcpy(ppInstrumentID[i],instrumentID);
+            //std::cout << i << ":*+*" << instrumentID << std::endl;
+        }
+
+        // 调用SubscribeMarketData
+        result = pMdApi->UnSubscribeMarketData(ppInstrumentID,nCount);
+
+    } catch (...) {
+        freeMemory(ppInstrumentID);
+        lastErrorID = -1001;
+        lastErrorMsg = "json数据格式错误";
+        return -1;
+    }
+    freeMemory(ppInstrumentID);
+
+    // TODO:检查API调用是否失败,并设置LastError信息
+    if ( result != 0 ) {
+        lastErrorID = result;
+        switch(result) {
+        case -1 :
+            lastErrorMsg = "网络连接失败";
+            break;
+        case -2 :
+            lastErrorMsg = "未处理请求超过许可数";
+            break;
+        case -3 :
+            lastErrorMsg = "每秒发送请求超过许可数";
+            break;
+        default :
+            lastErrorMsg = "未知错误";
+        }
+        return -1;
+    }
+
+    // 如果执行成功重置最近错误信息，并将RequestID返回调用程序
+    lastErrorID = 0;
+    lastErrorMsg = "";
+    return 0;
 }
 
 

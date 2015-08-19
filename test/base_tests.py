@@ -457,15 +457,13 @@ def test_md_subscribe_depth_market():
     #创建publish通讯管道
     publish = context.socket(zmq.SUB)
     publish.connect(publishAddress)
+    publish.setsockopt_string(zmq.SUBSCRIBE,u'')
 
     # 初始化调用变量
     requestApiName = 'SubscribeMarketData'
     reqInfo = getDefaultReqInfo(requestApiName)
-    #data = [getDefaultInstrumentID(1),getDefaultInstrumentID(2),getDefaultInstrumentID(1)]
     data = [getDefaultInstrumentID(1)]
     reqInfo['Parameters']['Data'] = data
-    print data
-    print reqInfo
 
     # 发送消息
     requestMessage = MdRequestMessage()
@@ -473,8 +471,6 @@ def test_md_subscribe_depth_market():
     requestMessage.apiName = requestApiName
     requestMessage.reqInfo = json.dumps(reqInfo)
     requestMessage.send(request)
-
-    sleep(1)
 
     # 等待服务器响应
     poller = zmq.Poller()
@@ -485,5 +481,69 @@ def test_md_subscribe_depth_market():
     # 读取服务器响应信息
     responseMessage = MdResponseMessage()
     responseMessage.recv(request)
-    print responseMessage.errorInfo
+    errorInfo = json.loads(responseMessage.errorInfo)
+    assert errorInfo['ErrorID'] == 0
+
+    # 检查使用是否成功
+    publishMessage = PublishMessage()
+    publishMessage.recv(publish)
+    assert publishMessage.header == 'PUBLISH'
+    assert publishMessage.apiName == 'OnRspSubMarketData'
+    respInfo = json.loads(publishMessage.respInfo)
+    assert respInfo['Parameters']['RspInfo']['ErrorID'] == 0
+
+    # 让订阅信息运行一下
+    sleep(2)
+
+    # 准备调用停止订阅
+    requestApiName = 'UnSubscribeMarketData'
+    reqInfo = getDefaultReqInfo(requestApiName)
+    data = [getDefaultInstrumentID(1)]
+    reqInfo['Parameters']['Data'] = data
+
+    # 发送消息
+    requestMessage = MdRequestMessage()
+    requestMessage.header = 'REQUEST'
+    requestMessage.apiName = requestApiName
+    requestMessage.reqInfo = json.dumps(reqInfo)
+    requestMessage.send(request)
+
+    # 等待服务器响应
+    poller = zmq.Poller()
+    poller.register(request, zmq.POLLIN)
+    sockets = dict(poller.poll(timeout))
+    assert request in sockets
+
+    # 读取服务器响应信息
+    responseMessage = MdResponseMessage()
+    responseMessage.recv(request)
+    errorInfo = json.loads(responseMessage.errorInfo)
+    assert errorInfo['ErrorID'] == 0
+
+    i = 0
+    j = 0
+    while True:
+        # 等待服务器响应
+        poller = zmq.Poller()
+        poller.register(publish, zmq.POLLIN)
+        sockets = dict(poller.poll(timeout))
+        if publish in sockets:
+            publishMessage = PublishMessage()
+            publishMessage.recv(publish)
+            respInfo = json.loads(publishMessage.respInfo)
+            print publishMessage.apiName
+            if publishMessage.apiName == 'OnRspUnSubMarketData':
+                assert respInfo['Parameters']['RspInfo']['ErrorID'] == 0
+                print '已收到OnUnRspSubMarketData响应...'
+                break
+            else:
+                print respInfo
+            i += 1
+            if i > 50:
+                raise Exception(u'等待服务器响应超时')
+        else:
+            j += 1
+            if j > 3:
+                raise Exception(u'等待服务器响应超时')
+
 

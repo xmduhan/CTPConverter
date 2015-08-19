@@ -3,8 +3,6 @@
 #include <unistd.h>
 #include <json/json.h>
 
-
-
 static MdConfigure config;
 static char buffer[1024*10];
 
@@ -40,9 +38,9 @@ int main(int argc,char * argv[]){
     pushback.connect(config.pushbackPipe);
     publish.bind(config.publishPipe);
 
-    std::cout << "main():request地址为:" << config.requestPipe << std::endl;
-    std::cout << "main():pushback地址为:" << config.pushbackPipe << std::endl;
-    std::cout << "main():publish地址为:" << config.publishPipe << std::endl;
+    //std::cout << "main():request地址为:" << config.requestPipe << std::endl;
+    //std::cout << "main():pushback地址为:" << config.pushbackPipe << std::endl;
+    //std::cout << "main():publish地址为:" << config.publishPipe << std::endl;
     sleep(1);    // 给一定时间让订阅者连接上来，以免错过第1条消息
 
 
@@ -62,10 +60,6 @@ int main(int argc,char * argv[]){
     long timeDelta = 0;
     long loopTimes = 0;
     long mdCount = 0;
-
-    //std::cout << "main():转发市场报价信息..." << std::endl;
-    //api.SubscribeMarketData(config.instrumentIDArray,config.instrumentCount);
-
 
     while(1) {
         // 尝试读取通讯管道
@@ -100,10 +94,8 @@ int main(int argc,char * argv[]){
             std::cout << "信息已返回客户端..." << std::endl;
         }
 
-
+        // 处理通讯线程通过pushback管道发回的消息
         if ( pullItems[1].revents & ZMQ_POLLIN) {
-
-            std::cout << "收到服务器响应(推送)消息..." << std::endl;
 
             // 从pushback管道读取消息
             pushbackMessage.recv(pushback);
@@ -112,11 +104,12 @@ int main(int argc,char * argv[]){
             publishMessage.respInfo = pushbackMessage.respInfo;
             publishMessage.send(publish);
 
-            std::cout << "已经消息推送到订阅接口..." << std::endl;
-
             // 如果消息是行情数据,将其返回客户端
             if (pushbackMessage.apiName == "OnRtnDepthMarketData") {
                 mdCount++;
+            }else{
+                std::cout << "收到服务器响应(推送)消息..." << std::endl;
+                std::cout << "已经消息推送到订阅接口..." << std::endl;
             }
         }
 
@@ -139,7 +132,6 @@ int main(int argc,char * argv[]){
                     break;
                 }
             }
-
         }
     }
 }
