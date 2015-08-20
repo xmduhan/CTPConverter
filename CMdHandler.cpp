@@ -227,11 +227,15 @@ void CMdHandler::OnRtnDepthMarketData(
 
     }
 
+    // 打包返回数据格式
+    Json::Value json_Parameters;
+    json_Parameters["Data"] = json_pDepthMarketData;
+    json_Response["Parameters"] = json_Parameters;
     // 打包消息结构并压入Pushback管道
     PushbackMessage message;
     message.requestID = "0";
     message.apiName = "OnRtnDepthMarketData";
-    message.respInfo = json_pDepthMarketData.toStyledString();
+    message.respInfo = json_Response.toStyledString();
     message.isLast = "1";
     message.send(sender);
 

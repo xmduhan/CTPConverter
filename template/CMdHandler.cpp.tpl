@@ -82,11 +82,15 @@ void CMdHandler::OnRtnDepthMarketData(
 		{%- endfor %}
 	}
 
+    // 打包返回数据格式
+	Json::Value json_Parameters;
+	json_Parameters["Data"] = json_{{dataVarName}};
+	json_Response["Parameters"] = json_Parameters;
 	// 打包消息结构并压入Pushback管道
 	PushbackMessage message;
 	message.requestID = "0";
 	message.apiName = "{{method['name']}}";
-	message.respInfo = json_{{dataVarName}}.toStyledString();
+	message.respInfo = json_Response.toStyledString();
 	message.isLast = "1";
 	message.send(sender);
 
