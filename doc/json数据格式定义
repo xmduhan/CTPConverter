@@ -1,6 +1,6 @@
 1、请求函数的json格式
 {
-   "ResponseMethod" : "ReqQryTradingAccount",
+   "RequestMethod" : "ReqQryTradingAccount",
    "Parameters" : {
       "Data" : {
          "CreateDate" : "....",
