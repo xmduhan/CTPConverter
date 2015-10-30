@@ -349,6 +349,7 @@ int main(int argc,char * argv[]) {
                             std::cout << "main():信息已经成功发送给客户端" << std::endl;
                         } else {
                             std::cout << "main():无法找到返回路由,可能是路由信息已过期" << std::endl;
+                            std::cout << "requestID=" << requestID << std::endl;
                         }
                     } else {
                         // TODO 处理广播消息
