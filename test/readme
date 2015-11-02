@@ -1,0 +1,16 @@
+通过测试用例的方法:
+
+1. 测试查询类api
+$ bin/trader --env
+$ nosetests
+
+注意: 两条命令在不同终端中执行(下同)
+
+2. 测试行情接收
+$ bin/md --env
+$ nosetests test/base_tests.py:test_md_subscribe_depth_market
+
+
+3. 开仓与平仓
+$ bin/trader --env
+$ nosetests test/base_tests.py:test_BuyOpenAndClose
